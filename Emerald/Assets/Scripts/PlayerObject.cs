@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 using Network = EmeraldNetwork.Network;
 using C = ClientPackets;
 
@@ -28,6 +29,8 @@ public class PlayerObject : MapObject
     public MirGender Gender;
     [HideInInspector]
     public bool InSafeZone;
+
+    private GameObject root;
 
     private GameObject ArmourModel;
     private GameObject WeaponModel;
@@ -78,6 +81,7 @@ public class PlayerObject : MapObject
             ArmourModel.GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
 
             ObjectRenderer = ArmourModel.GetComponentInChildren<SkinnedMeshRenderer>();
+            root = ArmourModel.GetComponentsInChildren<Transform>().First(x => x.name == "Root").gameObject;
 
             foreach (Transform child in ArmourModel.GetComponentsInChildren<Transform>())
             {
@@ -87,8 +91,13 @@ public class PlayerObject : MapObject
                     break;
                 }
             }
-            Instantiate(gameManager.WarriorFaces[(int)Gender], HeadBone.transform);
-            Instantiate(gameManager.WarriorHairs[(int)Gender], HeadBone.transform);
+
+            var obj = Instantiate(gameManager.WarriorFaces[(int)Gender], HeadBone.transform);
+            SetRootParents(obj, root);
+
+            obj = Instantiate(gameManager.WarriorHairs[(int)Gender], HeadBone.transform);
+            SetRootParents(obj, root);
+
 
             foreach (Transform child in ArmourModel.GetComponentsInChildren<Transform>())
             {
@@ -141,6 +150,18 @@ public class PlayerObject : MapObject
     {
         Model = Instantiate(gameManager.GenderModels[(int)Gender], gameObject.transform);
         Camera.transform.LookAt(Model.transform);
+    }
+
+    public void SetRootParents(GameObject source, GameObject destination)
+    {
+        var rootlist = destination.GetComponentsInChildren<Transform>().ToList();
+        foreach (var node in source.GetComponentsInChildren<Transform>())
+        {
+            var t = rootlist.FirstOrDefault(x => x.name == node.name);
+
+            if (t == null) continue;
+            node.parent = t.parent;
+        }
     }
 
     public void UpdateCamera(float delta)

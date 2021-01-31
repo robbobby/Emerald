@@ -55,6 +55,8 @@ public class CharSelManager : MonoBehaviour
                 Destroy(PlayerModel);
 
             PlayerModel = Instantiate(gameManager.PlayerModel, previewLocation.transform);
+            
+
             PlayerObject player = PlayerModel.GetComponent<PlayerObject>();
             player.gameManager = gameManager;
             player.Gender = value.Gender;
@@ -62,6 +64,7 @@ public class CharSelManager : MonoBehaviour
             player.InSafeZone = true;
             player.Weapon = value.Weapon;            
             player.Armour = value.Armour;
+            
 
             PlayerModel.GetComponentInChildren<DragRotate>().enabled = true;
         }

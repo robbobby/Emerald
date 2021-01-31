@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
-        UserGameObject = Instantiate(PlayerModel, User.transform.position, Quaternion.identity);            
+        UserGameObject = Instantiate(PlayerModel, User.transform.position, Quaternion.identity);
 
         User.Player = UserGameObject.GetComponent<PlayerObject>();
         User.Player.gameManager = this;
