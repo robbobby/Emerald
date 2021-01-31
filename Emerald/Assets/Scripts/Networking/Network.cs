@@ -414,6 +414,12 @@ namespace EmeraldNetwork
                 case (short)ServerPacketIds.DropItem:
                     DropItem((S.DropItem)p);
                     break;
+                case (short)ServerPacketIds.NewMagic:
+                    NewMagic((S.NewMagic)p);
+                    break;
+                case (short)ServerPacketIds.MagicLeveled:
+                    MagicLeveled((S.MagicLeveled)p);
+                    break;
                 case (short)ServerPacketIds.PlayerUpdate:
                     UpdatePlayer((S.PlayerUpdate)p);
                     break;
@@ -777,6 +783,10 @@ namespace EmeraldNetwork
         public static void NewMagic(S.NewMagic p)
         {
             GameManager.GameScene.NewMagic(p);
+        }
+        public static void MagicLeveled(S.MagicLeveled p)
+        {
+            GameManager.GameScene.MagicLeveled(p);
         }
         public static void UpdatePlayer(S.PlayerUpdate p)
         {

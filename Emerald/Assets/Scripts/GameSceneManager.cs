@@ -49,6 +49,8 @@ public class GameSceneManager : MonoBehaviour
     public GameObject GreenHealthBar;
     [SerializeField]
     public CharacterWindow CharacterDialog;
+    [SerializeField]
+    public SkillWindowController SkillDialog;
 
     [HideInInspector]
     public InventoryController Inventory;
@@ -497,9 +499,30 @@ public class GameSceneManager : MonoBehaviour
         ClientMagic magic = p.Magic;
 
         User.Magics.Add(magic);
-        //User.RefreshStats();
+        User.RefreshStats();
+        SkillDialog.AddMagic(magic);
         //foreach (SkillBarDialog Bar in SkillBarDialogs)
         //    Bar.Update();
+    }
+
+    public void MagicLeveled(S.MagicLeveled p)
+    {
+        for (int i = 0; i < User.Magics.Count; i++)
+        {
+            ClientMagic magic = User.Magics[i];
+            if (magic.Spell != p.Spell) continue;
+
+            if (magic.Level != p.Level)
+            {
+                magic.Level = p.Level;
+                User.RefreshStats();
+            }
+
+            magic.Experience = p.Experience;
+
+            SkillDialog.UpdateMagic(magic);
+            break;
+        }
     }
 
     public void NPCResponse(S.NPCResponse p)

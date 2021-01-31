@@ -124,7 +124,10 @@ public class GameManager : MonoBehaviour
 
         User.Inventory = p.Inventory;
         User.Equipment = p.Equipment;
+
         User.Magics = p.Magics;
+        foreach (ClientMagic magic in User.Magics)
+            GameScene.SkillDialog.AddMagic(magic);
 
         User.BindAllItems();
 
