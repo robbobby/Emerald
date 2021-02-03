@@ -21,4 +21,9 @@ public class PlayerAnimationController : MonoBehaviour
     {
         ParentObject?.PlayStepSound();
     }
+
+    void DoSpell()
+    {
+        ParentObject?.DoSpell();
+    }
 }

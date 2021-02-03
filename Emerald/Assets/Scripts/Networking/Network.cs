@@ -420,6 +420,9 @@ namespace EmeraldNetwork
                 case (short)ServerPacketIds.MagicLeveled:
                     MagicLeveled((S.MagicLeveled)p);
                     break;
+                case (short)ServerPacketIds.SpellToggle:
+                    SpellToggle((S.SpellToggle)p);
+                    break;
                 case (short)ServerPacketIds.PlayerUpdate:
                     UpdatePlayer((S.PlayerUpdate)p);
                     break;
@@ -787,6 +790,10 @@ namespace EmeraldNetwork
         public static void MagicLeveled(S.MagicLeveled p)
         {
             GameManager.GameScene.MagicLeveled(p);
+        }
+        public static void SpellToggle(S.SpellToggle p)
+        {
+            GameManager.GameScene.SpellToggle(p);
         }
         public static void UpdatePlayer(S.PlayerUpdate p)
         {

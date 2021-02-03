@@ -38,6 +38,8 @@ public class PlayerObject : MapObject
     private GameObject WeaponRBone;
     private GameObject WeaponBackBone;
 
+    public Spell Spell;
+
     private int weapon = -1;
     public int Weapon
     {
@@ -229,6 +231,7 @@ public class PlayerObject : MapObject
             }
 
             CurrentLocation = action.Location;
+            Spell = Spell.None;
 
             if (this == GameManager.User.Player)
             {
@@ -254,7 +257,13 @@ public class PlayerObject : MapObject
                         GameManager.User.LastRunTime = Time.time;
                         break;
                     case MirAction.Attack:
-                        Network.Enqueue(new C.Attack { Direction = Direction, Spell = Spell.None });
+                        if (GameScene.Slaying && GameScene.TargetObject != null)
+                        {
+                            Spell = Spell.Slaying;
+                            GameScene.Slaying = false;
+                        }
+
+                        Network.Enqueue(new C.Attack { Direction = Direction, Spell = Spell });
                         GameManager.NextAction = Time.time + 2.5f;
                         break;
                     case MirAction.Die:
@@ -297,6 +306,19 @@ public class PlayerObject : MapObject
     {
         if (this == GameManager.User.Player)
             GameManager.User.PlayStepSound();
+    }
 
+    public void DoSpell()
+    {
+        if (Spell == Spell.None) return;
+
+        switch (Spell)
+        {
+            case Spell.Slaying:
+                var ob = Instantiate(gameManager.SlashFX, transform.position, Quaternion.identity, transform);
+                ob.transform.rotation = Model.transform.rotation;
+                ob.transform.Rotate(0, -90f, 0);
+                break;
+        }
     }
 }

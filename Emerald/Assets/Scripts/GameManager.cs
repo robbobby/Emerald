@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> NPCModels;
     public List<GameObject> GoldModels;
 
+    public GameObject SlashFX;
+
     public Material OutlineMaterial;
 
     private static MirDirection MouseDirection;

@@ -66,6 +66,9 @@ public class GameSceneManager : MonoBehaviour
     public float UseItemTime;
     public float PickUpTime;
 
+    [HideInInspector]
+    public bool Slaying;
+
     public uint NPCID;
     public string NPCName;
 
@@ -522,6 +525,40 @@ public class GameSceneManager : MonoBehaviour
 
             SkillDialog.UpdateMagic(magic);
             break;
+        }
+    }
+
+    public void SpellToggle(S.SpellToggle p)
+    {
+        switch (p.Spell)
+        {
+            //Warrior
+            case Spell.Slaying:
+                Slaying = p.CanUse;
+                break;
+            /*case Spell.Thrusting:
+                Thrusting = p.CanUse;
+                ChatDialog.ReceiveChat(Thrusting ? "Use Thrusting." : "Do not use Thrusting.", ChatType.Hint);
+                break;
+            case Spell.HalfMoon:
+                HalfMoon = p.CanUse;
+                ChatDialog.ReceiveChat(HalfMoon ? "Use HalfMoon." : "Do not use HalfMoon.", ChatType.Hint);
+                break;
+            case Spell.CrossHalfMoon:
+                CrossHalfMoon = p.CanUse;
+                ChatDialog.ReceiveChat(CrossHalfMoon ? "Use CrossHalfMoon." : "Do not use CrossHalfMoon.", ChatType.Hint);
+                break;
+            case Spell.DoubleSlash:
+                DoubleSlash = p.CanUse;
+                ChatDialog.ReceiveChat(DoubleSlash ? "Use DoubleSlash." : "Do not use DoubleSlash.", ChatType.Hint);
+                break;
+            case Spell.FlamingSword:
+                FlamingSword = p.CanUse;
+                if (FlamingSword)
+                    ChatDialog.ReceiveChat(GameLanguage.WeaponSpiritFire, ChatType.Hint);
+                else
+                    ChatDialog.ReceiveChat(GameLanguage.SpiritsFireDisappeared, ChatType.System);
+                break;*/
         }
     }
 
