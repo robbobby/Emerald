@@ -611,7 +611,7 @@ public class GameSceneManager : MonoBehaviour
     public void ExperienceChanged(float percent)
     {
         ExperienceBar.fillAmount = percent;
-        ExperiencePercent.text = string.Format("{0:0.00}", percent * 100f);
+        ExperiencePercent.text = string.Format("{0:0}%", percent * 100f);
     }
 
     public void LogOut_Click()
