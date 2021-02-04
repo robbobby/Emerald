@@ -182,7 +182,12 @@ public class MapObject : MonoBehaviour
         NameLabel.gameObject.SetActive(false);
     }
 
-    public void StruckEnd()
+    public virtual void StruckBegin()
+    {
+        GetComponentInChildren<Animator>()?.SetBool("Struck", true);
+    }
+
+    public virtual void StruckEnd()
     {
         GetComponentInChildren<Animator>()?.SetBool("Struck", false);
     }

@@ -30,9 +30,11 @@ public class PlayerObject : MapObject
     [HideInInspector]
     public bool InSafeZone;
 
-    private GameObject root;
+    private List<Animator> Animators = new List<Animator>();
 
     private GameObject ArmourModel;
+    private GameObject HeadModel;
+    private GameObject HairModel;
     private GameObject WeaponModel;
     private GameObject HeadBone;
     private GameObject WeaponRBone;
@@ -72,18 +74,22 @@ public class PlayerObject : MapObject
             armour = value;
 
             if (ArmourModel != null)
+            {
+                Animators.Remove(ArmourModel.GetComponentInChildren<Animator>());
                 Destroy(ArmourModel);
+            }
 
             if (value < gameManager.WarriorModels.Count)
                 ArmourModel = Instantiate(gameManager.WarriorModels[value * 2 + (int)Gender], Model.transform);
             else
                 ArmourModel = Instantiate(gameManager.WarriorModels[(int)Gender], Model.transform);
 
-            ArmourModel.GetComponentInChildren<PlayerAnimationController>().ParentObject = this;
-            ArmourModel.GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
+            Animators.Add(ArmourModel.GetComponentInChildren<Animator>());
 
+            ArmourModel.GetComponentInChildren<PlayerAnimationController>().ParentObject = this;
+            //ArmourModel.GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
+            
             ObjectRenderer = ArmourModel.GetComponentInChildren<SkinnedMeshRenderer>();
-            root = ArmourModel.GetComponentsInChildren<Transform>().First(x => x.name == "Root").gameObject;
 
             foreach (Transform child in ArmourModel.GetComponentsInChildren<Transform>())
             {
@@ -94,11 +100,17 @@ public class PlayerObject : MapObject
                 }
             }
 
-            var obj = Instantiate(gameManager.WarriorFaces[(int)Gender], HeadBone.transform);
-            SetRootParents(obj, root);
+            if (HeadModel == null)
+            {
+                HeadModel = Instantiate(gameManager.WarriorFaces[(int)Gender], Model.transform);
+                Animators.Add(HeadModel.GetComponent<Animator>());
+            }
 
-            obj = Instantiate(gameManager.WarriorHairs[(int)Gender], HeadBone.transform);
-            SetRootParents(obj, root);
+            if (HairModel == null)
+            {
+                HairModel = Instantiate(gameManager.WarriorHairs[(int)Gender], Model.transform);
+                Animators.Add(HairModel.GetComponent<Animator>());
+            }
 
 
             foreach (Transform child in ArmourModel.GetComponentsInChildren<Transform>())
@@ -124,7 +136,27 @@ public class PlayerObject : MapObject
                     Destroy(WeaponModel);
                 WeaponModel = Instantiate(gameManager.WeaponModels[Weapon - 1], InSafeZone ? WeaponBackBone.transform : WeaponRBone.transform);
             }
+
+            SetAnimation("CurrentAction", (int)CurrentAction);
         }
+    }
+
+    private void SetAnimation(string value, int action)
+    {
+        foreach (Animator a in Animators)
+            a.SetInteger(value, action);
+    }
+
+    private void SetAnimation(string value, bool action)
+    {
+        foreach (Animator a in Animators)
+            a.SetBool(value, action);
+    }
+
+    public void PlayAnimation(string value, int layer, float ntime)
+    {
+        foreach (Animator a in Animators)
+            a.Play(value, layer, normalizedTime: ntime);
     }
 
     public override void Start()
@@ -152,18 +184,6 @@ public class PlayerObject : MapObject
     {
         Model = Instantiate(gameManager.GenderModels[(int)Gender], gameObject.transform);
         Camera.transform.LookAt(Model.transform);
-    }
-
-    public void SetRootParents(GameObject source, GameObject destination)
-    {
-        var rootlist = destination.GetComponentsInChildren<Transform>().ToList();
-        foreach (var node in source.GetComponentsInChildren<Transform>())
-        {
-            var t = rootlist.FirstOrDefault(x => x.name == node.name);
-
-            if (t == null) continue;
-            node.parent = t.parent;
-        }
     }
 
     public void UpdateCamera(float delta)
@@ -277,14 +297,15 @@ public class PlayerObject : MapObject
             switch (CurrentAction)
             {
                 case MirAction.Attack:
-                    GetComponentInChildren<Animator>().Play("Attack", -1, normalizedTime: 0f);
+                    PlayAnimation("Attack", -1, 0);                    
                     break;
                 case MirAction.Struck:
-                    GetComponentInChildren<Animator>()?.SetBool("Struck", true);
+                    SetAnimation("Struck", true);
                     break;
             }
-        }        
-        GetComponentInChildren<Animator>()?.SetInteger("CurrentAction", (int)CurrentAction);
+        }
+        //GetComponentInChildren<Animator>()?.SetInteger("CurrentAction", (int)CurrentAction);
+        SetAnimation("CurrentAction", (int)CurrentAction);
     }
 
     private void RefreshSounds()
@@ -320,5 +341,15 @@ public class PlayerObject : MapObject
                 ob.transform.Rotate(0, -90f, 0);
                 break;
         }
+    }
+
+    public override void StruckEnd()
+    {
+        SetAnimation("Struck", false);
+    }
+
+    public override void StruckBegin()
+    {
+        SetAnimation("Struck", true);
     }
 }

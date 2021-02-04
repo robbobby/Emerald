@@ -457,7 +457,7 @@ public class GameManager : MonoBehaviour
 
         if (struck || GameScene.QueuedAction != null && GameScene.QueuedAction.Action > MirAction.Running || User.Player.CurrentAction > MirAction.Running)
             return;
-        User.Player.gameObject.GetComponentInChildren<Animator>().SetBool("Struck", true);
+        User.Player.StruckBegin();
     }
 
     public void ObjectStruck(S.ObjectStruck p)
@@ -467,7 +467,7 @@ public class GameManager : MonoBehaviour
             bool struck = ob.gameObject.GetComponentInChildren<Animator>().GetBool("Struck");
 
             if (!struck)
-                ob.gameObject.GetComponentInChildren<Animator>().SetBool("Struck", true);
+                ob.StruckBegin();
         }
     }
 
@@ -735,7 +735,7 @@ public class GameManager : MonoBehaviour
         User.Player.ActionFeed.Clear();        
         User.Player.IsMoving = false;
         User.Player.CurrentAction = MirAction.Standing;
-        User.Player.GetComponentInChildren<Animator>().Play("Idle", -1, 0f);
+        User.Player.PlayAnimation("Idle", -1, 0f);
         User.CanRun = false;
     }
 
