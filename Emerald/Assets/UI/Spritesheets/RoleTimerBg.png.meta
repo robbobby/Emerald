@@ -7,10 +7,10 @@ TextureImporter:
     second: Equip_Sub_BG1
   - first:
       213: -8684610243342280280
-    second: RoleTimerBg_1
+    second: Separator_Long
   - first:
       213: 2741724566551702306
-    second: RoleTimerBg_2
+    second: BulletPoint
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -117,7 +117,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RoleTimerBg_1
+      name: Separator_Long
       rect:
         serializedVersion: 2
         x: 342
@@ -125,7 +125,7 @@ TextureImporter:
         width: 540
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -138,15 +138,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RoleTimerBg_2
+      name: BulletPoint
       rect:
         serializedVersion: 2
         x: 344
         y: 203
         width: 13
-        height: 11
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
