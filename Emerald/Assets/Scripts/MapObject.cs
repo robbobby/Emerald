@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class MapObject : MonoBehaviour

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class NPCObject : MapObject

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.IO;
 using System.Net.Sockets;
 using C = ClientPackets;
 using S = ServerPackets;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace EmeraldNetwork
+namespace Emerald
 {
     static class Network
     {
@@ -38,7 +35,7 @@ namespace EmeraldNetwork
             ConnectAttempt++;
 
             _client = new TcpClient {NoDelay = true};
-            _client.BeginConnect(GameManager.networkInfo.IPAddress, GameManager.networkInfo.Port, Connection, null);
+            _client.BeginConnect(GameManager.Settings.IPAddress, GameManager.Settings.Port, Connection, null);
         }
 
         private static void Connection(IAsyncResult result)

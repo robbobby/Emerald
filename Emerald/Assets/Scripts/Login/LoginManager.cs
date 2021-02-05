@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class LoginManager : MonoBehaviour

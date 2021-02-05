@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class PlayerObject : MapObject

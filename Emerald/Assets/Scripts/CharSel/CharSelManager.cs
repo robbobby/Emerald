@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class CharSelManager : MonoBehaviour

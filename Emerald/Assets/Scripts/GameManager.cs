@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using System.IO;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
+using Emerald;
 using C = ClientPackets;
 using S = ServerPackets;
 
@@ -18,6 +20,9 @@ public class QueuedAction
 
 public class GameManager : MonoBehaviour
 {
+    private static string settingsPath;
+    public static Settings Settings;
+
     public GameObject PlayerModel;
     public GameObject[] GenderModels;
     public List<GameObject> WarriorModels;
@@ -40,9 +45,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<uint, MapObject> ObjectList = new Dictionary<uint, MapObject>();
     [HideInInspector]
     public static List<ItemInfo> ItemInfoList = new List<ItemInfo>();
-
-    [HideInInspector]
-    public static NetworkInfo networkInfo;
+    
     [HideInInspector]
     public static GameStage gameStage;
     [HideInInspector]
@@ -57,6 +60,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public static bool UIDragging;
 
+    public AudioMixer audioMixer;
+
 
     void Awake()
     {
@@ -67,21 +72,31 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameStage = GameStage.Login;
-
-        networkInfo = new NetworkInfo();
-        string fileName = Application.dataPath + "/Settings.json";
-        string json = string.Empty;
-
-        if (File.Exists(fileName))
-            json = File.ReadAllText(fileName);
-        else
-        {
-            json = JsonUtility.ToJson(networkInfo);
-            File.WriteAllText(fileName, json);
-        }
-        
-        networkInfo = JsonUtility.FromJson<NetworkInfo>(json);
+        settingsPath = Application.dataPath + "/Settings.json";
+        LoadSettings();       
         Network.Connect();
+    }
+
+    public void LoadSettings()
+    {
+        string json = string.Empty;
+        Settings = new Settings();
+
+        if (File.Exists(settingsPath))
+            json = File.ReadAllText(settingsPath);
+        else
+            SaveSettings();
+
+        Settings = JsonUtility.FromJson<Settings>(json);
+
+        audioMixer.SetFloat("Master", Settings.MasterVolume);
+        audioMixer.SetFloat("Music", Settings.MusicVolume);
+    }
+
+    public static void SaveSettings()
+    {
+        string json = JsonUtility.ToJson(Settings);
+        File.WriteAllText(settingsPath, json);
     }
 
     public void MapInformation(S.MapInformation p)
@@ -742,11 +757,5 @@ public class GameManager : MonoBehaviour
     static bool CanWalk(Vector2 location)
     {
         return CurrentScene.Cells[(int)location.x, (int)location.y].walkable && CurrentScene.Cells[(int)location.x, (int)location.y].Empty;
-    }    
-
-    public class NetworkInfo
-    {
-        public string IPAddress = "127.0.0.1";
-        public int Port = 7000;
-    }    
+    }       
 }

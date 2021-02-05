@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 
 public class LoginConnectBox : MonoBehaviour
 {

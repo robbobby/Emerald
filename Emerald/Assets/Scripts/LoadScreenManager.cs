@@ -1,4 +1,4 @@
-﻿using Network = EmeraldNetwork.Network;
+﻿using Network = Emerald.Network;
 using C = ClientPackets;
 using System.Collections;
 using UnityEngine;

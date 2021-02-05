@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-using Network = EmeraldNetwork.Network;
+using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
 using Image = UnityEngine.UI.Image;
@@ -639,6 +639,5 @@ public class GameSceneManager : MonoBehaviour
 
         Network.Enqueue(new C.CallNPC { ObjectID = NPCID, Key = "[" + LinkId + "]" });
         GameManager.InputDelay = Time.time + 0.5f;
-
     }
 }
