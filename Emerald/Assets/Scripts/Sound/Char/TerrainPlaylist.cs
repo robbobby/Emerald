@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TerrainPlaylist : MonoBehaviour
 {
-    [SerializeField] public AudioClip[] TextureSounds;
+    [SerializeField] public SoundCueGraph[] TextureSounds;
 }

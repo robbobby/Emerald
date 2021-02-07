@@ -13,7 +13,7 @@ public class UserObject : MonoBehaviour
     public PlayerObject Player;
     public BaseStats CoreStats = new BaseStats(0);
 
-    private List<AudioClip> FootstepSounds = new List<AudioClip>();
+    SoundNodePlayer soundPlayer;
 
     public ushort Level;
 
@@ -140,6 +140,7 @@ public class UserObject : MonoBehaviour
     void Awake()
     {
         GameManager.User = this;
+        soundPlayer = ScriptableObject.CreateInstance<SoundNodePlayer>();
     }
 
     void Update()
@@ -150,6 +151,7 @@ public class UserObject : MonoBehaviour
             if (delta != 0 && !GameScene.eventSystem.IsPointerOverGameObject())
                 Player.UpdateCamera(delta);
         }
+        soundPlayer.Update();
     }
 
     public void SetName(string name)
@@ -444,8 +446,6 @@ public class UserObject : MonoBehaviour
 
     public void GetTerrainSounds(Terrain terrain, Vector3 pos)
     {
-        FootstepSounds.Clear();
-
         Vector2Int tpos = ConvertPosition(terrain, pos);
         if (tpos == Vector2Int.zero) return;
 
@@ -454,14 +454,17 @@ public class UserObject : MonoBehaviour
         for (int i = 0; i < terrainValues.Length; i++)
         {
             if (terrainValues[i] > 0)
-                FootstepSounds.Add(terrain.GetComponent<TerrainPlaylist>().TextureSounds[i * 2 + (int)Player.Gender]);
+            {
+                var cue = terrain.GetComponent<TerrainPlaylist>().TextureSounds[i * 2 + (int)Player.Gender];
+                soundPlayer.ExecuteSound(cue, gameObject);
+                break;
+            }
         }
     }
 
     public void PlayStepSound()
     {
-        foreach (AudioClip clip in FootstepSounds)
-            AudioSource.PlayClipAtPoint(clip, Player.transform.position, 0.2f);
+        soundPlayer.Play();
     }
 
     Vector2Int ConvertPosition(Terrain terrain, Vector3 playerPosition)
