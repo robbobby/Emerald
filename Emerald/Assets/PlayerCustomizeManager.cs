@@ -14,9 +14,12 @@ public class PlayerCustomizeManager : MonoBehaviour
     public MirSelectButton HairColourTab;
     public GameObject HairColourGrid;
 
-    private List<GameObject> hairImages = new List<GameObject>();
-    private List<GameObject> faceImages = new List<GameObject>();
-    private List<GameObject> haircolourImages = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> hairImages = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> faceImages = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> haircolourImages = new List<GameObject>();
 
     public List<Sprite> WarriorHairImages = new List<Sprite>();
     public List<Sprite> WarriorFaceImages = new List<Sprite>();    
@@ -28,7 +31,6 @@ public class PlayerCustomizeManager : MonoBehaviour
     public List<Sprite> AssassinFaceImages = new List<Sprite>();
     public List<Sprite> ArcherHairImages = new List<Sprite>();
     public List<Sprite> ArcherFaceImages = new List<Sprite>();
-
     public List<Sprite> HairColourImages = new List<Sprite>();
 
     [HideInInspector]
@@ -82,11 +84,12 @@ public class PlayerCustomizeManager : MonoBehaviour
             for (int i = (byte)selectedGender; i < hairList.Count; i += 2)
             {
                 GameObject prefab = Instantiate(HairImagePrefab, HairGrid.transform, false);
-                prefab.GetComponent<Image>().sprite = hairList[i];
-                int x = new int();
-                x = i / 2;
-                prefab.GetComponent<HairImageInfo>().Index = x;
-                prefab.GetComponent<Button>().onClick.AddListener(() => HairImage_onClick(x));
+                CustomizeImageInfo hii = prefab.GetComponent<CustomizeImageInfo>();
+                hii.Manager = this;
+                hii.Image.sprite = hairList[i];
+                hii.Index = i / 2;
+                hii.Image.gameObject.GetComponent<Button>().onClick.AddListener(() => hii.HairImage_onClick());
+                if (i == 0) hii.SelectImage.gameObject.SetActive(true);
                 hairImages.Add(prefab);
             }
         }
@@ -96,11 +99,12 @@ public class PlayerCustomizeManager : MonoBehaviour
             for (int i = (int)selectedGender; i < faceList.Count; i += 2)
             {
                 GameObject prefab = Instantiate(HairImagePrefab, FaceGrid.transform, false);
-                prefab.GetComponent<Image>().sprite = faceList[i];
-                int x = new int();
-                x = i / 2;
-                prefab.GetComponent<HairImageInfo>().Index = x;
-                prefab.GetComponent<Button>().onClick.AddListener(() => FaceImage_onClick(x));
+                CustomizeImageInfo hii = prefab.GetComponent<CustomizeImageInfo>();
+                hii.Manager = this;
+                hii.Image.sprite = faceList[i];
+                hii.Index = i / 2;
+                hii.Image.gameObject.GetComponent<Button>().onClick.AddListener(() => hii.FaceImage_onClick());
+                if (i == 0) hii.SelectImage.gameObject.SetActive(true);
                 faceImages.Add(prefab);
             }
         }
@@ -110,11 +114,13 @@ public class PlayerCustomizeManager : MonoBehaviour
             for (int i = (int)selectedGender; i < haircolourList.Count; i += 2)
             {
                 GameObject prefab = Instantiate(HairImagePrefab, HairColourGrid.transform, false);
-                prefab.GetComponent<Image>().sprite = haircolourList[i];
-                int x = new int();
-                x = i / 2;
-                prefab.GetComponent<HairImageInfo>().Index = x;
-                prefab.GetComponent<Button>().onClick.AddListener(() => HairColourImage_onClick(x));
+                prefab.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+                CustomizeImageInfo hii = prefab.GetComponent<CustomizeImageInfo>();
+                hii.Manager = this;
+                hii.Image.sprite = haircolourList[i];
+                hii.Index = i / 2;
+                hii.Image.gameObject.GetComponent<Button>().onClick.AddListener(() => hii.HairColourImage_onClick());
+                if (i == 0) hii.SelectImage.gameObject.SetActive(true);
                 haircolourImages.Add(prefab);
             }
         }
@@ -127,24 +133,6 @@ public class PlayerCustomizeManager : MonoBehaviour
 
         HairColourTab.Select(false);
         HairColourGrid.SetActive(false);
-    }
-
-    void HairImage_onClick(int index)
-    {
-        SelectedHair = (byte)index;
-        Debug.Log("Hair: " + index);
-    }
-
-    void FaceImage_onClick(int index)
-    {
-        SelectedFace = (byte)index;
-        Debug.Log("Face: " + index);
-    }
-
-    void HairColourImage_onClick(int index)
-    {
-        SelectedHairColour = (byte)index;
-        Debug.Log("Hair Colour: " + index);
     }
 
     public void HairTab_onClick()
