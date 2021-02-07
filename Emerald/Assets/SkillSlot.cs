@@ -27,6 +27,7 @@ public class SkillSlot : MonoBehaviour
     {
         SkillNameText.SetText(magic.Name);
         SkillLevelText.SetText(magic.Level.ToString());
+        skillIcon.sprite = Resources.Load<Sprite>($"Skill~Buff Icons/{magic.Icon}");
 
         string need = "-";
         switch (magic.Level)
