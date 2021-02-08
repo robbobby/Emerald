@@ -14,6 +14,7 @@ public class UserObject : MonoBehaviour
     public BaseStats CoreStats = new BaseStats(0);
 
     SoundNodePlayer soundPlayer;
+    SoundCueGraph CurrentStepSound;
 
     public ushort Level;
 
@@ -455,8 +456,7 @@ public class UserObject : MonoBehaviour
         {
             if (terrainValues[i] > 0)
             {
-                var cue = terrain.GetComponent<TerrainPlaylist>().TextureSounds[i * 2 + (int)Player.Gender];
-                soundPlayer.ExecuteSound(cue, gameObject);
+                CurrentStepSound = terrain.GetComponent<TerrainPlaylist>().TextureSounds[i * 2 + (int)Player.Gender];                
                 break;
             }
         }
@@ -464,6 +464,7 @@ public class UserObject : MonoBehaviour
 
     public void PlayStepSound()
     {
+        soundPlayer.ExecuteSound(CurrentStepSound, gameObject, "Player");
         soundPlayer.Play();
     }
 
