@@ -464,6 +464,7 @@ public class UserObject : MonoBehaviour
 
     public void PlayStepSound()
     {
+        if (CurrentStepSound == null) return;
         soundPlayer.ExecuteSound(CurrentStepSound, gameObject, "Player");
         soundPlayer.Play();
     }

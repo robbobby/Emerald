@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
     {
         User.gameObject.SetActive(true);
         UserGameObject = Instantiate(PlayerModel, User.transform.position, Quaternion.identity);
-
+        UserGameObject.GetComponent<BoxCollider>().enabled = true;
         User.Player = UserGameObject.GetComponent<PlayerObject>();
         User.Player.gameManager = this;
         User.Player.ObjectID = p.ObjectID;
