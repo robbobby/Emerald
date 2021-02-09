@@ -37598,6 +37598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1439063041}
+  - component: {fileID: 1439063042}
   m_Layer: 0
   m_Name: Windows
   m_TagString: Untagged
@@ -37627,6 +37628,27 @@ Transform:
   m_Father: {fileID: 829155078}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1439063042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439063040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef5680b44da064b0d8ca793289891fe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GfxMenu: {fileID: 938545401}
+  SoundsSettingsMenu: {fileID: 407858419}
+  GameSettingsMenu: {fileID: 571210388}
+  CharacterMenu: {fileID: 227496102}
+  InventoryMenu: {fileID: 2121219932}
+  SkillsMenu: {fileID: 2033180754}
+  GuildMenu: {fileID: 647342740}
+  OptionsMenu: {fileID: 332477668}
+  MiniMap: {fileID: 710855516}
 --- !u!1 &1447742850
 GameObject:
   m_ObjectHideFlags: 0
