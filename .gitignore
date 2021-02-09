@@ -26,6 +26,7 @@ Emerald/[Aa]ssets/Plugins/Editor/JetBrains*
 # Visual Studio cache directory
 .vs/
 Emerald/.vs/
+.idea/
 
 # Gradle cache directory
 Emerald/.gradle/
