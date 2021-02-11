@@ -5,15 +5,18 @@ using Network = Emerald.Network;
 using C = ClientPackets;
 
 public class MonsterObject : MapObject
-{      
-    public AudioClip AttackSound;
-    public AudioClip StruckSound;
-    public AudioClip DeathSound;
+{
+    SoundNodePlayer soundPlayer;
+
+    public SoundCueGraph AttackSound;
+    public SoundCueGraph StruckSound;
+    public SoundCueGraph DeathSound;
 
     public override void Start()
     {
         base.Start();
 
+        soundPlayer = ScriptableObject.CreateInstance<SoundNodePlayer>();
         Model = gameObject;
         ObjectRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         Parent = ObjectRenderer.transform.parent.gameObject;
@@ -21,6 +24,12 @@ public class MonsterObject : MapObject
         HealthBar = Instantiate(GameScene.RedHealthBar, NameLabel.transform).GetComponent<Renderer>();
         GetComponentInChildren<MonsterAnimationController>()?.SetParent(this);
 
+    }
+
+    protected override void Update()
+    {
+        soundPlayer.Update();
+        base.Update();
     }
 
     public override void SetAction()
@@ -62,13 +71,14 @@ public class MonsterObject : MapObject
                     IsMoving = true;                    
                     break;
                 case MirAction.Attack:
-                    AudioSource.PlayClipAtPoint(AttackSound, gameObject.transform.position);
+                    soundPlayer.ExecuteSound(AttackSound, gameObject, "Player");
+                    soundPlayer.Play();
                     break;
-                case MirAction.Struck:
-                    AudioSource.PlayClipAtPoint(StruckSound, gameObject.transform.position);
+                case MirAction.Struck:                    
                     break;
                 case MirAction.Die:
-                    AudioSource.PlayClipAtPoint(DeathSound, gameObject.transform.position);
+                    soundPlayer.ExecuteSound(DeathSound, gameObject, "Player");
+                    soundPlayer.Play();
                     Blocking = false;
                     if (HealthBar != null)
                         HealthBar.gameObject.SetActive(false);
@@ -80,5 +90,12 @@ public class MonsterObject : MapObject
         }
 
         GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
+    }
+
+    public override void StruckBegin()
+    {
+        base.StruckBegin();
+        soundPlayer.ExecuteSound(StruckSound, gameObject, "Player");
+        soundPlayer.Play();
     }
 }

@@ -381,6 +381,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8447126569678902547}
   - component: {fileID: 6195462162054887214}
+  - component: {fileID: 267771949303626425}
+  - component: {fileID: 7350063129530045086}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -420,7 +422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectRenderer: {fileID: 0}
-  OutlineMaterial: {fileID: 2100000, guid: 9df71da1882afd347bbeabb06d042f1b, type: 2}
   NameLabelObject: {fileID: 8972585348359723467, guid: e35d53eb7d2d0c143a86037f33b2f579,
     type: 3}
   NameLocation: {fileID: 6531817618612059206}
@@ -454,3 +455,33 @@ MonoBehaviour:
   Class: 0
   Gender: 0
   InSafeZone: 0
+  Spell: 0
+--- !u!65 &267771949303626425
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447126569678902544}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7350063129530045086
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447126569678902544}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
