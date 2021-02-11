@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ChatController : MonoBehaviour
 {
@@ -13,13 +14,14 @@ public class ChatController : MonoBehaviour
     public string ChatMessageColour;
     public TMP_Text MainEventChatLabel;
     private float MainEventChatTime;
+    private TMP_InputField chatInputField;
 
     private bool[] Filter = new bool[Enum.GetNames(typeof(ChatFilterType)).Length];
 
     public GameObject[] FilterObjects = new GameObject[Enum.GetNames(typeof(ChatFilterType)).Length];
 
-    void Awake()
-    {
+    void Awake() {
+        chatInputField = GetComponentInChildren<TMP_InputField>();
         for (int i = 0; i < Filter.Length; i++)
             Filter[i] = true;
     }
@@ -29,7 +31,11 @@ public class ChatController : MonoBehaviour
         {
             MainEventChatLabel.SetText(string.Empty);
         }
-
+        // Probably be better to set this on entry/exit of chat input when input system on this is added.
+        if (chatInputField.isFocused) 
+            UiWindowController.DisableUiWindowControls();
+        else
+            UiWindowController.EnableUiWindowControls();
     }
     public void ReceiveChat(string text, ChatType type)
     {

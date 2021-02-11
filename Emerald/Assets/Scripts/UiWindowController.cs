@@ -11,16 +11,16 @@ public class UiWindowController : MonoBehaviour {
     public GameObject GuildMenu;
     public GameObject OptionsMenu;
     public GameObject MiniMap;
-    public InputController.UIActions UiInput;
+    private static InputController.UIActions uiInput; // Not sure if static is the right approach for this
 
     private void Awake() {
-        UiInput = new InputController().UI;
-        UiInput.Inventory.performed += inventoryCallback => InventoryWindowStateHandler();
-        UiInput.Character.performed += characterCallback => CharacterWindowStateHandler();
-        UiInput.Options.performed += optionsCallback => OptionWindowStateHandler();
-        UiInput.Skills.performed += skillsCallback => SkillWindowStateHandler();
-        UiInput.Guild.performed += guildCallback => GuildWindowStateHandler();
-        UiInput.MiniMap.performed += miniMapCallback => MiniMapWindowStateHandler();
+        uiInput = new InputController().UI;
+        uiInput.Inventory.performed += inventoryCallback => InventoryWindowStateHandler();
+        uiInput.Character.performed += characterCallback => CharacterWindowStateHandler();
+        uiInput.Options.performed += optionsCallback => OptionWindowStateHandler();
+        uiInput.Skills.performed += skillsCallback => SkillWindowStateHandler();
+        uiInput.Guild.performed += guildCallback => GuildWindowStateHandler();
+        uiInput.MiniMap.performed += miniMapCallback => MiniMapWindowStateHandler();
     }
 
     private void GuildWindowStateHandler() {
@@ -48,10 +48,18 @@ public class UiWindowController : MonoBehaviour {
     }
 
     private void OnEnable() {
-        UiInput.Enable();
+        uiInput.Enable();
     }
 
     private void OnDisable() {
-        UiInput.Disable();
+        uiInput.Disable();
+    }
+
+    public static void DisableUiWindowControls() {
+        uiInput.Disable();
+    }
+    
+    public static void EnableUiWindowControls() {
+        uiInput.Enable();
     }
 }
