@@ -23,35 +23,13 @@ public class UiWindowController : MonoBehaviour {
         uiInput.MiniMap.performed += miniMapCallback => MiniMapWindowStateHandler();
     }
 
-    private void GuildWindowStateHandler() {
-        GuildMenu.SetActive(!GuildMenu.activeSelf);
-    }
-
-    private void MiniMapWindowStateHandler() {
-        MiniMap.SetActive(!MiniMap.activeSelf);
-    }
-
-    private void SkillWindowStateHandler() {
-        SkillsMenu.SetActive(!SkillsMenu.activeSelf);
-    }
-
-    private void OptionWindowStateHandler() {
-        OptionsMenu.SetActive(!OptionsMenu.activeSelf);
-    }
-
-    private void CharacterWindowStateHandler() {
-        CharacterMenu.SetActive(!CharacterMenu.activeSelf);
-    }
-
-    private void InventoryWindowStateHandler() {
-        InventoryMenu.SetActive(!InventoryMenu.activeSelf);
-    }
+    private void GuildWindowStateHandler() => GuildMenu.SetActive(!GuildMenu.activeSelf);
+    private void MiniMapWindowStateHandler() => MiniMap.SetActive(!MiniMap.activeSelf);
+    private void SkillWindowStateHandler() => SkillsMenu.SetActive(!SkillsMenu.activeSelf);
+    private void OptionWindowStateHandler()  => OptionsMenu.SetActive(!OptionsMenu.activeSelf);
+    private void CharacterWindowStateHandler() => CharacterMenu.SetActive(!CharacterMenu.activeSelf);
+    private void InventoryWindowStateHandler() => InventoryMenu.SetActive(!InventoryMenu.activeSelf);
     
-    public void DisableControls() {
-        uiInput.Disable();
-    }
-    
-    public void EnableControls() {
-        uiInput.Enable();
-    }
+    public void DisableControls() => uiInput.Disable();
+    public void EnableControls() => uiInput.Enable();
 }
