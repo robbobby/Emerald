@@ -1,5 +1,5 @@
 namespace Emerald.UiControllers {
-    public enum QuickSlots {
+    public enum QuickSlot {
         F1 = 0,
         F2,
         F3,

@@ -64448,7 +64448,7 @@ GameObject:
   - component: {fileID: 1606163654}
   - component: {fileID: 1606163655}
   m_Layer: 0
-  m_Name: Belt Slots
+  m_Name: BeltSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
