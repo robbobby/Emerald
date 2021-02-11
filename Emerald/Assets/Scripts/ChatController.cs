@@ -37,17 +37,17 @@ public class ChatController : MonoBehaviour
         }
         // Probably be better to set this on entry/exit of chat input when input system on this is added.
         if (chatInputField.isFocused) 
-            DisableControls();
+            DisableUiControls();
         else
-            EnableControls();
+            EnableUiControls();
     }
 
-    private void EnableControls() {
+    private void EnableUiControls() {
         quickSlotController.EnableControls();
         windowInput.EnableControls();
     }
 
-    private void DisableControls() {
+    private void DisableUiControls() {
         quickSlotController.DisableControls();
         windowInput.DisableControls();
     }
