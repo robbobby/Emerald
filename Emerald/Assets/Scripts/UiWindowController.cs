@@ -11,7 +11,7 @@ public class UiWindowController : MonoBehaviour {
     public GameObject GuildMenu;
     public GameObject OptionsMenu;
     public GameObject MiniMap;
-    private static InputController.UIActions uiInput; // Not sure if static is the right approach for this
+    private InputController.UIActions uiInput; // Not sure if static is the right approach for this
 
     private void Awake() {
         uiInput = new InputController().UI;
@@ -45,14 +45,6 @@ public class UiWindowController : MonoBehaviour {
 
     private void InventoryWindowStateHandler() {
         InventoryMenu.SetActive(!InventoryMenu.activeSelf);
-    }
-
-    private void OnEnable() {
-        uiInput.Enable();
-    }
-
-    private void OnDisable() {
-        uiInput.Disable();
     }
     
     public void DisableControls() {
