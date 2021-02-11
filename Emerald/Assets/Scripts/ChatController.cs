@@ -15,12 +15,14 @@ public class ChatController : MonoBehaviour
     public TMP_Text MainEventChatLabel;
     private float MainEventChatTime;
     private TMP_InputField chatInputField;
+    private UiWindowController windowInput;
 
     private bool[] Filter = new bool[Enum.GetNames(typeof(ChatFilterType)).Length];
 
     public GameObject[] FilterObjects = new GameObject[Enum.GetNames(typeof(ChatFilterType)).Length];
 
     void Awake() {
+        windowInput = GameObject.Find("Windows").GetComponent<UiWindowController>();
         chatInputField = GetComponentInChildren<TMP_InputField>();
         for (int i = 0; i < Filter.Length; i++)
             Filter[i] = true;
@@ -33,9 +35,9 @@ public class ChatController : MonoBehaviour
         }
         // Probably be better to set this on entry/exit of chat input when input system on this is added.
         if (chatInputField.isFocused) 
-            UiWindowController.DisableUiWindowControls();
+            windowInput.DisableControls();
         else
-            UiWindowController.EnableUiWindowControls();
+            windowInput.EnableControls();
     }
     public void ReceiveChat(string text, ChatType type)
     {

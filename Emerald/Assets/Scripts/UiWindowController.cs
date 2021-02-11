@@ -54,12 +54,12 @@ public class UiWindowController : MonoBehaviour {
     private void OnDisable() {
         uiInput.Disable();
     }
-
-    public static void DisableUiWindowControls() {
+    
+    public void DisableControls() {
         uiInput.Disable();
     }
     
-    public static void EnableUiWindowControls() {
+    public void EnableControls() {
         uiInput.Enable();
     }
 }
