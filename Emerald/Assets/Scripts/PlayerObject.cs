@@ -199,7 +199,7 @@ public class PlayerObject : MapObject
 
     public override void SetAction()
     {        
-        if (this == GameManager.User.Player && GameScene.QueuedAction != null)
+        if (this == GameManager.User.Player && Time.time > GameManager.NextAction && GameScene.QueuedAction != null)
         {
             ActionFeed.Clear();
             ActionFeed.Add(GameScene.QueuedAction);
