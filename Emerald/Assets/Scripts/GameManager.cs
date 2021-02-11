@@ -679,34 +679,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (item.Info.Type == ItemType.Potion || item.Info.Type == ItemType.Scroll || (item.Info.Type == ItemType.Script && item.Info.Effect == 1))
-        {
-            for (int i = 0; i < User.BeltIdx - 2; i++)
-            {
-                if (User.Inventory[i] != null) continue;
-                User.Inventory[i] = item;
-                return;
-            }
-        }
-        else if (item.Info.Type == ItemType.Amulet)
-        {
-            for (int i = 4; i < User.BeltIdx; i++)
-            {
-                if (User.Inventory[i] != null) continue;
-                User.Inventory[i] = item;
-                return;
-            }
-        }
-        else
-        {
-            for (int i = User.BeltIdx; i < User.Inventory.Length; i++)
-            {
-                if (User.Inventory[i] != null) continue;
-                User.Inventory[i] = item;
-                return;
-            }
-        }
-
         for (int i = 0; i < User.Inventory.Length; i++)
         {
             if (User.Inventory[i] != null) continue;

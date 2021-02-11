@@ -16,7 +16,7 @@ public class InventoryController : MonoBehaviour
         {
             GameObject cell = Instantiate(CellObject, CellsLocation.transform);
             Cells[x] = cell.GetComponentInChildren<MirItemCell>();
-            Cells[x].ItemSlot = 6 + x;
+            Cells[x].ItemSlot = x;
             Cells[x].GridType = MirGridType.Inventory;
             RectTransform rt = cell.GetComponent<RectTransform>();
             rt.localPosition = new Vector3(x % 8 * 43, -(x / 8 * 43), 0);

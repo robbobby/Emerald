@@ -236,7 +236,7 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
 
         for (int i = 0; i < User.Inventory.Length; i++)
         {
-            MirItemCell itemCell = i < User.BeltIdx ? GameScene.BeltCells[i] : GameScene.Inventory.Cells[i - User.BeltIdx];
+            MirItemCell itemCell = GameScene.Inventory.Cells[i];
             if (itemCell.Item == null) count++;
         }
 
@@ -248,7 +248,7 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
 
             for (int i = 0; i < User.Inventory.Length; i++)
             {
-                MirItemCell itemCell = i < User.BeltIdx ? GameScene.BeltCells[i] : GameScene.Inventory.Cells[i - User.BeltIdx];
+                MirItemCell itemCell = GameScene.Inventory.Cells[i];
 
                 if (itemCell.Item == null || itemCell.Item.Info != Item.Info) continue;
 
@@ -270,16 +270,7 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
 
         for (int i = 0; i < User.Inventory.Length; i++)
         {
-            MirItemCell itemCell = null;
-
-            if (Item.Info.Type == ItemType.Amulet)
-            {
-                itemCell = i < User.BeltIdx ? GameScene.BeltCells[i] : GameScene.Inventory.Cells[i - User.BeltIdx];
-            }
-            else
-            {
-                itemCell = i < (User.Inventory.Length - User.BeltIdx) ? GameScene.Inventory.Cells[i] : GameScene.BeltCells[i - User.Inventory.Length];
-            }
+            MirItemCell itemCell = GameScene.Inventory.Cells[i];
 
             if (itemCell.Item != null) continue;
 
@@ -393,7 +384,7 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
                                 {
                                     Network.Enqueue(new C.RemoveItem { Grid = GridType, UniqueID = GameScene.SelectedCell.Item.UniqueID, To = x });
 
-                                    MirItemCell temp = x < GameManager.User.BeltIdx ? GameScene.BeltCells[x] : GameScene.Inventory.Cells[x - GameManager.User.BeltIdx];
+                                    MirItemCell temp = GameScene.Inventory.Cells[x];
 
                                     if (temp != null) temp.Locked = true;
                                     GameScene.SelectedCell.Locked = true;
@@ -597,18 +588,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
                 {
                     if (Time.time < GameScene.UseItemTime) return;
                     Network.Enqueue(new C.UseItem { UniqueID = Item.UniqueID });
-
-                    if (Item.Count == 1 && ItemSlot < 6)
-                    {
-                        for (int i = User.BeltIdx; i < User.Inventory.Length; i++)
-                            if (ItemArray[i] != null && ItemArray[i].Info == Item.Info)
-                            {
-                                Network.Enqueue(new C.MoveItem { Grid = MirGridType.Inventory, From = i, To = ItemSlot });
-                                GameScene.Inventory.Cells[i - User.BeltIdx].Locked = true;
-                                break;
-                            }
-                    }
-
                     Locked = true;
                 }
                 break;

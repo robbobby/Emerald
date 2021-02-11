@@ -133,7 +133,6 @@ public class UserObject : MonoBehaviour
 
     public UserItem[] Inventory = new UserItem[46];
     public UserItem[] Equipment = new UserItem[14];
-    public int BeltIdx = 6;
 
     public List<ClientMagic> Magics = new List<ClientMagic>();
 

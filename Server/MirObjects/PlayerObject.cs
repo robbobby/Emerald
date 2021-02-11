@@ -1861,34 +1861,6 @@ namespace Server.MirObjects
                 }
             }
 
-            if (item.Info.Type == ItemType.Potion || item.Info.Type == ItemType.Scroll || (item.Info.Type == ItemType.Script && item.Info.Effect == 1))
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (Info.Inventory[i] != null) continue;
-                    Info.Inventory[i] = item;
-                    return;
-                }
-            }
-            else if (item.Info.Type == ItemType.Amulet)
-            {
-                for (int i = 4; i < 6; i++)
-                {
-                    if (Info.Inventory[i] != null) continue;
-                    Info.Inventory[i] = item;
-                    return;
-                }
-            }
-            else
-            {
-                for (int i = 6; i < Info.Inventory.Length; i++)
-                {
-                    if (Info.Inventory[i] != null) continue;
-                    Info.Inventory[i] = item;
-                    return;
-                }
-            }
-
             for (int i = 0; i < Info.Inventory.Length; i++)
             {
                 if (Info.Inventory[i] != null) continue;
@@ -11604,39 +11576,7 @@ namespace Server.MirObjects
             Enqueue(p);
             Enqueue(new S.SplitItem { Item = temp, Grid = grid });
 
-            if (grid == MirGridType.Inventory && (temp.Info.Type == ItemType.Potion || temp.Info.Type == ItemType.Scroll || temp.Info.Type == ItemType.Amulet || (temp.Info.Type == ItemType.Script && temp.Info.Effect == 1)))
-            {
-                if (temp.Info.Type == ItemType.Potion || temp.Info.Type == ItemType.Scroll || (temp.Info.Type == ItemType.Script && temp.Info.Effect == 1))
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (array[i] != null) continue;
-                        array[i] = temp;
-                        RefreshBagWeight();
-                        return;
-                    }
-                }
-                else if (temp.Info.Type == ItemType.Amulet)
-                {
-                    for (int i = 4; i < 6; i++)
-                    {
-                        if (array[i] != null) continue;
-                        array[i] = temp;
-                        RefreshBagWeight();
-                        return;
-                    }
-                }
-            }
-
-            for (int i = 6; i < array.Length; i++)
-            {
-                if (array[i] != null) continue;
-                array[i] = temp;
-                RefreshBagWeight();
-                return;
-            }
-
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (array[i] != null) continue;
                 array[i] = temp;

@@ -57,7 +57,6 @@ public class GameSceneManager : MonoBehaviour
     public ItemTooltip ItemToolTip;
     public Image SelectedItemImage;
     public MirItemCell[] EquipmentCells = new MirItemCell[14];
-    public MirItemCell[] BeltCells = new MirItemCell[6];
     public NPCDialog NPCDialog;
 
     [HideInInspector]
@@ -359,7 +358,7 @@ public class GameSceneManager : MonoBehaviour
         switch (p.Grid)
         {
             case MirGridType.Inventory:
-                fromCell = p.From < User.BeltIdx ? BeltCells[p.From] : Inventory.Cells[p.From - User.BeltIdx];
+                fromCell = Inventory.Cells[p.From];
                 break;
             default:
                 return;
@@ -368,7 +367,7 @@ public class GameSceneManager : MonoBehaviour
         switch (p.Grid)
         {
             case MirGridType.Inventory:
-                toCell = p.To < User.BeltIdx ? BeltCells[p.To] : Inventory.Cells[p.To - User.BeltIdx];
+                toCell = Inventory.Cells[p.To];
                 break;
             default:
                 return;
@@ -404,7 +403,7 @@ public class GameSceneManager : MonoBehaviour
         switch (p.Grid)
         {
             case MirGridType.Inventory:
-                fromCell = GetCell(Inventory.Cells, p.UniqueID) ?? GetCell(BeltCells, p.UniqueID);
+                fromCell = GetCell(Inventory.Cells, p.UniqueID);
                 break;
             /*case MirGridType.Storage:
                 fromCell = StorageDialog.GetCell(p.UniqueID) ?? BeltDialog.GetCell(p.UniqueID);
@@ -445,7 +444,7 @@ public class GameSceneManager : MonoBehaviour
         switch (p.Grid)
         {
             case MirGridType.Inventory:
-                toCell = p.To < User.BeltIdx ? BeltCells[p.To] : Inventory.Cells[p.To - User.BeltIdx];
+                toCell = Inventory.Cells[p.To];
                 break;
             /*case MirGridType.Storage:
                 toCell = StorageDialog.Grid[p.To];
@@ -467,7 +466,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void UseItem(S.UseItem p)
     {
-        MirItemCell cell = GetCell(Inventory.Cells, p.UniqueID) ?? GetCell(BeltCells, p.UniqueID);
+        MirItemCell cell = GetCell(Inventory.Cells, p.UniqueID);
 
         if (cell == null) return;
 
@@ -481,7 +480,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void DropItem(S.DropItem p)
     {
-        MirItemCell cell = GetCell(Inventory.Cells, p.UniqueID) ?? GetCell(BeltCells, p.UniqueID);
+        MirItemCell cell = GetCell(Inventory.Cells, p.UniqueID);
 
         if (cell == null) return;
 
