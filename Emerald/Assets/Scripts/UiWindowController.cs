@@ -10,17 +10,17 @@ public class UiWindowController : MonoBehaviour {
     public GameObject SkillsMenu;
     public GameObject GuildMenu;
     public GameObject OptionsMenu;
-    public GameObject MiniMap;\
+    public GameObject MiniMap;
     public InputController.UIActions UiInput;
 
     private void Awake() {
         UiInput = new InputController().UI;
         UiInput.Inventory.performed += inventoryCallback => InventoryWindowStateHandler();
-        UiInput.Character.performed += inventoryCallback => CharacterWindowStateHandler();
-        UiInput.Options.performed += inventoryCallback => OptionWindowStateHandler();
-        UiInput.Skills.performed += inventoryCallback => SkillWindowStateHandler();
-        UiInput.Guild.performed += inventoryCallback => GuildWindowStateHandler();
-        UiInput.MiniMap.performed += inventoryCallback => MiniMapWindowStateHandler();
+        UiInput.Character.performed += characterCallback => CharacterWindowStateHandler();
+        UiInput.Options.performed += optionsCallback => OptionWindowStateHandler();
+        UiInput.Skills.performed += skillsCallback => SkillWindowStateHandler();
+        UiInput.Guild.performed += guildCallback => GuildWindowStateHandler();
+        UiInput.MiniMap.performed += miniMapCallback => MiniMapWindowStateHandler();
     }
 
     private void GuildWindowStateHandler() {
