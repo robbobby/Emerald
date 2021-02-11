@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Emerald.UiControllers;
+﻿using Emerald.UiControllers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
