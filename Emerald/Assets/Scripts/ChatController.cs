@@ -16,14 +16,12 @@ public class ChatController : MonoBehaviour
     private float MainEventChatTime;
     private TMP_InputField chatInputField;
     private UiWindowController windowInput;
-    private QuickSlotController quickSlotController;
 
     private bool[] Filter = new bool[Enum.GetNames(typeof(ChatFilterType)).Length];
 
     public GameObject[] FilterObjects = new GameObject[Enum.GetNames(typeof(ChatFilterType)).Length];
 
     void Awake() {
-        quickSlotController = GameObject.Find("BeltSlots").GetComponent<QuickSlotController>();
         windowInput = GameObject.Find("Windows").GetComponent<UiWindowController>();
         chatInputField = GetComponentInChildren<TMP_InputField>();
         for (int i = 0; i < Filter.Length; i++)
@@ -37,18 +35,16 @@ public class ChatController : MonoBehaviour
         }
         // Probably be better to set this on entry/exit of chat input when input system on this is added.
         if (chatInputField.isFocused) 
-            DisableUiControls();
+            windowInput.DisableControls();
         else
-            EnableUiControls();
+            windowInput.EnableControls();
     }
 
     private void EnableUiControls() {
-        quickSlotController.EnableControls();
         windowInput.EnableControls();
     }
 
     private void DisableUiControls() {
-        quickSlotController.DisableControls();
         windowInput.DisableControls();
     }
 
