@@ -15,11 +15,11 @@ public class UiWindowController : MonoBehaviour {
     public GameObject MiniMap;
     private InputController.UIActions uiInput; // Not sure if static is the right approach for this
     private InputController.QuickSlotsActions quickSlotsActions;
-    private IReplaceMe[] quickSlotsEquipped;
+    private IQuickSlotItem[] quickSlotsEquipped;
 
     private void Awake() {
         uiInput = new InputController().UI;
-        quickSlotsEquipped = new IReplaceMe[24];
+        quickSlotsEquipped = new IQuickSlotItem[24];
         quickSlotsActions = new InputController().QuickSlots;
         
                                     // Window Action Handlers //
@@ -63,7 +63,7 @@ public class UiWindowController : MonoBehaviour {
         quickSlotsEquipped[position].DoAction();
     }
 
-    private void SetQuickSlot(QuickSlot position, IReplaceMe newItem) {
+    private void SetQuickSlot(QuickSlot position, IQuickSlotItem newItem) {
         quickSlotsEquipped[(int) position] = newItem;
     }
 
@@ -91,6 +91,6 @@ public class UiWindowController : MonoBehaviour {
     private void InventoryWindowStateHandler() => InventoryMenu.SetActive(!InventoryMenu.activeSelf);
 }
 
-internal interface IReplaceMe {
+internal interface IQuickSlotItem {
     void DoAction();
 }
