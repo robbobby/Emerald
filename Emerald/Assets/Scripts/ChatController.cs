@@ -39,6 +39,15 @@ public class ChatController : MonoBehaviour
         else
             windowInput.EnableControls();
     }
+
+    private void EnableUiControls() {
+        windowInput.EnableControls();
+    }
+
+    private void DisableUiControls() {
+        windowInput.DisableControls();
+    }
+
     public void ReceiveChat(string text, ChatType type)
     {
         if (Filtered(type)) return;
