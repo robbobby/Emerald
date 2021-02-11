@@ -266,6 +266,13 @@ PlayerSettings:
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
   m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 2167907e4ffedcf47bea979c1b547eea, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   - m_BuildTarget: Standalone
     m_Icons:
     - serializedVersion: 2
@@ -279,7 +286,7 @@ PlayerSettings:
       m_Height: 512
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 2167907e4ffedcf47bea979c1b547eea, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 256
       m_Height: 256
       m_Kind: 0
@@ -294,26 +301,19 @@ PlayerSettings:
       m_Height: 64
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 8b9a0dcb51323b1428d5cdeaa32fbb7f, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 83b4f3396fade5d47900e6fe68b959fa, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 32
       m_Height: 32
       m_Kind: 0
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 88bd0b144b1dbb443853df3c4da79687, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 16
       m_Height: 16
-      m_Kind: 0
-  - m_BuildTarget: 
-    m_Icons:
-    - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 2167907e4ffedcf47bea979c1b547eea, type: 3}
-      m_Width: 128
-      m_Height: 128
       m_Kind: 0
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching:
@@ -626,7 +626,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: AURA_IN_PROJECT;UNITY_POST_PROCESSING_STACK_V2;TERRAINPACKAGE_EXIST;__MICROSPLAT__;__MICROSPLAT_ALPHAHOLE__;__MICROSPLAT_DETAILRESAMPLE__;__MICROSPLAT_GLOBALTEXTURE__;__MICROSPLAT_SNOW__;__MICROSPLAT_STREAMS__;__MICROSPLAT_TERRAINBLEND__;__MICROSPLAT_TESSELLATION__;__MICROSPLAT_TEXTURECLUSTERS__;__MICROSPLAT_TRIPLANAR__;__MICROSPLAT_WINDGLITTER__
+    1: AURA_IN_PROJECT;UNITY_POST_PROCESSING_STACK_V2;TERRAINPACKAGE_EXIST;__MICROSPLAT__;__MICROSPLAT_ALPHAHOLE__;__MICROSPLAT_DETAILRESAMPLE__;__MICROSPLAT_GLOBALTEXTURE__;__MICROSPLAT_SNOW__;__MICROSPLAT_STREAMS__;__MICROSPLAT_TERRAINBLEND__;__MICROSPLAT_TESSELLATION__;__MICROSPLAT_TEXTURECLUSTERS__;__MICROSPLAT_TRIPLANAR__;__MICROSPLAT_WINDGLITTER__;AURA_IN_SCENEVIEW
     4: UNITY_POST_PROCESSING_STACK_V2
     7: UNITY_POST_PROCESSING_STACK_V2
     13: UNITY_POST_PROCESSING_STACK_V2
@@ -729,6 +729,6 @@ PlayerSettings:
   projectName: 
   organizationId: 
   cloudEnabled: 0
-  enableNativePlatformBackendsForNewInputSystem: 0
+  enableNativePlatformBackendsForNewInputSystem: 1
   disableOldInputManagerSupport: 0
   legacyClampBlendShapeWeights: 0
