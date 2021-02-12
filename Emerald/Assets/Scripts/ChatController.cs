@@ -41,7 +41,7 @@ public class ChatController : MonoBehaviour
     }
 
     private void EnableUiControls() {
-        windowInput.EnableControls();
+        // windowInput.EnableControls();
     }
 
     private void DisableUiControls() {

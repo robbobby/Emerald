@@ -151,12 +151,6 @@ public class GameSceneManager : MonoBehaviour
                 if (ChatBar.text.Length > 0)
                     Network.Enqueue(new C.Chat() { Message = ChatBar.text });
                 ChatBar.text = string.Empty;
-                ChatBar.gameObject.SetActive(false);
-            }
-            else
-            {
-                ChatBar.gameObject.SetActive(true);
-                ChatBar.Select();
             }
         }
 
