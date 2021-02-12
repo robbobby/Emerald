@@ -1,9 +1,11 @@
 ﻿using Emerald.UiControllers;
+using ServerPackets;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Network = Emerald.Network;
 
 public class UiWindowController : MonoBehaviour {
     public GameObject GfxMenu;
@@ -66,13 +68,15 @@ public class UiWindowController : MonoBehaviour {
     }
 
     private void ToggleChat() {
-        if (ChatBar.gameObject.activeSelf)
-        {
+        if (ChatBar.gameObject.activeSelf) {
+            EnableControls();
+            if (ChatBar.text.Trim().Length > 0)
+                GameSceneManager.SendUserMessagePackage(ChatBar.text);
             ChatBar.gameObject.SetActive(false);
+            ChatBar.text = string.Empty;
             EventSystem.current.SetSelectedGameObject(null);
-        }
-        else
-        {
+        } else {
+            DisableControls();
             ChatBar.gameObject.SetActive(true);
             ChatBar.Select();
         }

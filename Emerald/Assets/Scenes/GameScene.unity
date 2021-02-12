@@ -57503,6 +57503,7 @@ MonoBehaviour:
   GuildMenu: {fileID: 647342740}
   OptionsMenu: {fileID: 332477668}
   MiniMap: {fileID: 710855516}
+  ChatBar: {fileID: 635084011}
 --- !u!1 &1447742850
 GameObject:
   m_ObjectHideFlags: 0
