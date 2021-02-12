@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Network = Emerald.Network;
 using C = ClientPackets;
 
-public class MirItemCell : MonoBehaviour, IPointerDownHandler
+public class MirItemCell : MonoBehaviour, IPointerDownHandler, IQuickSlotItem
 {
     protected static GameSceneManager GameScene
     {
@@ -1073,5 +1073,16 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
     {
         HighlightImage.gameObject.SetActive(false);
         GameScene.ItemToolTip.Hide();
+    }
+
+    public void DoAction()
+    {
+        UseItem();
+    }
+
+    public Sprite GetIcon()
+    {
+        if (ItemImage == null) return null;
+        return ItemImage.sprite;
     }
 }

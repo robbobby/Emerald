@@ -90,7 +90,7 @@ public class UiWindowController : MonoBehaviour {
     private void InventoryWindowStateHandler() => InventoryMenu.SetActive(!InventoryMenu.activeSelf);
 }
 
-internal interface IQuickSlotItem
+public interface IQuickSlotItem
 {
     void DoAction();
     Sprite GetIcon();
