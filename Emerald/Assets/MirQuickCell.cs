@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MirQuickCell : MonoBehaviour, IPointerUpHandler
+public class MirQuickCell : MonoBehaviour, IDropHandler
 {
     protected static GameSceneManager GameScene
     {
@@ -30,11 +30,11 @@ public class MirQuickCell : MonoBehaviour, IPointerUpHandler
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("Up");
         if (GameScene.PickedUpGold || GameScene.SelectedCell == null) return;
 
         Item = GameScene.SelectedCell;
+        GameScene.SelectedCell = null;
     }
 }
