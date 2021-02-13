@@ -123,7 +123,7 @@ namespace UiControllers {
             Debug.Log("Before the run coroutine");
             currentAction = CurrentAction.Run;
             while (true) {
-                gameManager.StartRun();
+                gameManager.StartRunAction();
                 yield return null;
             }
         }

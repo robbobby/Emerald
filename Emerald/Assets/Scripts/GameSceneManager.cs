@@ -177,12 +177,10 @@ public class GameSceneManager : MonoBehaviour
 
             TargetObject = null;
             GameManager.CheckMouseInput();
-        } if (Input.GetMouseButton(1) && !eventSystem.IsPointerOverGameObject())
-            GameManager.CheckMouseInput();
+        } 
         else {
             GameManager.User.CanRun = false;
-            if (TargetObject != null && TargetObject is MonsterObject && !TargetObject.Dead &&
-                TargetObject.gameObject.activeSelf && CanAttack()) {
+            if (TargetIsValidMonsterAndCanAttack()) {
                 Point self = new Point(User.Player.CurrentLocation.x, User.Player.CurrentLocation.y);
                 Point targ = new Point(TargetObject.CurrentLocation.x, TargetObject.CurrentLocation.y);
                 if (Functions.InRange(self, targ, 1)) {
@@ -205,9 +203,11 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
-    public void StartRun() {
-        // if (!eventSystem.IsPointerOverGameObject())
-            Debug.Log("Inside the run funcxtion in GameSceneManager");
+    private bool TargetIsValidMonsterAndCanAttack() =>
+        TargetObject != null && TargetObject is MonsterObject && !TargetObject.Dead &&
+        TargetObject.gameObject.activeSelf && CanAttack();
+
+    public void StartRunAction() {
             GameManager.CheckMouseInput();
     }
     
