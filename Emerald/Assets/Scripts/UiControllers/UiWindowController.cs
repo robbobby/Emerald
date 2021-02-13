@@ -1,5 +1,4 @@
 ﻿using Emerald.UiControllers;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -91,6 +90,8 @@ public class UiWindowController : MonoBehaviour {
     private void InventoryWindowStateHandler() => InventoryMenu.SetActive(!InventoryMenu.activeSelf);
 }
 
-internal interface IQuickSlotItem {
+public interface IQuickSlotItem
+{
     void DoAction();
+    Sprite GetIcon();
 }

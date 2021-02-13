@@ -209,10 +209,8 @@ public class GameSceneManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
+        if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
         {
-            GameManager.User.CanRun = false;
-
             if (SelectedCell != null)
             {
                 SelectedItemImage.gameObject.SetActive(false);
@@ -226,10 +224,16 @@ public class GameSceneManager : MonoBehaviour
                 };
                 MessageBox.Cancel += () =>
                 {
+                    Debug.Log("CancelInvoke");
                     SelectedCell = null;
                 };
                 return;
             }
+        }
+
+        if (Input.GetMouseButton(0) && SelectedCell == null && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
+        {
+            GameManager.User.CanRun = false;            
 
             if (MouseObject != null)
             {
