@@ -149,16 +149,6 @@ public class GameSceneManager : MonoBehaviour
         }
 
         MouseObject = GetMouseObject();
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (Time.time > PickUpTime)
-            {
-                PickUpTime = Time.time + 0.2f;
-                Network.Enqueue(new C.PickUp());
-            }
-        }
-
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             if (TargetObject != null && !(TargetObject is MonsterObject) && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack())
@@ -180,29 +170,6 @@ public class GameSceneManager : MonoBehaviour
                 QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
             }
         }
-
-        if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
-        {
-            if (SelectedCell != null)
-            {
-                SelectedItemImage.gameObject.SetActive(false);
-
-                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", true, true);
-                MessageBox.OK += () =>
-                {
-                    Network.Enqueue(new C.DropItem { UniqueID = SelectedCell.Item.UniqueID, Count = 1 });
-                    SelectedCell.Locked = true;
-                    SelectedCell = null;
-                };
-                MessageBox.Cancel += () =>
-                {
-                    Debug.Log("CancelInvoke");
-                    SelectedCell = null;
-                };
-                return;
-            }
-        }
-
         if (Input.GetMouseButton(0) && SelectedCell == null && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
         {
             GameManager.User.CanRun = false;            
@@ -254,6 +221,35 @@ public class GameSceneManager : MonoBehaviour
 
                 QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
             }
+        }
+    }
+
+    public void PlaceItemDown() {
+        if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay) {
+            if (SelectedCell != null) {
+                SelectedItemImage.gameObject.SetActive(false);
+
+                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", true, true);
+                MessageBox.OK += () => {
+                    Network.Enqueue(new C.DropItem {UniqueID = SelectedCell.Item.UniqueID, Count = 1});
+                    SelectedCell.Locked = true;
+                    SelectedCell = null;
+                };
+                MessageBox.Cancel += () => {
+                    Debug.Log("CancelInvoke");
+                    SelectedCell = null;
+                };
+                return;
+            }
+        }
+
+        return;
+    }
+
+    public void PickUpItem() {
+        if (Time.time > PickUpTime) {
+            PickUpTime = Time.time + 0.2f;
+            Network.Enqueue(new C.PickUp());
         }
     }
 

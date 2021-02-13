@@ -678,7 +678,7 @@
             ]
         },
         {
-            "name": "Mouse",
+            "name": "Interactions",
             "id": "017dcb2c-0bdb-40ad-b5b7-ff4738553841",
             "actions": [
                 {
@@ -693,6 +693,38 @@
                     "name": "LeftButtonUp",
                     "type": "Button",
                     "id": "f6a58a40-b8eb-4b03-a5af-467eb5797a59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.1,behavior=1)"
+                },
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "d86f41c3-cd95-484c-86f2-19788b808522",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.1,behavior=1)"
+                },
+                {
+                    "name": "ShiftRelease",
+                    "type": "Button",
+                    "id": "dc4a822d-7939-4b43-bde9-ede2744111e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.1,behavior=1)"
+                },
+                {
+                    "name": "Tab",
+                    "type": "Button",
+                    "id": "13eba3ab-84e1-4dea-9112-ad6722e279d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.1)"
+                },
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "37445297-8221-4f6a-8abe-809029968af4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(pressPoint=0.1,behavior=1)"
@@ -740,6 +772,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftButtonUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df2a18d4-cc6e-4985-bcfb-6afdaa4aba33",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3d5d422-d491-435d-9188-55eae96ff60c",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37b7f41a-520a-452e-97c2-505ab3a44bab",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3517d85-5832-4f82-9f89-200a4fce241e",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

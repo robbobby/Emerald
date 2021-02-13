@@ -691,7 +691,7 @@ public class @InputController : IInputActionCollection, IDisposable
             ]
         },
         {
-            ""name"": ""Mouse"",
+            ""name"": ""Interactions"",
             ""id"": ""017dcb2c-0bdb-40ad-b5b7-ff4738553841"",
             ""actions"": [
                 {
@@ -706,6 +706,38 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""name"": ""LeftButtonUp"",
                     ""type"": ""Button"",
                     ""id"": ""f6a58a40-b8eb-4b03-a5af-467eb5797a59"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=0.1,behavior=1)""
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""d86f41c3-cd95-484c-86f2-19788b808522"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=0.1,behavior=1)""
+                },
+                {
+                    ""name"": ""ShiftRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc4a822d-7939-4b43-bde9-ede2744111e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=0.1,behavior=1)""
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""13eba3ab-84e1-4dea-9112-ad6722e279d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=0.1)""
+                },
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""37445297-8221-4f6a-8abe-809029968af4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(pressPoint=0.1,behavior=1)""
@@ -755,6 +787,50 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""action"": ""LeftButtonUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df2a18d4-cc6e-4985-bcfb-6afdaa4aba33"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3d5d422-d491-435d-9188-55eae96ff60c"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37b7f41a-520a-452e-97c2-505ab3a44bab"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3517d85-5832-4f82-9f89-200a4fce241e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -799,10 +875,14 @@ public class @InputController : IInputActionCollection, IDisposable
         // Chat
         m_Chat = asset.FindActionMap("Chat", throwIfNotFound: true);
         m_Chat_Newaction = m_Chat.FindAction("New action", throwIfNotFound: true);
-        // Mouse
-        m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
-        m_Mouse_ShiftLeftClick = m_Mouse.FindAction("ShiftLeftClick", throwIfNotFound: true);
-        m_Mouse_LeftButtonUp = m_Mouse.FindAction("LeftButtonUp", throwIfNotFound: true);
+        // Interactions
+        m_Interactions = asset.FindActionMap("Interactions", throwIfNotFound: true);
+        m_Interactions_ShiftLeftClick = m_Interactions.FindAction("ShiftLeftClick", throwIfNotFound: true);
+        m_Interactions_LeftButtonUp = m_Interactions.FindAction("LeftButtonUp", throwIfNotFound: true);
+        m_Interactions_LeftClick = m_Interactions.FindAction("LeftClick", throwIfNotFound: true);
+        m_Interactions_ShiftRelease = m_Interactions.FindAction("ShiftRelease", throwIfNotFound: true);
+        m_Interactions_Tab = m_Interactions.FindAction("Tab", throwIfNotFound: true);
+        m_Interactions_Newaction = m_Interactions.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1180,34 +1260,54 @@ public class @InputController : IInputActionCollection, IDisposable
     }
     public ChatActions @Chat => new ChatActions(this);
 
-    // Mouse
-    private readonly InputActionMap m_Mouse;
-    private IMouseActions m_MouseActionsCallbackInterface;
-    private readonly InputAction m_Mouse_ShiftLeftClick;
-    private readonly InputAction m_Mouse_LeftButtonUp;
-    public struct MouseActions
+    // Interactions
+    private readonly InputActionMap m_Interactions;
+    private IInteractionsActions m_InteractionsActionsCallbackInterface;
+    private readonly InputAction m_Interactions_ShiftLeftClick;
+    private readonly InputAction m_Interactions_LeftButtonUp;
+    private readonly InputAction m_Interactions_LeftClick;
+    private readonly InputAction m_Interactions_ShiftRelease;
+    private readonly InputAction m_Interactions_Tab;
+    private readonly InputAction m_Interactions_Newaction;
+    public struct InteractionsActions
     {
         private @InputController m_Wrapper;
-        public MouseActions(@InputController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ShiftLeftClick => m_Wrapper.m_Mouse_ShiftLeftClick;
-        public InputAction @LeftButtonUp => m_Wrapper.m_Mouse_LeftButtonUp;
-        public InputActionMap Get() { return m_Wrapper.m_Mouse; }
+        public InteractionsActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShiftLeftClick => m_Wrapper.m_Interactions_ShiftLeftClick;
+        public InputAction @LeftButtonUp => m_Wrapper.m_Interactions_LeftButtonUp;
+        public InputAction @LeftClick => m_Wrapper.m_Interactions_LeftClick;
+        public InputAction @ShiftRelease => m_Wrapper.m_Interactions_ShiftRelease;
+        public InputAction @Tab => m_Wrapper.m_Interactions_Tab;
+        public InputAction @Newaction => m_Wrapper.m_Interactions_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MouseActions set) { return set.Get(); }
-        public void SetCallbacks(IMouseActions instance)
+        public static implicit operator InputActionMap(InteractionsActions set) { return set.Get(); }
+        public void SetCallbacks(IInteractionsActions instance)
         {
-            if (m_Wrapper.m_MouseActionsCallbackInterface != null)
+            if (m_Wrapper.m_InteractionsActionsCallbackInterface != null)
             {
-                @ShiftLeftClick.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
-                @ShiftLeftClick.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
-                @ShiftLeftClick.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
-                @LeftButtonUp.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
-                @LeftButtonUp.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
-                @LeftButtonUp.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
+                @ShiftLeftClick.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftLeftClick;
+                @ShiftLeftClick.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftLeftClick;
+                @ShiftLeftClick.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftLeftClick;
+                @LeftButtonUp.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftButtonUp;
+                @LeftButtonUp.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftButtonUp;
+                @LeftButtonUp.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftButtonUp;
+                @LeftClick.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnLeftClick;
+                @ShiftRelease.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftRelease;
+                @ShiftRelease.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftRelease;
+                @ShiftRelease.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnShiftRelease;
+                @Tab.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
+                @Tab.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
+                @Tab.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
+                @Newaction.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnNewaction;
+                @Newaction.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnNewaction;
+                @Newaction.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnNewaction;
             }
-            m_Wrapper.m_MouseActionsCallbackInterface = instance;
+            m_Wrapper.m_InteractionsActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @ShiftLeftClick.started += instance.OnShiftLeftClick;
@@ -1216,10 +1316,22 @@ public class @InputController : IInputActionCollection, IDisposable
                 @LeftButtonUp.started += instance.OnLeftButtonUp;
                 @LeftButtonUp.performed += instance.OnLeftButtonUp;
                 @LeftButtonUp.canceled += instance.OnLeftButtonUp;
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
+                @ShiftRelease.started += instance.OnShiftRelease;
+                @ShiftRelease.performed += instance.OnShiftRelease;
+                @ShiftRelease.canceled += instance.OnShiftRelease;
+                @Tab.started += instance.OnTab;
+                @Tab.performed += instance.OnTab;
+                @Tab.canceled += instance.OnTab;
+                @Newaction.started += instance.OnNewaction;
+                @Newaction.performed += instance.OnNewaction;
+                @Newaction.canceled += instance.OnNewaction;
             }
         }
     }
-    public MouseActions @Mouse => new MouseActions(this);
+    public InteractionsActions @Interactions => new InteractionsActions(this);
     public interface IUIActions
     {
         void OnInventory(InputAction.CallbackContext context);
@@ -1261,9 +1373,13 @@ public class @InputController : IInputActionCollection, IDisposable
     {
         void OnNewaction(InputAction.CallbackContext context);
     }
-    public interface IMouseActions
+    public interface IInteractionsActions
     {
         void OnShiftLeftClick(InputAction.CallbackContext context);
         void OnLeftButtonUp(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnShiftRelease(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }
