@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Network = Emerald.Network;
 using C = ClientPackets;
 
-public class MirItemCell : MonoBehaviour, IPointerDownHandler
+public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQuickSlotItem
 {
     protected static GameSceneManager GameScene
     {
@@ -16,6 +16,8 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
     {
         get { return GameManager.User; }
     }
+
+    protected static MirItemCell ActiveCell;
 
     public Image ItemImage;
     public Sprite IconImage;
@@ -225,7 +227,27 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
                         }
                     }
                 }
-                else*/ MoveItem();
+                else*/ BeginMoveItem();
+                break;
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (Locked) return;
+
+        if (GameScene.PickedUpGold || GridType == MirGridType.Inspect || GridType == MirGridType.QuestInventory)
+        {
+            GameScene.SelectedCell = null;
+            return;
+        }
+
+        if (GameScene.SelectedCell == null) return;
+
+        switch (eventData.button)
+        {
+            case PointerEventData.InputButton.Left:
+                EndMoveItem();
                 break;
         }
     }
@@ -291,7 +313,19 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
 
     }
 
-    private void MoveItem()
+    private void BeginMoveItem()
+    {
+        if (GameScene.SelectedCell != null) return;
+        if (GridType == MirGridType.BuyBack || GridType == MirGridType.DropPanel || GridType == MirGridType.Inspect || GridType == MirGridType.TrustMerchant || GridType == MirGridType.Craft) return;
+
+        if (Item != null)
+        {
+            GameScene.SelectedCell = this;
+            Debug.Log(gameObject.transform.position);
+        }
+    }
+
+    private void EndMoveItem()
     {
         if (GridType == MirGridType.BuyBack || GridType == MirGridType.DropPanel || GridType == MirGridType.Inspect || GridType == MirGridType.TrustMerchant || GridType == MirGridType.Craft) return;
 
@@ -429,13 +463,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
                     return;
                     #endregion
             }
-
-            return;
-        }
-
-        if (Item != null)
-        {
-            GameScene.SelectedCell = this;
         }
     }
 
@@ -1064,6 +1091,7 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
     public void ShowTooltip()
     {
         HighlightImage.gameObject.SetActive(true);
+        ActiveCell = this;
         if (Item == null) return;
         GameScene.ItemToolTip.Item = Item;
         GameScene.ItemToolTip.Show();
@@ -1071,7 +1099,20 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler
 
     public void HideTooltip()
     {
+        if (ActiveCell == this)
+            ActiveCell = null;
         HighlightImage.gameObject.SetActive(false);
         GameScene.ItemToolTip.Hide();
+    }
+
+    public void DoAction()
+    {
+        UseItem();
+    }
+
+    public Sprite GetIcon()
+    {
+        if (ItemImage == null) return null;
+        return ItemImage.sprite;
     }
 }

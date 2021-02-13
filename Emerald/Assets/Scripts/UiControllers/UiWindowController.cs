@@ -1,11 +1,8 @@
 ﻿using Emerald.UiControllers;
-using ServerPackets;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using Network = Emerald.Network;
 
 public class UiWindowController : MonoBehaviour {
     public GameObject GfxMenu;
@@ -117,6 +114,8 @@ public class UiWindowController : MonoBehaviour {
     private void InventoryWindowStateHandler() => InventoryMenu.SetActive(!InventoryMenu.activeSelf);
 }
 
-internal interface IQuickSlotItem {
+public interface IQuickSlotItem
+{
     void DoAction();
+    Sprite GetIcon();
 }
