@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
     public class UiWindowController : MonoBehaviour {
         [SerializeField] private GameObject chatWindowDisplay;
+        [SerializeField] private GameObject viewPort;
         [SerializeField] private GameObject gfxMenu;
         [SerializeField] private GameObject soundsSettingsMenu;
         [SerializeField] private GameObject gameSettingsMenu;
@@ -72,7 +73,8 @@ using UnityEngine.InputSystem;
             chatSize++;
             if (chatSize == 4)
                 chatSize = 0;
-            RectTransform chatWindowSize = chatWindowDisplay.transform.GetComponent<RectTransform>();
+            RectTransform chatWindowTransform = chatWindowDisplay.transform.GetComponent<RectTransform>();
+            RectTransform viewPortTransform = viewPort.transform.GetComponent<RectTransform>();
             switch (chatSize) {
                 case 0:
                     sizeSet = 0;
@@ -89,7 +91,8 @@ using UnityEngine.InputSystem;
             }
 
             Debug.Log(chatSize);
-            chatWindowSize.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeSet);
+            chatWindowTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeSet);
+            viewPortTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeSet - 3);
         }
 
         private void ToggleChat() {
