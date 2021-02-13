@@ -689,6 +689,74 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Mouse"",
+            ""id"": ""017dcb2c-0bdb-40ad-b5b7-ff4738553841"",
+            ""actions"": [
+                {
+                    ""name"": ""ShiftLeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""32496beb-15e4-4265-a3d9-5ab5add0ee54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""LeftButtonUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6a58a40-b8eb-4b03-a5af-467eb5797a59"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=0.1,behavior=1)""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""ShiftClickAction"",
+                    ""id"": ""5f8c3ea9-b1c3-4297-aa01-fead526a6589"",
+                    ""path"": ""ButtonWithOneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftLeftClick"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""fdb200b1-ae79-4689-a67b-6c4701124602"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftLeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""button"",
+                    ""id"": ""559a8b7d-f77b-4a87-989b-53f9f6606d1f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftLeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""436d389a-f0ad-4e4c-8f99-b4662a12f5c9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftButtonUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -731,6 +799,10 @@ public class @InputController : IInputActionCollection, IDisposable
         // Chat
         m_Chat = asset.FindActionMap("Chat", throwIfNotFound: true);
         m_Chat_Newaction = m_Chat.FindAction("New action", throwIfNotFound: true);
+        // Mouse
+        m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
+        m_Mouse_ShiftLeftClick = m_Mouse.FindAction("ShiftLeftClick", throwIfNotFound: true);
+        m_Mouse_LeftButtonUp = m_Mouse.FindAction("LeftButtonUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1107,6 +1179,47 @@ public class @InputController : IInputActionCollection, IDisposable
         }
     }
     public ChatActions @Chat => new ChatActions(this);
+
+    // Mouse
+    private readonly InputActionMap m_Mouse;
+    private IMouseActions m_MouseActionsCallbackInterface;
+    private readonly InputAction m_Mouse_ShiftLeftClick;
+    private readonly InputAction m_Mouse_LeftButtonUp;
+    public struct MouseActions
+    {
+        private @InputController m_Wrapper;
+        public MouseActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShiftLeftClick => m_Wrapper.m_Mouse_ShiftLeftClick;
+        public InputAction @LeftButtonUp => m_Wrapper.m_Mouse_LeftButtonUp;
+        public InputActionMap Get() { return m_Wrapper.m_Mouse; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MouseActions set) { return set.Get(); }
+        public void SetCallbacks(IMouseActions instance)
+        {
+            if (m_Wrapper.m_MouseActionsCallbackInterface != null)
+            {
+                @ShiftLeftClick.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
+                @ShiftLeftClick.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
+                @ShiftLeftClick.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnShiftLeftClick;
+                @LeftButtonUp.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
+                @LeftButtonUp.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
+                @LeftButtonUp.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftButtonUp;
+            }
+            m_Wrapper.m_MouseActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ShiftLeftClick.started += instance.OnShiftLeftClick;
+                @ShiftLeftClick.performed += instance.OnShiftLeftClick;
+                @ShiftLeftClick.canceled += instance.OnShiftLeftClick;
+                @LeftButtonUp.started += instance.OnLeftButtonUp;
+                @LeftButtonUp.performed += instance.OnLeftButtonUp;
+                @LeftButtonUp.canceled += instance.OnLeftButtonUp;
+            }
+        }
+    }
+    public MouseActions @Mouse => new MouseActions(this);
     public interface IUIActions
     {
         void OnInventory(InputAction.CallbackContext context);
@@ -1147,5 +1260,10 @@ public class @InputController : IInputActionCollection, IDisposable
     public interface IChatActions
     {
         void OnNewaction(InputAction.CallbackContext context);
+    }
+    public interface IMouseActions
+    {
+        void OnShiftLeftClick(InputAction.CallbackContext context);
+        void OnLeftButtonUp(InputAction.CallbackContext context);
     }
 }

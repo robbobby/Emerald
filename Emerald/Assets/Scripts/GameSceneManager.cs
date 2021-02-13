@@ -22,7 +22,6 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
-    public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;
     public Image ExperienceBar;
     public TMP_Text ExperiencePercent, bagWeight, gold, gameGold;
@@ -162,17 +161,7 @@ public class GameSceneManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            if (Input.GetMouseButton(0))
-            {
-                if (!eventSystem.IsPointerOverGameObject() && CanAttack())
-                {
-                    GameManager.InputDelay = Time.time + 0.5f;
-                    NextHitTime = Time.time + 1.6f;
-                    QueuedAction = new QueuedAction { Action = MirAction.Attack, Direction = GameManager.MouseUpdate(), Location = User.Player.CurrentLocation };                   
-                }
-                return;
-            }
-            else if (TargetObject != null && !(TargetObject is MonsterObject) && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack())
+            if (TargetObject != null && !(TargetObject is MonsterObject) && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack())
             {
                 Point self = new Point(User.Player.CurrentLocation.x, User.Player.CurrentLocation.y);
                 Point targ = new Point(TargetObject.CurrentLocation.x, TargetObject.CurrentLocation.y);
@@ -266,6 +255,15 @@ public class GameSceneManager : MonoBehaviour
                 QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
             }
         }
+    }
+
+    public float HandleShiftLeftClick() {
+        if (eventSystem.IsPointerOverGameObject() || !CanAttack()) return NextHitTime;
+        GameManager.InputDelay = Time.time + 0.5f;
+        NextHitTime = Time.time + 1.6f;
+        QueuedAction = new QueuedAction
+            {Action = MirAction.Attack, Direction = GameManager.MouseUpdate(), Location = User.Player.CurrentLocation};
+        return NextHitTime;
     }
 
     public static void SendUserMessagePackage(string message) {

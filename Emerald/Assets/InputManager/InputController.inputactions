@@ -676,6 +676,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Mouse",
+            "id": "017dcb2c-0bdb-40ad-b5b7-ff4738553841",
+            "actions": [
+                {
+                    "name": "ShiftLeftClick",
+                    "type": "Button",
+                    "id": "32496beb-15e4-4265-a3d9-5ab5add0ee54",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "LeftButtonUp",
+                    "type": "Button",
+                    "id": "f6a58a40-b8eb-4b03-a5af-467eb5797a59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=0.1,behavior=1)"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "ShiftClickAction",
+                    "id": "5f8c3ea9-b1c3-4297-aa01-fead526a6589",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftLeftClick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "fdb200b1-ae79-4689-a67b-6c4701124602",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftLeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "559a8b7d-f77b-4a87-989b-53f9f6606d1f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftLeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "436d389a-f0ad-4e4c-8f99-b4662a12f5c9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftButtonUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
