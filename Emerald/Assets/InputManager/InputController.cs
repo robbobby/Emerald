@@ -65,6 +65,14 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""cfa6a2bd-6294-4909-8a78-7a8c19e37334"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -175,6 +183,17 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MiniMap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b9bca8b4-1c23-452a-aad9-f159c19598ce"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Return"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -643,6 +662,33 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Chat"",
+            ""id"": ""c091414f-1e52-4799-9d75-53575cb78e55"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""256be55c-ef48-44d3-92b5-ee181a084371"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""930ffe6e-64ac-446e-aaf3-a038ac4cf12b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -655,6 +701,7 @@ public class @InputController : IInputActionCollection, IDisposable
         m_UI_Options = m_UI.FindAction("Options", throwIfNotFound: true);
         m_UI_Guild = m_UI.FindAction("Guild", throwIfNotFound: true);
         m_UI_MiniMap = m_UI.FindAction("MiniMap", throwIfNotFound: true);
+        m_UI_Return = m_UI.FindAction("Return", throwIfNotFound: true);
         // QuickSlots
         m_QuickSlots = asset.FindActionMap("QuickSlots", throwIfNotFound: true);
         m_QuickSlots_QuickSlot_F1 = m_QuickSlots.FindAction("QuickSlot_F1", throwIfNotFound: true);
@@ -681,6 +728,9 @@ public class @InputController : IInputActionCollection, IDisposable
         m_QuickSlots_QuickSlot_0 = m_QuickSlots.FindAction("QuickSlot_0", throwIfNotFound: true);
         m_QuickSlots_QuickSlot_minus = m_QuickSlots.FindAction("QuickSlot_minus", throwIfNotFound: true);
         m_QuickSlots_QuickSlot_equals = m_QuickSlots.FindAction("QuickSlot_equals", throwIfNotFound: true);
+        // Chat
+        m_Chat = asset.FindActionMap("Chat", throwIfNotFound: true);
+        m_Chat_Newaction = m_Chat.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -736,6 +786,7 @@ public class @InputController : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_Options;
     private readonly InputAction m_UI_Guild;
     private readonly InputAction m_UI_MiniMap;
+    private readonly InputAction m_UI_Return;
     public struct UIActions
     {
         private @InputController m_Wrapper;
@@ -746,6 +797,7 @@ public class @InputController : IInputActionCollection, IDisposable
         public InputAction @Options => m_Wrapper.m_UI_Options;
         public InputAction @Guild => m_Wrapper.m_UI_Guild;
         public InputAction @MiniMap => m_Wrapper.m_UI_MiniMap;
+        public InputAction @Return => m_Wrapper.m_UI_Return;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -773,6 +825,9 @@ public class @InputController : IInputActionCollection, IDisposable
                 @MiniMap.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMiniMap;
                 @MiniMap.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMiniMap;
                 @MiniMap.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMiniMap;
+                @Return.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
+                @Return.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
+                @Return.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -795,6 +850,9 @@ public class @InputController : IInputActionCollection, IDisposable
                 @MiniMap.started += instance.OnMiniMap;
                 @MiniMap.performed += instance.OnMiniMap;
                 @MiniMap.canceled += instance.OnMiniMap;
+                @Return.started += instance.OnReturn;
+                @Return.performed += instance.OnReturn;
+                @Return.canceled += instance.OnReturn;
             }
         }
     }
@@ -1016,6 +1074,39 @@ public class @InputController : IInputActionCollection, IDisposable
         }
     }
     public QuickSlotsActions @QuickSlots => new QuickSlotsActions(this);
+
+    // Chat
+    private readonly InputActionMap m_Chat;
+    private IChatActions m_ChatActionsCallbackInterface;
+    private readonly InputAction m_Chat_Newaction;
+    public struct ChatActions
+    {
+        private @InputController m_Wrapper;
+        public ChatActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Chat_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Chat; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChatActions set) { return set.Get(); }
+        public void SetCallbacks(IChatActions instance)
+        {
+            if (m_Wrapper.m_ChatActionsCallbackInterface != null)
+            {
+                @Newaction.started -= m_Wrapper.m_ChatActionsCallbackInterface.OnNewaction;
+                @Newaction.performed -= m_Wrapper.m_ChatActionsCallbackInterface.OnNewaction;
+                @Newaction.canceled -= m_Wrapper.m_ChatActionsCallbackInterface.OnNewaction;
+            }
+            m_Wrapper.m_ChatActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Newaction.started += instance.OnNewaction;
+                @Newaction.performed += instance.OnNewaction;
+                @Newaction.canceled += instance.OnNewaction;
+            }
+        }
+    }
+    public ChatActions @Chat => new ChatActions(this);
     public interface IUIActions
     {
         void OnInventory(InputAction.CallbackContext context);
@@ -1024,6 +1115,7 @@ public class @InputController : IInputActionCollection, IDisposable
         void OnOptions(InputAction.CallbackContext context);
         void OnGuild(InputAction.CallbackContext context);
         void OnMiniMap(InputAction.CallbackContext context);
+        void OnReturn(InputAction.CallbackContext context);
     }
     public interface IQuickSlotsActions
     {
@@ -1051,5 +1143,9 @@ public class @InputController : IInputActionCollection, IDisposable
         void OnQuickSlot_0(InputAction.CallbackContext context);
         void OnQuickSlot_minus(InputAction.CallbackContext context);
         void OnQuickSlot_equals(InputAction.CallbackContext context);
+    }
+    public interface IChatActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

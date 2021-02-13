@@ -143,23 +143,6 @@ public class GameSceneManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (ChatBar.gameObject.activeSelf)
-            {
-                
-                if (ChatBar.text.Length > 0)
-                    Network.Enqueue(new C.Chat() { Message = ChatBar.text });
-                ChatBar.text = string.Empty;
-                ChatBar.gameObject.SetActive(false);
-            }
-            else
-            {
-                ChatBar.gameObject.SetActive(true);
-                ChatBar.Select();
-            }
-        }
-
         if (SelectedItemImage.gameObject.activeSelf)
         {
             SelectedItemImage.transform.position = Input.mousePosition;
@@ -283,6 +266,10 @@ public class GameSceneManager : MonoBehaviour
                 QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
             }
         }
+    }
+
+    public static void SendUserMessagePackage(string message) {
+        Network.Enqueue(new C.Chat {Message = message});
     }
 
     private bool CanWalk(MirDirection dir)
