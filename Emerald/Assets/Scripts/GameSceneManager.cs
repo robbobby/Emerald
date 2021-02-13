@@ -149,47 +149,27 @@ public class GameSceneManager : MonoBehaviour
         }
 
         MouseObject = GetMouseObject();
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
-            if (TargetObject != null && !(TargetObject is MonsterObject) && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack())
-            {
-                Point self = new Point(User.Player.CurrentLocation.x, User.Player.CurrentLocation.y);
-                Point targ = new Point(TargetObject.CurrentLocation.x, TargetObject.CurrentLocation.y);
-                if (Functions.InRange(self, targ, 1))
-                {
-                    NextHitTime = Time.time + 1.6f;
-                    MirDirection direction = Functions.DirectionFromPoint(self, targ);
-                    QueuedAction = new QueuedAction { Action = MirAction.Attack, Direction = direction, Location = User.Player.CurrentLocation };
-                    return;
-                }
+    }
 
-                MirDirection targetdirection = Functions.DirectionFromPoint(self, targ);
+    public void HandleLeftMouseButtonDown() {
+        if (Input.GetMouseButton(0) && SelectedCell == null && !eventSystem.IsPointerOverGameObject() &&
+            Time.time > GameManager.InputDelay) {
+            GameManager.User.CanRun = false;
 
-                if (!CanWalk(targetdirection)) return;
-
-                QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
-            }
-        }
-        if (Input.GetMouseButton(0) && SelectedCell == null && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay)
-        {
-            GameManager.User.CanRun = false;            
-
-            if (MouseObject != null)
-            {
-                switch (MouseObject.gameObject.layer)
-                {
+            if (MouseObject != null) {
+                switch (MouseObject.gameObject.layer) {
                     case 9: //Monster
-                        MonsterObject monster = (MonsterObject)MouseObject;
+                        MonsterObject monster = (MonsterObject) MouseObject;
                         if (monster.Dead) break;
                         TargetObject = monster;
                         GameManager.InputDelay = Time.time + 0.5f;
                         return;
                     case 10: //NPC
-                        NPCObject npc = (NPCObject)MouseObject;
+                        NPCObject npc = (NPCObject) MouseObject;
                         NPCName = npc.Name;
                         NPCID = npc.ObjectID;
                         NPCCamera.transform.SetParent(npc.CameraLocation.transform, false);
-                        Network.Enqueue(new C.CallNPC { ObjectID = npc.ObjectID, Key = "[@Main]" });
+                        Network.Enqueue(new C.CallNPC {ObjectID = npc.ObjectID, Key = "[@Main]"});
                         GameManager.InputDelay = Time.time + 0.5f;
                         return;
                 }
@@ -197,21 +177,19 @@ public class GameSceneManager : MonoBehaviour
 
             TargetObject = null;
             GameManager.CheckMouseInput();
-        }
-        else if (Input.GetMouseButton(1) && !eventSystem.IsPointerOverGameObject())         
+        } if (Input.GetMouseButton(1) && !eventSystem.IsPointerOverGameObject())
             GameManager.CheckMouseInput();
-        else
-        {
+        else {
             GameManager.User.CanRun = false;
-            if (TargetObject != null && TargetObject is MonsterObject && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack())
-            {
+            if (TargetObject != null && TargetObject is MonsterObject && !TargetObject.Dead &&
+                TargetObject.gameObject.activeSelf && CanAttack()) {
                 Point self = new Point(User.Player.CurrentLocation.x, User.Player.CurrentLocation.y);
                 Point targ = new Point(TargetObject.CurrentLocation.x, TargetObject.CurrentLocation.y);
-                if (Functions.InRange(self, targ, 1))
-                {
+                if (Functions.InRange(self, targ, 1)) {
                     NextHitTime = Time.time + 1.6f;
                     MirDirection direction = Functions.DirectionFromPoint(self, targ);
-                    QueuedAction = new QueuedAction { Action = MirAction.Attack, Direction = direction, Location = User.Player.CurrentLocation };
+                    QueuedAction = new QueuedAction
+                        {Action = MirAction.Attack, Direction = direction, Location = User.Player.CurrentLocation};
                     return;
                 }
 
@@ -219,13 +197,50 @@ public class GameSceneManager : MonoBehaviour
 
                 if (!CanWalk(targetdirection)) return;
 
-                QueuedAction = new QueuedAction { Action = MirAction.Walking, Direction = targetdirection, Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1) };
+                QueuedAction = new QueuedAction {
+                    Action = MirAction.Walking, Direction = targetdirection,
+                    Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetdirection, 1)
+                };
             }
         }
     }
 
+    public void StartRun() {
+        // if (!eventSystem.IsPointerOverGameObject())
+            Debug.Log("Inside the run funcxtion in GameSceneManager");
+            GameManager.CheckMouseInput();
+    }
+    
+    public bool ShiftAttackTarget() {
+        if (IsTargetValidPlayerTarget()) {
+            Point self = new Point(User.Player.CurrentLocation.x, User.Player.CurrentLocation.y);
+            Point targ = new Point(TargetObject.CurrentLocation.x, TargetObject.CurrentLocation.y);
+            if (Functions.InRange(self, targ, 1)) {
+                NextHitTime = Time.time + 1.6f;
+                MirDirection direction = Functions.DirectionFromPoint(self, targ);
+                QueuedAction = new QueuedAction
+                    {Action = MirAction.Attack, Direction = direction, Location = User.Player.CurrentLocation};
+                return true;
+            }
+
+
+            MirDirection targetDirection = Functions.DirectionFromPoint(self, targ);
+
+            if (!CanWalk(targetDirection)) return true;
+
+            QueuedAction = new QueuedAction {
+                Action = MirAction.Walking, Direction = targetDirection,
+                Location = ClientFunctions.VectorMove(User.Player.CurrentLocation, targetDirection, 1)
+            };
+        }
+
+        return false;
+    }
+
+    private bool IsTargetValidPlayerTarget() => TargetObject != null && !(TargetObject is MonsterObject) && !TargetObject.Dead && TargetObject.gameObject.activeSelf && CanAttack();
+
     public void PlaceItemDown() {
-        if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay) {
+        if (!eventSystem.IsPointerOverGameObject() && Time.time > GameManager.InputDelay) {
             if (SelectedCell != null) {
                 SelectedItemImage.gameObject.SetActive(false);
 
@@ -253,7 +268,7 @@ public class GameSceneManager : MonoBehaviour
         }
     }
 
-    public float HandleShiftLeftClick() {
+    public float HandleHoldingShift() {
         if (eventSystem.IsPointerOverGameObject() || !CanAttack()) return NextHitTime;
         GameManager.InputDelay = Time.time + 0.5f;
         NextHitTime = Time.time + 1.6f;
