@@ -25,25 +25,11 @@ public class ChatController : MonoBehaviour
         for (int i = 0; i < Filter.Length; i++)
             Filter[i] = true;
     }
-    void Update()
-    {
-        if (MainEventChatLabel.text != string.Empty && Time.time > MainEventChatTime)
-        {
+
+    void Update() {
+        if (MainEventChatLabel.text != string.Empty && Time.time > MainEventChatTime) {
             MainEventChatLabel.SetText(string.Empty);
         }
-        // Probably be better to set this on entry/exit of chat input when input system on this is added.
-        if (chatInputField.isFocused) 
-            windowInput.DisableControls();
-        else
-            windowInput.EnableControls();
-    }
-
-    private void EnableUiControls() {
-        // windowInput.EnableControls();
-    }
-
-    private void DisableUiControls() {
-        windowInput.DisableControls();
     }
 
     public void ReceiveChat(string text, ChatType type)

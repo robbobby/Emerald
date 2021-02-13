@@ -65,6 +65,7 @@ public class UiWindowController : MonoBehaviour {
         quickSlotsActions.QuickSlot_minus.performed += callBack => StartQuickSlotAction((int)QuickSlot.MINUS);
         quickSlotsActions.QuickSlot_equals.performed += callBack => StartQuickSlotAction((int)QuickSlot.EQUALS);
         chatActions.Enable();
+        EnableControls();
     }
 
     private void ToggleChat() {
