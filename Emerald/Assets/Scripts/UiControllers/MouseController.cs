@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace UiControllers {
     public class MouseController : MonoBehaviour {
-        private InputController.InteractionsActions mouseInput;
+        private InputController.InteractionsActions sceneInteractions;
         [SerializeField] private GameObject gameManagerObject;
         private GameSceneManager gameManager;
         private bool startAttack;
@@ -14,16 +14,16 @@ namespace UiControllers {
     
         public void Awake() {
             gameManager = gameManagerObject.GetComponent<GameSceneManager>();
-            mouseInput = new InputController().Interactions;
-            mouseInput.ShiftLeftClick.performed += _ => HandleShiftAndClickAttack();
-            mouseInput.LeftClickReleased.performed += _ => HandleLeftMouseButtonRelease();
-            mouseInput.TabPress.performed += _ => HandlePickUpItem();
-            mouseInput.ShiftReleased.performed += _ => HandleShiftRelease();
-            mouseInput.ShiftPress.performed += _ => HandleShiftAttack();
-            mouseInput.LeftClick.performed += _ => HandleLeftClick();
-            mouseInput.RightClick.performed += _ => HandleRightClick();
-            mouseInput.RightClickReleased.performed += _ => HandleRightClickReleased();
-            mouseInput.Enable();
+            sceneInteractions = new InputController().Interactions;
+            sceneInteractions.ShiftLeftClick.performed += _ => HandleShiftAndClickAttack();
+            sceneInteractions.LeftClickReleased.performed += _ => HandleLeftMouseButtonRelease();
+            sceneInteractions.TabPress.performed += _ => HandlePickUpItem();
+            sceneInteractions.ShiftReleased.performed += _ => HandleShiftRelease();
+            sceneInteractions.ShiftPress.performed += _ => HandleShiftAttack();
+            sceneInteractions.LeftClick.performed += _ => HandleLeftClick();
+            sceneInteractions.RightClick.performed += _ => HandleRightClick();
+            sceneInteractions.RightClickReleased.performed += _ => HandleRightClickReleased();
+            sceneInteractions.Enable();
         }
 
         private void HandleRightClick() {
@@ -34,15 +34,6 @@ namespace UiControllers {
             StartCoroutine(nameof(RunCoroutine));
         }
 
-        private IEnumerator RunCoroutine() {
-            Debug.Log("Before the run coroutine");
-            currentAction = CurrentAction.Run;
-            while (true) {
-                gameManager.StartRun();
-                yield return null;
-            }
-        }
-        
         private void HandleRightClickReleased() {
             if(currentAction == CurrentAction.Run)
                 StopCurrentCoRoutine();
@@ -55,13 +46,6 @@ namespace UiControllers {
             currentAction = CurrentAction.LeftClick;
             currentCoroutine = nameof(LeftClickCoroutine);
             StartCoroutine(nameof(LeftClickCoroutine));
-        }
-
-        private IEnumerator LeftClickCoroutine() {
-            while(true) {
-                gameManager.HandleLeftMouseButtonDown();
-                yield return null;
-            }
         }
 
         private void HandlePickUpItem() {
@@ -90,13 +74,12 @@ namespace UiControllers {
                 HandleLeftClick();
         }
 
-        private void StopCurrentCoRoutine() {
-            Debug.Log($"Stopping {currentCoroutine}");
-            StopCoroutine(currentCoroutine);
-            currentAction = CurrentAction.None;
+        private void HandleShiftAndClickAttack() {
+            Debug.Log("Shift left click pressed");
+            StopCurrentCoRoutine();
+            currentCoroutine = nameof(ShiftLeftClickCoRoutine);
+            StartCoroutine(nameof(ShiftLeftClickCoRoutine));
         }
-
-        private bool IsAttackingWithShift() => currentAction == CurrentAction.ShiftClickAttack || currentAction == CurrentAction.ShiftAttack;
 
         private void HandleLeftMouseButtonRelease() {
             Debug.Log("left Button Up");
@@ -110,11 +93,11 @@ namespace UiControllers {
                 gameManager.PlaceItemDown();
         }
 
-        private void HandleShiftAndClickAttack() {
-            Debug.Log("Shift left click pressed");
-            StopCurrentCoRoutine();
-            currentCoroutine = nameof(ShiftLeftClickCoRoutine);
-            StartCoroutine(nameof(ShiftLeftClickCoRoutine));
+        private IEnumerator LeftClickCoroutine() {
+            while(true) {
+                gameManager.HandleLeftMouseButtonDown();
+                yield return null;
+            }
         }
 
         private IEnumerator ShiftLeftClickCoRoutine() {
@@ -132,6 +115,23 @@ namespace UiControllers {
                 hasShiftTarget = gameManager.ShiftAttackTarget();
                 yield return null;
             }
+        }
+
+        private bool IsAttackingWithShift() => currentAction == CurrentAction.ShiftClickAttack || currentAction == CurrentAction.ShiftAttack;
+
+        private IEnumerator RunCoroutine() {
+            Debug.Log("Before the run coroutine");
+            currentAction = CurrentAction.Run;
+            while (true) {
+                gameManager.StartRun();
+                yield return null;
+            }
+        }
+
+        private void StopCurrentCoRoutine() {
+            Debug.Log($"Stopping {currentCoroutine}");
+            StopCoroutine(currentCoroutine);
+            currentAction = CurrentAction.None;
         }
 
         private bool IsHoldingShift() => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
