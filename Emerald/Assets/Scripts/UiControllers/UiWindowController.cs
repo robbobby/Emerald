@@ -1,5 +1,7 @@
 ﻿using Emerald.UiControllers;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class UiWindowController : MonoBehaviour {
@@ -12,14 +14,19 @@ public class UiWindowController : MonoBehaviour {
     public GameObject GuildMenu;
     public GameObject OptionsMenu;
     public GameObject MiniMap;
+    public TMP_InputField ChatBar;
+    private InputController.ChatActions chatActions;
     private InputController.UIActions uiInput; // Not sure if static is the right approach for this
     private InputController.QuickSlotsActions quickSlotsActions;
     private IQuickSlotItem[] quickSlotsEquipped;
+    
 
     private void Awake() {
         uiInput = new InputController().UI;
         quickSlotsEquipped = new IQuickSlotItem[24];
         quickSlotsActions = new InputController().QuickSlots;
+        chatActions = new InputController().Chat;
+        chatActions.Newaction.performed += _ => ToggleChat();
         
                                     // Window Action Handlers //
         uiInput.Inventory.performed += inventoryCallback => InventoryWindowStateHandler();
@@ -54,6 +61,23 @@ public class UiWindowController : MonoBehaviour {
         quickSlotsActions.QuickSlot_0.performed += callBack => StartQuickSlotAction((int)QuickSlot.TEN);
         quickSlotsActions.QuickSlot_minus.performed += callBack => StartQuickSlotAction((int)QuickSlot.MINUS);
         quickSlotsActions.QuickSlot_equals.performed += callBack => StartQuickSlotAction((int)QuickSlot.EQUALS);
+        chatActions.Enable();
+        EnableControls();
+    }
+
+    private void ToggleChat() {
+        if (ChatBar.gameObject.activeSelf) {
+            EnableControls();
+            if (ChatBar.text.Trim().Length > 0)
+                GameSceneManager.SendUserMessagePackage(ChatBar.text);
+            ChatBar.gameObject.SetActive(false);
+            ChatBar.text = string.Empty;
+            EventSystem.current.SetSelectedGameObject(null);
+        } else {
+            DisableControls();
+            ChatBar.gameObject.SetActive(true);
+            ChatBar.Select();
+        }
     }
 
     private void StartQuickSlotAction(int position) {
