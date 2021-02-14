@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Network = Emerald.Network;
 using C = ClientPackets;
 
-public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQuickSlotItem
+public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, IDropHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     protected static GameSceneManager GameScene
     {
@@ -16,8 +16,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
     {
         get { return GameManager.User; }
     }
-
-    protected static MirItemCell ActiveCell;
 
     public Image ItemImage;
     public Sprite IconImage;
@@ -232,6 +230,24 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
         }
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (GameScene.SelectedCell == null) return;
+        if (!eventData.hovered.Contains(GameScene.SelectedCell.gameObject)) return;
+
+        GameScene.SelectedCell = null;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ShowTooltip();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideTooltip();
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         if (Locked) return;
@@ -321,7 +337,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
         if (Item != null)
         {
             GameScene.SelectedCell = this;
-            Debug.Log(gameObject.transform.position);
         }
     }
 
@@ -1091,7 +1106,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
     public void ShowTooltip()
     {
         HighlightImage.gameObject.SetActive(true);
-        ActiveCell = this;
         if (Item == null) return;
         GameScene.ItemToolTip.Item = Item;
         GameScene.ItemToolTip.Show();
@@ -1099,8 +1113,6 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
 
     public void HideTooltip()
     {
-        if (ActiveCell == this)
-            ActiveCell = null;
         HighlightImage.gameObject.SetActive(false);
         GameScene.ItemToolTip.Hide();
     }
@@ -1114,5 +1126,15 @@ public class MirItemCell : MonoBehaviour, IPointerDownHandler, IDropHandler, IQu
     {
         if (ItemImage == null) return null;
         return ItemImage.sprite;
+    }
+
+    MirQuickCell quickCell;
+    public MirQuickCell QuickCell
+    {
+        get { return quickCell; }
+        set
+        {
+            quickCell = value;
+        }
     }
 }
