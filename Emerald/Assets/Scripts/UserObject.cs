@@ -10,6 +10,8 @@ public class UserObject : MonoBehaviour
         get { return GameManager.GameScene; }
     }
 
+    [SerializeField] public bool AllowGroup;
+
     public PlayerObject Player;
     public BaseStats CoreStats = new BaseStats(0);
 

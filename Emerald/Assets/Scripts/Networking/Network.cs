@@ -432,12 +432,59 @@ namespace Emerald
                 case (short)ServerPacketIds.NPCResponse:
                     NPCResponse((S.NPCResponse)p);
                     break;
+                                    // Group packages //
+                case (short)ServerPacketIds.SwitchGroup:
+                    AllowGroup((S.SwitchGroup)p);
+                    break;
+                case (short)ServerPacketIds.DeleteGroup:
+                    DeleteGroup();
+                    break;
+                case (short)ServerPacketIds.DeleteMember:
+                    DeleteMember((S.DeleteMember)p);
+                    break;
+                case (short)ServerPacketIds.GroupInvite:
+                    GroupInvite((S.GroupInvite)p);
+                    break;
+                case (short)ServerPacketIds.AddMember:
+                    AddMember((S.AddMember)p);
+                    break;
+                // case (short)ServerPacketIds.Send:
+                
                 default:
                     //base.ProcessPacket(p);
                     break;
             }
         }
+        
+        private static void AllowGroup(S.SwitchGroup p) {
+            gameManager.AllowGroup(p.AllowGroup);
+        }
+        private static void DeleteGroup()
+        {
+            // GroupDialog.GroupList.Clear();
+            // ChatDialog.ReceiveChat("You have left the group.", ChatType.Group);
+        }
+        private static void DeleteMember(S.DeleteMember p)
+        {
+            // GroupDialog.GroupList.Remove(p.Name);
+            // ChatDialog.ReceiveChat(string.Format("-{0} has left the group.", p.Name), ChatType.Group);
+        }
+        private static void GroupInvite(S.GroupInvite p)
+        {
+            // MirMessageBox messageBox = new MirMessageBox(string.Format("Do you want to group with {0}?", p.Name), MirMessageBoxButtons.YesNo);
 
+            // messageBox.YesButton.Click += (o, e) => Network.Enqueue(new C.GroupInvite { AcceptInvite = true });
+            // messageBox.NoButton.Click += (o, e) => Network.Enqueue(new C.GroupInvite { AcceptInvite = false });
+
+            // messageBox.Show();
+        }
+        private static void AddMember(S.AddMember p)
+        {
+            // GroupDialog.GroupList.Add(p.Name);
+            // ChatDialog.ReceiveChat(string.Format("-{0} has joined the group.", p.Name), ChatType.Group);
+        }
+
+        
         public static void SendVersion()
         {
             C.ClientVersion p = new C.ClientVersion();

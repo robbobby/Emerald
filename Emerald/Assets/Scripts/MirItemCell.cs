@@ -103,7 +103,6 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
                 default:
                     throw new NotImplementedException();
             }
-
         }
     }
 

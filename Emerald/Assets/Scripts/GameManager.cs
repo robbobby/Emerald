@@ -109,6 +109,11 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
 
+    public void AllowGroup(bool allowGroup) {
+        User.AllowGroup = allowGroup;
+    }
+    
+
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
@@ -729,5 +734,5 @@ public class GameManager : MonoBehaviour
     static bool CanWalk(Vector2 location)
     {
         return CurrentScene.Cells[(int)location.x, (int)location.y].walkable && CurrentScene.Cells[(int)location.x, (int)location.y].Empty;
-    }       
+    }
 }

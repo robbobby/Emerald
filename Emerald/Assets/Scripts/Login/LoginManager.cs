@@ -47,7 +47,6 @@ public class LoginManager : MonoBehaviour
                 LoadingScreen.SetActive(true);
                 break;
         }
-            
     }
 
     // Start is called before the first frame update
