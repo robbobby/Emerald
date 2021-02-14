@@ -372,6 +372,24 @@ public class GameSceneManager : MonoBehaviour
         if (!p.Success) return;
 
         UserItem i = fromCell.Item;
+        MirQuickCell toqc = toCell.QuickCell;
+
+        if (fromCell.QuickCell != null)
+        {
+            toCell.QuickCell = fromCell.QuickCell;
+            toCell.QuickCell.Item = toCell;
+        }
+        else
+            toCell.QuickCell = null;
+
+        if (toqc != null)
+        {
+            fromCell.QuickCell = toqc;
+            fromCell.QuickCell.Item = fromCell;
+        }
+        else
+            fromCell.QuickCell = null;
+
         fromCell.Item = toCell.Item;
         toCell.Item = i;
     }
@@ -381,6 +399,16 @@ public class GameSceneManager : MonoBehaviour
         for (int i = 0; i < cells.Length; i++)
         {
             if (cells[i].Item == null || cells[i].Item.UniqueID != id) continue;
+            return cells[i];
+        }
+        return null;
+    }
+
+    public MirItemCell GetCell(MirItemCell[] cells, int itemid)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i].Item == null || cells[i].Item.Info.Index != itemid) continue;
             return cells[i];
         }
         return null;

@@ -35,8 +35,30 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
         }
         set
         {
+            UserItem oldvalue = ItemArray[_itemSlot];
             if (ItemArray != null && _itemSlot >= 0 && _itemSlot < ItemArray.Length)
                 ItemArray[_itemSlot] = value;
+
+            if (value == null)
+            {
+                if (QuickCell != null)
+                {
+                    if (oldvalue != null && oldvalue.Info.Type == ItemType.Potion)
+                    {
+                        MirItemCell cell = GameScene.GetCell(GameScene.Inventory.Cells, oldvalue.Info.Index);
+                        if (cell != null)
+                        {
+                            QuickCell.Item = cell;
+                            QuickCell = null;
+                            Redraw();
+                            return;
+                        }
+                    }
+
+                    QuickCell.Item = null;
+                    QuickCell = null;
+                }
+            }
 
             Redraw();
         }
@@ -145,19 +167,28 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
                 ItemImage.sprite = IconImage;
             else
                 ItemImage.color = HideColor;
-            return;
         }
-        ItemImage.color = VisibleColor;
-
-        switch (GridType)
+        else
         {
-            case MirGridType.Equipment:
-                ItemImage.sprite = Resources.Load<Sprite>($"StateItems/{Item.Info.Image}");
-                break;
-            default:
-                ItemImage.sprite = Resources.Load<Sprite>($"Items/{Item.Info.Image}");
-                break;
-        }        
+            ItemImage.color = VisibleColor;
+
+            switch (GridType)
+            {
+                case MirGridType.Equipment:
+                    ItemImage.sprite = Resources.Load<Sprite>($"StateItems/{Item.Info.Image}");
+                    break;
+                default:
+                    ItemImage.sprite = Resources.Load<Sprite>($"Items/{Item.Info.Image}");
+                    break;
+            }
+        }
+
+        if (QuickCell != null)
+        {
+            QuickCell.IconImage.sprite = ItemImage.sprite;
+            QuickCell.IconImage.color = ItemImage.color;
+        }
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -1134,6 +1165,7 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
         set
         {
             quickCell = value;
+            Redraw();
         }
     }
 }
