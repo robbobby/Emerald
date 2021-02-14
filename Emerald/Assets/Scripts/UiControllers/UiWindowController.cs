@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
     public class UiWindowController : MonoBehaviour {
         [SerializeField] private GameObject[] chatWindowDisplay = new GameObject[3];
         [SerializeField] private GameObject[] chatWindowsToHide = new GameObject[3];
+        [SerializeField] private GameObject miniMapToggleButton;
         [SerializeField] private GameObject gfxMenu;
         [SerializeField] private GameObject soundsSettingsMenu;
         [SerializeField] private GameObject gameSettingsMenu;
@@ -82,7 +83,6 @@ using UnityEngine.InputSystem;
                         .SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, chatSizes[toggleSize]);
                 }
             }
-
         }
 
         private void ShowChatWindow(bool shouldHide = true) {
@@ -134,11 +134,23 @@ using UnityEngine.InputSystem;
         public bool IsQuickSlotsEnabled => quickSlotsActions.enabled;
         public bool IsWindiwControlsEnabled => uiInput.enabled;
         private void GuildWindowStateHandler() => guildMenu.SetActive(!guildMenu.activeSelf);
-        private void MiniMapWindowStateHandler() => miniMap.SetActive(!miniMap.activeSelf);
         private void SkillWindowStateHandler() => skillsMenu.SetActive(!skillsMenu.activeSelf);
+
         private void OptionWindowStateHandler()  => optionsMenu.SetActive(!optionsMenu.activeSelf);
+
         private void CharacterWindowStateHandler() => characterMenu.SetActive(!characterMenu.activeSelf);
+
         private void InventoryWindowStateHandler() => inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+
+        public void MiniMapWindowStateHandler() {
+            miniMap.SetActive(!miniMap.activeSelf);
+            int yRotation = miniMap.activeSelf ? 0 : 180;
+            miniMapToggleButton.transform.rotation = new Quaternion(
+                miniMap.transform.rotation.x,
+                yRotation,
+                miniMap.transform.rotation.z,
+                miniMap.transform.rotation.w);
+        }
     }
 
     public interface IQuickSlotItem
