@@ -2,15 +2,14 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MirQuickCell : MonoBehaviour, IDropHandler, IPointerDownHandler
+public class MirQuickCell : MonoBehaviour, IDropHandler, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     protected static GameSceneManager GameScene
     {
         get { return GameManager.GameScene; }
     }
     
-    [SerializeField]
-    Image IconImage;
+    public Image IconImage;
 
     IQuickSlotItem item;
     public IQuickSlotItem Item
@@ -20,13 +19,10 @@ public class MirQuickCell : MonoBehaviour, IDropHandler, IPointerDownHandler
         {
             item = value;
 
-            if (value == null)
+            if (item == null)
                 IconImage.color = Color.clear;
             else
-            {
-                IconImage.sprite = value.GetIcon();
-                IconImage.color = Color.white;
-            }
+                item.QuickCell = this;
         }
     }
 
@@ -43,6 +39,18 @@ public class MirQuickCell : MonoBehaviour, IDropHandler, IPointerDownHandler
     {
         if (eventData.button != PointerEventData.InputButton.Right) return;
         DoAction();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item == null) return;
+        item.OnPointerEnter(eventData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (item == null) return;
+        item.OnPointerExit(eventData);
     }
 
     public void DoAction()

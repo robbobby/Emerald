@@ -372,6 +372,24 @@ public class GameSceneManager : MonoBehaviour
         if (!p.Success) return;
 
         UserItem i = fromCell.Item;
+        MirQuickCell toqc = toCell.QuickCell;
+
+        if (fromCell.QuickCell != null)
+        {
+            toCell.QuickCell = fromCell.QuickCell;
+            toCell.QuickCell.Item = toCell;
+        }
+        else
+            toCell.QuickCell = null;
+
+        if (toqc != null)
+        {
+            fromCell.QuickCell = toqc;
+            fromCell.QuickCell.Item = fromCell;
+        }
+        else
+            fromCell.QuickCell = null;
+
         fromCell.Item = toCell.Item;
         toCell.Item = i;
     }

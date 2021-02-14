@@ -162,4 +162,6 @@ public interface IQuickSlotItem
     void DoAction();
     Sprite GetIcon();
     MirQuickCell QuickCell { get; set; }
+    void OnPointerEnter(PointerEventData eventData);
+    void OnPointerExit(PointerEventData eventData);
 }
