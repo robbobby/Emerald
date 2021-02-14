@@ -35,6 +35,7 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
         }
         set
         {
+            UserItem oldvalue = ItemArray[_itemSlot];
             if (ItemArray != null && _itemSlot >= 0 && _itemSlot < ItemArray.Length)
                 ItemArray[_itemSlot] = value;
 
@@ -42,6 +43,18 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
             {
                 if (QuickCell != null)
                 {
+                    if (oldvalue != null && oldvalue.Info.Type == ItemType.Potion)
+                    {
+                        MirItemCell cell = GameScene.GetCell(GameScene.Inventory.Cells, oldvalue.Info.Index);
+                        if (cell != null)
+                        {
+                            QuickCell.Item = cell;
+                            QuickCell = null;
+                            Redraw();
+                            return;
+                        }
+                    }
+
                     QuickCell.Item = null;
                     QuickCell = null;
                 }

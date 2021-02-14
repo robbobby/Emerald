@@ -404,6 +404,16 @@ public class GameSceneManager : MonoBehaviour
         return null;
     }
 
+    public MirItemCell GetCell(MirItemCell[] cells, int itemid)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i].Item == null || cells[i].Item.Info.Index != itemid) continue;
+            return cells[i];
+        }
+        return null;
+    }
+
     public void EquipItem(S.EquipItem p)
     {
         MirItemCell fromCell;
