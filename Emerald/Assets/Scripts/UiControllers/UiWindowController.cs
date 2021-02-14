@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
     public class UiWindowController : MonoBehaviour {
-        [SerializeField] private GameObject chatWindowDisplay;
-        [SerializeField] private GameObject viewPort;
+        [SerializeField] private GameObject[] chatWindowDisplay = new GameObject[3];
+        [SerializeField] private GameObject[] chatWindowsToHide = new GameObject[3];
         [SerializeField] private GameObject gfxMenu;
         [SerializeField] private GameObject soundsSettingsMenu;
         [SerializeField] private GameObject gameSettingsMenu;
@@ -21,7 +21,8 @@ using UnityEngine.InputSystem;
         private InputController.UIActions uiInput; // Not sure if static is the right approach for this
         private InputController.QuickSlotsActions quickSlotsActions;
         private IQuickSlotItem[] quickSlotsEquipped;
-        private int chatSize = 2;
+        private int[] chatSizes = new int[4] {0, 120 ,165, 250};
+        private byte toggleSize = 2;
     
 
         private void Awake() {
@@ -69,30 +70,26 @@ using UnityEngine.InputSystem;
         }
 
         public void ToggleChatWindowHeight() {
-            int sizeSet = 0;
-            chatSize++;
-            if (chatSize == 4)
-                chatSize = 0;
-            RectTransform chatWindowTransform = chatWindowDisplay.transform.GetComponent<RectTransform>();
-            RectTransform viewPortTransform = viewPort.transform.GetComponent<RectTransform>();
-            switch (chatSize) {
-                case 0:
-                    sizeSet = 0;
-                    break;
-                case 1:
-                    sizeSet = 125;
-                    break;
-                case 2:
-                    sizeSet = 165;
-                    break;
-                case 3:
-                    sizeSet = 250;
-                    break;
+            toggleSize++;
+            if (toggleSize == 4) {
+                ShowChatWindow(false);
+                toggleSize = 0;
+            }
+            else {
+                ShowChatWindow();
+                for (int i = 0; i < chatWindowDisplay.Length; i++) {
+                    chatWindowDisplay[i].transform.GetComponent<RectTransform>()
+                        .SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, chatSizes[toggleSize]);
+                }
             }
 
-            Debug.Log(chatSize);
-            chatWindowTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeSet);
-            viewPortTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeSet - 3);
+        }
+
+        private void ShowChatWindow(bool shouldHide = true) {
+            for (int i = 0; i < chatWindowsToHide.Length; i++) {
+                chatWindowsToHide[i].SetActive(shouldHide);
+                chatWindowDisplay[i].SetActive(shouldHide);
+            }
         }
 
         private void ToggleChat() {

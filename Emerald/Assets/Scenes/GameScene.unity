@@ -57573,6 +57573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatWindowDisplay: {fileID: 1944362509}
+  viewPort: {fileID: 2132468943}
   gfxMenu: {fileID: 938545401}
   soundsSettingsMenu: {fileID: 407858419}
   gameSettingsMenu: {fileID: 571210388}
