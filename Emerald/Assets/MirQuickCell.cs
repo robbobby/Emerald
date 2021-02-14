@@ -2,17 +2,17 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MirQuickCell : MonoBehaviour, IDropHandler
+public class MirQuickCell : MonoBehaviour, IDropHandler, IPointerDownHandler
 {
     protected static GameSceneManager GameScene
     {
         get { return GameManager.GameScene; }
     }
-
+    
     [SerializeField]
     Image IconImage;
 
-    private IQuickSlotItem item;
+    IQuickSlotItem item;
     public IQuickSlotItem Item
     {
         get { return item; }
@@ -20,21 +20,34 @@ public class MirQuickCell : MonoBehaviour, IDropHandler
         {
             item = value;
 
-            if (item != null)
+            if (value == null)
+                IconImage.color = Color.clear;
+            else
             {
-                IconImage.sprite = item.GetIcon();
+                IconImage.sprite = value.GetIcon();
                 IconImage.color = Color.white;
             }
-            else
-                IconImage.color = Color.clear;
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (GameScene.PickedUpGold || GameScene.SelectedCell == null) return;
+        if (GameScene.SelectedCell != null)
+            Item = GameScene.SelectedCell;
 
-        Item = GameScene.SelectedCell;
         GameScene.SelectedCell = null;
+        GameScene.PickedUpGold = false;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button != PointerEventData.InputButton.Right) return;
+        DoAction();
+    }
+
+    public void DoAction()
+    {
+        if (item == null) return;
+        item.DoAction();
     }
 }
