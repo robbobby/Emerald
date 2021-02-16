@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: 2741724566551702306
     second: BulletPoint
+  - first:
+      213: 3665408065989824994
+    second: RoleTimerBg_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -154,6 +157,27 @@ TextureImporter:
       bones: []
       spriteID: 22ba64d87ff8c0620800000000000000
       internalID: 2741724566551702306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RoleTimerBg_3
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 460
+        width: 50
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 1, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e1dc2247352ed230800000000000000
+      internalID: 3665408065989824994
       vertices: []
       indices: 
       edges: []

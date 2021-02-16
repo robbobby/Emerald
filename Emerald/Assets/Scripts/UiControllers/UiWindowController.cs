@@ -1,4 +1,6 @@
-﻿using Emerald.UiControllers;
+﻿using System.Collections.Generic;
+using Emerald.UiControllers;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +20,7 @@ public class UiWindowController : MonoBehaviour
     [SerializeField] private GameObject guildMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject miniMap;
+    [SerializeField] private GameObject partyWindow;
     [SerializeField] private TMP_InputField chatBar;
     private InputController.ChatActions chatActions;
     private InputController.UIActions uiInput; // Not sure if static is the right approach for this
@@ -25,7 +28,8 @@ public class UiWindowController : MonoBehaviour
     [SerializeField] private MirQuickCell[] quickSlots;
     private int[] chatSizes = new int[4] { 0, 120, 165, 250 };
     private byte toggleSize = 2;
-
+    private List<GameObject> activeWindows;
+    private bool hasActiveWindows;
 
     private void Awake()
     {
@@ -36,12 +40,14 @@ public class UiWindowController : MonoBehaviour
         chatActions.Newaction.performed += _ => ToggleChat();
 
         // Window Action Handlers //
-        uiInput.Inventory.performed += inventoryCallback => InventoryWindowStateHandler();
-        uiInput.Character.performed += characterCallback => CharacterWindowStateHandler();
-        uiInput.Options.performed += optionsCallback => OptionWindowStateHandler();
-        uiInput.Skills.performed += skillsCallback => SkillWindowStateHandler();
-        uiInput.Guild.performed += guildCallback => GuildWindowStateHandler();
-        uiInput.MiniMap.performed += miniMapCallback => MiniMapWindowStateHandler();
+        uiInput.Inventory.performed += _ => InventoryWindowStateHandler();
+        uiInput.Character.performed += _ => CharacterWindowStateHandler();
+        uiInput.Options.performed += _ => OptionWindowStateHandler();
+        uiInput.Skills.performed += _ => SkillWindowStateHandler();
+        uiInput.Guild.performed += _ => GuildWindowStateHandler();
+        uiInput.MiniMap.performed += _ => MiniMapWindowStateHandler();
+        uiInput.Party.performed += _ => PartyWindowStateHandler();
+        // uiInput.Escape.performed += _ => HandleEscape();
 
         // QuickSlot Action Handlers //
         quickSlotsActions.QuickSlot_F1.performed += callBack => StartQuickSlotAction((int)QuickSlot.F1);
@@ -70,6 +76,12 @@ public class UiWindowController : MonoBehaviour
         quickSlotsActions.QuickSlot_equals.performed += callBack => StartQuickSlotAction((int)QuickSlot.EQUALS);
         chatActions.Enable();
         EnableControls();
+        
+    }
+
+
+    public void PartyWindowStateHandler() {
+        partyWindow.SetActive(!partyWindow.activeSelf);
     }
 
     public void ToggleChatWindowHeight()
@@ -138,30 +150,64 @@ public class UiWindowController : MonoBehaviour
     }
 
     public bool IsQuickSlotsEnabled => quickSlotsActions.enabled;
-    public bool IsWindiwControlsEnabled => uiInput.enabled;
-    private void GuildWindowStateHandler() => guildMenu.SetActive(!guildMenu.activeSelf);
-    private void SkillWindowStateHandler() => skillsMenu.SetActive(!skillsMenu.activeSelf);
-    private void OptionWindowStateHandler() => optionsMenu.SetActive(!optionsMenu.activeSelf);
-    private void CharacterWindowStateHandler() => characterMenu.SetActive(!characterMenu.activeSelf);
-    private void InventoryWindowStateHandler() => inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+    public bool IsWindowControlsEnabled => uiInput.enabled;
+    public void GuildWindowStateHandler() {
+        guildMenu.SetActive(!guildMenu.activeSelf);
+        // CheckAndAddToActiveWindows(guildMenu);
+    }
+
+    public void SkillWindowStateHandler() {
+        skillsMenu.SetActive(!skillsMenu.activeSelf);
+        // CheckAndAddToActiveWindows(skillsMenu);
+    }
+
+    public void OptionWindowStateHandler() {
+        optionsMenu.SetActive(!optionsMenu.activeSelf);
+        // CheckAndAddToActiveWindows(optionsMenu);
+    }
+
+    public void CharacterWindowStateHandler() {
+        characterMenu.SetActive(!characterMenu.activeSelf);
+        // CheckAndAddToActiveWindows(characterMenu);
+    }
+
+    public void InventoryWindowStateHandler() {
+        inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+        // CheckAndAddToActiveWindows(inventoryMenu);
+    }
 
     public void MiniMapWindowStateHandler()
     {
         miniMap.SetActive(!miniMap.activeSelf);
-        int yRotation = miniMap.activeSelf ? 0 : 180;
+        int newRotationY = miniMap.activeSelf ? 0 : 180;
+        var rotation = miniMap.transform.rotation;
         miniMapToggleButton.transform.rotation = new Quaternion(
-            miniMap.transform.rotation.x,
-            yRotation,
-            miniMap.transform.rotation.z,
-            miniMap.transform.rotation.w);
+            rotation.x,
+            newRotationY,
+            rotation.z,
+            rotation.w);
     }
+
+    // private bool AddToActiveWindows(GameObject window) {
+    //     activeWindows.Add(window);
+    //     return true;
+    // }
+    //
+    // private bool RemoveFromActiveWindows(GameObject window) {
+    //     activeWindows.Remove(window);
+    //     return activeWindows.Count > 0;
+    // }
+    //
+    // private void CheckAndAddToActiveWindows(GameObject window) {
+    //     hasActiveWindows = window.activeSelf ? AddToActiveWindows(window) : RemoveFromActiveWindows(window);
+    // }
 }
 
 public interface IQuickSlotItem
 {
     void DoAction();
     Sprite GetIcon();
-    MirQuickCell QuickCell { get; set; }
+    [CanBeNull] MirQuickCell QuickCell { get; set; }
     void OnPointerEnter(PointerEventData eventData);
     void OnPointerExit(PointerEventData eventData);
 }

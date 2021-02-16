@@ -73,6 +73,22 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Party"",
+                    ""type"": ""Button"",
+                    ""id"": ""eafffaf8-d6c0-403a-b0a8-815d19edbc68"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd9dcb36-ec44-410f-a89f-d5d5793d5eb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -194,6 +210,28 @@ public class @InputController : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fec0cf3-ec9d-4429-b77f-1c0cbd033bef"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Party"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""512d2dac-3ddf-49ea-8085-9c0cbe316f35"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -702,6 +740,8 @@ public class @InputController : IInputActionCollection, IDisposable
         m_UI_Guild = m_UI.FindAction("Guild", throwIfNotFound: true);
         m_UI_MiniMap = m_UI.FindAction("MiniMap", throwIfNotFound: true);
         m_UI_Return = m_UI.FindAction("Return", throwIfNotFound: true);
+        m_UI_Party = m_UI.FindAction("Party", throwIfNotFound: true);
+        m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
         // QuickSlots
         m_QuickSlots = asset.FindActionMap("QuickSlots", throwIfNotFound: true);
         m_QuickSlots_QuickSlot_F1 = m_QuickSlots.FindAction("QuickSlot_F1", throwIfNotFound: true);
@@ -787,6 +827,8 @@ public class @InputController : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_Guild;
     private readonly InputAction m_UI_MiniMap;
     private readonly InputAction m_UI_Return;
+    private readonly InputAction m_UI_Party;
+    private readonly InputAction m_UI_Escape;
     public struct UIActions
     {
         private @InputController m_Wrapper;
@@ -798,6 +840,8 @@ public class @InputController : IInputActionCollection, IDisposable
         public InputAction @Guild => m_Wrapper.m_UI_Guild;
         public InputAction @MiniMap => m_Wrapper.m_UI_MiniMap;
         public InputAction @Return => m_Wrapper.m_UI_Return;
+        public InputAction @Party => m_Wrapper.m_UI_Party;
+        public InputAction @Escape => m_Wrapper.m_UI_Escape;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -828,6 +872,12 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Return.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
                 @Return.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
                 @Return.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReturn;
+                @Party.started -= m_Wrapper.m_UIActionsCallbackInterface.OnParty;
+                @Party.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnParty;
+                @Party.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnParty;
+                @Escape.started -= m_Wrapper.m_UIActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -853,6 +903,12 @@ public class @InputController : IInputActionCollection, IDisposable
                 @Return.started += instance.OnReturn;
                 @Return.performed += instance.OnReturn;
                 @Return.canceled += instance.OnReturn;
+                @Party.started += instance.OnParty;
+                @Party.performed += instance.OnParty;
+                @Party.canceled += instance.OnParty;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -1116,6 +1172,8 @@ public class @InputController : IInputActionCollection, IDisposable
         void OnGuild(InputAction.CallbackContext context);
         void OnMiniMap(InputAction.CallbackContext context);
         void OnReturn(InputAction.CallbackContext context);
+        void OnParty(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IQuickSlotsActions
     {
