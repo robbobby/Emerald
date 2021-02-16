@@ -13,12 +13,9 @@ public class PartyController : MonoBehaviour {
     [SerializeField] private TMP_Text inviteLabel;
     [SerializeField] private GameObject memberSlot;
     [SerializeField] private GameObject memberContainer;
-    private List<string> partyList = new List<string>();
-    private List<TMP_Text> memberNames = new List<TMP_Text>();
-    private List<GameObject> memberSlots = new List<GameObject>();
-
-    private List<GameObject> kickButtons = new List<GameObject>();
-
+    private readonly List<string> partyList = new List<string>();
+    private readonly List<GameObject> memberSlots = new List<GameObject>();
+    
     public string UserName { get; set; }
 
     public void ChangeAllowGroupValue() {
@@ -67,19 +64,6 @@ public class PartyController : MonoBehaviour {
         RefreshPartyMenu();
     }
 
-    private void RefreshPartyMenu1() {
-        ClearPartyListAndMemberSlots();
-        for (int i = 0; i < memberSlots.Count; i++) {
-            Debug.Log($"Party List Count {partyList.Count}");
-            Debug.Log($"Loop count {i}");
-            memberSlots[i].SetActive(partyList.Count > i);
-            memberNames[i].SetText(partyList.Count > i ? partyList[i] : "");
-            if (i != 0) {
-                Debug.Log(IsPartyLeader());
-                kickButtons[i-1].SetActive(IsPartyLeader());
-            }
-        }
-    }
 
     public void RemoveFromPartyList(string member) {
         Debug.Log(member);
