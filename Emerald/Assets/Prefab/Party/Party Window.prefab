@@ -1130,7 +1130,9 @@ MonoBehaviour:
   inputPlayerName: {fileID: 1127449569}
   inviteWindow: {fileID: 599001626}
   inviteLabel: {fileID: 1092433508610675526}
-  memberSlot: {fileID: 0}
+  memberSlot: {fileID: 4130121787571288581, guid: 2356df5c32ef44218a82675f68b3172c,
+    type: 3}
+  memberContainer: {fileID: 1698099167849255380}
 --- !u!1 &5904971487140682434
 GameObject:
   m_ObjectHideFlags: 0
