@@ -35,7 +35,7 @@ public class UiWindowController : MonoBehaviour
     private byte toggleSize = 2;
     private List<GameObject> priorityWindowCloseList;
     private List<GameObject> activeWindows;
-    private int priorityWindowCount = 0;
+    private byte priorityWindowCount = 0;
 
     /* TODO: Add UiPartyWindow collapse menu */
     /* TODO: Escape button closing windows, by priority? */
@@ -119,7 +119,7 @@ public class UiWindowController : MonoBehaviour
     }
 
     public void PartyWindowStateHandler() {
-        partyWindow.SetActive(!partyWindow.activeSelf);
+        WindowStateHandler(partyWindow);
     }
 
     public void ToggleChatWindowHeight()
@@ -188,7 +188,7 @@ public class UiWindowController : MonoBehaviour
     }
 
 
-    private void WindowStateHandler(GameObject window) {
+    public void WindowStateHandler(GameObject window) {
         window.SetActive(!window.activeSelf);
         if (window.activeSelf) {
             activeWindows.Add(window);
@@ -197,7 +197,7 @@ public class UiWindowController : MonoBehaviour
         }
     }
 
-    private void PriorityWindowStateHandler(GameObject window) {
+    public void PriorityWindowStateHandler(GameObject window) {
         window.SetActive(!window.activeSelf);
         if (window.activeSelf) {
             priorityWindowCount++;
