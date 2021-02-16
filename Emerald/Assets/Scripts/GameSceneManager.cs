@@ -14,6 +14,7 @@ using Color = UnityEngine.Color;
 
 public class GameSceneManager : MonoBehaviour
 {
+    
     protected static UserObject User
     {
         get { return GameManager.User; }
@@ -22,6 +23,7 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
+    public PartyController partyController;
     public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;
     public Image ExperienceBar;
@@ -592,6 +594,7 @@ public class GameSceneManager : MonoBehaviour
         ClassInsignia.sprite = ClassInsigniaIcons[(int)GameManager.User.Player.Class];
         CharacterName.text = GameManager.User.Player.Name;
         CharacterLevel.text = GameManager.User.Level.ToString();
+        partyController.UserName = GameManager.User.Player.Name; // TODO: Move this to a more suited place? When Player.Name is set party controller needs to know what it is
     }
 
     public void ChangeAttackMode(int amode)
@@ -657,5 +660,9 @@ public class GameSceneManager : MonoBehaviour
 
         Network.Enqueue(new C.CallNPC { ObjectID = NPCID, Key = "[" + LinkId + "]" });
         GameManager.InputDelay = Time.time + 0.5f;
+    }
+
+    public string GetLocalPlayerName() {
+        return GameManager.User.Player.Name;
     }
 }

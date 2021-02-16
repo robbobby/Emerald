@@ -432,6 +432,24 @@ namespace Emerald
                 case (short)ServerPacketIds.NPCResponse:
                     NPCResponse((S.NPCResponse)p);
                     break;
+                                    // Group packages //
+                case (short)ServerPacketIds.SwitchGroup:
+                    AllowGroup((S.SwitchGroup)p);
+                    break;
+                case (short)ServerPacketIds.DeleteGroup:
+                    DeleteGroup();
+                    break;
+                case (short)ServerPacketIds.DeleteMember:
+                    DeleteMember((S.DeleteMember)p);
+                    break;
+                case (short)ServerPacketIds.GroupInvite:
+                    GroupInvite((S.GroupInvite)p);
+                    break;
+                case (short)ServerPacketIds.AddMember:
+                    AddMember((S.AddMember)p);
+                    break;
+                // case (short)ServerPacketIds.Send:
+                
                 default:
                     //base.ProcessPacket(p);
                     break;
@@ -808,6 +826,14 @@ namespace Emerald
         {
             GameManager.GameScene.NPCResponse(p);
         }
+        
+        // Group Package Handlers //        
+        private static void AllowGroup(S.SwitchGroup p) =>  gameManager.AllowGroup(p.AllowGroup); 
+        private static void DeleteGroup() => gameManager.DeleteGroup();
+        private static void DeleteMember(S.DeleteMember p) => gameManager.DeleteMemberFromGroup(p.Name); 
+        private static void GroupInvite(S.GroupInvite p) => gameManager.ShowGroupInviteWindow(p.Name);
+        private static void AddMember(S.AddMember p) => gameManager.AddMemberToGroup(p.Name);
+
 
         public static void Enqueue(Packet p)
         {

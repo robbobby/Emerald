@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
 
+
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
@@ -153,6 +154,7 @@ public class GameManager : MonoBehaviour
         ObjectList.Add(p.ObjectID, User.Player);
         UserGameObject.GetComponentInChildren<AudioListener>().enabled = true;
         Tooltip.cam = User.Player.Camera.GetComponent<Camera>();
+        GameScene.partyController.name = User.Player.Name;
     }
 
     public void LogOutSuccess(S.LogOutSuccess p)
@@ -382,6 +384,7 @@ public class GameManager : MonoBehaviour
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(npc);
         ObjectList.Add(p.ObjectID, npc);
     }
+
     public void ObjectGold(S.ObjectGold p)
     {
         GameObject model;
@@ -579,6 +582,7 @@ public class GameManager : MonoBehaviour
     }
 
     private const float turnRange = 60f;
+
     public static void CheckMouseInput()
     {
         if (CurrentScene == null) return;
@@ -729,5 +733,29 @@ public class GameManager : MonoBehaviour
     static bool CanWalk(Vector2 location)
     {
         return CurrentScene.Cells[(int)location.x, (int)location.y].walkable && CurrentScene.Cells[(int)location.x, (int)location.y].Empty;
-    }       
+    }
+
+    public void ShowGroupInviteWindow(string fromUser) {
+        GameScene.partyController.ShowInviteWindow(fromUser);
+    }
+
+    public void AllowGroup(bool allowGroup) {
+        User.AllowGroup = allowGroup;
+    }
+
+    public void DeleteGroup() {
+        GameScene.partyController.ClearPartyListAndMemberSlots();
+        GameScene.ChatController.ReceiveChat("You have left the party", ChatType.Group);
+    }
+
+
+    public void DeleteMemberFromGroup(string member) {
+        GameScene.partyController.RemoveFromPartyList(member);
+        GameScene.ChatController.ReceiveChat($"{member} was removed from the party", ChatType.Group);
+    }
+
+    public void AddMemberToGroup(string member) {
+        GameScene.partyController.AddToPartyList(member);
+        GameScene.ChatController.ReceiveChat($"{member} has joined the group", ChatType.Group);
+    }
 }
