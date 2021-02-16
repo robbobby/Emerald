@@ -20,6 +20,11 @@ public class PartyController : MonoBehaviour {
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
     
+    /* TODO: Checks before sending package */
+    /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
+    /* TODO: Packet receiver for initial allow group value or find where this is already sent
+        Careful with the ChangeAllowGroupValue and recursive loop.*/
+    
     public string UserName { get; set; }
 
     public void ChangeAllowGroupValue() {

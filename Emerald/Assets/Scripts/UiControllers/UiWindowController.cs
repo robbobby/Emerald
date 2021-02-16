@@ -30,7 +30,10 @@ public class UiWindowController : MonoBehaviour
     private byte toggleSize = 2;
     private List<GameObject> activeWindows;
     private bool hasActiveWindows;
-
+    
+    /* TODO: Add UiPartyWindow collapse menu */
+    /* TODO: Escape button closeing windows, by priority? */
+    /* TODO: Make windows draggable */
     private void Awake()
     {
         uiInput = new InputController().UI;
@@ -76,9 +79,8 @@ public class UiWindowController : MonoBehaviour
         quickSlotsActions.QuickSlot_equals.performed += callBack => StartQuickSlotAction((int)QuickSlot.EQUALS);
         chatActions.Enable();
         EnableControls();
-        
+        SetPartyInputFieldListeners();
     }
-
 
     public void PartyWindowStateHandler() {
         partyWindow.SetActive(!partyWindow.activeSelf);
@@ -201,6 +203,13 @@ public class UiWindowController : MonoBehaviour
     // private void CheckAndAddToActiveWindows(GameObject window) {
     //     hasActiveWindows = window.activeSelf ? AddToActiveWindows(window) : RemoveFromActiveWindows(window);
     // }
+    
+    private void SetPartyInputFieldListeners() {
+        TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
+        Debug.Log(partyInputField);
+        partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
+        partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
+    }
 }
 
 public interface IQuickSlotItem
