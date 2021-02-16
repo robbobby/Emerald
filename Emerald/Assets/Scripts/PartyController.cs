@@ -13,13 +13,16 @@ public class PartyController : MonoBehaviour {
     [SerializeField] private TMP_Text inviteLabel;
     [SerializeField] private GameObject memberSlot;
     [SerializeField] private GameObject memberContainer;
+    [SerializeField] private GameObject uiMemberContainer;
+    [SerializeField] private GameObject uiMemberSlot;
+    [SerializeField] private GameObject uiCollapsePartyButton;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
+    private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
     
     public string UserName { get; set; }
 
     public void ChangeAllowGroupValue() {
-        Debug.Log(allowGroupToggle.isOn);
         Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
     }
 
@@ -33,7 +36,6 @@ public class PartyController : MonoBehaviour {
     }
 
     public void RemoveMemberFromParty(string playerName) {
-        Debug.Log($"Should remove player: {playerName}");
         Network.Enqueue(new C.DelMember { Name = playerName});
     }
 
@@ -60,13 +62,14 @@ public class PartyController : MonoBehaviour {
     }
 
     public void AddToPartyList(string newMember) {
+        Debug.Log("AddToPartyList");
         partyList.Add(newMember);
         RefreshPartyMenu();
     }
 
 
     public void RemoveFromPartyList(string member) {
-        Debug.Log(member);
+        Debug.Log("RemoveFromPartyList");
         partyList.Remove(member);
         if (partyList.Count == 1) {
             RemoveFromPartyList(UserName);
@@ -75,27 +78,40 @@ public class PartyController : MonoBehaviour {
     }
 
     public void ClearPartyListAndMemberSlots() {
+        Debug.Log("ClearPartyListAndMemberSlots");
         ClearMemberSlots();
         partyList.Clear();
+        SetUiCollapseButtonActive();
     }
 
     private void ClearMemberSlots() {
         for (int i = 0; i < memberSlots.Count; i++) {
             Destroy(memberSlots[i]);
+            Destroy(uiMemberSlots[i]);
         }
         memberSlots.Clear();
+        uiMemberSlots.Clear();
     }
 
     private void RefreshPartyMenu() {
         ClearMemberSlots();
         for (int i = 0; i < partyList.Count; i++) {
-            Debug.Log(i);
-            memberSlots.Add(Instantiate(memberSlot, memberContainer.transform));
-            GameObject kickButton = memberSlots[i].transform.GetChild(1).gameObject;
-            GameObject nameTextField = memberSlots[i].transform.GetChild(0).GetChild(1).gameObject;
-            nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[i]);
-            kickButton.AddComponent<PlayerSlot>().Construct(this, partyList[i], kickButton, ShouldShowKickButton(i));
+            SetPartyMemberSlots(memberSlot, memberContainer, memberSlots, i);
+            SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
         }
+        SetUiCollapseButtonActive();
+    }
+
+    private void SetUiCollapseButtonActive() {
+        uiCollapsePartyButton.SetActive(partyList.Count > 0);
+    }
+
+    private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position) {
+        slotList.Add(Instantiate(slot, parent.transform));
+        GameObject kickButton = slotList[position].transform.GetChild(1).gameObject;
+        GameObject nameTextField = slotList[position].transform.GetChild(0).GetChild(1).gameObject;
+        nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[position]);
+        kickButton.AddComponent<PlayerSlot>().Construct(this, partyList[position], kickButton, ShouldShowKickButton(position));
     }
 
     private bool ShouldShowKickButton(int position) => position > 0 && partyList[0] == UserName;
@@ -110,17 +126,10 @@ public class PartyController : MonoBehaviour {
 }
 
 internal class PlayerSlot : MonoBehaviour {
-    private PartyController partyController;
-    private string playerName;
-    private GameObject kickButton;
 
     public void Construct(PartyController partyController, string playerName, GameObject kickButton,
         bool shouldShowKickButton) {
-        this.partyController = partyController;
-        this.playerName = playerName;
-        this.kickButton = kickButton;
 
-        Debug.Log($"KickButton with {playerName} made");
         if(shouldShowKickButton)
             kickButton.GetComponent<Button>().onClick.AddListener(() 
                 => partyController.RemoveMemberFromParty(playerName));
