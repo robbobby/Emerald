@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using Emerald.UiControllers;
 using JetBrains.Annotations;
 using TMPro;
@@ -89,10 +90,9 @@ public class UiWindowController : MonoBehaviour
         priorityWindowCloseList = new List<GameObject>() {gfxMenu, optionsMenu, soundsSettingsMenu, gameSettingsMenu, partyInviteWindow, guildSendInviteWindow}; // add guild invite to this list
     }
 
+    #region UI_HANDLERS
     private void HandleEscapePress() {
-        Debug.Log("HandlingEscape");
         // TODO: Should Cancel holding item if the player is holding an item with cursor?
-        Debug.Log(priorityWindowCount);
         if(priorityWindowCount > 0) {
             for (int i = 0; i < priorityWindowCloseList.Count; i++) {
                 switch (priorityWindowCloseList[i].activeSelf) {
@@ -117,11 +117,25 @@ public class UiWindowController : MonoBehaviour
         }
         PriorityWindowStateHandler(optionsMenu); // No other windows open, open the options menu
     }
-
-    public void PartyWindowStateHandler() {
-        WindowStateHandler(partyWindow);
+    
+    private void WindowStateHandler(GameObject window) {
+        window.SetActive(!window.activeSelf);
+        if (window.activeSelf) {
+            activeWindows.Add(window);
+        } else {
+            activeWindows.Remove(window);
+        }
     }
 
+    private void PriorityWindowStateHandler(GameObject window) {
+        window.SetActive(!window.activeSelf);
+        if (window.activeSelf) {
+            priorityWindowCount++;
+        } else {
+            priorityWindowCount--;
+        }
+    }
+    
     public void ToggleChatWindowHeight()
     {
         toggleSize++;
@@ -169,43 +183,6 @@ public class UiWindowController : MonoBehaviour
         }
     }
 
-    private void StartQuickSlotAction(int position)
-    {        
-        quickSlots[position].DoAction();
-    }
-
-    public InputActionMap GetQuickSlotActions() => quickSlotsActions.Get();
-    public void EnableControls()
-    {
-        quickSlotsActions.Enable();
-        uiInput.Enable();
-    }
-
-    public void DisableControls()
-    {
-        quickSlotsActions.Disable();
-        uiInput.Disable();
-    }
-
-
-    public void WindowStateHandler(GameObject window) {
-        window.SetActive(!window.activeSelf);
-        if (window.activeSelf) {
-            activeWindows.Add(window);
-        } else {
-            activeWindows.Remove(window);
-        }
-    }
-
-    public void PriorityWindowStateHandler(GameObject window) {
-        window.SetActive(!window.activeSelf);
-        if (window.activeSelf) {
-            priorityWindowCount++;
-        } else {
-            priorityWindowCount--;
-        }
-    }
-
     public void MiniMapWindowStateHandler()
     {
         miniMap.SetActive(!miniMap.activeSelf);
@@ -217,17 +194,39 @@ public class UiWindowController : MonoBehaviour
             rotation.z,
             rotation.w);
     }
-
+    
+    public void DisableControls()
+    {
+        quickSlotsActions.Disable();
+        uiInput.Disable();
+    }
+    
+    public void EnableControls()
+    {
+        quickSlotsActions.Enable();
+        uiInput.Enable();
+    }
+    
     private void SetPartyInputFieldListeners() {
         TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
-        Debug.Log(partyInputField);
         partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
         partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
     }
+    #endregion
 
+    #region QuickSlots
+    
+    private void StartQuickSlotAction(int position)
+    {        
+        quickSlots[position].DoAction();
+    }
+
+    public InputActionMap GetQuickSlotActions() => quickSlotsActions.Get();
 
     public bool IsWindowControlsEnabled => uiInput.enabled;
+
     public bool IsQuickSlotsEnabled => quickSlotsActions.enabled;
+#endregion
 }
 
 public interface IQuickSlotItem
@@ -238,3 +237,4 @@ public interface IQuickSlotItem
     void OnPointerEnter(PointerEventData eventData);
     void OnPointerExit(PointerEventData eventData);
 }
+
