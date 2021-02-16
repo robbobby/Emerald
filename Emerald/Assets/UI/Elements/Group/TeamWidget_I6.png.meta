@@ -14,6 +14,15 @@ TextureImporter:
   - first:
       213: -4154625273169432307
     second: TeamWidget_I6_10
+  - first:
+      213: -3111496331908807755
+    second: TeamWidget_Bottom
+  - first:
+      213: -288922511966640847
+    second: TeamWidget_Top
+  - first:
+      213: 5354756866944235860
+    second: TeamWidget_Mid
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -43,7 +52,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -54,7 +63,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -76,7 +85,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -88,7 +97,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -99,7 +108,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TeamWidget_I6_0
+      name: TeamWidget_I6_B
       rect:
         serializedVersion: 2
         x: 2
@@ -107,7 +116,7 @@ TextureImporter:
         width: 344
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -120,7 +129,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TeamWidget_I6_1
+      name: TeamWidget_I6_C
       rect:
         serializedVersion: 2
         x: 355
@@ -128,7 +137,7 @@ TextureImporter:
         width: 344
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -149,7 +158,7 @@ TextureImporter:
         width: 290
         height: 53
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,7 +171,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TeamWidget_I6_3
+      name: TeamWidget_I6_D
       rect:
         serializedVersion: 2
         x: 4
@@ -170,7 +179,7 @@ TextureImporter:
         width: 344
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,7 +192,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TeamWidget_I6_4
+      name: TeamWidget_I6_A
       rect:
         serializedVersion: 2
         x: 354
@@ -191,7 +200,7 @@ TextureImporter:
         width: 346
         height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -212,7 +221,7 @@ TextureImporter:
         width: 285
         height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,16 +234,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TeamWidget_I6_6
+      name: TeamWidget_Fill
       rect:
         serializedVersion: 2
         x: 703
-        y: 396
+        y: 398
         width: 286
-        height: 20
+        height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 6, z: 0, w: 9}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -254,7 +263,7 @@ TextureImporter:
         width: 249
         height: 24
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -275,7 +284,7 @@ TextureImporter:
         width: 172
         height: 27
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -296,7 +305,7 @@ TextureImporter:
         width: 171
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -317,7 +326,7 @@ TextureImporter:
         width: 173
         height: 27
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -325,6 +334,69 @@ TextureImporter:
       bones: []
       spriteID: d0130e1835ec756c0800000000000000
       internalID: -4154625273169432307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TeamWidget_Bottom
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 242
+        width: 352
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b305a0529eb1d4d0800000000000000
+      internalID: -3111496331908807755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TeamWidget_Top
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 241
+        width: 353
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1356d92918a8dfbf0800000000000000
+      internalID: -288922511966640847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TeamWidget_Mid
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 229
+        width: 348
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4597bc0fffaef4a40800000000000000
+      internalID: 5354756866944235860
       vertices: []
       indices: 
       edges: []
