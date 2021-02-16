@@ -594,7 +594,7 @@ public class GameSceneManager : MonoBehaviour
         ClassInsignia.sprite = ClassInsigniaIcons[(int)GameManager.User.Player.Class];
         CharacterName.text = GameManager.User.Player.Name;
         CharacterLevel.text = GameManager.User.Level.ToString();
-        partyController.UserName = GameManager.User.Player.Name;
+        partyController.UserName = GameManager.User.Player.Name; // TODO: Move this to a more suited place? When Player.Name is set party controller needs to know what it is
     }
 
     public void ChangeAttackMode(int amode)
