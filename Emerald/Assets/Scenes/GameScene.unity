@@ -25067,7 +25067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NPCCamera: {fileID: 1665447310}
-  partyController: {fileID: 0}
+  partyController: {fileID: 2084991257}
   ChatBar: {fileID: 635084011}
   ScrollBar: {fileID: 1854083844}
   ExperienceBar: {fileID: 1160745593}
@@ -78014,7 +78014,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2039242958}
   m_HandleRect: {fileID: 2039242957}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
