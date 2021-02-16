@@ -22,17 +22,23 @@ public class UiWindowController : MonoBehaviour
     [SerializeField] private GameObject miniMap;
     [SerializeField] private GameObject partyWindow;
     [SerializeField] private TMP_InputField chatBar;
+    [SerializeField] private GameObject partyInviteWindow;
+    [SerializeField] private GameObject guildReceiveInviteWindow;
+    [SerializeField] private GameObject guildSendInviteWindow;
+    
+    [SerializeField] private MirQuickCell[] quickSlots;
+    
     private InputController.ChatActions chatActions;
     private InputController.UIActions uiInput; // Not sure if static is the right approach for this
     private InputController.QuickSlotsActions quickSlotsActions;
-    [SerializeField] private MirQuickCell[] quickSlots;
     private int[] chatSizes = new int[4] { 0, 120, 165, 250 };
     private byte toggleSize = 2;
+    private List<GameObject> priorityWindowCloseList;
     private List<GameObject> activeWindows;
     private bool hasActiveWindows;
-    
+
     /* TODO: Add UiPartyWindow collapse menu */
-    /* TODO: Escape button closeing windows, by priority? */
+    /* TODO: Escape button closing windows, by priority? */
     /* TODO: Make windows draggable */
     private void Awake()
     {
@@ -50,7 +56,7 @@ public class UiWindowController : MonoBehaviour
         uiInput.Guild.performed += _ => GuildWindowStateHandler();
         uiInput.MiniMap.performed += _ => MiniMapWindowStateHandler();
         uiInput.Party.performed += _ => PartyWindowStateHandler();
-        // uiInput.Escape.performed += _ => HandleEscape();
+        uiInput.Escape.performed += _ => HandleEscapePress();
 
         // QuickSlot Action Handlers //
         quickSlotsActions.QuickSlot_F1.performed += callBack => StartQuickSlotAction((int)QuickSlot.F1);
@@ -80,6 +86,27 @@ public class UiWindowController : MonoBehaviour
         chatActions.Enable();
         EnableControls();
         SetPartyInputFieldListeners();
+        priorityWindowCloseList = new List<GameObject>() {optionsMenu, gfxMenu, soundsSettingsMenu, gameSettingsMenu, partyInviteWindow, guildSendInviteWindow}; // add guild invite to this list
+    }
+
+    private void HandleEscapePress() {
+        Debug.Log("HandlingEscape");
+        // TODO: Should Cancel holding item if the player is holding an item with cursor?
+        // TODO: Add flag for priorityWindowCloseList so it doesn't loop through none of them are open
+        for (int i = 0; i > priorityWindowCloseList.Count; i++) {
+            switch (priorityWindowCloseList[i].activeSelf) {
+                case true when priorityWindowCloseList[i].name == guildSendInviteWindow.name:
+                    guildSendInviteWindow.SetActive(false);
+                    return;
+                case true when priorityWindowCloseList[i].name == partyInviteWindow.name:
+                    partyWindow.GetComponent<PartyController>().ReplyToPartyInvite(false);
+                    priorityWindowCloseList[i].SetActive(false);
+                    return;
+                case true:
+                    priorityWindowCloseList[i].SetActive(false);
+                    return;
+            }
+        }
     }
 
     public void PartyWindowStateHandler() {

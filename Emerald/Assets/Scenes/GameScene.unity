@@ -60262,6 +60262,9 @@ MonoBehaviour:
   miniMap: {fileID: 710855516}
   partyWindow: {fileID: 861370324}
   chatBar: {fileID: 635084011}
+  partyInviteWindow: {fileID: 5904971487922051922}
+  guildReceiveInviteWindow: {fileID: 0}
+  guildSendInviteWindow: {fileID: 707184962}
   quickSlots:
   - {fileID: 8636313475382363139}
   - {fileID: 742390520}
@@ -89193,6 +89196,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b24e808108eb49c1bbed6e8b8b99c61, type: 3}
+--- !u!1 &5904971487922051922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 599001626, guid: 8b24e808108eb49c1bbed6e8b8b99c61,
+    type: 3}
+  m_PrefabInstance: {fileID: 5904971487922051921}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6452587812252560182
 PrefabInstance:
   m_ObjectHideFlags: 0
