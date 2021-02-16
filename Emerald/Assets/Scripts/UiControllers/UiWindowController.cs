@@ -25,7 +25,7 @@ public class UiWindowController : MonoBehaviour
     [SerializeField] private GameObject partyInviteWindow;
     [SerializeField] private GameObject guildReceiveInviteWindow;
     [SerializeField] private GameObject guildSendInviteWindow;
-    
+
     [SerializeField] private MirQuickCell[] quickSlots;
     
     private InputController.ChatActions chatActions;
@@ -35,13 +35,13 @@ public class UiWindowController : MonoBehaviour
     private byte toggleSize = 2;
     private List<GameObject> priorityWindowCloseList;
     private List<GameObject> activeWindows;
-    private bool hasActiveWindows;
+    private int priorityWindowCount = 0;
 
     /* TODO: Add UiPartyWindow collapse menu */
     /* TODO: Escape button closing windows, by priority? */
     /* TODO: Make windows draggable */
-    private void Awake()
-    {
+    private void Awake() {
+        activeWindows = new List<GameObject>();
         uiInput = new InputController().UI;
         //quickSlotsEquipped = new IQuickSlotItem[24];
         quickSlotsActions = new InputController().QuickSlots;
@@ -49,13 +49,13 @@ public class UiWindowController : MonoBehaviour
         chatActions.Newaction.performed += _ => ToggleChat();
 
         // Window Action Handlers //
-        uiInput.Inventory.performed += _ => InventoryWindowStateHandler();
-        uiInput.Character.performed += _ => CharacterWindowStateHandler();
-        uiInput.Options.performed += _ => OptionWindowStateHandler();
-        uiInput.Skills.performed += _ => SkillWindowStateHandler();
-        uiInput.Guild.performed += _ => GuildWindowStateHandler();
+        uiInput.Options.performed += _ => PriorityWindowStateHandler(optionsMenu);
+        uiInput.Inventory.performed += _ => WindowStateHandler(inventoryMenu);
+        uiInput.Character.performed += _ => WindowStateHandler(characterMenu);
+        uiInput.Skills.performed += _ => WindowStateHandler(skillsMenu);
+        uiInput.Guild.performed += _ => WindowStateHandler(guildMenu);
+        uiInput.Party.performed += _ => WindowStateHandler(partyWindow);
         uiInput.MiniMap.performed += _ => MiniMapWindowStateHandler();
-        uiInput.Party.performed += _ => PartyWindowStateHandler();
         uiInput.Escape.performed += _ => HandleEscapePress();
 
         // QuickSlot Action Handlers //
@@ -86,27 +86,36 @@ public class UiWindowController : MonoBehaviour
         chatActions.Enable();
         EnableControls();
         SetPartyInputFieldListeners();
-        priorityWindowCloseList = new List<GameObject>() {optionsMenu, gfxMenu, soundsSettingsMenu, gameSettingsMenu, partyInviteWindow, guildSendInviteWindow}; // add guild invite to this list
+        priorityWindowCloseList = new List<GameObject>() {gfxMenu, optionsMenu, soundsSettingsMenu, gameSettingsMenu, partyInviteWindow, guildSendInviteWindow}; // add guild invite to this list
     }
 
     private void HandleEscapePress() {
         Debug.Log("HandlingEscape");
         // TODO: Should Cancel holding item if the player is holding an item with cursor?
-        // TODO: Add flag for priorityWindowCloseList so it doesn't loop through none of them are open
-        for (int i = 0; i > priorityWindowCloseList.Count; i++) {
-            switch (priorityWindowCloseList[i].activeSelf) {
-                case true when priorityWindowCloseList[i].name == guildSendInviteWindow.name:
-                    guildSendInviteWindow.SetActive(false);
-                    return;
-                case true when priorityWindowCloseList[i].name == partyInviteWindow.name:
-                    partyWindow.GetComponent<PartyController>().ReplyToPartyInvite(false);
-                    priorityWindowCloseList[i].SetActive(false);
-                    return;
-                case true:
-                    priorityWindowCloseList[i].SetActive(false);
-                    return;
+        Debug.Log(priorityWindowCount);
+        if(priorityWindowCount > 0) {
+            for (int i = 0; i < priorityWindowCloseList.Count; i++) {
+                switch (priorityWindowCloseList[i].activeSelf) {
+                    /* TODO: Add custom case for popup windows */
+                    case true when priorityWindowCloseList[i].name == guildSendInviteWindow.name:
+                        PriorityWindowStateHandler(priorityWindowCloseList[i]);
+                        return;
+                    case true when priorityWindowCloseList[i].name == partyInviteWindow.name:
+                        partyWindow.GetComponent<PartyController>().ReplyToPartyInvite(false);
+                        PriorityWindowStateHandler(priorityWindowCloseList[i]);
+                        return;
+                    case true:
+                        PriorityWindowStateHandler(priorityWindowCloseList[i]);
+                        return;
+                }
             }
         }
+
+        if (activeWindows.Count > 0) {
+            WindowStateHandler(activeWindows[activeWindows.Count - 1]);
+            return;
+        }
+        PriorityWindowStateHandler(optionsMenu); // No other windows open, open the options menu
     }
 
     public void PartyWindowStateHandler() {
@@ -178,31 +187,23 @@ public class UiWindowController : MonoBehaviour
         uiInput.Disable();
     }
 
-    public bool IsQuickSlotsEnabled => quickSlotsActions.enabled;
-    public bool IsWindowControlsEnabled => uiInput.enabled;
-    public void GuildWindowStateHandler() {
-        guildMenu.SetActive(!guildMenu.activeSelf);
-        // CheckAndAddToActiveWindows(guildMenu);
+
+    private void WindowStateHandler(GameObject window) {
+        window.SetActive(!window.activeSelf);
+        if (window.activeSelf) {
+            activeWindows.Add(window);
+        } else {
+            activeWindows.Remove(window);
+        }
     }
 
-    public void SkillWindowStateHandler() {
-        skillsMenu.SetActive(!skillsMenu.activeSelf);
-        // CheckAndAddToActiveWindows(skillsMenu);
-    }
-
-    public void OptionWindowStateHandler() {
-        optionsMenu.SetActive(!optionsMenu.activeSelf);
-        // CheckAndAddToActiveWindows(optionsMenu);
-    }
-
-    public void CharacterWindowStateHandler() {
-        characterMenu.SetActive(!characterMenu.activeSelf);
-        // CheckAndAddToActiveWindows(characterMenu);
-    }
-
-    public void InventoryWindowStateHandler() {
-        inventoryMenu.SetActive(!inventoryMenu.activeSelf);
-        // CheckAndAddToActiveWindows(inventoryMenu);
+    private void PriorityWindowStateHandler(GameObject window) {
+        window.SetActive(!window.activeSelf);
+        if (window.activeSelf) {
+            priorityWindowCount++;
+        } else {
+            priorityWindowCount--;
+        }
     }
 
     public void MiniMapWindowStateHandler()
@@ -217,26 +218,16 @@ public class UiWindowController : MonoBehaviour
             rotation.w);
     }
 
-    // private bool AddToActiveWindows(GameObject window) {
-    //     activeWindows.Add(window);
-    //     return true;
-    // }
-    //
-    // private bool RemoveFromActiveWindows(GameObject window) {
-    //     activeWindows.Remove(window);
-    //     return activeWindows.Count > 0;
-    // }
-    //
-    // private void CheckAndAddToActiveWindows(GameObject window) {
-    //     hasActiveWindows = window.activeSelf ? AddToActiveWindows(window) : RemoveFromActiveWindows(window);
-    // }
-    
     private void SetPartyInputFieldListeners() {
         TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
         Debug.Log(partyInputField);
         partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
         partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
     }
+
+
+    public bool IsWindowControlsEnabled => uiInput.enabled;
+    public bool IsQuickSlotsEnabled => quickSlotsActions.enabled;
 }
 
 public interface IQuickSlotItem
