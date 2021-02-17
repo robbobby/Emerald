@@ -62286,7 +62286,7 @@ MonoBehaviour:
   guildMenu: {fileID: 647342740}
   optionsMenu: {fileID: 332477668}
   miniMap: {fileID: 710855516}
-  partyWindow: {fileID: 0}
+  partyWindow: {fileID: 2084991254}
   chatBar: {fileID: 635084011}
   quickSlots:
   - {fileID: 8636313475382363139}
