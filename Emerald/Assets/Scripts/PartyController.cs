@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Network = Emerald.Network;
 using C = ClientPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
-public class PartyController : MonoBehaviour {
+public class PartyController : HasPopUpWindow {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
     [SerializeField] private GameObject inviteWindow;
@@ -19,6 +20,8 @@ public class PartyController : MonoBehaviour {
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
+    private Delegate increasePriorityWindowCount;
+    private Func<int> addToUiPriorityWindowCount;
     
     /* TODO: Checks before sending package */
     /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
@@ -26,6 +29,10 @@ public class PartyController : MonoBehaviour {
         Careful with the ChangeAllowGroupValue and recursive loop.*/
     
     public string UserName { get; set; }
+
+    public void UiPriorityWindowIncreaseCallback(Func<int> function) {
+        addToUiPriorityWindowCount = function;
+    }
 
     public void ChangeAllowGroupValue() {
         Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
@@ -127,6 +134,10 @@ public class PartyController : MonoBehaviour {
 
     private bool RoomForMorePlayers() {
         return partyList.Count < 5; // Global party count?
+    }
+
+    public override void ClosePopUp() {
+        ReplyToPartyInvite(false);
     }
 }
 
