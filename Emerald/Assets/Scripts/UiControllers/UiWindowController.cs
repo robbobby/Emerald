@@ -26,10 +26,18 @@ public class UiWindowController : MonoBehaviour
     [SerializeField] private GameObject partyInviteWindow;
     [SerializeField] private GameObject guildReceiveInviteWindow;
     [SerializeField] private GameObject guildSendInviteWindow;
-    private static List<HasPopUpWindow> popUpWindows = new List<HasPopUpWindow>();
+    private static readonly List<IPopUpWindow> popUpWindows = new List<IPopUpWindow>();
 
-    protected internal static void AddToPopUpList(HasPopUpWindow newThing) {
-        popUpWindows.Add(newThing);
+    internal static void AddToPopUpList(IPopUpWindow window) {
+        popUpWindows.Add(window);
+    }
+
+    internal static bool IsPopUpWindowInList(IPopUpWindow window) {
+        return popUpWindows.Contains(window);
+    }
+
+    internal static void RemoveFromPopUpList(IPopUpWindow window) {
+        popUpWindows.Remove(window);
     }
 
     [SerializeField] private MirQuickCell[] quickSlots;
@@ -97,9 +105,6 @@ public class UiWindowController : MonoBehaviour
 
     #region UI_HANDLERS
     private void HandleEscapePress() {
-        for (int i = 0; i < popUpWindows.Count; i++) {
-            popUpWindows[i].ClosePopUp();
-        }
         // TODO: Should Cancel holding item if the player is holding an item with cursor?
         if(priorityWindowCount > 0) {
             for (int i = 0; i < priorityWindowCloseList.Count; i++) {
@@ -117,6 +122,10 @@ public class UiWindowController : MonoBehaviour
                         return;
                 }
             }
+        }
+        if(popUpWindows.Count > 0) {
+            popUpWindows[popUpWindows.Count-1].ClosePopUp();
+            return;
         }
 
         if (activeWindows.Count > 0) {
@@ -238,14 +247,11 @@ public class UiWindowController : MonoBehaviour
 #endregion
 }
 
-public abstract class HasPopUpWindow : MonoBehaviour{
-    public abstract void ClosePopUp();
-
-    protected void AddToPopUpWindowList() {
-        UiWindowController.AddToPopUpList(this);
-    }
-    
+public interface IPopUpWindow {
+    void AddToPopUpWindowList();
+    void ClosePopUp();
 }
+
 
 public interface IQuickSlotItem
 {
