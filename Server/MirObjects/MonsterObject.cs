@@ -659,6 +659,8 @@ namespace Server.MirObjects
                 playerObj.CheckGroupQuestKill(Info);
             }
 
+            KillAnnouncement(Info.MobClass);
+                        
             if (Respawn != null)
                 Respawn.Count--;
 
@@ -671,6 +673,24 @@ namespace Server.MirObjects
             Envir.MonsterCount--;
             CurrentMap.MonsterCount--;
         }
+
+        public void KillAnnouncement(MonsterClass mobClass)
+        {
+            String ColorStart = "<color=yellow>";
+            String ColorEnd = "</color>";
+            switch (mobClass)
+            {
+                case MonsterClass.Boss:
+                    PlayerObject playerObj = (PlayerObject)EXPOwner;
+                    string Massage = "The Boss " + ColorStart + Name + ColorEnd + " As killed By  "+ ColorStart + playerObj.Name;
+                    foreach (var player in Envir.Players)
+                    {
+                        player.ReceiveChat(Massage, ChatType.Announcement);
+                    }
+                    return;
+            }
+        }
+
 
         public void Revive(uint hp, bool effect)
         {
