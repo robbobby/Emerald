@@ -554,6 +554,9 @@ public class GameManager : MonoBehaviour
 
         
     }
+    
+    
+
 
     public void NewItemInfo(S.NewItemInfo info)
     {

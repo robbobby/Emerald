@@ -558,6 +558,8 @@ namespace Server.MirObjects
                     break;
             }
 
+            
+
             if (Envir.Time < ShockTime)
                 colour = Color.Peru;
             else if (Envir.Time < RageTime)

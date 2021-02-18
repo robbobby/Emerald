@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectRenderer: {fileID: 6781577069657621757}
+  MonsterObject: {fileID: 0}
   NameLabelObject: {fileID: 8972585348359723467, guid: fb59f2525fca14345afceae9453fb40a,
     type: 3}
   NameLocation: {fileID: 2747604406869903764}
@@ -402,15 +403,7 @@ MonoBehaviour:
   MoveSpeed: 0
   OutlineWidth: 0.03
   Name: 
-  MobClass: 0
-  NPCIcons: 0
   NameTextcolour: 
-  NPCTypeIconLocation: {fileID: 7630139882868064014}
-  NPCTypeIcons: {fileID: 572811840718099366}
-  NPCTypeGroup: {fileID: 9064834010943092470}
-  NPCTypeLocation: {fileID: 6508208201762379642}
-  NPCTypeText: {fileID: 177940762220530538, guid: fb59f2525fca14345afceae9453fb40a,
-    type: 3}
   Light: 3
   Blocking: 1
   HealthTime: 0
@@ -424,6 +417,12 @@ MonoBehaviour:
   CurrentAction: 0
   ActionType: 0
   CameraLocation: {fileID: 3486563082505453195}
+  NPCTypeIconLocation: {fileID: 7630139882868064014}
+  NPCTypeIcons: {fileID: 572811840718099366}
+  NPCTypeLocation: {fileID: 6508208201762379642}
+  NPCTypeText: {fileID: 177940762220530538, guid: fb59f2525fca14345afceae9453fb40a,
+    type: 3}
+  NPCIcons: 0
 --- !u!136 &6722234674797405406
 CapsuleCollider:
   m_ObjectHideFlags: 0

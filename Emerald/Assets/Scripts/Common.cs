@@ -1007,7 +1007,7 @@ public enum NPCType : byte
     Nothing = 0,
     Admin = 1,
     Guild = 2,
-    BackSmirth = 3,
+    BlackSmith = 3,
     Teleport = 4,
     Appearance = 5,
     Event = 6,
