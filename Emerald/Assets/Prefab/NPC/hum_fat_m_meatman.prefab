@@ -419,7 +419,7 @@ MonoBehaviour:
   CameraLocation: {fileID: 3486563082505453195}
   NPCTypeIconLocation: {fileID: 7630139882868064014}
   NPCTypeIcons: {fileID: 572811840718099366}
-  NPCTypeLocation: {fileID: 6508208201762379642}
+  NPCTypeNameLocation: {fileID: 6508208201762379642}
   NPCTypeText: {fileID: 0}
   NPCIcons: 0
 --- !u!136 &6722234674797405406
