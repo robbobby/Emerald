@@ -236,7 +236,7 @@ namespace Server.MirDatabase
         {
             string[] data = text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (data.Length < 98) return; //28
+            if (data.Length < 29) return; //29
 
             MonsterInfo info = new MonsterInfo {Name = data[0]};
             ushort image;
