@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using Network = Emerald.Network;
 using C = ClientPackets;
+using UnityEngine.UI;
 
 public class MapObject : MonoBehaviour
 {
@@ -49,6 +50,17 @@ public class MapObject : MonoBehaviour
     public float OutlineWidth;
 
     public string Name;
+    [HideInInspector]
+    public MonsterClass MobClass;
+    [HideInInspector]
+    public NPCType NPCIcons;
+    public string NameTextcolour;
+    public Transform NPCTypeIconLocation;
+    public Image NPCTypeIcons;
+    public Transform NPCTypeLocation;
+    public TMP_Text NPCTypeText;
+
+
     public int Light;
     [HideInInspector]
 
@@ -128,6 +140,16 @@ public class MapObject : MonoBehaviour
     {
         CurrentAction = MirAction.Standing;        
         NameLabel = Instantiate(NameLabelObject, NameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
+
+        switch (gameObject.layer)
+        {
+            case 9: //Monster
+                SetMonbsterNameColour(MobClass);
+                return;
+            case 10: //NPC
+                NPCoverhdead(NPCIcons);
+                break;
+        }
         SetNameLabel();
     }
 
@@ -195,5 +217,79 @@ public class MapObject : MonoBehaviour
     public void DieEnd()
     {
         CurrentAction = MirAction.Dead;
+    }
+    public void SetMonbsterNameColour(MonsterClass MobClass)
+    {
+        switch (MobClass)
+        {
+            case MonsterClass.Elite:
+                NameTextcolour = "F3940C";
+                SetMonbsterName();
+                return;
+            case MonsterClass.Boss:
+                NameTextcolour = "F39E0A";
+                SetMonbsterName();
+                return;
+        }
+        SetNameLabel();
+
+    }
+    public void SetMonbsterName()
+    {
+        NameLabel.text = "<color=#" + NameTextcolour + ">" + Name + "</color>";
+    }
+    public void NPCoverhdead(NPCType type)
+    {
+
+        switch (type)
+        {
+            case NPCType.Admin:
+                NPCTypeon("Admin", 0);
+                return;
+            case NPCType.Guild:
+                NPCTypeon("Guild", 1);
+                return;
+            case NPCType.BackSmirth:
+                NPCTypeon("BackSmirth", 2);
+                return;
+            case NPCType.Teleport:
+                NPCTypeon("Teleport", 3);
+                return;
+            case NPCType.Appearance:
+                NPCTypeon("Admin", 4);
+                return;
+            case NPCType.Event:
+                NPCTypeon("Event", 5);
+                return;
+            case NPCType.Accessories:
+                NPCTypeon("Accessories", 6);
+                return;
+            case NPCType.Books:
+                NPCTypeon("Books", 7);
+                return;
+            case NPCType.Bank:
+                NPCTypeon("Bank", 8);
+                return;
+            case NPCType.Exp:
+                NPCTypeon("Exp", 9);
+                return;
+            case NPCType.Weapons:
+                NPCTypeon("Weapons", 10);
+                return;
+            case NPCType.Potions:
+                NPCTypeon("Potions", 11);
+                return;
+            case NPCType.General:
+                NPCTypeon("General", 12);
+                return;
+        }
+
+    }
+
+    public void NPCTypeon(string Type, int image)
+    {
+        NPCTypeText.text = "<color=yellow>" + Type + "</color>";
+        NPCTypeText = Instantiate(NameLabelObject, NPCTypeLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
+        NPCTypeIcons.GetComponent<SpriteRenderer>().sprite = Instantiate(GameScene.NPCIcons[image], NPCTypeIconLocation.position, Quaternion.identity, gameObject.transform);
     }
 }

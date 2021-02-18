@@ -993,6 +993,33 @@ public enum RequiredType : byte
     MinMC = 10,
     MinSC = 11,
 }
+public enum MonsterClass : byte
+{
+    General = 0,
+    Elite = 1,
+    Boss = 2,
+ 
+
+
+}
+public enum NPCType : byte
+{
+    Nothing = 0,
+    Admin = 1,
+    Guild = 2,
+    BackSmirth = 3,
+    Teleport = 4,
+    Appearance = 5,
+    Event = 6,
+    Accessories = 7,
+    Books = 8,
+    Bank = 9,
+    Exp = 10,
+    Weapons = 11,
+    Potions = 12,
+    General = 13,
+
+}
 
 [Obfuscation(Feature = "renaming", Exclude = true)]
 public enum ItemSet : byte
