@@ -12,7 +12,8 @@ public class NPCObject : MapObject
     public GameObject CameraLocation;
     public Transform NPCTypeIconLocation;
     public Image NPCTypeIcons;
-    public Transform NPCTypeLocation;
+    public Transform NPCTypeNameLocation;
+    [HideInInspector]
     public TMP_Text NPCTypeText;
     [HideInInspector]
     public NPCType NPCIcons;
@@ -75,9 +76,6 @@ public class NPCObject : MapObject
 
     public void NPCIconsDisplay(NPCType type)
     {
-
-        Debug.Log(type);
-        Debug.Log("starteding");
         switch (type)
         {
             case NPCType.Admin:
@@ -125,8 +123,9 @@ public class NPCObject : MapObject
 
     public void NPCTypeon(string Type, int image)
     {
-        NPCTypeText.text = "<color=yellow>" + Type + "</color>";
-        NPCTypeText = Instantiate(NameLabelObject, NPCTypeLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
+       
+        NPCTypeText = Instantiate(NameLabelObject, NPCTypeNameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
         NPCTypeIcons.GetComponent<SpriteRenderer>().sprite = Instantiate(GameScene.NPCIcons[image], NPCTypeIconLocation.position, Quaternion.identity, gameObject.transform);
+        NPCTypeText.text = "<color=yellow>" + Type ;
     }
 }

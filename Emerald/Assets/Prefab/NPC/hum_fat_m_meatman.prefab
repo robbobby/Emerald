@@ -420,8 +420,7 @@ MonoBehaviour:
   NPCTypeIconLocation: {fileID: 7630139882868064014}
   NPCTypeIcons: {fileID: 572811840718099366}
   NPCTypeLocation: {fileID: 6508208201762379642}
-  NPCTypeText: {fileID: 177940762220530538, guid: fb59f2525fca14345afceae9453fb40a,
-    type: 3}
+  NPCTypeText: {fileID: 0}
   NPCIcons: 0
 --- !u!136 &6722234674797405406
 CapsuleCollider:
