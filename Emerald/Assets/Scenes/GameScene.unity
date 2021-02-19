@@ -25134,19 +25134,19 @@ MonoBehaviour:
   CharacterDialog: {fileID: 227496107}
   SkillDialog: {fileID: 2033180757}
   NPCIcons:
-  - {fileID: 21300000, guid: 5473a63dee6099a49a305b2fb46ad5a6, type: 3}
-  - {fileID: 21300000, guid: c98d70f3fd7877b48bab57f1434c7480, type: 3}
-  - {fileID: 21300000, guid: d465ba8af8290594b982cfeac517f776, type: 3}
-  - {fileID: 21300000, guid: 339ddf1e36fb4184b9d55cff2340adf9, type: 3}
-  - {fileID: 21300000, guid: 11e81729cedbb35488fa8c495ba83b1f, type: 3}
-  - {fileID: 21300000, guid: d76bfff58717ce54fb37b88398dd5945, type: 3}
-  - {fileID: 21300000, guid: 52390092e2580224bba87d18537b117b, type: 3}
-  - {fileID: 21300000, guid: 14fbd771de73426459666930e78d35d7, type: 3}
-  - {fileID: 21300000, guid: 48d2b2ae6ca7a8640bbdc6812508ae4c, type: 3}
-  - {fileID: 21300000, guid: 754eb6ca1eca99d40a98d99204c73d37, type: 3}
-  - {fileID: 21300000, guid: 315bf0c713fa3114881dbce432ed8fac, type: 3}
-  - {fileID: 21300000, guid: 1dfe4ca7e90c648469df9de66d582d21, type: 3}
-  - {fileID: 21300000, guid: caa23b7b837575d4c821c61a50c6d7b7, type: 3}
+  - {fileID: 1672325946069482764, guid: baa3b357064120e4e8785c384af65ad6, type: 3}
+  - {fileID: 8099611922703673566, guid: e0650adac88ffbe4c8711d2f837aaaa0, type: 3}
+  - {fileID: 4568025959184520831, guid: 79c17474024caa745a17e2371e520c21, type: 3}
+  - {fileID: 6345173540908252639, guid: 3886cf6df3f26b64a9353ef28345456c, type: 3}
+  - {fileID: 911531652160675093, guid: 2d26fc816ed5feb4b8b8aec19bc02518, type: 3}
+  - {fileID: 5168495807246666218, guid: 22429cb03852ef944af136705bcbb8f2, type: 3}
+  - {fileID: 4303967509185325994, guid: 85b0a2c78baccc9408d43c6ba3763256, type: 3}
+  - {fileID: 6887153427542169933, guid: 6b97f8e29612c6a419ab9f2d2cea479e, type: 3}
+  - {fileID: 7989595420163655713, guid: 17961613c829aae4b856ea97400ea228, type: 3}
+  - {fileID: 7616675257953669719, guid: 762ceab04ff9b6d4494be44fcc3cf2cc, type: 3}
+  - {fileID: 7446222651076582170, guid: 321f4c7659827ef4eb613a90f1e2963c, type: 3}
+  - {fileID: 7136858849379874275, guid: 4f5825295c1ce4942967faba747115dc, type: 3}
+  - {fileID: 7222024376486423550, guid: a384111f3959e9c479244b7e3aa956b0, type: 3}
   Inventory: {fileID: 0}
   ItemToolTip: {fileID: 675349350}
   SelectedItemImage: {fileID: 838068041}

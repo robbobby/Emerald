@@ -11,8 +11,8 @@ public class NPCObject : MapObject
 {
     public GameObject CameraLocation;
     public Transform NPCTypeIconLocation;
-    public Image NPCTypeIcons;
-    public Transform NPCTypeNameLocation;
+    [HideInInspector]
+    public GameObject NPCTypeIcons;
     [HideInInspector]
     public TMP_Text NPCTypeText;
     [HideInInspector]
@@ -79,53 +79,46 @@ public class NPCObject : MapObject
         switch (type)
         {
             case NPCType.Admin:
-                NPCTypeon("Admin", 0);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[0], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Guild:
-                NPCTypeon("Guild", 1);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[1], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.BlackSmith:
-                NPCTypeon("BlackSmith", 2);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[2], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Teleport:
-                NPCTypeon("Teleport", 3);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[3], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Appearance:
-                NPCTypeon("Admin", 4);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[4], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Event:
-                NPCTypeon("Event", 5);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[5], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Accessories:
-                NPCTypeon("Accessories", 6);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[6], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Books:
-                NPCTypeon("Books", 7);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[7], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Bank:
-                NPCTypeon("Bank", 8);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[8], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Exp:
-                NPCTypeon("Exp", 9);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[9], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Weapons:
-                NPCTypeon("Weapons", 10);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[10], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.Potions:
-                NPCTypeon("Potions", 11);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[11], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
             case NPCType.General:
-                NPCTypeon("General", 12);
+                NPCTypeIcons = Instantiate(GameScene.NPCIcons[12], NPCTypeIconLocation.position, Quaternion.identity);
                 return;
         }
 
     }
-
-    public void NPCTypeon(string Type, int image)
-    {
-       
-        NPCTypeText = Instantiate(NameLabelObject, NPCTypeNameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
-        NPCTypeIcons.GetComponent<SpriteRenderer>().sprite = Instantiate(GameScene.NPCIcons[image], NPCTypeIconLocation.position, Quaternion.identity, gameObject.transform);
-        NPCTypeText.text = "<color=yellow>" + Type ;
-    }
+    
 }

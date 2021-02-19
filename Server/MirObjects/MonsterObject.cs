@@ -676,14 +676,16 @@ namespace Server.MirObjects
 
         public void KillAnnouncement(MonsterClass mobClass)
         {
-            String ColorStartG = "<color=green>";
-            String ColorStartB = "<color=blue>";
+            String ColorStartGreen = "<color=green>";
+            String ColorStartBlue = "<color=blue>";
+            String ColorStartRed = "<color=red>";
             String ColorEnd = "</color>";
             switch (mobClass)
             {
                 case MonsterClass.Boss:
                     PlayerObject playerObj = (PlayerObject)EXPOwner;
-                    string Massage = "guild`s [" + ColorStartB + playerObj.Name + ColorEnd + "] successfully Killed [ " + ColorStartG + Name + ColorEnd + "]";
+                    string Massage = $"[{ColorStartRed}{playerObj.MyGuild.Name}{ColorEnd}] guild`s {ColorStartBlue}{playerObj.Name}{ColorEnd} successfully Killed {ColorStartGreen}{Name}{ColorEnd}] ";
+
                     foreach (var player in Envir.Players)
                     {
                         player.ReceiveChat(Massage, ChatType.Announcement);
