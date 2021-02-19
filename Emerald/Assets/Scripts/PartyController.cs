@@ -16,6 +16,11 @@ public class PartyController : MonoBehaviour {
     [SerializeField] private GameObject uiMemberContainer;
     [SerializeField] private GameObject uiMemberSlot;
     [SerializeField] private GameObject uiCollapsePartyButton;
+    [SerializeField] private TextMeshProUGUI pageCountText;
+    [SerializeField] private GameObject groupPage;
+    [SerializeField] private GameObject receiveInviteWindow;
+    [SerializeField] private GameObject deleteMemberWindow;
+    private int currentPage;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
@@ -61,9 +66,10 @@ public class PartyController : MonoBehaviour {
         inviteWindow.SetActive(false);
     }
 
-    public void ShowInviteWindow(string fromUser) {
-        inviteLabel.text = $"Would you like to accept party invite from {fromUser}";
-        inviteWindow.SetActive(true);
+    public void ReceiveInvite(string fromPlayer) {
+        receiveInviteWindow.transform.GetChild(2).
+            GetComponent<TextMeshProUGUI>().SetText($"{fromPlayer} has invited you to join their group");
+        receiveInviteWindow.SetActive(true);
     }
 
     public void AddToPartyList(string newMember) {
@@ -83,7 +89,6 @@ public class PartyController : MonoBehaviour {
     }
 
     public void ClearPartyListAndMemberSlots() {
-        Debug.Log("ClearPartyListAndMemberSlots");
         ClearMemberSlots();
         partyList.Clear();
         SetUiCollapseButtonActive();
@@ -100,11 +105,19 @@ public class PartyController : MonoBehaviour {
 
     private void RefreshPartyMenu() {
         ClearMemberSlots();
+        GameObject currentContainer = SetNewPartyPage();
         for (int i = 0; i < partyList.Count; i++) {
-            SetPartyMemberSlots(memberSlot, memberContainer, memberSlots, i);
-            SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
+            if (i != 0 || i % 5 == 0) {
+                currentContainer = SetNewPartyPage();
+            }
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            // SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
         }
         SetUiCollapseButtonActive();
+    }
+
+    private GameObject SetNewPartyPage() {
+        return Instantiate(groupPage, memberContainer.transform);
     }
 
     private void SetUiCollapseButtonActive() {

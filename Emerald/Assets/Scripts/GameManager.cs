@@ -736,7 +736,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void ShowGroupInviteWindow(string fromUser) {
-        GameScene.partyController.ShowInviteWindow(fromUser);
+        GameScene.partyController.ReceiveInvite(fromUser);
     }
 
     public void AllowGroup(bool allowGroup) {
