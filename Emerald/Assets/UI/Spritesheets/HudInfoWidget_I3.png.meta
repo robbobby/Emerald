@@ -13,19 +13,19 @@ TextureImporter:
     second: HudInfo_LvlBG
   - first:
       213: -3527497859555801888
-    second: HudInfoWidget_I3_3
+    second: ModeAllSml
   - first:
       213: -8903800916750468227
-    second: HudInfoWidget_I3_4
+    second: ModeEvilSMl
   - first:
       213: -5541109018203895237
-    second: HudInfoWidget_I3_5
+    second: ModePeacefulSml
   - first:
       213: -1645287407197631923
-    second: HudInfoWidget_I3_6
+    second: ModeGuildSml
   - first:
       213: -154971200007277017
-    second: HudInfoWidget_I3_7
+    second: ModeGrpSml
   - first:
       213: 1946498842207649094
     second: AtkModePeaceful1
@@ -116,6 +116,18 @@ TextureImporter:
   - first:
       213: -459726128430273309
     second: HudInfoWidget_I3_33
+  - first:
+      213: 1550854964427886695
+    second: PartyHudWidgetBG
+  - first:
+      213: -3751266430986812536
+    second: PartyHudWidgetHP
+  - first:
+      213: -9076977380574484041
+    second: PartyHudWidget1
+  - first:
+      213: -2476591881134571803
+    second: PartyHudInfoBG1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -264,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_3
+      name: ModeAllSml
       rect:
         serializedVersion: 2
         x: 376
@@ -285,7 +297,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_4
+      name: ModeEvilSMl
       rect:
         serializedVersion: 2
         x: 352
@@ -306,7 +318,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_5
+      name: ModePeacefulSml
       rect:
         serializedVersion: 2
         x: 401
@@ -327,7 +339,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_6
+      name: ModeGuildSml
       rect:
         serializedVersion: 2
         x: 425
@@ -348,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_7
+      name: ModeGrpSml
       rect:
         serializedVersion: 2
         x: 448
@@ -881,7 +893,7 @@ TextureImporter:
         width: 191
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -902,7 +914,7 @@ TextureImporter:
         width: 180
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -910,6 +922,90 @@ TextureImporter:
       bones: []
       spriteID: 3eca2fc9589be99f0800000000000000
       internalID: -459726128430273309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PartyHudWidgetBG
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 115
+        width: 173
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76010e49f5eb58510800000000000000
+      internalID: 1550854964427886695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PartyHudWidgetHP
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 78
+        width: 143
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8830f2b5e03d0fbc0800000000000000
+      internalID: -3751266430986812536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PartyHudWidget1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 221
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b92a9c0a29180280800000000000000
+      internalID: -9076977380574484041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PartyHudInfoBG1
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 116
+        width: 154
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ee7b5f3ec061add0800000000000000
+      internalID: -2476591881134571803
       vertices: []
       indices: 
       edges: []
