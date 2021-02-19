@@ -24,6 +24,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     private int currentPage;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
+    private readonly List<GameObject> pages = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
     
     /* TODO: Checks before sending package */
@@ -70,7 +71,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
 
     public void ReplyToPartyInvite(bool response) {
         Network.Enqueue(new C.GroupInvite() { AcceptInvite = response });
-        inviteWindow.SetActive(false);
+        receiveInviteWindow.SetActive(false);
     }
 
     public void ReceiveInvite(string fromPlayer) {
@@ -80,9 +81,9 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     public void ShowInviteWindow(string fromUser) {
-        inviteLabel.text = $"Would you like to accept party invite from {fromUser}";
-        inviteWindow.SetActive(true);
-        AddToPopUpWindowList();
+        receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
+            .SetText($"{fromUser} has invited you to join their group");
+        receiveInviteWindow.SetActive(true);
     }
 
     public void AddToPartyList(string newMember) {
@@ -108,10 +109,15 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     private void ClearMemberSlots() {
+        if(memberSlots.Count > 0)
         for (int i = 0; i < memberSlots.Count; i++) {
             Destroy(memberSlots[i]);
-            Destroy(uiMemberSlots[i]);
+            // Destroy(uiMemberSlots[i]);
         }
+        
+        for(int i = 0; i < pages.Count; i++)
+            Destroy(pages[i]);
+        pages.Clear();
         memberSlots.Clear();
         uiMemberSlots.Clear();
     }
@@ -119,10 +125,20 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     private void RefreshPartyMenu() {
         ClearMemberSlots();
         GameObject currentContainer = SetNewPartyPage();
+        currentContainer.SetActive(true);
         for (int i = 0; i < partyList.Count; i++) {
-            if (i != 0 || i % 5 == 0) {
+            if (i != 0 && i % 5 == 0) {
+                Debug.Log(i);
+                Debug.Log($"Divided by 5 {i/5}");
                 currentContainer = SetNewPartyPage();
             }
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
             SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
             // SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
         }
@@ -130,7 +146,10 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     private GameObject SetNewPartyPage() {
-        return Instantiate(groupPage, memberContainer.transform);
+        GameObject page = Instantiate(groupPage, memberContainer.transform);
+        page.SetActive(false);
+        pages.Add(page);
+        return page;
     }
 
     private void SetUiCollapseButtonActive() {

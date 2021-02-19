@@ -99,7 +99,7 @@ public class UiWindowController : MonoBehaviour
         quickSlotsActions.QuickSlot_equals.performed += callBack => StartQuickSlotAction((int)QuickSlot.EQUALS);
         chatActions.Enable();
         EnableControls();
-        SetPartyInputFieldListeners();
+        // SetPartyInputFieldListeners();
         priorityWindowCloseList = new List<GameObject>() {gfxMenu, optionsMenu, soundsSettingsMenu, gameSettingsMenu}; // add guild invite to this list
     }
 
@@ -224,12 +224,12 @@ public class UiWindowController : MonoBehaviour
         uiInput.Enable();
     }
     
-    private void SetPartyInputFieldListeners() {
-        TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
-        partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
-        partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
+    // private void SetPartyInputFieldListeners() {
+        // TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
+        // partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
+        // partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
         
-    }
+    // }
     #endregion
 
     #region QuickSlots
