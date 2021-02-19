@@ -21,6 +21,7 @@ namespace Server
         public NPCInfoForm()
         {
             InitializeComponent();
+            ShowNPCList.Items.AddRange(Enum.GetValues(typeof(NPCType)).Cast<object>().ToArray());
 
             for (int i = 0; i < Envir.MapInfoList.Count; i++) MapComboBox.Items.Add(Envir.MapInfoList[i]);
 
@@ -91,6 +92,7 @@ namespace Server
                 StartMin_num.Value = 0;
                 EndMin_num.Value = 1;
                 Flag_textbox.Text = string.Empty;
+                ShowNPCList.SelectedItem = null;
                 return;
             }
 
@@ -118,6 +120,8 @@ namespace Server
             StartMin_num.Value = info.MinuteStart;
             EndMin_num.Value = info.MinuteEnd;
             Flag_textbox.Text = info.FlagNeeded.ToString();
+            ShowNPCList.SelectedItem = null;
+            ShowNPCList.SelectedItem = info.NPCIcons;
 
 
             for (int i = 1; i < _selectedNPCInfos.Count; i++)
@@ -131,6 +135,7 @@ namespace Server
                 if (NYTextBox.Text != info.Location.Y.ToString()) NYTextBox.Text = string.Empty;
                 if (NImageTextBox.Text != info.Image.ToString()) NImageTextBox.Text = string.Empty;
                 if (NRateTextBox.Text != info.Rate.ToString()) NRateTextBox.Text = string.Empty;
+                if (ShowNPCList.SelectedItem == null || (NPCType)ShowNPCList.SelectedItem != info.NPCIcons) ShowNPCList.SelectedItem = null;
             }
         }
 
@@ -557,6 +562,16 @@ namespace Server
 
             for (int i = 0; i < _selectedNPCInfos.Count; i++)
                 _selectedNPCInfos[i].Conquest = temp.Index;
+        }
+        private void ShowNPCList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ActiveControl != sender) return;
+
+            for (int i = 0; i < _selectedNPCInfos.Count; i++)
+            {
+                _selectedNPCInfos[i].NPCIcons = (NPCType)ShowNPCList.SelectedItem;
+
+            }
         }
     }
 }

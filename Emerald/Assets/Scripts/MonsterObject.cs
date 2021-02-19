@@ -11,6 +11,8 @@ public class MonsterObject : MapObject
     public SoundCueGraph AttackSound;
     public SoundCueGraph StruckSound;
     public SoundCueGraph DeathSound;
+    [HideInInspector]
+    public MonsterClass MobClass;
 
     public override void Start()
     {
@@ -98,4 +100,5 @@ public class MonsterObject : MapObject
         soundPlayer.ExecuteSound(StruckSound, gameObject, "Player");
         soundPlayer.Play();
     }
+
 }
