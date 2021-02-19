@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ServerPackets;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
