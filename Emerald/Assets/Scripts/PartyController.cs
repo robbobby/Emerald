@@ -30,10 +30,14 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
     /* TODO: Packet receiver for initial allow group value or find where this is already sent
         Careful with the ChangeAllowGroupValue and recursive loop.*/
+
+    public void HandlePageTurn(int pageTurn) {
+        
+    }
     
     public string UserName { get; set; }
     
-    public void ChangeAllowGroupValue() {
+    public void AllowGroupChange() {
         Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
     }
 
@@ -41,6 +45,8 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         ClearPartyListAndMemberSlots();
         Network.Enqueue(new C.DelMember() {Name = UserName});
     }
+    
+    public void ConfirmRemovePlayerFromParty() {}
 
     public void RemoveMemberFromParty() {
         Network.Enqueue(new C.DelMember { Name = inputPlayerName.text});
