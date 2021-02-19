@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Network = Emerald.Network;
 using C = ClientPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
-public class PartyController : MonoBehaviour {
+public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
     [SerializeField] private GameObject inviteWindow;
@@ -16,13 +17,28 @@ public class PartyController : MonoBehaviour {
     [SerializeField] private GameObject uiMemberContainer;
     [SerializeField] private GameObject uiMemberSlot;
     [SerializeField] private GameObject uiCollapsePartyButton;
+    [SerializeField] private TextMeshProUGUI pageCountText;
+    [SerializeField] private GameObject groupPage;
+    [SerializeField] private GameObject receiveInviteWindow;
+    [SerializeField] private GameObject deleteMemberWindow;
+    private int currentPage;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
+    private readonly List<GameObject> pages = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
     
-    public string UserName { get; set; }
+    /* TODO: Checks before sending package */
+    /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
+    /* TODO: Packet receiver for initial allow group value or find where this is already sent
+        Careful with the ChangeAllowGroupValue and recursive loop.*/
 
-    public void ChangeAllowGroupValue() {
+    public void HandlePageTurn(int pageTurn) {
+        
+    }
+    
+    public string UserName { get; set; }
+    
+    public void AllowGroupChange() {
         Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
     }
 
@@ -30,6 +46,8 @@ public class PartyController : MonoBehaviour {
         ClearPartyListAndMemberSlots();
         Network.Enqueue(new C.DelMember() {Name = UserName});
     }
+    
+    public void ConfirmRemovePlayerFromParty() {}
 
     public void RemoveMemberFromParty() {
         Network.Enqueue(new C.DelMember { Name = inputPlayerName.text});
@@ -53,12 +71,19 @@ public class PartyController : MonoBehaviour {
 
     public void ReplyToPartyInvite(bool response) {
         Network.Enqueue(new C.GroupInvite() { AcceptInvite = response });
-        inviteWindow.SetActive(false);
+        receiveInviteWindow.SetActive(false);
+    }
+
+    public void ReceiveInvite(string fromPlayer) {
+        receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
+            .SetText($"{fromPlayer} has invited you to join their group");
+        receiveInviteWindow.SetActive(true);
     }
 
     public void ShowInviteWindow(string fromUser) {
-        inviteLabel.text = $"Would you like to accept party invite from {fromUser}";
-        inviteWindow.SetActive(true);
+        receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
+            .SetText($"{fromUser} has invited you to join their group");
+        receiveInviteWindow.SetActive(true);
     }
 
     public void AddToPartyList(string newMember) {
@@ -78,28 +103,53 @@ public class PartyController : MonoBehaviour {
     }
 
     public void ClearPartyListAndMemberSlots() {
-        Debug.Log("ClearPartyListAndMemberSlots");
         ClearMemberSlots();
         partyList.Clear();
         SetUiCollapseButtonActive();
     }
 
     private void ClearMemberSlots() {
+        if(memberSlots.Count > 0)
         for (int i = 0; i < memberSlots.Count; i++) {
             Destroy(memberSlots[i]);
-            Destroy(uiMemberSlots[i]);
+            // Destroy(uiMemberSlots[i]);
         }
+        
+        for(int i = 0; i < pages.Count; i++)
+            Destroy(pages[i]);
+        pages.Clear();
         memberSlots.Clear();
         uiMemberSlots.Clear();
     }
 
     private void RefreshPartyMenu() {
         ClearMemberSlots();
+        GameObject currentContainer = SetNewPartyPage();
+        currentContainer.SetActive(true);
         for (int i = 0; i < partyList.Count; i++) {
-            SetPartyMemberSlots(memberSlot, memberContainer, memberSlots, i);
-            SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
+            if (i != 0 && i % 5 == 0) {
+                Debug.Log(i);
+                Debug.Log($"Divided by 5 {i/5}");
+                currentContainer = SetNewPartyPage();
+            }
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            // SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
         }
         SetUiCollapseButtonActive();
+    }
+
+    private GameObject SetNewPartyPage() {
+        GameObject page = Instantiate(groupPage, memberContainer.transform);
+        page.SetActive(false);
+        pages.Add(page);
+        return page;
     }
 
     private void SetUiCollapseButtonActive() {
@@ -122,6 +172,15 @@ public class PartyController : MonoBehaviour {
 
     private bool RoomForMorePlayers() {
         return partyList.Count < 5; // Global party count?
+    }
+
+    public void AddToPopUpWindowList() {
+        UiWindowController.AddToPopUpList(this);
+    }
+
+    public void ClosePopUp() {
+        ReplyToPartyInvite(false);
+        UiWindowController.RemoveFromPopUpList(this);
     }
 }
 

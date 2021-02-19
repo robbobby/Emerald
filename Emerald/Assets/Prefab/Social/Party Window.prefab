@@ -1504,7 +1504,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2632325511188476184}
-        m_MethodName: ChangeAllowGroupValue
+        m_MethodName: AllowGroupChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
