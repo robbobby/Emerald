@@ -72,6 +72,7 @@ public class GameSceneManager : MonoBehaviour
 
     public uint NPCID;
     public string NPCName;
+    [SerializeField] public ShopController shopController;
 
     private MapObject targetObject;
     public MapObject TargetObject
@@ -117,6 +118,7 @@ public class GameSceneManager : MonoBehaviour
             OnSelectedCellChanged();
         }
     }
+
 
     private void OnSelectedCellChanged()
     {

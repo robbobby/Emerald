@@ -448,6 +448,9 @@ namespace Emerald
                 case (short)ServerPacketIds.AddMember:
                     AddMember((S.AddMember)p);
                     break;
+                case(short)ServerPacketIds.NPCGoods:
+                    NpcGoods((S.NPCGoods)p);
+                    break;
                 // case (short)ServerPacketIds.Send:
                 
                 default:
@@ -833,6 +836,11 @@ namespace Emerald
         private static void DeleteMember(S.DeleteMember p) => gameManager.DeleteMemberFromGroup(p.Name); 
         private static void GroupInvite(S.GroupInvite p) => gameManager.ShowGroupInviteWindow(p.Name);
         private static void AddMember(S.AddMember p) => gameManager.AddMemberToGroup(p.Name);
+        
+        // Shop Package Handlers //
+        private static void NpcGoods(S.NPCGoods p) {
+            gameManager.SetShopGoods(p.List);
+        }
 
 
         public static void Enqueue(Packet p)

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using ServerPackets;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 using Network = Emerald.Network;
 using C = ClientPackets;
+using S = ServerPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
 public class PartyController : MonoBehaviour {
