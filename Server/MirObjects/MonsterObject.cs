@@ -684,7 +684,7 @@ namespace Server.MirObjects
             {
                 case MonsterClass.Boss:
                     PlayerObject playerObj = (PlayerObject)EXPOwner;
-                    string Massage = $"[{ColorStartRed}{playerObj.MyGuild.Name}{ColorEnd}] guild`s {ColorStartBlue}{playerObj.Name}{ColorEnd} successfully Killed {ColorStartGreen}{Name}{ColorEnd}] ";
+                    string Massage = $"[{ColorStartRed}{playerObj.MyGuild.Name}{ColorEnd}] guild`s [{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
 
                     foreach (var player in Envir.Players)
                     {
