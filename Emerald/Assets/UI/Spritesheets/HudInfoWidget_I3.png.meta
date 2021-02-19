@@ -13,19 +13,19 @@ TextureImporter:
     second: HudInfo_LvlBG
   - first:
       213: -3527497859555801888
-    second: HudInfoWidget_I3_3
+    second: ModeAllSml
   - first:
       213: -8903800916750468227
-    second: HudInfoWidget_I3_4
+    second: ModeEvilSMl
   - first:
       213: -5541109018203895237
-    second: HudInfoWidget_I3_5
+    second: ModePeacefulSml
   - first:
       213: -1645287407197631923
-    second: HudInfoWidget_I3_6
+    second: ModeGuildSml
   - first:
       213: -154971200007277017
-    second: HudInfoWidget_I3_7
+    second: ModeGrpSml
   - first:
       213: 1946498842207649094
     second: AtkModePeaceful1
@@ -276,7 +276,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_3
+      name: ModeAllSml
       rect:
         serializedVersion: 2
         x: 376
@@ -297,7 +297,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_4
+      name: ModeEvilSMl
       rect:
         serializedVersion: 2
         x: 352
@@ -318,7 +318,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_5
+      name: ModePeacefulSml
       rect:
         serializedVersion: 2
         x: 401
@@ -339,7 +339,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_6
+      name: ModeGuildSml
       rect:
         serializedVersion: 2
         x: 425
@@ -360,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HudInfoWidget_I3_7
+      name: ModeGrpSml
       rect:
         serializedVersion: 2
         x: 448
@@ -998,7 +998,7 @@ TextureImporter:
         width: 154
         height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
