@@ -1940,6 +1940,7 @@ namespace ServerPackets
         public byte ExtraByte;
         public long ShockTime;
         public bool BindingShotCenter;
+        public MonsterClass MobClass;
 
         protected override void ReadPacket(BinaryReader reader)
         {
@@ -1961,6 +1962,7 @@ namespace ServerPackets
             BindingShotCenter = reader.ReadBoolean();
             Extra = reader.ReadBoolean();
             ExtraByte = reader.ReadByte();
+            MobClass = (MonsterClass)reader.ReadByte();
         }
 
         protected override void WritePacket(BinaryWriter writer)
@@ -1984,6 +1986,7 @@ namespace ServerPackets
             writer.Write(BindingShotCenter);
             writer.Write(Extra);
             writer.Write((byte)ExtraByte);
+            writer.Write((byte)MobClass);
         }
 
     }
@@ -2407,6 +2410,7 @@ namespace ServerPackets
         public Color Colour;
         public Point Location;
         public MirDirection Direction;
+        public NPCType NPCIcons;
         public List<int> QuestIDs = new List<int>();
 
         protected override void ReadPacket(BinaryReader reader)
@@ -2418,7 +2422,7 @@ namespace ServerPackets
             Colour = Color.FromArgb(reader.ReadInt32());
             Location = new Point(reader.ReadInt32(), reader.ReadInt32());
             Direction = (MirDirection)reader.ReadByte();
-
+            NPCIcons = (NPCType)reader.ReadByte();
             int count = reader.ReadInt32();
 
             for (var i = 0; i < count; i++)
@@ -2434,7 +2438,7 @@ namespace ServerPackets
             writer.Write(Location.X);
             writer.Write(Location.Y);
             writer.Write((byte)Direction);
-
+            writer.Write((byte)NPCIcons);
             writer.Write(QuestIDs.Count);
 
             for (int i = 0; i < QuestIDs.Count; i++)

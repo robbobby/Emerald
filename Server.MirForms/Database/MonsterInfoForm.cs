@@ -22,6 +22,7 @@ namespace Server
             InitializeComponent();
 
             ImageComboBox.Items.AddRange(Enum.GetValues(typeof(Monster)).Cast<object>().ToArray());
+            MonsterClassDropdown.Items.AddRange(Enum.GetValues(typeof(MonsterClass)).Cast<object>().ToArray());
             UpdateInterface();
         }
 
@@ -62,6 +63,7 @@ namespace Server
                 MonsterNameTextBox.Text = string.Empty;
 
                 ImageComboBox.SelectedItem = null;
+                MonsterClassDropdown.SelectedItem = null;
                 fileNameLabel.Text = "";
                 AITextBox.Text = string.Empty;
                 EffectTextBox.Text = string.Empty;
@@ -108,6 +110,8 @@ namespace Server
             ImageComboBox.SelectedItem = null;
             ImageComboBox.SelectedItem = info.Image;
             fileNameLabel.Text = ((int)info.Image).ToString() + ".Lib";
+            MonsterClassDropdown.SelectedItem = null;
+            MonsterClassDropdown.SelectedItem = info.MobClass;
             AITextBox.Text = info.AI.ToString();
             EffectTextBox.Text = info.Effect.ToString();
             LevelTextBox.Text = info.Level.ToString();
@@ -150,6 +154,7 @@ namespace Server
 
                 if (ImageComboBox.SelectedItem == null || (Monster)ImageComboBox.SelectedItem != info.Image) ImageComboBox.SelectedItem = null;
                 if (ImageComboBox.SelectedItem == null || (Monster)ImageComboBox.SelectedItem != info.Image) fileNameLabel.Text = "";
+                if (MonsterClassDropdown.SelectedItem == null || (MonsterClass)MonsterClassDropdown.SelectedItem != info.MobClass) MonsterClassDropdown.SelectedItem = null;
                 if (AITextBox.Text != info.AI.ToString()) AITextBox.Text = string.Empty;
                 if (EffectTextBox.Text != info.Effect.ToString()) EffectTextBox.Text = string.Empty;
                 if (LevelTextBox.Text != info.Level.ToString()) LevelTextBox.Text = string.Empty;
@@ -724,6 +729,16 @@ namespace Server
 
             for (int i = 0; i < _selectedMonsterInfos.Count; i++)
                 _selectedMonsterInfos[i].Scale = temp;
+        }
+        private void MonsterClassDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ActiveControl != sender) return;
+
+            for (int i = 0; i < _selectedMonsterInfos.Count; i++)
+            {
+                _selectedMonsterInfos[i].MobClass = (MonsterClass)MonsterClassDropdown.SelectedItem;
+
+            }
         }
     }
 }
