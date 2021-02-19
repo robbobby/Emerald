@@ -105,6 +105,8 @@ public class GameSceneManager : MonoBehaviour
     public QueuedAction QueuedAction;
 
     private MirItemCell _selectedCell;
+    
+
     [HideInInspector]
     public MirItemCell SelectedCell
     {

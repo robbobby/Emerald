@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Network = Emerald.Network;
 using C = ClientPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
-public class PartyController : MonoBehaviour {
+public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
     [SerializeField] private GameObject inviteWindow;
@@ -31,7 +32,7 @@ public class PartyController : MonoBehaviour {
         Careful with the ChangeAllowGroupValue and recursive loop.*/
     
     public string UserName { get; set; }
-
+    
     public void ChangeAllowGroupValue() {
         Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
     }
@@ -67,9 +68,15 @@ public class PartyController : MonoBehaviour {
     }
 
     public void ReceiveInvite(string fromPlayer) {
-        receiveInviteWindow.transform.GetChild(2).
-            GetComponent<TextMeshProUGUI>().SetText($"{fromPlayer} has invited you to join their group");
+        receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
+            .SetText($"{fromPlayer} has invited you to join their group");
         receiveInviteWindow.SetActive(true);
+    }
+
+    public void ShowInviteWindow(string fromUser) {
+        inviteLabel.text = $"Would you like to accept party invite from {fromUser}";
+        inviteWindow.SetActive(true);
+        AddToPopUpWindowList();
     }
 
     public void AddToPartyList(string newMember) {
@@ -140,6 +147,15 @@ public class PartyController : MonoBehaviour {
 
     private bool RoomForMorePlayers() {
         return partyList.Count < 5; // Global party count?
+    }
+
+    public void AddToPopUpWindowList() {
+        UiWindowController.AddToPopUpList(this);
+    }
+
+    public void ClosePopUp() {
+        ReplyToPartyInvite(false);
+        UiWindowController.RemoveFromPopUpList(this);
     }
 }
 
