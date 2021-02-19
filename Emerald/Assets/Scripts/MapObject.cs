@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using Network = Emerald.Network;
-using C = ClientPackets;
 
 public class MapObject : MonoBehaviour
 {
@@ -13,6 +9,7 @@ public class MapObject : MonoBehaviour
     {
         get { return GameManager.GameScene; }
     }
+  
     [HideInInspector]
     public Renderer ObjectRenderer;
 
@@ -32,6 +29,7 @@ public class MapObject : MonoBehaviour
     }
 
 
+    public MonsterObject MonsterObject;
 
     public GameObject NameLabelObject;
     public Transform NameLocation;
@@ -49,6 +47,11 @@ public class MapObject : MonoBehaviour
     public float OutlineWidth;
 
     public string Name;
+
+
+    public string NameTextcolour;
+
+
     public int Light;
     [HideInInspector]
 
@@ -131,6 +134,8 @@ public class MapObject : MonoBehaviour
         SetNameLabel();
     }
 
+  
+
     protected virtual void Update()
     {
         if (CurrentAction == MirAction.Standing || CurrentAction == MirAction.Dead)
@@ -196,4 +201,6 @@ public class MapObject : MonoBehaviour
     {
         CurrentAction = MirAction.Dead;
     }
+
+ 
 }

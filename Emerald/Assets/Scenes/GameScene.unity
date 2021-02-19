@@ -26229,6 +26229,20 @@ MonoBehaviour:
     type: 3}
   CharacterDialog: {fileID: 227496107}
   SkillDialog: {fileID: 2033180757}
+  NPCIcons:
+  - {fileID: 1672325946069482764, guid: baa3b357064120e4e8785c384af65ad6, type: 3}
+  - {fileID: 8099611922703673566, guid: e0650adac88ffbe4c8711d2f837aaaa0, type: 3}
+  - {fileID: 4568025959184520831, guid: 79c17474024caa745a17e2371e520c21, type: 3}
+  - {fileID: 6345173540908252639, guid: 3886cf6df3f26b64a9353ef28345456c, type: 3}
+  - {fileID: 911531652160675093, guid: 2d26fc816ed5feb4b8b8aec19bc02518, type: 3}
+  - {fileID: 5168495807246666218, guid: 22429cb03852ef944af136705bcbb8f2, type: 3}
+  - {fileID: 4303967509185325994, guid: 85b0a2c78baccc9408d43c6ba3763256, type: 3}
+  - {fileID: 6887153427542169933, guid: 6b97f8e29612c6a419ab9f2d2cea479e, type: 3}
+  - {fileID: 7989595420163655713, guid: 17961613c829aae4b856ea97400ea228, type: 3}
+  - {fileID: 7616675257953669719, guid: 762ceab04ff9b6d4494be44fcc3cf2cc, type: 3}
+  - {fileID: 7446222651076582170, guid: 321f4c7659827ef4eb613a90f1e2963c, type: 3}
+  - {fileID: 7136858849379874275, guid: 4f5825295c1ce4942967faba747115dc, type: 3}
+  - {fileID: 7222024376486423550, guid: a384111f3959e9c479244b7e3aa956b0, type: 3}
   Inventory: {fileID: 0}
   ItemToolTip: {fileID: 675349350}
   SelectedItemImage: {fileID: 838068041}

@@ -558,6 +558,8 @@ namespace Server.MirObjects
                     break;
             }
 
+            
+
             if (Envir.Time < ShockTime)
                 colour = Color.Peru;
             else if (Envir.Time < RageTime)
@@ -657,6 +659,8 @@ namespace Server.MirObjects
                 playerObj.CheckGroupQuestKill(Info);
             }
 
+            KillAnnouncement(Info.MobClass);
+                        
             if (Respawn != null)
                 Respawn.Count--;
 
@@ -669,6 +673,27 @@ namespace Server.MirObjects
             Envir.MonsterCount--;
             CurrentMap.MonsterCount--;
         }
+
+        public void KillAnnouncement(MonsterClass mobClass)
+        {
+            String ColorStartGreen = "<color=green>";
+            String ColorStartBlue = "<color=blue>";
+            String ColorStartRed = "<color=red>";
+            String ColorEnd = "</color>";
+            switch (mobClass)
+            {
+                case MonsterClass.Boss:
+                    PlayerObject playerObj = (PlayerObject)EXPOwner;
+                    string Massage = $"[{ColorStartRed}{playerObj.MyGuild.Name}{ColorEnd}] guild`s [{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
+
+                    foreach (var player in Envir.Players)
+                    {
+                        player.ReceiveChat(Massage, ChatType.Announcement);
+                    }
+                    return;
+            }
+        }
+
 
         public void Revive(uint hp, bool effect)
         {
@@ -2229,6 +2254,7 @@ namespace Server.MirObjects
                     Scale = Info.Scale,
                     Light = Info.Light,
                     Dead = Dead,
+                    MobClass = Info.MobClass,
                     Skeleton = Harvested,
                     Poison = CurrentPoison,
                     Hidden = Hidden,

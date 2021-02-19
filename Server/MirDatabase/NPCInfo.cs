@@ -24,6 +24,7 @@ namespace Server.MirDatabase
         public ushort Rate = 100;
         public ushort Image;
         public Color Colour;
+        public NPCType NPCIcons;
 
         public bool TimeVisible = false;
         public byte HourStart = 0;
@@ -76,6 +77,10 @@ namespace Server.MirDatabase
             }
             
             Rate = reader.ReadUInt16();
+            if (Envir.LoadVersion > 81)
+            {
+                NPCIcons = (NPCType)reader.ReadByte();
+            }
 
             if (Envir.LoadVersion >= 64)
             {
@@ -115,6 +120,7 @@ namespace Server.MirDatabase
             writer.Write(Location.Y);
             writer.Write(Image);
             writer.Write(Rate);
+            writer.Write((byte)NPCIcons);
 
             writer.Write(TimeVisible);
             writer.Write(HourStart);
@@ -133,7 +139,7 @@ namespace Server.MirDatabase
         {
             string[] data = text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (data.Length < 6) return;
+            if (data.Length < 7) return;
 
             NPCInfo info = new NPCInfo { Name = data[0] };
 
@@ -151,14 +157,17 @@ namespace Server.MirDatabase
 
             if (!ushort.TryParse(data[5], out info.Image)) return;
             if (!ushort.TryParse(data[6], out info.Rate)) return;
-
+            byte nPCIcons;
+            if (!byte.TryParse(data[7], out nPCIcons)) return;
+            info.NPCIcons = (NPCType) nPCIcons;
+           
             info.Index = ++EditEnvir.NPCIndex;
             EditEnvir.NPCInfoList.Add(info);
         }
         public string ToText()
         {
-            return string.Format("{0},{1},{2},{3},{4},{5},{6}",
-                FileName, EditEnvir.MapInfoList.Where(d => d.Index == MapIndex).FirstOrDefault().FileName, Location.X, Location.Y, Name, Image, Rate);
+            return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                FileName, EditEnvir.MapInfoList.Where(d => d.Index == MapIndex).FirstOrDefault().FileName, Location.X, Location.Y, Name, Image, Rate, (byte)NPCIcons);
         }
 
         public override string ToString()
