@@ -429,7 +429,7 @@ MonoBehaviour:
   NameLabel: {fileID: 0}
   Model: {fileID: 0}
   Parent: {fileID: 0}
-  MoveSpeed: 1.2
+  MoveSpeed: 2.2
   OutlineWidth: 0
   Name: 
   Light: 0

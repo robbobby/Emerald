@@ -14,9 +14,9 @@ public class MonsterObject : MapObject
     [HideInInspector]
     public MonsterClass MobClass;
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         soundPlayer = ScriptableObject.CreateInstance<SoundNodePlayer>();
         Model = gameObject;

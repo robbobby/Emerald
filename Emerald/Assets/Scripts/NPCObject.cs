@@ -18,9 +18,9 @@ public class NPCObject : MapObject
     [HideInInspector]
     public NPCType NPCIcons;
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         Model = gameObject;
         ObjectRenderer = GetComponentInChildren<SkinnedMeshRenderer>();

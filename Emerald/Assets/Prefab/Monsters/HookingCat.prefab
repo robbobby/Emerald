@@ -3245,7 +3245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectRenderer: {fileID: 3687637588638721611}
-  OutlineMaterial: {fileID: 2100000, guid: 9df71da1882afd347bbeabb06d042f1b, type: 2}
   NameLabelObject: {fileID: 8972585348359723467, guid: fb59f2525fca14345afceae9453fb40a,
     type: 3}
   NameLocation: {fileID: 6877015668439059019}
@@ -3254,9 +3253,10 @@ MonoBehaviour:
     type: 3}
   Model: {fileID: 6877015669177786801}
   Parent: {fileID: 6030733872511468970}
-  MoveSpeed: 1.2
+  MoveSpeed: 2
   OutlineWidth: 0.0003
   Name: 
+  NameTextcolour: 
   Light: 0
   Blocking: 1
   HealthTime: 0
@@ -3265,13 +3265,13 @@ MonoBehaviour:
   StartPosition: {x: 0, y: 0, z: 0}
   TargetDistance: 0
   ObjectID: 0
-  CurrentLocation: {x: 0, y: 0}
   Direction: 0
   CurrentAction: 0
   ActionType: 0
-  AttackSound: {fileID: 8300000, guid: 055f9d3ae733bcb478450bee788be333, type: 3}
-  StruckSound: {fileID: 8300000, guid: a0bd922eb61bd1146b34713d48f83d1c, type: 3}
-  DeathSound: {fileID: 8300000, guid: d0ca4a32d1f98384abe4c3793878af42, type: 3}
+  AttackSound: {fileID: 0}
+  StruckSound: {fileID: 0}
+  DeathSound: {fileID: 0}
+  MobClass: 0
 --- !u!136 &6877015669177786806
 CapsuleCollider:
   m_ObjectHideFlags: 0

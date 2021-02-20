@@ -46,8 +46,10 @@ public class Cell
 
 public class MirScene : MonoBehaviour
 {
-    private int Width;
-    private int Height;
+    public int Width;
+    public int Height;
+    public float MiniMapScaleX;
+    public float MiniMapScaleY;
     public Cell[,] Cells;
     public string FileName;
 
@@ -96,6 +98,9 @@ public class MirScene : MonoBehaviour
 
                     offSet += 4;
                 }
+
+            MiniMapScaleX = 512 / (float)Width;
+            MiniMapScaleY = 512 / (float)Height;
         }
     }
 }

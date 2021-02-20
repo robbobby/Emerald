@@ -3265,9 +3265,10 @@ MonoBehaviour:
     type: 3}
   Model: {fileID: 6877015669177786801}
   Parent: {fileID: 6030733872511468970}
-  MoveSpeed: 1.2
+  MoveSpeed: 2
   OutlineWidth: 0.03
   Name: 
+  NameTextcolour: 
   Light: 0
   Blocking: 1
   HealthTime: 0
@@ -3276,13 +3277,13 @@ MonoBehaviour:
   StartPosition: {x: 0, y: 0, z: 0}
   TargetDistance: 0
   ObjectID: 0
-  CurrentLocation: {x: 0, y: 0}
   Direction: 0
   CurrentAction: 0
   ActionType: 0
   AttackSound: {fileID: 11400000, guid: 90516516df1d84f4c8e3d986960362f2, type: 2}
   StruckSound: {fileID: 11400000, guid: c458bccbf215a864380b87fd0ce0b542, type: 2}
   DeathSound: {fileID: 11400000, guid: e5f7aa63bbcaf0e419e4b55321477de9, type: 2}
+  MobClass: 0
 --- !u!136 &6877015669177786806
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -28,9 +28,6 @@ public class MapObject : MonoBehaviour
         }
     }
 
-
-    public MonsterObject MonsterObject;
-
     public GameObject NameLabelObject;
     public Transform NameLocation;
     [HideInInspector]
@@ -45,6 +42,9 @@ public class MapObject : MonoBehaviour
     public float MoveSpeed;
     [Range(0f, 10f)]
     public float OutlineWidth;
+
+    [HideInInspector]
+    protected GameObject minimapDot;
 
     public string Name;
 
@@ -102,8 +102,19 @@ public class MapObject : MonoBehaviour
 
     [HideInInspector]
     public uint ObjectID;
-    [HideInInspector]
-    public Vector2Int CurrentLocation;
+
+    protected Vector2Int currentLocation;
+    public virtual Vector2Int CurrentLocation
+    {
+        get { return currentLocation; }
+        set
+        {
+            if (currentLocation == value) return;
+            currentLocation = value;
+            if (GameManager.CurrentScene == null || minimapDot == null) return;
+            minimapDot.transform.localPosition = new Vector3(currentLocation.x * GameManager.CurrentScene.MiniMapScaleX - 256, (GameManager.CurrentScene.Height - currentLocation.y) * GameManager.CurrentScene.MiniMapScaleY - 256, 0);
+        }
+    }
     [HideInInspector]
     public MirDirection Direction;
     [HideInInspector]
@@ -127,10 +138,12 @@ public class MapObject : MonoBehaviour
         }
     }
 
-    public virtual void Start()
+    public virtual void Awake()
     {
         CurrentAction = MirAction.Standing;        
         NameLabel = Instantiate(NameLabelObject, NameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
+        if (GameManager.gameStage == GameStage.Game)
+            minimapDot = Instantiate(GameScene.MiniMapDot, Vector3.zero, Quaternion.identity, GameScene.MiniMapView.transform);
         SetNameLabel();
     }
 
@@ -146,7 +159,11 @@ public class MapObject : MonoBehaviour
 
         if (IsMoving)
         {
-            var distance = (TargetPosition - StartPosition) * MoveSpeed * Time.deltaTime;
+            float moveSpeed = MoveSpeed;
+            if (CurrentAction == MirAction.Running)
+                moveSpeed += MoveSpeed;
+
+            var distance = (TargetPosition - StartPosition).normalized * moveSpeed * Time.deltaTime;
             var newpos = transform.position + distance;
 
             if (Vector3.Distance(StartPosition, newpos) >= TargetDistance)
