@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using XNode;
 using Button = UnityEngine.UI.Button;
 using Network = Emerald.Network;
 using C = ClientPackets;
@@ -21,11 +22,13 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private GameObject groupPage;
     [SerializeField] private GameObject receiveInviteWindow;
     [SerializeField] private GameObject deleteMemberWindow;
-    private int currentPage;
+    [SerializeField] private GameObject invitationNoticeIcon;
+    private int currentPage = 0;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> pages = new List<GameObject>();
     private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
+    private string currentSelectedMember;
     
     /* TODO: Checks before sending package */
     /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
@@ -33,7 +36,22 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         Careful with the ChangeAllowGroupValue and recursive loop.*/
 
     public void HandlePageTurn(int pageTurn) {
-        
+        Debug.Log($"current page + pageTurn is {currentPage + 1}");
+        Debug.Log(currentPage + pageTurn >= pages.Count);
+        if (currentPage + pageTurn < 0 || currentPage + pageTurn >= pages.Count) return;
+        pages[currentPage].SetActive(false);
+        currentPage+= pageTurn;
+        pages[currentPage].SetActive(true);
+        SetPageText();
+    }
+
+    private void SetPageText() {
+        pageCountText.SetText($"{currentPage + 1}/{pages.Count}");
+    }
+
+    public void TEST_FILL_GROUP() {
+        for (int i = 0; i < 20; i++)
+            AddToPartyList($"{i} member");        
     }
     
     public string UserName { get; set; }
@@ -83,11 +101,10 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     public void ShowInviteWindow(string fromUser) {
         receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
             .SetText($"{fromUser} has invited you to join their group");
-        receiveInviteWindow.SetActive(true);
+        invitationNoticeIcon.SetActive(true);
     }
 
     public void AddToPartyList(string newMember) {
-        Debug.Log("AddToPartyList");
         partyList.Add(newMember);
         RefreshPartyMenu();
     }
@@ -110,8 +127,8 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
 
     private void ClearMemberSlots() {
         if(memberSlots.Count > 0)
-        for (int i = 0; i < memberSlots.Count; i++) {
-            Destroy(memberSlots[i]);
+            for (int i = 0; i < memberSlots.Count; i++) {
+                Destroy(memberSlots[i]);
             // Destroy(uiMemberSlots[i]);
         }
         
@@ -128,21 +145,12 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         currentContainer.SetActive(true);
         for (int i = 0; i < partyList.Count; i++) {
             if (i != 0 && i % 5 == 0) {
-                Debug.Log(i);
-                Debug.Log($"Divided by 5 {i/5}");
                 currentContainer = SetNewPartyPage();
             }
             SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            // SetPartyMemberSlots(uiMemberSlot, uiMemberContainer, uiMemberSlots, i);
         }
         SetUiCollapseButtonActive();
+        SetPageText();
     }
 
     private GameObject SetNewPartyPage() {
