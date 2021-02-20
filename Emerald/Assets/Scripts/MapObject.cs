@@ -47,8 +47,6 @@ public class MapObject : MonoBehaviour
     protected GameObject minimapDot;
 
     public string Name;
-
-
     public string NameTextcolour;
 
 
@@ -147,7 +145,10 @@ public class MapObject : MonoBehaviour
         SetNameLabel();
     }
 
-  
+    public virtual void Start()
+    {
+        SetNameLabel();
+    }  
 
     protected virtual void Update()
     {

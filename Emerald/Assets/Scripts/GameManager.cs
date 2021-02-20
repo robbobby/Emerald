@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         User.BindAllItems();
 
         User.Player.Camera.SetActive(true);
-        User.Player.MiniMapCamera.SetActive(true);
+        //User.Player.MiniMapCamera.SetActive(true);
         ObjectList.Add(p.ObjectID, User.Player);
         UserGameObject.GetComponentInChildren<AudioListener>().enabled = true;
         Tooltip.cam = User.Player.Camera.GetComponent<Camera>();
@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour
             monster.gameObject.SetActive(true);
             monster.Dead = p.Dead;
             monster.Blocking = !p.Dead;
-            monster.MobClass = p.MobClass;
+            monster.Class = p.MobClass;
             return;
         }
 
@@ -349,7 +349,7 @@ public class GameManager : MonoBehaviour
         monster.OutlineMaterial = OutlineMaterial;
         monster.Dead = p.Dead;
         monster.Blocking = !p.Dead;
-        monster.MobClass = p.MobClass;
+        monster.Class = p.MobClass;
 
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(monster);
         ObjectList.Add(p.ObjectID, monster);        
@@ -366,7 +366,7 @@ public class GameManager : MonoBehaviour
             npc.Name = p.Name;
             npc.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
             npc.Direction = p.Direction;
-            npc.NPCIcons = p.NPCIcons;
+            npc.Icon = p.Icon;
             npc.transform.position = CurrentScene.Cells[p.Location.X, p.Location.Y].position;
             npc.Model.transform.rotation = ClientFunctions.GetRotation(p.Direction);
             npc.gameObject.SetActive(true);
@@ -382,7 +382,7 @@ public class GameManager : MonoBehaviour
         npc.ObjectID = p.ObjectID;
         npc.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
         npc.Direction = p.Direction;
-        npc.NPCIcons = p.NPCIcons;
+        npc.Icon = p.Icon;
         npc.Model.transform.rotation = ClientFunctions.GetRotation(p.Direction);
         npc.OutlineMaterial = OutlineMaterial;
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(npc);

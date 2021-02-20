@@ -57,38 +57,41 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     public string UserName { get; set; }
     
     public void AllowGroupChange() {
-        Network.Enqueue(new C.SwitchGroup { AllowGroup = allowGroupToggle.isOn});
+        Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = allowGroupToggle.isOn});
     }
 
     public void LeaveParty() {
         ClearPartyListAndMemberSlots();
-        Network.Enqueue(new C.DelMember() {Name = UserName});
+        Debug.Log(UserName);
+        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = false});
+        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = true});
+        
     }
     
     public void ConfirmRemovePlayerFromParty() {}
 
     public void RemoveMemberFromParty() {
-        Network.Enqueue(new C.DelMember { Name = inputPlayerName.text});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = inputPlayerName.text});
     }
 
     public void RemoveMemberFromParty(string playerName) {
-        Network.Enqueue(new C.DelMember { Name = playerName});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = playerName});
     }
 
     public void RemoveMemberFromParty(int memberPosition) {
-        Network.Enqueue(new C.DelMember() { Name = partyList[memberPosition]});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = partyList[memberPosition]});
     }
 
     public void SendInviteToPlayer() {
         if (!RoomForMorePlayers()) return;
         if (!IsPartyLeader()) return;
         if (inputPlayerName.text.Length <= 3) return;
-        Network.Enqueue(new C.AddMember() { Name = inputPlayerName.text });
+        Network.Enqueue(new C.AddMemberToGroup() { Name = inputPlayerName.text });
         inputPlayerName.text = "";
     }
 
     public void ReplyToPartyInvite(bool response) {
-        Network.Enqueue(new C.GroupInvite() { AcceptInvite = response });
+        Network.Enqueue(new C.RespondeToGroupInvite() { AcceptInvite = response });
         receiveInviteWindow.SetActive(false);
     }
 
@@ -130,7 +133,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
             for (int i = 0; i < memberSlots.Count; i++) {
                 Destroy(memberSlots[i]);
             // Destroy(uiMemberSlots[i]);
-        }
+            }
         
         for(int i = 0; i < pages.Count; i++)
             Destroy(pages[i]);

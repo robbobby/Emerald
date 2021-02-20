@@ -394,17 +394,17 @@ namespace Server.MirNetwork
                 case (short)ClientPacketIds.Magic:
                     Magic((C.Magic)p);
                     break;
-                case (short)ClientPacketIds.SwitchGroup:
-                    SwitchGroup((C.SwitchGroup)p);
+                case (short)ClientPacketIds.SwitchAllowGroup:
+                    SwitchGroup((C.SwitchAllowGroup)p);
                     return;
-                case (short)ClientPacketIds.AddMember:
-                    AddMember((C.AddMember)p);
+                case (short)ClientPacketIds.AddMemberToGroup:
+                    AddMember((C.AddMemberToGroup)p);
                     return;
-                case (short)ClientPacketIds.DellMember:
-                    DelMember((C.DelMember)p);
+                case (short)ClientPacketIds.DeleteMemberFromGroup:
+                    DelMember((C.DeleteMemberFromGroup)p);
                     return;
-                case (short)ClientPacketIds.GroupInvite:
-                    GroupInvite((C.GroupInvite)p);
+                case (short)ClientPacketIds.RespondeToGroupInvite:
+                    GroupInvite((C.RespondeToGroupInvite)p);
                     return;
                 case (short)ClientPacketIds.TownRevive:
                     TownRevive();
@@ -1231,25 +1231,25 @@ namespace Server.MirNetwork
                 Player.Magic(p.Spell, p.Direction, p.TargetID, p.Location);
         }
 
-        private void SwitchGroup(C.SwitchGroup p)
+        private void SwitchGroup(C.SwitchAllowGroup p)
         {
             if (Stage != GameStage.Game) return;
 
             Player.SwitchGroup(p.AllowGroup);
         }
-        private void AddMember(C.AddMember p)
+        private void AddMember(C.AddMemberToGroup p)
         {
             if (Stage != GameStage.Game) return;
 
             Player.AddMember(p.Name);
         }
-        private void DelMember(C.DelMember p)
+        private void DelMember(C.DeleteMemberFromGroup p)
         {
             if (Stage != GameStage.Game) return;
 
             Player.DelMember(p.Name);
         }
-        private void GroupInvite(C.GroupInvite p)
+        private void GroupInvite(C.RespondeToGroupInvite p)
         {
             if (Stage != GameStage.Game) return;
 

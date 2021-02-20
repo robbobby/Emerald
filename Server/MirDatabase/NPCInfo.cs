@@ -24,7 +24,7 @@ namespace Server.MirDatabase
         public ushort Rate = 100;
         public ushort Image;
         public Color Colour;
-        public NPCType NPCIcons;
+        public NPCType Icon;
 
         public bool TimeVisible = false;
         public byte HourStart = 0;
@@ -79,7 +79,7 @@ namespace Server.MirDatabase
             Rate = reader.ReadUInt16();
             if (Envir.LoadVersion > 81)
             {
-                NPCIcons = (NPCType)reader.ReadByte();
+                Icon = (NPCType)reader.ReadByte();
             }
 
             if (Envir.LoadVersion >= 64)
@@ -120,7 +120,7 @@ namespace Server.MirDatabase
             writer.Write(Location.Y);
             writer.Write(Image);
             writer.Write(Rate);
-            writer.Write((byte)NPCIcons);
+            writer.Write((byte)Icon);
 
             writer.Write(TimeVisible);
             writer.Write(HourStart);
@@ -159,7 +159,7 @@ namespace Server.MirDatabase
             if (!ushort.TryParse(data[6], out info.Rate)) return;
             byte nPCIcons;
             if (!byte.TryParse(data[7], out nPCIcons)) return;
-            info.NPCIcons = (NPCType) nPCIcons;
+            info.Icon = (NPCType) nPCIcons;
            
             info.Index = ++EditEnvir.NPCIndex;
             EditEnvir.NPCInfoList.Add(info);
@@ -167,7 +167,7 @@ namespace Server.MirDatabase
         public string ToText()
         {
             return string.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
-                FileName, EditEnvir.MapInfoList.Where(d => d.Index == MapIndex).FirstOrDefault().FileName, Location.X, Location.Y, Name, Image, Rate, (byte)NPCIcons);
+                FileName, EditEnvir.MapInfoList.Where(d => d.Index == MapIndex).FirstOrDefault().FileName, Location.X, Location.Y, Name, Image, Rate, (byte)Icon);
         }
 
         public override string ToString()
