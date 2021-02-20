@@ -2410,7 +2410,7 @@ namespace ServerPackets
         public Color Colour;
         public Point Location;
         public MirDirection Direction;
-        public NPCType NPCIcons;
+        public NPCType Icon;
         public List<int> QuestIDs = new List<int>();
 
         protected override void ReadPacket(BinaryReader reader)
@@ -2422,7 +2422,7 @@ namespace ServerPackets
             Colour = Color.FromArgb(reader.ReadInt32());
             Location = new Point(reader.ReadInt32(), reader.ReadInt32());
             Direction = (MirDirection)reader.ReadByte();
-            NPCIcons = (NPCType)reader.ReadByte();
+            Icon = (NPCType)reader.ReadByte();
             int count = reader.ReadInt32();
 
             for (var i = 0; i < count; i++)
@@ -2438,7 +2438,7 @@ namespace ServerPackets
             writer.Write(Location.X);
             writer.Write(Location.Y);
             writer.Write((byte)Direction);
-            writer.Write((byte)NPCIcons);
+            writer.Write((byte)Icon);
             writer.Write(QuestIDs.Count);
 
             for (int i = 0; i < QuestIDs.Count; i++)

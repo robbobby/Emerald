@@ -823,7 +823,7 @@ namespace Server.MirObjects
                 Scale = Info.Scale,
                 Light = Info.Light,
                 Dead = Dead,
-                MobClass = Info.MobClass,
+                MobClass = Info.Class,
                 Skeleton = Harvested,
                 Poison = CurrentPoison,
                 Hidden = Hidden,

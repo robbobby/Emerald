@@ -1230,7 +1230,7 @@ namespace Server.MirObjects
                 Colour = Info.Colour,
                 Location = CurrentLocation,
                 Direction = Direction,
-                NPCIcons = Info.NPCIcons,
+                Icon = Info.Icon,
                 QuestIDs = (from q in Quests
                             select q.Index).ToList()
             };

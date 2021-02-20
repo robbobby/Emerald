@@ -111,7 +111,7 @@ namespace Server
             ImageComboBox.SelectedItem = info.Image;
             fileNameLabel.Text = ((int)info.Image).ToString() + ".Lib";
             MonsterClassDropdown.SelectedItem = null;
-            MonsterClassDropdown.SelectedItem = info.MobClass;
+            MonsterClassDropdown.SelectedItem = info.Class;
             AITextBox.Text = info.AI.ToString();
             EffectTextBox.Text = info.Effect.ToString();
             LevelTextBox.Text = info.Level.ToString();
@@ -154,7 +154,7 @@ namespace Server
 
                 if (ImageComboBox.SelectedItem == null || (Monster)ImageComboBox.SelectedItem != info.Image) ImageComboBox.SelectedItem = null;
                 if (ImageComboBox.SelectedItem == null || (Monster)ImageComboBox.SelectedItem != info.Image) fileNameLabel.Text = "";
-                if (MonsterClassDropdown.SelectedItem == null || (MonsterClass)MonsterClassDropdown.SelectedItem != info.MobClass) MonsterClassDropdown.SelectedItem = null;
+                if (MonsterClassDropdown.SelectedItem == null || (MonsterClass)MonsterClassDropdown.SelectedItem != info.Class) MonsterClassDropdown.SelectedItem = null;
                 if (AITextBox.Text != info.AI.ToString()) AITextBox.Text = string.Empty;
                 if (EffectTextBox.Text != info.Effect.ToString()) EffectTextBox.Text = string.Empty;
                 if (LevelTextBox.Text != info.Level.ToString()) LevelTextBox.Text = string.Empty;
@@ -736,7 +736,7 @@ namespace Server
 
             for (int i = 0; i < _selectedMonsterInfos.Count; i++)
             {
-                _selectedMonsterInfos[i].MobClass = (MonsterClass)MonsterClassDropdown.SelectedItem;
+                _selectedMonsterInfos[i].Class = (MonsterClass)MonsterClassDropdown.SelectedItem;
 
             }
         }

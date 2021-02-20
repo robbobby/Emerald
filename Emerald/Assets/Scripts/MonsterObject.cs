@@ -12,7 +12,7 @@ public class MonsterObject : MapObject
     public SoundCueGraph StruckSound;
     public SoundCueGraph DeathSound;
     [HideInInspector]
-    public MonsterClass MobClass;
+    public MonsterClass Class;
 
     public override void Awake()
     {
