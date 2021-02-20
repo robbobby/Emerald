@@ -6,9 +6,9 @@ public class ItemObject : MapObject
 {
     public int Image;
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         Blocking = false;
         NameLabel.gameObject.SetActive(false);
     }

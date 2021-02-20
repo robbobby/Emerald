@@ -635,7 +635,7 @@ namespace Server.MirObjects
 
             if (Envir.Time > RunTime && _runCounter > 0)
             {
-                RunTime = Envir.Time + 1500;
+                RunTime = Envir.Time + 1800;
                 _runCounter--;
             }
 

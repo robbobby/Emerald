@@ -89,9 +89,10 @@ MonoBehaviour:
     type: 3}
   Model: {fileID: 0}
   Parent: {fileID: 0}
-  MoveSpeed: 1.2
+  MoveSpeed: 2
   OutlineWidth: 0.03
   Name: 
+  NameTextcolour: 
   Light: 0
   Blocking: 1
   HealthTime: 0
@@ -100,13 +101,13 @@ MonoBehaviour:
   StartPosition: {x: 0, y: 0, z: 0}
   TargetDistance: 0
   ObjectID: 0
-  CurrentLocation: {x: 0, y: 0}
   Direction: 0
   CurrentAction: 0
   ActionType: 0
-  AttackSound: {fileID: 8300000, guid: 055f9d3ae733bcb478450bee788be333, type: 3}
-  StruckSound: {fileID: 8300000, guid: a0bd922eb61bd1146b34713d48f83d1c, type: 3}
-  DeathSound: {fileID: 8300000, guid: d0ca4a32d1f98384abe4c3793878af42, type: 3}
+  AttackSound: {fileID: 0}
+  StruckSound: {fileID: 0}
+  DeathSound: {fileID: 0}
+  MobClass: 0
 --- !u!135 &838293970397790933
 SphereCollider:
   m_ObjectHideFlags: 0
