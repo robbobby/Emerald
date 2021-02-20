@@ -4673,13 +4673,13 @@ public abstract class Packet
             case (short)ClientPacketIds.Magic:
                 return new C.Magic();
             case (short)ClientPacketIds.SwitchGroup:
-                return new C.SwitchGroup();
+                return new C.SwitchAllowGroup();
             case (short)ClientPacketIds.AddMember:
-                return new C.AddMember();
+                return new C.AddMemberToGroup();
             case (short)ClientPacketIds.DellMember:
-                return new C.DelMember();
+                return new C.DelGroupMember();
             case (short)ClientPacketIds.GroupInvite:
-                return new C.GroupInvite();
+                return new C.ReceiveGroupInvite();
             case (short)ClientPacketIds.TownRevive:
                 return new C.TownRevive();
             case (short)ClientPacketIds.SpellToggle:

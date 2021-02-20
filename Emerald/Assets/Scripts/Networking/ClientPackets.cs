@@ -989,7 +989,7 @@ namespace ClientPackets
         }
     }
 
-    public sealed class SwitchGroup : Packet
+    public sealed class SwitchAllowGroup : Packet
     {
         public override short Index { get { return (short)ClientPacketIds.SwitchGroup; } }
 
@@ -1003,7 +1003,7 @@ namespace ClientPackets
             writer.Write(AllowGroup);
         }
     }
-    public sealed class AddMember : Packet
+    public sealed class AddMemberToGroup : Packet
     {
         public override short Index { get { return (short)ClientPacketIds.AddMember; } }
 
@@ -1017,7 +1017,7 @@ namespace ClientPackets
             writer.Write(Name);
         }
     }
-    public sealed class DelMember : Packet
+    public sealed class DelGroupMember : Packet
     {
         public override short Index { get { return (short)ClientPacketIds.DellMember; } }
 
@@ -1031,7 +1031,7 @@ namespace ClientPackets
             writer.Write(Name);
         }
     }
-    public sealed class GroupInvite : Packet
+    public sealed class ReceiveGroupInvite : Packet
     {
         public override short Index { get { return (short)ClientPacketIds.GroupInvite; } }
 
