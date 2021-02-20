@@ -29,7 +29,7 @@ namespace Server.MirDatabase
         public string Name = string.Empty;
 
         public Monster Image;
-        public MonsterClass MobClass;
+        public MonsterClass Class;
         public byte AI, Effect, ViewRange = 7, CoolEye;
         public ushort Level;
         public byte Scale;
@@ -60,7 +60,7 @@ namespace Server.MirDatabase
             AI = reader.ReadByte();
             if (Envir.LoadVersion > 81) 
             {
-                MobClass = (MonsterClass)reader.ReadByte();
+                Class = (MonsterClass)reader.ReadByte();
             }
             Effect = reader.ReadByte();
             if (Envir.LoadVersion < 62)
@@ -145,7 +145,7 @@ namespace Server.MirDatabase
 
             writer.Write((ushort) Image);
             writer.Write(AI);
-            writer.Write((byte)MobClass);
+            writer.Write((byte)Class);
             writer.Write(Effect);
             writer.Write(Level);
             writer.Write(Scale);
@@ -278,7 +278,7 @@ namespace Server.MirDatabase
             if (!byte.TryParse(data[27], out info.CoolEye)) return;
             byte mobClass;
             if (!byte.TryParse(data[28], out mobClass)) return;
-            info.MobClass = (MonsterClass) mobClass;
+            info.Class = (MonsterClass) mobClass;
 
             //int count;
 
@@ -292,7 +292,7 @@ namespace Server.MirDatabase
         public string ToText()
         {
             return string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23},{24},{25},{26},{27},{28}", Name, (ushort)Image, AI, Effect, Level, ViewRange,
-                HP, MinAC, MaxAC, MinMAC, MaxMAC, MinDC, MaxDC, MinMC, MaxMC, MinSC, MaxSC, Accuracy, Agility, Light, AttackSpeed, MoveSpeed, Experience, CanTame, CanPush, AutoRev, Undead, CoolEye, (byte)MobClass);
+                HP, MinAC, MaxAC, MinMAC, MaxMAC, MinDC, MaxDC, MinMC, MaxMC, MinSC, MaxSC, Accuracy, Agility, Light, AttackSpeed, MoveSpeed, Experience, CanTame, CanPush, AutoRev, Undead, CoolEye, (byte)Class);
         }
 
         public override string ToString()

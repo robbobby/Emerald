@@ -10,13 +10,11 @@ using System;
 public class NPCObject : MapObject
 {
     public GameObject CameraLocation;
-    public Transform NPCTypeIconLocation;
+    public Transform TypeIconLocation;
     [HideInInspector]
-    public GameObject NPCTypeIcons;
+    public GameObject TypeIcon;
     [HideInInspector]
-    public TMP_Text NPCTypeText;
-    [HideInInspector]
-    public NPCType NPCIcons;
+    public NPCType Icon;
 
     public override void Awake()
     {
@@ -25,7 +23,7 @@ public class NPCObject : MapObject
         Model = gameObject;
         ObjectRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         Parent = ObjectRenderer.transform.parent.gameObject;
-        NPCIconsDisplay(NPCIcons);
+        NPCIconsDisplay(Icon);
     }
 
     public override void SetAction()
@@ -76,49 +74,8 @@ public class NPCObject : MapObject
 
     public void NPCIconsDisplay(NPCType type)
     {
-        switch (type)
-        {
-            case NPCType.Admin:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[0], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Guild:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[1], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.BlackSmith:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[2], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Teleport:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[3], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Appearance:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[4], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Event:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[5], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Accessories:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[6], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Books:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[7], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Bank:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[8], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Exp:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[9], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Weapons:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[10], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.Potions:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[11], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-            case NPCType.General:
-                NPCTypeIcons = Instantiate(GameScene.NPCIcons[12], NPCTypeIconLocation.position, Quaternion.identity);
-                return;
-        }
-
+        if (type == NPCType.Nothing) return;
+        TypeIcon = Instantiate(GameScene.NPCIcons[(int)type - 1], TypeIconLocation.position, Quaternion.identity);
     }
     
 }

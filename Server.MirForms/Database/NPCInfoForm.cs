@@ -121,7 +121,7 @@ namespace Server
             EndMin_num.Value = info.MinuteEnd;
             Flag_textbox.Text = info.FlagNeeded.ToString();
             ShowNPCList.SelectedItem = null;
-            ShowNPCList.SelectedItem = info.NPCIcons;
+            ShowNPCList.SelectedItem = info.Icon;
 
 
             for (int i = 1; i < _selectedNPCInfos.Count; i++)
@@ -135,7 +135,7 @@ namespace Server
                 if (NYTextBox.Text != info.Location.Y.ToString()) NYTextBox.Text = string.Empty;
                 if (NImageTextBox.Text != info.Image.ToString()) NImageTextBox.Text = string.Empty;
                 if (NRateTextBox.Text != info.Rate.ToString()) NRateTextBox.Text = string.Empty;
-                if (ShowNPCList.SelectedItem == null || (NPCType)ShowNPCList.SelectedItem != info.NPCIcons) ShowNPCList.SelectedItem = null;
+                if (ShowNPCList.SelectedItem == null || (NPCType)ShowNPCList.SelectedItem != info.Icon) ShowNPCList.SelectedItem = null;
             }
         }
 
@@ -569,7 +569,7 @@ namespace Server
 
             for (int i = 0; i < _selectedNPCInfos.Count; i++)
             {
-                _selectedNPCInfos[i].NPCIcons = (NPCType)ShowNPCList.SelectedItem;
+                _selectedNPCInfos[i].Icon = (NPCType)ShowNPCList.SelectedItem;
 
             }
         }

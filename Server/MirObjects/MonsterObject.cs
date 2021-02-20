@@ -659,7 +659,7 @@ namespace Server.MirObjects
                 playerObj.CheckGroupQuestKill(Info);
             }
 
-            KillAnnouncement(Info.MobClass);
+            KillAnnouncement(Info.Class);
                         
             if (Respawn != null)
                 Respawn.Count--;
@@ -676,20 +676,18 @@ namespace Server.MirObjects
 
         public void KillAnnouncement(MonsterClass mobClass)
         {
-            String ColorStartGreen = "<color=green>";
-            String ColorStartBlue = "<color=blue>";
-            String ColorStartRed = "<color=red>";
-            String ColorEnd = "</color>";
+            string ColorStartGreen = "<color=green>";
+            string ColorStartBlue = "<color=blue>";
+            string ColorEnd = "</color>";
             switch (mobClass)
             {
                 case MonsterClass.Boss:
                     PlayerObject playerObj = (PlayerObject)EXPOwner;
-                    string Massage = $"[{ColorStartRed}{playerObj.MyGuild?.Name}{ColorEnd}] guild`s [{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
+                    string s = $"[{ColorStartBlue}{playerObj.Name}{ColorEnd}] has killed [{ColorStartGreen}{Name}{ColorEnd}] ";
 
                     foreach (var player in Envir.Players)
-                    {
-                        player.ReceiveChat(Massage, ChatType.Announcement);
-                    }
+                        player.ReceiveChat(s, ChatType.Announcement);
+
                     return;
             }
         }
@@ -2254,7 +2252,7 @@ namespace Server.MirObjects
                     Scale = Info.Scale,
                     Light = Info.Light,
                     Dead = Dead,
-                    MobClass = Info.MobClass,
+                    MobClass = Info.Class,
                     Skeleton = Harvested,
                     Poison = CurrentPoison,
                     Hidden = Hidden,
