@@ -989,9 +989,9 @@ namespace ClientPackets
         }
     }
 
-    public sealed class SwitchGroup : Packet
+    public sealed class SwitchAllowGroup : Packet
     {
-        public override short Index { get { return (short)ClientPacketIds.SwitchGroup; } }
+        public override short Index { get { return (short)ClientPacketIds.SwitchAllowGroup; } }
 
         public bool AllowGroup;
         protected override void ReadPacket(BinaryReader reader)
@@ -1003,9 +1003,9 @@ namespace ClientPackets
             writer.Write(AllowGroup);
         }
     }
-    public sealed class AddMember : Packet
+    public sealed class AddMemberToGroup : Packet
     {
-        public override short Index { get { return (short)ClientPacketIds.AddMember; } }
+        public override short Index { get { return (short)ClientPacketIds.AddMemberToGroup; } }
 
         public string Name = string.Empty;
         protected override void ReadPacket(BinaryReader reader)
@@ -1017,9 +1017,9 @@ namespace ClientPackets
             writer.Write(Name);
         }
     }
-    public sealed class DelMember : Packet
+    public sealed class DeleteMemberFromGroup : Packet
     {
-        public override short Index { get { return (short)ClientPacketIds.DellMember; } }
+        public override short Index { get { return (short)ClientPacketIds.DeleteMemberFromGroup; } }
 
         public string Name = string.Empty;
         protected override void ReadPacket(BinaryReader reader)
@@ -1031,9 +1031,9 @@ namespace ClientPackets
             writer.Write(Name);
         }
     }
-    public sealed class GroupInvite : Packet
+    public sealed class RespondeToGroupInvite : Packet
     {
-        public override short Index { get { return (short)ClientPacketIds.GroupInvite; } }
+        public override short Index { get { return (short)ClientPacketIds.RespondeToGroupInvite; } }
 
         public bool AcceptInvite;
         protected override void ReadPacket(BinaryReader reader)
