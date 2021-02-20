@@ -1598,10 +1598,10 @@ public enum ClientPacketIds : short
     SRepairItem,
     MagicKey,
     Magic,
-    SwitchGroup,
-    AddMember,
-    DellMember,
-    GroupInvite,
+    SwitchAllowGroup,
+    AddMemberToGroup,
+    DeleteMemberFromGroup,
+    RespondeToGroupInvite,
     TownRevive,
     SpellToggle,
     ConsignItem,
@@ -4672,14 +4672,14 @@ public abstract class Packet
                 return new C.MagicKey();
             case (short)ClientPacketIds.Magic:
                 return new C.Magic();
-            case (short)ClientPacketIds.SwitchGroup:
+            case (short)ClientPacketIds.SwitchAllowGroup:
                 return new C.SwitchAllowGroup();
-            case (short)ClientPacketIds.AddMember:
+            case (short)ClientPacketIds.AddMemberToGroup:
                 return new C.AddMemberToGroup();
-            case (short)ClientPacketIds.DellMember:
-                return new C.DelGroupMember();
-            case (short)ClientPacketIds.GroupInvite:
-                return new C.ReceiveGroupInvite();
+            case (short)ClientPacketIds.DeleteMemberFromGroup:
+                return new C.DeleteMemberFromGroup();
+            case (short)ClientPacketIds.RespondeToGroupInvite:
+                return new C.RespondeToGroupInvite();
             case (short)ClientPacketIds.TownRevive:
                 return new C.TownRevive();
             case (short)ClientPacketIds.SpellToggle:

@@ -57,28 +57,29 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     public string UserName { get; set; }
     
     public void AllowGroupChange() {
-        Network.Enqueue(new C.SwitchAllowGroup { AllowGroup = allowGroupToggle.isOn});
+        Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = allowGroupToggle.isOn});
     }
 
     public void LeaveParty() {
         ClearPartyListAndMemberSlots();
         Debug.Log(UserName);
-        Network.Enqueue(new C.SwitchAllowGroup {AllowGroup = false});
-        Network.Enqueue(new C.SwitchAllowGroup {AllowGroup = true});
+        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = false});
+        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = true});
+        
     }
     
     public void ConfirmRemovePlayerFromParty() {}
 
     public void RemoveMemberFromParty() {
-        Network.Enqueue(new C.DelGroupMember { Name = inputPlayerName.text});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = inputPlayerName.text});
     }
 
     public void RemoveMemberFromParty(string playerName) {
-        Network.Enqueue(new C.DelGroupMember { Name = playerName});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = playerName});
     }
 
     public void RemoveMemberFromParty(int memberPosition) {
-        Network.Enqueue(new C.DelGroupMember() { Name = partyList[memberPosition]});
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = partyList[memberPosition]});
     }
 
     public void SendInviteToPlayer() {
@@ -90,7 +91,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     public void ReplyToPartyInvite(bool response) {
-        Network.Enqueue(new C.ReceiveGroupInvite() { AcceptInvite = response });
+        Network.Enqueue(new C.RespondeToGroupInvite() { AcceptInvite = response });
         receiveInviteWindow.SetActive(false);
     }
 
@@ -132,7 +133,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
             for (int i = 0; i < memberSlots.Count; i++) {
                 Destroy(memberSlots[i]);
             // Destroy(uiMemberSlots[i]);
-        }
+            }
         
         for(int i = 0; i < pages.Count; i++)
             Destroy(pages[i]);
