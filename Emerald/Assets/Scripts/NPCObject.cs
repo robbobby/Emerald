@@ -23,6 +23,12 @@ public class NPCObject : MapObject
         Model = gameObject;
         ObjectRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         Parent = ObjectRenderer.transform.parent.gameObject;
+        
+    }
+
+    public override void Start()
+    {
+        base.Start();
         NPCIconsDisplay(Icon);
     }
 

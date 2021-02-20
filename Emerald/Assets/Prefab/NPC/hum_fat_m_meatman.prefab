@@ -393,7 +393,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectRenderer: {fileID: 6781577069657621757}
-  MonsterObject: {fileID: 0}
   NameLabelObject: {fileID: 8972585348359723467, guid: fb59f2525fca14345afceae9453fb40a,
     type: 3}
   NameLocation: {fileID: 2747604406869903764}
@@ -413,15 +412,13 @@ MonoBehaviour:
   StartPosition: {x: 0, y: 0, z: 0}
   TargetDistance: 0
   ObjectID: 0
-  CurrentLocation: {x: 0, y: 0}
   Direction: 0
   CurrentAction: 0
   ActionType: 0
   CameraLocation: {fileID: 3486563082505453195}
-  NPCTypeIconLocation: {fileID: 7630139882868064014}
-  NPCTypeIcons: {fileID: 0}
-  NPCTypeText: {fileID: 0}
-  NPCIcons: 0
+  TypeIconLocation: {fileID: 7630139882868064014}
+  TypeIcon: {fileID: 0}
+  Icon: 0
 --- !u!136 &6722234674797405406
 CapsuleCollider:
   m_ObjectHideFlags: 0
