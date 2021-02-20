@@ -49,6 +49,10 @@ public class GameSceneManager : MonoBehaviour
     public GameObject DamagePopup;
     public GameObject RedHealthBar;
     public GameObject GreenHealthBar;
+    public GameObject MiniMapDot;
+    public Transform MiniMapView;
+    public GameObject MiniMapWindow;
+
     [SerializeField]
     public CharacterWindow CharacterDialog;
     [SerializeField]

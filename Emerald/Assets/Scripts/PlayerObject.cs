@@ -30,6 +30,21 @@ public class PlayerObject : MapObject
     [HideInInspector]
     public bool InSafeZone;
 
+    public override Vector2Int CurrentLocation
+    {
+        get { return currentLocation; }
+        set
+        {
+            if (currentLocation == value) return;
+            currentLocation = value;
+            if (GameManager.CurrentScene == null || minimapDot == null) return;
+            minimapDot.transform.localPosition = new Vector3(currentLocation.x * GameManager.CurrentScene.MiniMapScaleX - 256, (GameManager.CurrentScene.Height - currentLocation.y) * GameManager.CurrentScene.MiniMapScaleY - 256, 0);
+
+            if (this == GameManager.User.Player) 
+                GameScene.MiniMapWindow.transform.localPosition = new Vector3(136 - CurrentLocation.x * GameManager.CurrentScene.MiniMapScaleX + 236, -136 + CurrentLocation.y * GameManager.CurrentScene.MiniMapScaleY - 236, 0);
+        }
+    }
+
     private List<Animator> Animators = new List<Animator>();
 
     private GameObject ArmourModel;
@@ -159,9 +174,9 @@ public class PlayerObject : MapObject
             a.Play(value, layer, normalizedTime: ntime);
     }
 
-    public override void Start()
+    public override void Awake()
     {
-        base.Start();
+        base.Awake();
         ObjectRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
         if (GameManager.gameStage == GameStage.Game)
@@ -250,7 +265,8 @@ public class PlayerObject : MapObject
                     break;
             }
 
-            CurrentLocation = action.Location;
+            CurrentLocation = action.Location;      
+
             Spell = Spell.None;
 
             if (this == GameManager.User.Player)
