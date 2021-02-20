@@ -62,7 +62,9 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
 
     public void LeaveParty() {
         ClearPartyListAndMemberSlots();
-        Network.Enqueue(new C.DelMember() {Name = UserName});
+        Debug.Log(UserName);
+        Network.Enqueue(new C.SwitchGroup {AllowGroup = false});
+        Network.Enqueue(new C.SwitchGroup {AllowGroup = true});
     }
     
     public void ConfirmRemovePlayerFromParty() {}
