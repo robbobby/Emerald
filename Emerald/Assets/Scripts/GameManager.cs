@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         User.BindAllItems();
 
         User.Player.Camera.SetActive(true);
-        User.Player.MiniMapCamera.SetActive(true);
+        //User.Player.MiniMapCamera.SetActive(true);
         ObjectList.Add(p.ObjectID, User.Player);
         UserGameObject.GetComponentInChildren<AudioListener>().enabled = true;
         Tooltip.cam = User.Player.Camera.GetComponent<Camera>();

@@ -145,7 +145,7 @@ public class MapObject : MonoBehaviour
         SetNameLabel();
     }
 
-    void Start()
+    public virtual void Start()
     {
         SetNameLabel();
     }  
