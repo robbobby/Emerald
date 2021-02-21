@@ -104,7 +104,10 @@ public class GameManager : MonoBehaviour
         ClearObjects();
 
         if (CurrentScene != null && CurrentScene.gameObject.scene.name == p.SceneName)
+        {
             CurrentScene.LoadMap(p.FileName);
+            GameScene.MiniMapDialog.CreateMinimap(p.FileName);
+        }
         else
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
@@ -202,7 +205,10 @@ public class GameManager : MonoBehaviour
         else
         {
             if (p.FileName != CurrentScene.FileName)
+            {
                 CurrentScene.LoadMap(p.FileName);
+                GameScene.MiniMapDialog.CreateMinimap(p.FileName);
+            }
             Network.Enqueue(new C.MapChanged { });
             UserGameObject.transform.position = CurrentScene.Cells[User.Player.CurrentLocation.x, User.Player.CurrentLocation.y].position;
         }                          
