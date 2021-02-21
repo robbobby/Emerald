@@ -53,8 +53,6 @@ public class GameSceneManager : MonoBehaviour
     public Transform MiniMapView;
     public GameObject MiniMapWindow;
 
-
-
     [SerializeField]
     public CharacterWindow CharacterDialog;
     [SerializeField]
@@ -79,11 +77,6 @@ public class GameSceneManager : MonoBehaviour
 
     public uint NPCID;
     public string NPCName;
-    public GameObject MonsterHpUi;
-    public GameObject BossHp;
-    public TMP_Text BossName;
-    public Slider BossHealerBar;
-
 
     private MapObject targetObject;
     public MapObject TargetObject
@@ -677,9 +670,4 @@ public class GameSceneManager : MonoBehaviour
     public string GetLocalPlayerName() {
         return GameManager.User.Player.Name;
     }
-    /*
-    public void SetBossNameet(string)
-    {
-
-    }*/
 }
