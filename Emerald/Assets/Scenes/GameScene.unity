@@ -26278,10 +26278,6 @@ MonoBehaviour:
   Slaying: 0
   NPCID: 0
   NPCName: 
-  MonsterHpUi: {fileID: 191206270}
-  BossHp: {fileID: 1437649637}
-  BossName: {fileID: 406641054}
-  BossHealerBar: {fileID: 1437649639}
   NextHitTime: 0
 --- !u!1 &559825994
 GameObject:
@@ -65140,9 +65136,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 100
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -82040,7 +82036,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2039242958}
   m_HandleRect: {fileID: 2039242957}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
