@@ -46,7 +46,16 @@ public class MapObject : MonoBehaviour
     [HideInInspector]
     protected GameObject minimapDot;
 
-    public string Name;
+
+    public string Name
+    {
+        get => _name;
+        set {
+            _name = value; 
+            GameScene.SetPartyControllerLocalName(_name);
+        }
+    }
+
     public string NameTextcolour;
 
 
@@ -123,6 +132,8 @@ public class MapObject : MonoBehaviour
     public int ActionType;
 
     private byte scale;
+    [SerializeField] private string _name;
+
     public byte Scale
     {
         get { return scale; }

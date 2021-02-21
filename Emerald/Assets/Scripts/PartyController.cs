@@ -23,15 +23,18 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private GameObject receiveInviteWindow;
     [SerializeField] private GameObject deleteMemberWindow;
     [SerializeField] private GameObject invitationNoticeIcon;
+    [SerializeField] private GameObject partyHud;
+    [SerializeField] private GameObject partyHudMemberPrefab;
     private int currentPage = 0;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
+    private readonly List<GameObject> memberSlotsHud = new List<GameObject>();
     private readonly List<GameObject> pages = new List<GameObject>();
-    private readonly List<GameObject> uiMemberSlots = new List<GameObject>();
     private string currentSelectedMember;
     
     /* TODO: Checks before sending package */
     /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
+    /* TODO: Set Allow group value checkbox on load */
     /* TODO: Packet receiver for initial allow group value or find where this is already sent
         Careful with the ChangeAllowGroupValue and recursive loop.*/
 
@@ -46,11 +49,15 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     private void SetPageText() {
+        if (pages.Count == 0) {
+            pageCountText.SetText("");
+            return;
+        }
         pageCountText.SetText($"{currentPage + 1}/{pages.Count}");
     }
 
     public void TEST_FILL_GROUP() {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 11; i++)
             AddToPartyList($"{i} member");        
     }
     
@@ -60,13 +67,6 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = allowGroupToggle.isOn});
     }
 
-    public void LeaveParty() {
-        ClearPartyListAndMemberSlots();
-        Debug.Log(UserName);
-        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = false});
-        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = true});
-        
-    }
     
     public void ConfirmRemovePlayerFromParty() {}
 
@@ -132,14 +132,14 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         if(memberSlots.Count > 0)
             for (int i = 0; i < memberSlots.Count; i++) {
                 Destroy(memberSlots[i]);
-            // Destroy(uiMemberSlots[i]);
+                Destroy(memberSlotsHud[i]);
             }
         
         for(int i = 0; i < pages.Count; i++)
             Destroy(pages[i]);
         pages.Clear();
         memberSlots.Clear();
-        uiMemberSlots.Clear();
+        memberSlotsHud.Clear();
     }
 
     private void RefreshPartyMenu() {
@@ -151,6 +151,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
                 currentContainer = SetNewPartyPage();
             }
             SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
+            SetPartyMemberSlots(partyHudMemberPrefab, partyHud, memberSlotsHud, i);
         }
         SetUiCollapseButtonActive();
         SetPageText();
@@ -170,7 +171,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position) {
         slotList.Add(Instantiate(slot, parent.transform));
         GameObject kickButton = slotList[position].transform.GetChild(1).gameObject;
-        GameObject nameTextField = slotList[position].transform.GetChild(0).GetChild(1).gameObject;
+        GameObject nameTextField = slotList[position].transform.GetChild(0).GetChild(0).gameObject;
         nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[position]);
         kickButton.AddComponent<PlayerSlot>().Construct(this, partyList[position], kickButton, ShouldShowKickButton(position));
     }

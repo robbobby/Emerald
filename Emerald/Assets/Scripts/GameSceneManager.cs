@@ -599,7 +599,7 @@ public class GameSceneManager : MonoBehaviour
         ClassInsignia.sprite = ClassInsigniaIcons[(int)GameManager.User.Player.Class];
         CharacterName.text = GameManager.User.Player.Name;
         CharacterLevel.text = GameManager.User.Level.ToString();
-        partyController.UserName = GameManager.User.Player.Name; // TODO: Move this to a more suited place? When Player.Name is set party controller needs to know what it is
+        Debug.Log($"UpdateCharIcon {GameManager.User.Player.Name}");
     }
 
     public void ChangeAttackMode(int amode)
@@ -669,5 +669,10 @@ public class GameSceneManager : MonoBehaviour
 
     public string GetLocalPlayerName() {
         return GameManager.User.Player.Name;
+    }
+
+    public void SetPartyControllerLocalName(string name) {
+        Debug.Log($"Setting local players name to {name}");
+        partyController.UserName = name;    
     }
 }
