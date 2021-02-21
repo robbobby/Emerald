@@ -47,15 +47,7 @@ public class MapObject : MonoBehaviour
     protected GameObject minimapDot;
 
 
-    public string Name
-    {
-        get => _name;
-        set {
-            _name = value; 
-            GameScene.SetPartyControllerLocalName(_name);
-        }
-    }
-
+    public string Name;
     public string NameTextcolour;
 
 

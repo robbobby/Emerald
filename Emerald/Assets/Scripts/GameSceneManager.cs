@@ -599,7 +599,7 @@ public class GameSceneManager : MonoBehaviour
         ClassInsignia.sprite = ClassInsigniaIcons[(int)GameManager.User.Player.Class];
         CharacterName.text = GameManager.User.Player.Name;
         CharacterLevel.text = GameManager.User.Level.ToString();
-        Debug.Log($"UpdateCharIcon {GameManager.User.Player.Name}");
+        partyController.UserName = GameManager.User.Player.Name;
     }
 
     public void ChangeAttackMode(int amode)
@@ -667,12 +667,4 @@ public class GameSceneManager : MonoBehaviour
         GameManager.InputDelay = Time.time + 0.5f;
     }
 
-    public string GetLocalPlayerName() {
-        return GameManager.User.Player.Name;
-    }
-
-    public void SetPartyControllerLocalName(string name) {
-        Debug.Log($"Setting local players name to {name}");
-        partyController.UserName = name;    
-    }
 }

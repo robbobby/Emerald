@@ -25,18 +25,23 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private GameObject invitationNoticeIcon;
     [SerializeField] private GameObject partyHud;
     [SerializeField] private GameObject partyHudMemberPrefab;
+    [SerializeField] internal GameObject removeMemberWindow;
     private int currentPage = 0;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> memberSlotsHud = new List<GameObject>();
     private readonly List<GameObject> pages = new List<GameObject>();
-    private string currentSelectedMember;
+    public string currentSelectedMember;
     
     /* TODO: Checks before sending package */
-    /* TODO: Optomise, only delete member when deleted, don't remake the full list*/
+    /* TODO: Optomise, only delete member when refresh, don't remake the full list*/
     /* TODO: Set Allow group value checkbox on load */
     /* TODO: Packet receiver for initial allow group value or find where this is already sent
         Careful with the ChangeAllowGroupValue and recursive loop.*/
+    /* TODO: Set currentSelectedMember to null when party window is closed */
+    /* TODO: SEND IN PACKAGE partyMembers CLASS, LEVEL and ICON on join group - is PlayerIcon implemented yet? */
+    /* TODO: Track partyMembers level for change? */
+
 
     public void HandlePageTurn(int pageTurn) {
         Debug.Log($"current page + pageTurn is {currentPage + 1}");
@@ -48,6 +53,11 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         SetPageText();
     }
 
+    public void LeaveParty() {
+        Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = false});
+        Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = true});
+    }
+
     private void SetPageText() {
         if (pages.Count == 0) {
             pageCountText.SetText("");
@@ -56,32 +66,38 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         pageCountText.SetText($"{currentPage + 1}/{pages.Count}");
     }
 
-    public void TEST_FILL_GROUP() {
-        for (int i = 0; i < 11; i++)
-            AddToPartyList($"{i} member");        
+    public void KickButtonClicked()
+    {
+        Debug.Log(currentSelectedMember.Length);
+        Debug.Log(currentSelectedMember);
+        Debug.Log(UserName);
+        Debug.Log(IsPartyLeader());
+        Debug.Log(IsPartyLeader());
+        if (currentSelectedMember.Length <= 0 || currentSelectedMember == UserName || !IsPartyLeader()) return;
+        removeMemberWindow.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>()
+            .SetText($"Are you sure you wish to remove {currentSelectedMember} from your group?");
+        removeMemberWindow.SetActive(true);
     }
-    
+
+    public void TEST_FILL_GROUP() {
+        for (int i = 0; i < 11; i++) AddToPartyList(i == 0 ? UserName : $"{i} member");
+    }
+
     public string UserName { get; set; }
     
     public void AllowGroupChange() {
         Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = allowGroupToggle.isOn});
     }
 
-    
-    public void ConfirmRemovePlayerFromParty() {}
-
-    public void RemoveMemberFromParty() {
-        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = inputPlayerName.text});
+    public void ConfirmRemovePlayerFromParty() {
+        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = currentSelectedMember});
+        currentSelectedMember = "";
     }
-
+    
     public void RemoveMemberFromParty(string playerName) {
         Network.Enqueue(new C.DeleteMemberFromGroup() { Name = playerName});
     }
-
-    public void RemoveMemberFromParty(int memberPosition) {
-        Network.Enqueue(new C.DeleteMemberFromGroup() { Name = partyList[memberPosition]});
-    }
-
+    
     public void SendInviteToPlayer() {
         if (!RoomForMorePlayers()) return;
         if (!IsPartyLeader()) return;
@@ -150,8 +166,8 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
             if (i != 0 && i % 5 == 0) {
                 currentContainer = SetNewPartyPage();
             }
-            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i);
-            SetPartyMemberSlots(partyHudMemberPrefab, partyHud, memberSlotsHud, i);
+            SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i, false);
+            SetPartyMemberSlots(partyHudMemberPrefab, partyHud, memberSlotsHud, i, true);
         }
         SetUiCollapseButtonActive();
         SetPageText();
@@ -168,12 +184,13 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         uiCollapsePartyButton.SetActive(partyList.Count > 0);
     }
 
-    private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position) {
+    private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position, bool isHud) {
         slotList.Add(Instantiate(slot, parent.transform));
         GameObject kickButton = slotList[position].transform.GetChild(1).gameObject;
         GameObject nameTextField = slotList[position].transform.GetChild(0).GetChild(0).gameObject;
         nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[position]);
-        kickButton.AddComponent<PlayerSlot>().Construct(this, partyList[position], kickButton, ShouldShowKickButton(position));
+        if(!isHud)
+            slotList[position].AddComponent<PlayerSlot>().Construct(this, partyList[position], slotList[position]);
     }
 
     private bool ShouldShowKickButton(int position) => position > 0 && partyList[0] == UserName;
@@ -183,7 +200,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     private bool RoomForMorePlayers() {
-        return partyList.Count < 5; // Global party count?
+        return partyList.Count < 11; // Global party count?
     }
 
     public void AddToPopUpWindowList() {
@@ -196,15 +213,23 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 }
 
-internal class PlayerSlot : MonoBehaviour {
+internal class HudPlayerSlot : MonoBehaviour {
 
-    public void Construct(PartyController partyController, string playerName, GameObject kickButton,
-        bool shouldShowKickButton) {
+    public void Construct(PartyController partyController, string playerName) {
 
-        if(shouldShowKickButton)
-            kickButton.GetComponent<Button>().onClick.AddListener(() 
-                => partyController.RemoveMemberFromParty(playerName));
-        else 
-            kickButton.SetActive(false);
+        // kickButton.GetComponent<Button>().onClick.AddListener(() 
+                // => partyController.RemoveMemberFromParty(playerName));
+        // kickButton.SetActive(false);
+    }
+}
+
+internal class PlayerSlot : MonoBehaviour
+{
+    public void Construct(PartyController partyController, string playerName, GameObject memberSlot)
+    {
+        memberSlot.GetComponent<Button>().onClick.AddListener(() => {
+            if (partyController.removeMemberWindow.activeSelf) return;
+            partyController.currentSelectedMember = playerName;
+        });
     }
 }
