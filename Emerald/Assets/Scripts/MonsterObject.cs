@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Network = Emerald.Network;
 using C = ClientPackets;
+using TMPro;
 
 public class MonsterObject : MapObject
 {
@@ -13,6 +14,7 @@ public class MonsterObject : MapObject
     public SoundCueGraph DeathSound;
     [HideInInspector]
     public MonsterClass Class;
+    public GameObject BossHP;
 
     public override void Awake()
     {
@@ -25,21 +27,49 @@ public class MonsterObject : MapObject
 
         HealthBar = Instantiate(GameScene.RedHealthBar, NameLabel.transform).GetComponent<Renderer>();
         GetComponentInChildren<MonsterAnimationController>()?.SetParent(this);
-
+        
     }
 
+    public void Start()
+    {
+        base.Start();
+        CheckBoss();
+    }
+
+    public void CheckBoss()
+    {
+        if (Class == MonsterClass.Boss)
+        {
+            BossHP.SetActive(true);
+            GameScene.BossName.text = NameLabel.text;
+        }
+   
+    }
+    
+    public void SetBossHP()
+    {
+        if (Dead) return;
+        GameScene.BossHealerBar.value = PercentHealth;
+      
+    }
     protected override void Update()
     {
         soundPlayer.Update();
         base.Update();
+        if (Class == MonsterClass.Boss) SetBossHP();
+
     }
 
     public override void SetAction()
     {
+       
         if (ActionFeed.Count == 0)
         {
             if (Dead)
+            {
                 CurrentAction = MirAction.Dead;
+                if (Class == MonsterClass.Boss) TurnOffBossBar();
+            }
             else
                 CurrentAction = MirAction.Standing;
         }
@@ -85,6 +115,7 @@ public class MonsterObject : MapObject
                     if (HealthBar != null)
                         HealthBar.gameObject.SetActive(false);
                     Dead = true;
+                    if (Class == MonsterClass.Boss) TurnOffBossBar();
                     break;
             }
 
@@ -92,6 +123,13 @@ public class MonsterObject : MapObject
         }
 
         GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
+ 
+    }
+    
+    public void TurnOffBossBar()
+    {
+        BossHP.SetActive(false);
+        GameScene.BossHp.SetActive(false);
     }
 
     public override void StruckBegin()
