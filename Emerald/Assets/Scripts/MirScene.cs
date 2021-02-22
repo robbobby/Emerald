@@ -56,7 +56,7 @@ public class MirScene : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        GameManager.CurrentScene = this;        
+        GameManager.CurrentScene = this;    
     }
 
     public void LoadMap(string fName)

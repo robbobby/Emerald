@@ -64,6 +64,7 @@ public class LoadScreenManager : MonoBehaviour
         }
 
         GameManager.CurrentScene.LoadMap(fileName);
+        GameManager.GameScene.MiniMapDialog.CreateMinimap(fileName);
         slider.value = operation.progress;
         operation = null;
         Hide();
@@ -86,6 +87,7 @@ public class LoadScreenManager : MonoBehaviour
         }
 
         GameManager.CurrentScene.LoadMap(fileName);
+        GameManager.GameScene.MiniMapDialog.CreateMinimap(fileName);
         GameManager.UserGameObject.transform.position = GameManager.CurrentScene.Cells[GameManager.User.Player.CurrentLocation.x, GameManager.User.Player.CurrentLocation.y].position;
         slider.value = 1f;
         loadoperation = null;

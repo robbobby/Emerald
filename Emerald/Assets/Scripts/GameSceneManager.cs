@@ -57,6 +57,7 @@ public class GameSceneManager : MonoBehaviour
     public CharacterWindow CharacterDialog;
     [SerializeField]
     public SkillWindowController SkillDialog;
+    public MiniMapController MiniMapDialog;
     public GameObject[] NPCIcons;
 
     [HideInInspector]
