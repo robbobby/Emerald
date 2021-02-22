@@ -104,6 +104,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         if (inputPlayerName.text.Length <= 3) return;
         Network.Enqueue(new C.AddMemberToGroup() { Name = inputPlayerName.text });
         inputPlayerName.text = "";
+        inviteWindow.SetActive(false);
     }
 
     public void ReplyToPartyInvite(bool response) {
@@ -118,7 +119,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 
     public void ShowInviteWindow(string fromUser) {
-        receiveInviteWindow.transform.GetChild(2).GetComponent<TextMeshProUGUI>()
+        receiveInviteWindow.transform.GetChild(0).GetComponent<TextMeshProUGUI>()
             .SetText($"{fromUser} has invited you to join their group");
         invitationNoticeIcon.SetActive(true);
     }
