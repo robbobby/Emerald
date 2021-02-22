@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class UserObject : MonoBehaviour
 {
-    public GameSceneManager GameScene
-    {
+    public GameSceneManager GameScene {
         get { return GameManager.GameScene; }
     }
 

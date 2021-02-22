@@ -24,5 +24,4 @@ public class CharacterWindow : MonoBehaviour
     {
         classText.SetText(c.ToString());
     }
-
 }
