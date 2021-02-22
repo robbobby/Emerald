@@ -26447,7 +26447,7 @@ MonoBehaviour:
   MiniMapWindow: {fileID: 8515954544042453440}
   CharacterDialog: {fileID: 227496107}
   SkillDialog: {fileID: 2033180757}
-  MiniMapDialog: {fileID: 710855520}
+  MiniMapDialog: {fileID: 0}
   NPCIcons:
   - {fileID: 1672325946069482764, guid: baa3b357064120e4e8785c384af65ad6, type: 3}
   - {fileID: 8099611922703673566, guid: e0650adac88ffbe4c8711d2f837aaaa0, type: 3}
@@ -92704,7 +92704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2084991255
 RectTransform:
   m_ObjectHideFlags: 0
