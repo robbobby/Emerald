@@ -668,7 +668,4 @@ public class GameSceneManager : MonoBehaviour
         GameManager.InputDelay = Time.time + 0.5f;
     }
 
-    public string GetLocalPlayerName() {
-        return GameManager.User.Player.Name;
-    }
 }

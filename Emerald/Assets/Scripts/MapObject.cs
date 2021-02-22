@@ -46,6 +46,7 @@ public class MapObject : MonoBehaviour
     [HideInInspector]
     protected GameObject minimapDot;
 
+
     public string Name;
     public string NameTextcolour;
 
