@@ -55,6 +55,12 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         SetPageText();
     }
 
+    public void ToggleHudActive(GameObject collapseButton) {
+        hudMemberContainer.SetActive(!hudMemberContainer.activeSelf);
+        collapseButton.transform.Rotate(0, hudMemberContainer ? 180 : 0, 0);
+    }
+
+    
     public void LeaveParty() {
         Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = false});
         Network.Enqueue(new C.SwitchAllowGroup() { AllowGroup = true});
