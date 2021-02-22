@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ServerPackets;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using XNode;
 using Button = UnityEngine.UI.Button;
 using Network = Emerald.Network;
@@ -13,10 +14,9 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
     [SerializeField] private GameObject inviteWindow;
-    [SerializeField] private TMP_Text inviteLabel;
     [SerializeField] private GameObject memberSlot;
     [SerializeField] private GameObject memberContainer;
-    [SerializeField] private GameObject uiMemberContainer;
+    [SerializeField] private GameObject hudMemberContainer;
     [SerializeField] private GameObject uiMemberSlot;
     [SerializeField] private GameObject uiCollapsePartyButton;
     [SerializeField] private TextMeshProUGUI pageCountText;
@@ -42,7 +42,8 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     /* TODO: Set currentSelectedMember to null when party window is closed */
     /* TODO: SEND IN PACKAGE partyMembers CLASS, LEVEL and ICON on join group - is PlayerIcon implemented yet? */
     /* TODO: Track partyMembers level for change? */
-
+    /* TODO: Show partyMembers hp bar in HUD */
+    /* TODO: Clean this shit up... it's a mess */
 
     public void HandlePageTurn(int pageTurn) {
         Debug.Log($"current page + pageTurn is {currentPage + 1}");
@@ -62,9 +63,11 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     private void SetPageText() {
         if (pages.Count == 0) {
             pageCountText.SetText("");
+            partyHud.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().SetText("");
             return;
         }
         pageCountText.SetText($"{currentPage + 1}/{pages.Count}");
+        partyHud.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().SetText($"{partyList.Count}/11");
     }
 
     public void KickButtonClicked()
@@ -169,7 +172,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
                 currentContainer = SetNewPartyPage();
             }
             SetPartyMemberSlots(memberSlot, currentContainer, memberSlots, i, false);
-            SetPartyMemberSlots(partyHudMemberPrefab, partyHud, memberSlotsHud, i, true);
+            SetPartyMemberSlots(partyHudMemberPrefab, hudMemberContainer, memberSlotsHud, i, true);
         }
         SetUiCollapseButtonActive();
         SetPageText();
@@ -182,8 +185,11 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         return page;
     }
 
-    private void SetUiCollapseButtonActive() {
-        uiCollapsePartyButton.SetActive(partyList.Count > 0);
+    private void SetUiCollapseButtonActive()
+    {
+        bool shouldShow = partyList.Count > 0;
+        uiCollapsePartyButton.SetActive(shouldShow);
+        partyHud.SetActive(shouldShow);
     }
 
     private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position, bool isHud) {
@@ -192,9 +198,9 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         GameObject nameTextField = slotList[position].transform.GetChild(0).GetChild(0).gameObject;
         nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[position]);
         if(!isHud)
-            slotList[position].AddComponent<PlayerSlot>().Construct(this, partyList[position], slotList[position]);
+            slotList[position].AddComponent<PlayerSlotListeners>().Construct(this, partyList[position], slotList[position]);
         else if (IsPartyLeader() && partyList[position] != UserName) {
-            slotList[position].AddComponent<HudPlayerSlot>().Construct(this, partyList[position],
+            slotList[position].AddComponent<HudKickButtonListener>().Construct(this, partyList[position],
                 slotList[position].transform.GetChild(2).gameObject);
         }
     }
@@ -219,7 +225,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
     }
 }
 
-internal class HudPlayerSlot : MonoBehaviour {
+internal class HudKickButtonListener : MonoBehaviour {
 
     public void Construct(PartyController partyController, string playerName, GameObject kickButton) {
         // Set kick button //
@@ -229,7 +235,7 @@ internal class HudPlayerSlot : MonoBehaviour {
     }
 }
 
-internal class PlayerSlot : MonoBehaviour
+internal class PlayerSlotListeners : MonoBehaviour
 {
     public void Construct(PartyController partyController, string playerName, GameObject memberSlot)
     {
