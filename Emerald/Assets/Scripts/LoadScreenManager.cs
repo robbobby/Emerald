@@ -64,7 +64,7 @@ public class LoadScreenManager : MonoBehaviour
         }
 
         GameManager.CurrentScene.LoadMap(fileName); 
-        GameManager.GameScene.MiniMapDialog.CreateMinimap(fileName);
+        // GameManager.GameScene.MiniMapDialog.CreateMinimap(fileName);
         slider.value = operation.progress;
         operation = null;
         Hide();

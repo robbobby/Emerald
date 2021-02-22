@@ -34864,7 +34864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &709993829
 RectTransform:
   m_ObjectHideFlags: 0
@@ -92764,11 +92764,10 @@ MonoBehaviour:
   allowGroupToggle: {fileID: 1295254730}
   inputPlayerName: {fileID: 655257212}
   inviteWindow: {fileID: 185414499}
-  inviteLabel: {fileID: 828974627}
   memberSlot: {fileID: 4130121787571288581, guid: 2356df5c32ef44218a82675f68b3172c,
     type: 3}
   memberContainer: {fileID: 187741230}
-  uiMemberContainer: {fileID: 1125256369}
+  hudMemberContainer: {fileID: 1125256369}
   uiMemberSlot: {fileID: 4130121787571288581, guid: 2356df5c32ef44218a82675f68b3172c,
     type: 3}
   uiCollapsePartyButton: {fileID: 2120744485}
@@ -92778,7 +92777,7 @@ MonoBehaviour:
   receiveInviteWindow: {fileID: 3558610745940094350}
   deleteMemberWindow: {fileID: 142592380}
   invitationNoticeIcon: {fileID: 158787165}
-  partyHud: {fileID: 1125256369}
+  partyHud: {fileID: 709993828}
   partyHudMemberPrefab: {fileID: 6823744153693342839, guid: 0a6d2853d44cfe24e8f7a428b0d8d3f9,
     type: 3}
   removeMemberWindow: {fileID: 142592380}
@@ -94409,7 +94408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2120744486
 RectTransform:
   m_ObjectHideFlags: 0
@@ -94417,7 +94416,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120744485}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
@@ -94426,7 +94425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 178.96729, y: 5.000206}
+  m_AnchoredPosition: {x: 178.96729, y: -8.9}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120744487
@@ -94471,7 +94470,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2120744488}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2084991257}
+        m_MethodName: ToggleHudActive
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2120744485}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2120744488
 MonoBehaviour:
   m_ObjectHideFlags: 0
