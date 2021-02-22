@@ -41,6 +41,12 @@ TextureImporter:
   - first:
       213: 7719635194250049517
     second: Minimap_I1_12
+  - first:
+      213: 3803901042894599203
+    second: Minimap_I1_13
+  - first:
+      213: 2453452176279399952
+    second: Minimap_I1_14
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -386,7 +392,7 @@ TextureImporter:
         width: 18
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 3, y: 3, z: 3, w: 3}
       outline: []
       physicsShape: []
@@ -394,6 +400,48 @@ TextureImporter:
       bones: []
       spriteID: de7b0ec0f47a12b60800000000000000
       internalID: 7719635194250049517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minimap_I1_13
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 57
+        width: 20
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 324787638db2ac430800000000000000
+      internalID: 3803901042894599203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minimap_I1_14
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 34
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01eea8061c96c0220800000000000000
+      internalID: 2453452176279399952
       vertices: []
       indices: 
       edges: []
