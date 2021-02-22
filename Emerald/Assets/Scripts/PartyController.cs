@@ -18,26 +18,24 @@ public class PartyController : MonoBehaviour, IPopUpWindow
     [SerializeField] private GameObject memberSlot;
     [SerializeField] private GameObject memberContainer;
     [SerializeField] private GameObject hudMemberContainer;
-    [SerializeField] private GameObject uiMemberSlot;
-    [SerializeField] private GameObject uiCollapsePartyButton;
+    [SerializeField] private GameObject hudCollapsePartyButton;
     [SerializeField] private TextMeshProUGUI pageCountText;
     [SerializeField] private GameObject groupPage;
     [SerializeField] private GameObject receiveInviteWindow;
-    [SerializeField] private GameObject deleteMemberWindow;
     [SerializeField] private GameObject invitationNoticeIcon;
     [SerializeField] private GameObject partyHud;
     [SerializeField] private GameObject partyHudMemberPrefab;
     [SerializeField] internal GameObject removeMemberWindow;
-    private int currentPage = 0;
     private readonly List<string> partyList = new List<string>();
     private readonly List<GameObject> memberSlots = new List<GameObject>();
     private readonly List<GameObject> memberSlotsHud = new List<GameObject>();
     private readonly List<GameObject> pages = new List<GameObject>();
     public string currentSelectedMember;
+    private int currentPage = 0;
+    public string UserName { get; set; }
 
     /* TODO: Checks before sending package */
     /* TODO: Optomise, only delete member when refresh, don't remake the full list*/
-    /* TODO: Set Allow group value checkbox on load */
     /* TODO: Packet receiver for initial allow group value or find where this is already sent
         Careful with the ChangeAllowGroupValue and recursive loop.*/
     /* TODO: Set currentSelectedMember to null when party window is closed */
@@ -46,25 +44,8 @@ public class PartyController : MonoBehaviour, IPopUpWindow
     /* TODO: Show partyMembers hp bar in HUD */
     /* TODO: Clean this shit up... it's a mess */
 
-    public void HandlePageTurn(int pageTurn)
-    {
-        Debug.Log($"current page + pageTurn is {currentPage + 1}");
-        Debug.Log(currentPage + pageTurn >= pages.Count);
-        if (currentPage + pageTurn < 0 || currentPage + pageTurn >= pages.Count) return;
-        pages[currentPage].SetActive(false);
-        currentPage += pageTurn;
-        pages[currentPage].SetActive(true);
-        SetPageText();
-    }
 
-    public void ToggleHudActive(GameObject collapseButton)
-    {
-        hudMemberContainer.SetActive(!hudMemberContainer.activeSelf);
-        collapseButton.transform.Rotate(0, hudMemberContainer ? 180 : 0, 0);
-    }
-
-
-    public void LeaveParty()
+    public void LeaveParty() // This can't be the way to do this?
     {
         Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = false});
         Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = true});
@@ -83,20 +64,10 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         partyHud.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().SetText($"{partyList.Count}/11");
     }
 
-    public void KickButtonClicked()
-    {
-        if (currentSelectedMember.Length <= 0 || currentSelectedMember == UserName || !IsPartyLeader()) return;
-        removeMemberWindow.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>()
-            .SetText($"Are you sure you wish to remove {currentSelectedMember} from your group?");
-        removeMemberWindow.SetActive(true);
-    }
-
     public void TEST_FILL_GROUP()
     {
         for (int i = 0; i < 11; i++) AddToPartyList(i == 0 ? UserName : $"{i} member");
     }
-
-    public string UserName { get; set; }
 
     public void AllowGroupChange()
     {
@@ -137,11 +108,15 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         receiveInviteWindow.SetActive(true);
     }
 
-    public void ShowInviteWindow(string fromUser)
+    public void HandlePageTurn(int pageTurn)
     {
-        receiveInviteWindow.transform.GetChild(0).GetComponent<TextMeshProUGUI>()
-            .SetText($"{fromUser} has invited you to join their group");
-        invitationNoticeIcon.SetActive(true);
+        Debug.Log($"current page + pageTurn is {currentPage + 1}");
+        Debug.Log(currentPage + pageTurn >= pages.Count);
+        if (currentPage + pageTurn < 0 || currentPage + pageTurn >= pages.Count) return;
+        pages[currentPage].SetActive(false);
+        currentPage += pageTurn;
+        pages[currentPage].SetActive(true);
+        SetPageText();
     }
 
     public void AddToPartyList(string newMember)
@@ -150,40 +125,20 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         RefreshPartyMenu();
     }
 
-
-    public void RemoveFromPartyList(string member)
+    public void KickButtonClicked()
     {
-        Debug.Log("RemoveFromPartyList");
-        partyList.Remove(member);
-        if (partyList.Count == 1)
-        {
-            RemoveFromPartyList(UserName);
-        }
-
-        RefreshPartyMenu();
+        if (currentSelectedMember.Length <= 0 || currentSelectedMember == UserName || !IsPartyLeader()) return;
+        removeMemberWindow.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>()
+            .SetText($"Are you sure you wish to remove {currentSelectedMember} from your group?");
+        removeMemberWindow.SetActive(true);
     }
+
 
     public void ClearPartyListAndMemberSlots()
     {
         ClearMemberSlots();
         partyList.Clear();
         SetUiCollapseButtonActive();
-    }
-
-    private void ClearMemberSlots()
-    {
-        if (memberSlots.Count > 0)
-            for (int i = 0; i < memberSlots.Count; i++)
-            {
-                Destroy(memberSlots[i]);
-                Destroy(memberSlotsHud[i]);
-            }
-
-        for (int i = 0; i < pages.Count; i++)
-            Destroy(pages[i]);
-        pages.Clear();
-        memberSlots.Clear();
-        memberSlotsHud.Clear();
     }
 
     private void RefreshPartyMenu()
@@ -206,21 +161,6 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         SetPageText();
     }
 
-    private GameObject SetNewPartyPage()
-    {
-        GameObject page = Instantiate(groupPage, memberContainer.transform);
-        page.SetActive(false);
-        pages.Add(page);
-        return page;
-    }
-
-    private void SetUiCollapseButtonActive()
-    {
-        bool shouldShow = partyList.Count > 0;
-        uiCollapsePartyButton.SetActive(shouldShow);
-        partyHud.SetActive(shouldShow);
-    }
-
     private void SetPartyMemberSlots(GameObject slot, GameObject parent, List<GameObject> slotList, int position,
         bool isHud)
     {
@@ -238,7 +178,74 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         }
     }
 
+    public void RemoveFromPartyList(string member)
+    {
+        Debug.Log("RemoveFromPartyList");
+        partyList.Remove(member);
+        if (partyList.Count == 1)
+        {
+            RemoveFromPartyList(UserName);
+        }
+
+        RefreshPartyMenu();
+    }
+
+    private void ClearMemberSlots()
+    {
+        if (memberSlots.Count > 0)
+            for (int i = 0; i < memberSlots.Count; i++)
+            {
+                Destroy(memberSlots[i]);
+                Destroy(memberSlotsHud[i]);
+            }
+
+        for (int i = 0; i < pages.Count; i++)
+            Destroy(pages[i]);
+        pages.Clear();
+        memberSlots.Clear();
+        memberSlotsHud.Clear();
+    }
+
+    public void ShowInviteWindow(string fromUser)
+    {
+        receiveInviteWindow.transform.GetChild(0).GetComponent<TextMeshProUGUI>()
+            .SetText($"{fromUser} has invited you to join their group");
+        invitationNoticeIcon.SetActive(true);
+    }
+
     private bool ShouldShowKickButton(int position) => position > 0 && partyList[0] == UserName;
+
+    private void SetUiCollapseButtonActive()
+    {
+        bool shouldShow = partyList.Count > 0;
+        hudCollapsePartyButton.SetActive(shouldShow);
+        partyHud.SetActive(shouldShow);
+    }
+
+    public void AddToPopUpWindowList()
+    {
+        UiWindowController.AddToPopUpList(this);
+    }
+
+    private GameObject SetNewPartyPage()
+    {
+        GameObject page = Instantiate(groupPage, memberContainer.transform);
+        page.SetActive(false);
+        pages.Add(page);
+        return page;
+    }
+
+    public void ClosePopUp()
+    {
+        ReplyToPartyInvite(false);
+        UiWindowController.RemoveFromPopUpList(this);
+    }
+
+    public void ToggleHudActive(GameObject collapseButton)
+    {
+        hudMemberContainer.SetActive(!hudMemberContainer.activeSelf);
+        collapseButton.transform.Rotate(0, hudMemberContainer ? 180 : 0, 0);
+    }
 
     private bool IsPartyLeader()
     {
@@ -248,17 +255,6 @@ public class PartyController : MonoBehaviour, IPopUpWindow
     private bool RoomForMorePlayers()
     {
         return partyList.Count < 11; // Global party count?
-    }
-
-    public void AddToPopUpWindowList()
-    {
-        UiWindowController.AddToPopUpList(this);
-    }
-
-    public void ClosePopUp()
-    {
-        ReplyToPartyInvite(false);
-        UiWindowController.RemoveFromPopUpList(this);
     }
 }
 
