@@ -124,8 +124,6 @@ public class MapObject : MonoBehaviour
     public int ActionType;
 
     private byte scale;
-    [SerializeField] private string _name;
-
     public byte Scale
     {
         get { return scale; }
