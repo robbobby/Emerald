@@ -1,4 +1,5 @@
-﻿using Network = Emerald.Network;
+﻿using System;
+using Network = Emerald.Network;
 using C = ClientPackets;
 using System.Collections;
 using UnityEngine;
@@ -63,7 +64,7 @@ public class LoadScreenManager : MonoBehaviour
             yield return null;
         }
 
-        GameManager.CurrentScene.LoadMap(fileName);
+        GameManager.CurrentScene.LoadMap(fileName); 
         GameManager.GameScene.MiniMapDialog.CreateMinimap(fileName);
         slider.value = operation.progress;
         operation = null;

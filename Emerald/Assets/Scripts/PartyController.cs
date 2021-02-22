@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ServerPackets;
 using TMPro;
 using UnityEngine;
 using XNode;
@@ -192,6 +193,10 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
         nameTextField.GetComponent<TextMeshProUGUI>().SetText(partyList[position]);
         if(!isHud)
             slotList[position].AddComponent<PlayerSlot>().Construct(this, partyList[position], slotList[position]);
+        else if (IsPartyLeader() && partyList[position] != UserName) {
+            slotList[position].AddComponent<HudPlayerSlot>().Construct(this, partyList[position],
+                slotList[position].transform.GetChild(2).gameObject);
+        }
     }
 
     private bool ShouldShowKickButton(int position) => position > 0 && partyList[0] == UserName;
@@ -216,11 +221,11 @@ public class PartyController : MonoBehaviour, IPopUpWindow {
 
 internal class HudPlayerSlot : MonoBehaviour {
 
-    public void Construct(PartyController partyController, string playerName) {
-
-        // kickButton.GetComponent<Button>().onClick.AddListener(() 
-                // => partyController.RemoveMemberFromParty(playerName));
-        // kickButton.SetActive(false);
+    public void Construct(PartyController partyController, string playerName, GameObject kickButton) {
+        // Set kick button //
+        kickButton.GetComponent<Button>().onClick.AddListener(() 
+                => partyController.RemoveMemberFromParty(playerName));
+        kickButton.SetActive(true);
     }
 }
 
@@ -228,6 +233,7 @@ internal class PlayerSlot : MonoBehaviour
 {
     public void Construct(PartyController partyController, string playerName, GameObject memberSlot)
     {
+        // Set on select set currentSelectedMember to selected character in party window
         memberSlot.GetComponent<Button>().onClick.AddListener(() => {
             if (partyController.removeMemberWindow.activeSelf) return;
             partyController.currentSelectedMember = playerName;
