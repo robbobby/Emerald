@@ -23,6 +23,12 @@ TextureImporter:
   - first:
       213: 4418344334458545535
     second: ColumnDivider
+  - first:
+      213: 2714379334003757715
+    second: PageDividerLine
+  - first:
+      213: 536108739193420637
+    second: RoleTimerBg_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -63,7 +69,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -237,19 +243,61 @@ TextureImporter:
       name: ColumnDivider
       rect:
         serializedVersion: 2
-        x: 747
+        x: 748
         y: 161
-        width: 7
+        width: 6
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 2, y: 0, z: 2, w: 1}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: f75e2c643cc115d30800000000000000
       internalID: 4418344334458545535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PageDividerLine
+      rect:
+        serializedVersion: 2
+        x: 717
+        y: 241
+        width: 12
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39294f47f996ba520800000000000000
+      internalID: 2714379334003757715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RoleTimerBg_8
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 137
+        width: 20
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5b3b90de04a07700800000000000000
+      internalID: 536108739193420637
       vertices: []
       indices: 
       edges: []
