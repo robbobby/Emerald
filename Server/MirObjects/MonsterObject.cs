@@ -690,17 +690,8 @@ namespace Server.MirObjects
             String ColorStartBlue = "<color=blue>";
             String ColorStartRed = "<color=red>";
             String ColorEnd = "</color>";
-            switch (PetLevel) 
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    return;
-            } //
+            if (PetLevel > 0) return;
+          
 
 
             switch (mobClass)
