@@ -58,7 +58,6 @@ namespace UiControllers.Party {
 
         public void RemoveMemberSlot(int index)
         {
-            kickButtons[index].Destroy();
             kickButtons.RemoveAt(index);
             memberSlotList[index].Destroy();
             memberSlotList.RemoveAt(index);

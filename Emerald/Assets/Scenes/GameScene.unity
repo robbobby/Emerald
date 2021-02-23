@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12732536, g: 0.13415338, b: 0.121077195, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -35862,6 +35862,7 @@ MonoBehaviour:
   memberCount: {fileID: 272696229}
   memberSlot: {fileID: 6823744153693342839, guid: 0a6d2853d44cfe24e8f7a428b0d8d3f9,
     type: 3}
+  kickButtons: []
 --- !u!1 &710855516
 GameObject:
   m_ObjectHideFlags: 0
@@ -94283,7 +94284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2084991255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -94428,7 +94429,6 @@ MonoBehaviour:
   partyHudController: {fileID: 709993832}
   partyWindowController: {fileID: 2084991260}
   messageBox: {fileID: 1222830118}
-  inviteWindow: {fileID: 0}
   invitationNoticeIcon: {fileID: 158787165}
   currentSelectedMember: 
 --- !u!1 &2085754387
