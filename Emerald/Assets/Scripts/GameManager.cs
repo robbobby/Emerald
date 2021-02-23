@@ -781,7 +781,9 @@ public class GameManager : MonoBehaviour
     public void ColourChanged(S.ColourChanged p)
     {
         User.Player.NameColour = ConvertSystemColor(p.NameColour);
-       
+        User.Player.SetNameLabel();
+
+
     }
     public void ObjectColourChanged(S.ObjectColourChanged p)
     {
