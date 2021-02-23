@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+
 public class MapObject : MonoBehaviour
 {
     public GameSceneManager GameScene
@@ -48,8 +49,7 @@ public class MapObject : MonoBehaviour
 
 
     public string Name;
-    public string NameTextcolour;
-
+    public System.Drawing.Color NameColour = System.Drawing.Color.White;
 
     public int Light;
     [HideInInspector]
@@ -189,9 +189,20 @@ public class MapObject : MonoBehaviour
 
     public void SetNameLabel()
     {
+        
         NameLabel.text = Name;
+        NameLabel.color = SystemColorConvert(NameColour);
+       
     }
 
+    public Color SystemColorConvert(System.Drawing.Color color)
+    {
+        Color NameColorOut = new Color(color.R, color.G, color.B, color.A); 
+        return NameColorOut;
+    }
+
+    
+   
     public virtual void OnSelect()
     {
         outlineMaterial.SetFloat("_ASEOutlineWidth", OutlineWidth);

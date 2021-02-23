@@ -367,5 +367,5 @@ public class PlayerObject : MapObject
     public override void StruckBegin()
     {
         SetAnimation("Struck", true);
-    }
+    } 
 }

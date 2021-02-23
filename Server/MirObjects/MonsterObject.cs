@@ -532,7 +532,15 @@ namespace Server.MirObjects
             if (ShockTime < Envir.Time) BindingShotCenter = false;
 
             Color colour = Color.White;
-            
+
+            switch (Info.Class)
+            {
+                case MonsterClass.Elite:
+                case MonsterClass.Boss:
+                    colour = Color.Yellow;
+                    break;
+            }
+
             switch (PetLevel)
             {
                 case 1:
@@ -557,7 +565,8 @@ namespace Server.MirObjects
                     colour = Color.Navy;
                     break;
             }
-
+                        
+            
             
 
             if (Envir.Time < ShockTime)
@@ -658,7 +667,7 @@ namespace Server.MirObjects
                 PlayerObject playerObj = (PlayerObject)EXPOwner;
                 playerObj.CheckGroupQuestKill(Info);
             }
-
+         
             KillAnnouncement(Info.Class);
                         
             if (Respawn != null)
@@ -676,18 +685,33 @@ namespace Server.MirObjects
 
         public void KillAnnouncement(MonsterClass mobClass)
         {
-            string ColorStartGreen = "<color=green>";
-            string ColorStartBlue = "<color=blue>";
-            string ColorEnd = "</color>";
+            PlayerObject playerObj = (PlayerObject)EXPOwner;
+            String ColorStartGreen = "<color=green>";
+            String ColorStartBlue = "<color=blue>";
+            String ColorStartRed = "<color=red>";
+            String ColorEnd = "</color>";
+            switch (PetLevel) 
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    return;
+            } //
+
+
             switch (mobClass)
             {
                 case MonsterClass.Boss:
-                    PlayerObject playerObj = (PlayerObject)EXPOwner;
-                    string s = $"[{ColorStartBlue}{playerObj.Name}{ColorEnd}] has killed [{ColorStartGreen}{Name}{ColorEnd}] ";
+                    string Massage = $"[{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
 
                     foreach (var player in Envir.Players)
-                        player.ReceiveChat(s, ChatType.Announcement);
-
+                    {
+                        player.ReceiveChat(Massage, ChatType.Announcement);
+                    }
                     return;
             }
         }
