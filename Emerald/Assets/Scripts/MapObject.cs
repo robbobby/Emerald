@@ -49,7 +49,7 @@ public class MapObject : MonoBehaviour
 
 
     public string Name;
-    public Color NameColour = Color.white; // = System.Drawing.Color.White;
+    public Color NameColour = Color.white; 
 
     public int Light;
     [HideInInspector]
