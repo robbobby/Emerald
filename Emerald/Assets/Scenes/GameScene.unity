@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -26613,7 +26613,7 @@ MonoBehaviour:
   MiniMapWindow: {fileID: 8515954544042453440}
   CharacterDialog: {fileID: 227496107}
   SkillDialog: {fileID: 2033180757}
-  MiniMapDialog: {fileID: 0}
+  MiniMapDialog: {fileID: 710855520}
   NPCIcons:
   - {fileID: 1672325946069482764, guid: baa3b357064120e4e8785c384af65ad6, type: 3}
   - {fileID: 8099611922703673566, guid: e0650adac88ffbe4c8711d2f837aaaa0, type: 3}
@@ -92934,14 +92934,11 @@ MonoBehaviour:
     type: 3}
   memberContainer: {fileID: 187741230}
   hudMemberContainer: {fileID: 1125256369}
-  uiMemberSlot: {fileID: 4130121787571288581, guid: 2356df5c32ef44218a82675f68b3172c,
-    type: 3}
-  uiCollapsePartyButton: {fileID: 2120744485}
+  hudCollapsePartyButton: {fileID: 0}
   pageCountText: {fileID: 2140383471}
   groupPage: {fileID: 5404609968241637359, guid: 9955ab883204e4a8cbb6a294019469fb,
     type: 3}
   receiveInviteWindow: {fileID: 3558610745940094350}
-  deleteMemberWindow: {fileID: 142592380}
   invitationNoticeIcon: {fileID: 158787165}
   partyHud: {fileID: 709993828}
   partyHudMemberPrefab: {fileID: 6823744153693342839, guid: 0a6d2853d44cfe24e8f7a428b0d8d3f9,

@@ -532,7 +532,15 @@ namespace Server.MirObjects
             if (ShockTime < Envir.Time) BindingShotCenter = false;
 
             Color colour = Color.White;
-            
+
+            switch (Info.Class)
+            {
+                case MonsterClass.Elite:
+                case MonsterClass.Boss:
+                    colour = Color.Yellow;
+                    break;
+            }
+
             switch (PetLevel)
             {
                 case 1:
@@ -557,7 +565,8 @@ namespace Server.MirObjects
                     colour = Color.Navy;
                     break;
             }
-
+                        
+            
             
 
             if (Envir.Time < ShockTime)
@@ -658,8 +667,8 @@ namespace Server.MirObjects
                 PlayerObject playerObj = (PlayerObject)EXPOwner;
                 playerObj.CheckGroupQuestKill(Info);
             }
-
-            KillAnnouncement(Info.MobClass);
+         
+            KillAnnouncement(Info.Class);
                         
             if (Respawn != null)
                 Respawn.Count--;
@@ -681,11 +690,22 @@ namespace Server.MirObjects
             String ColorStartBlue = "<color=blue>";
             String ColorStartRed = "<color=red>";
             String ColorEnd = "</color>";
-            
+            switch (PetLevel) 
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    return;
+            } //
+
+
             switch (mobClass)
             {
                 case MonsterClass.Boss:
-                    
                     string Massage = $"[{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
 
                     foreach (var player in Envir.Players)
@@ -2256,7 +2276,7 @@ namespace Server.MirObjects
                     Scale = Info.Scale,
                     Light = Info.Light,
                     Dead = Dead,
-                    MobClass = Info.MobClass,
+                    MobClass = Info.Class,
                     Skeleton = Harvested,
                     Poison = CurrentPoison,
                     Hidden = Hidden,

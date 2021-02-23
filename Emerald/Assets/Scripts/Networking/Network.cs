@@ -375,6 +375,9 @@ namespace Emerald
                 case (short)ServerPacketIds.Chat:
                     Chat((S.Chat)p);
                     break;
+                case (short)ServerPacketIds.ColourChanged:
+                    ColourChanged((S.ColourChanged)p);
+                    break;
                 case (short)ServerPacketIds.ObjectChat:
                     ObjectChat((S.ObjectChat)p);
                     break;
@@ -746,9 +749,17 @@ namespace Emerald
         {
             gameManager.ObjectDied(p);
         }
+        public static void ObjectColourChanged(S.ObjectColourChanged p)
+        {
+            gameManager.ObjectColourChanged(p);
+        }
         public static void Chat(S.Chat p)
         {
             gameManager.Chat(p);
+        }
+        public static void ColourChanged(S.ColourChanged p)
+        {
+            gameManager.ColourChanged(p);
         }
         public static void ObjectChat(S.ObjectChat p)
         {
