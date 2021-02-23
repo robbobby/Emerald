@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using UiControllers.Party;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
@@ -23,7 +24,7 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
-    public PartyController partyController;
+    public NewPartyController partyController;
     public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;
     public Image ExperienceBar;
@@ -206,7 +207,7 @@ public class GameSceneManager : MonoBehaviour
             {
                 SelectedItemImage.gameObject.SetActive(false);
 
-                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", true, true);
+                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", okbutton: true, cancelbutton: true);
                 MessageBox.OK += () =>
                 {
                     Network.Enqueue(new C.DropItem { UniqueID = SelectedCell.Item.UniqueID, Count = 1 });
@@ -643,7 +644,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void LogOut_Click()
     {
-        MessageBox.Show($"Return to Character Select?", true, true);
+        MessageBox.Show($"Return to Character Select?", okbutton: true, cancelbutton: true);
         MessageBox.OK += () =>
         {
             Network.Enqueue(new C.LogOut());

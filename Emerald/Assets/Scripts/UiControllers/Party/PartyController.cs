@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using ServerPackets;
 using TMPro;
+using UiControllers;
 using UnityEngine;
-using UnityEngine.Serialization;
-using XNode;
 using Button = UnityEngine.UI.Button;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
-public class PartyController : MonoBehaviour, IPopUpWindow
+public class PartyController : MonoBehaviour
 {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
@@ -64,8 +62,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         partyHud.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().SetText($"{partyList.Count}/11");
     }
 
-    public void TEST_FILL_GROUP()
-    {
+    public void TEST_FILL_GROUP() {
         for (int i = 0; i < 11; i++) AddToPartyList(i == 0 ? UserName : $"{i} member");
     }
 
@@ -221,12 +218,7 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         hudCollapsePartyButton.SetActive(shouldShow);
         partyHud.SetActive(shouldShow);
     }
-
-    public void AddToPopUpWindowList()
-    {
-        UiWindowController.AddToPopUpList(this);
-    }
-
+    
     private GameObject SetNewPartyPage()
     {
         GameObject page = Instantiate(groupPage, memberContainer.transform);
@@ -235,11 +227,6 @@ public class PartyController : MonoBehaviour, IPopUpWindow
         return page;
     }
 
-    public void ClosePopUp()
-    {
-        ReplyToPartyInvite(false);
-        UiWindowController.RemoveFromPopUpList(this);
-    }
 
     public void ToggleHudActive(GameObject collapseButton)
     {

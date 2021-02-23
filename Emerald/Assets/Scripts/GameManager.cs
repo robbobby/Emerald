@@ -749,7 +749,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void ShowGroupInviteWindow(string fromUser) {
-        GameScene.partyController.ShowInviteWindow(fromUser);
+        GameScene.partyController.RpcReceiveInvite(fromUser);
     }
 
     public void AllowGroup(bool allowGroup) {
@@ -757,18 +757,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void DeleteGroup() {
-        GameScene.partyController.ClearPartyListAndMemberSlots();
+        GameScene.partyController.RpcDeleteGroup();
         GameScene.ChatController.ReceiveChat("You have left the party", ChatType.Group);
     }
 
 
     public void DeleteMemberFromGroup(string member) {
-        GameScene.partyController.RemoveFromPartyList(member);
+        GameScene.partyController.RpcDeleteMember(member);
         GameScene.ChatController.ReceiveChat($"{member} was removed from the party", ChatType.Group);
     }
 
     public void AddMemberToGroup(string member) {
-        GameScene.partyController.AddToPartyList(member);
+        GameScene.partyController.RpcAddNewMember(member);
         GameScene.ChatController.ReceiveChat($"{member} has joined the group", ChatType.Group);
     }
 }

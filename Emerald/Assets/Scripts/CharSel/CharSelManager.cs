@@ -282,7 +282,7 @@ public class CharSelManager : MonoBehaviour
     {
         if (selectedCharacter == null) return;
 
-        MessageBox.Show($"Delete {selectedCharacter.Name}?", true, true);
+        MessageBox.Show($"Delete {selectedCharacter.Name}?", okbutton: true, cancelbutton: true);
         MessageBox.OK += () => 
         {
             Network.Enqueue(new C.DeleteCharacter() { CharacterIndex = selectedCharacter.Index });
@@ -298,7 +298,7 @@ public class CharSelManager : MonoBehaviour
 
     public void LogoutButton_OnClick()
     {
-        MessageBox.Show($"Return to Login?", true, true);
+        MessageBox.Show($"Return to Login?", okbutton: true, cancelbutton: true);
         MessageBox.OK += () =>
         {
             Network.Enqueue(new C.Logout() { });
