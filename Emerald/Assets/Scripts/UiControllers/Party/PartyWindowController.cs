@@ -23,20 +23,12 @@ namespace UiControllers.Party
 
         public void HandlePageTurn(int pageTurn)
         {
-            Debug.Log(memberSlotList.Count);
-            Debug.Log(memberSlotList.Count / MEMBERS_PER_PAGE);
-            
             if (memberSlotList.Count < 5) return;
             if (currentPage + pageTurn <= 0 || currentPage + pageTurn > memberSlotList.Count / MEMBERS_PER_PAGE) return;
             currentPage += pageTurn;
             RefreshPartyMemberPage();
         }
         
-        public void TEST_LOAD_MEMBERS() {
-            for (int i = 0; i < 3; i++) 
-                AddMember($"{i} member");
-        }
-
         private void RefreshPartyMemberPage()
         {
             for (int i = 0; i < memberSlotList.Count; i++)
@@ -47,7 +39,6 @@ namespace UiControllers.Party
             int finishPosition = currentPage * 5;
             for (int i = startPosition; i < finishPosition; i++)
             {
-                Debug.Log(i);
                 if (i >= memberSlotList.Count) return;
                 memberSlotList[i].SetActive(true);
             }
@@ -89,6 +80,7 @@ namespace UiControllers.Party
             {
                 memberSlotList[i].Destroy();
             }
+            memberSlotList.Clear();
         }
 
         public void AddMember(string memberName)
@@ -105,6 +97,8 @@ namespace UiControllers.Party
         public void RemoveMemberSlot(int index) {
             memberSlotList[index].Destroy();
             memberSlotList.RemoveAt(index);
+            if(memberSlotList.Count == 1)
+                ClearMembers();
             RefreshPartyMemberPage();
         }
     }

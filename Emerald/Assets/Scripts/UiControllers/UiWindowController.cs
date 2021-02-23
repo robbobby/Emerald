@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Emerald.UiControllers;
 using JetBrains.Annotations;
 using TMPro;
@@ -25,13 +26,9 @@ namespace UiControllers
         [SerializeField] private GameObject miniMap;
         [SerializeField] private GameObject partyWindow;
         [SerializeField] private TMP_InputField chatBar;
-        [SerializeField] private GameObject partyInviteWindow;
-        [SerializeField] private GameObject guildReceiveInviteWindow;
-        [SerializeField] private GameObject guildSendInviteWindow;
-        public bool IsPopUpActive { get; set; } = false;
         
         [SerializeField] private MirQuickCell[] quickSlots;
-    
+        
         private InputController.ChatActions chatActions;
         private InputController.UIActions uiInput; // Not sure if static is the right approach for this
         private InputController.QuickSlotsActions quickSlotsActions;
@@ -40,6 +37,8 @@ namespace UiControllers
         private List<GameObject> priorityWindowCloseList;
         private List<GameObject> activeWindows;
         private byte priorityWindowCount = 0;
+        
+        public bool IsPopUpActive { get; set; } = false;
 
         /* TODO: Add UiPartyWindow collapse menu */
         /* TODO: Escape button closing windows, by priority? */
@@ -100,25 +99,16 @@ namespace UiControllers
             
             // TODO: Should Cancel holding item if the player is holding an item with cursor?
             if(priorityWindowCount > 0) {
-                for (int i = 0; i < priorityWindowCloseList.Count; i++) {
-                    switch (priorityWindowCloseList[i].activeSelf) {
-                        /* TODO: Add custom case for popup windows */
-                        case true when priorityWindowCloseList[i].name == guildSendInviteWindow.name:
-                            PriorityWindowStateHandler(priorityWindowCloseList[i]);
-                            return;
-                        case true when priorityWindowCloseList[i].name == partyInviteWindow.name:
-                            partyWindow.GetComponent<PartyController>().ReplyToPartyInvite(false);
-                            priorityWindowCount--;
-                            return;
-                        case true:
-                            PriorityWindowStateHandler(priorityWindowCloseList[i]);
-                            return;
-                    }
+                for (int i = 0; i < priorityWindowCloseList.Count; i++)
+                {
+                    if (!priorityWindowCloseList[i].activeSelf) continue;
+                    PriorityWindowStateHandler(priorityWindowCloseList[i]);
+                    return;
                 }
             }
 
             if (activeWindows.Count > 0) {
-                WindowStateHandler(activeWindows[activeWindows.Count - 1]);
+                WindowStateHandler(activeWindows.Last());
                 return;
             }
             PriorityWindowStateHandler(optionsMenu); // No other windows open, open the options menu
@@ -212,13 +202,6 @@ namespace UiControllers
             quickSlotsActions.Enable();
             uiInput.Enable();
         }
-    
-        // private void SetPartyInputFieldListeners() {
-        // TMP_InputField partyInputField = partyWindow.transform.GetChild(5).GetChild(2).gameObject.GetComponent<TMP_InputField>();
-        // partyInputField.onSelect.AddListener(delegate(string arg0) { DisableControls(); });
-        // partyInputField.onDeselect.AddListener(delegate(string arg0) { EnableControls(); });
-        
-        // }
         #endregion
 
         #region QuickSlots

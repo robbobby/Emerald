@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -33,6 +34,7 @@ public class MirMessageBox : MonoBehaviour
         Result = MessageBoxResult.None;
         gameObject.SetActive(true);
         gameObject.transform.SetAsLastSibling();
+        InputFieldPlaceholder.text = placeHolderString;
 
         OK = null;
         Cancel = null;
@@ -69,13 +71,18 @@ public class MirMessageBox : MonoBehaviour
     {
         Result = MessageBoxResult.Ok;
         gameObject.SetActive(false);
-        WindowController.IsPopUpActive = false;
     }
 
     public void CancelButton_Click()
     {
         Result = MessageBoxResult.Cancel;
         gameObject.SetActive(false);
+        CleanUp();
+    }
+
+    private void CleanUp()
+    {
+        InputField.GetComponent<TMP_InputField>().text = String.Empty;
         WindowController.IsPopUpActive = false;
     }
 }

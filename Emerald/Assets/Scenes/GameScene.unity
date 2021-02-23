@@ -14088,6 +14088,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272433122}
   m_CullTransparentMesh: 0
+--- !u!114 &272696229 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5839702664551065761, guid: f1489ef9b33703542b86c4224c28632f,
+    type: 3}
+  m_PrefabInstance: {fileID: 589321574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &273955020
 GameObject:
   m_ObjectHideFlags: 0
@@ -32776,6 +32788,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloseX_Gold
       objectReference: {fileID: 0}
+    - target: {fileID: 6775485587727324379, guid: cfcd8b0b948c1ab4991a0e143999fc18,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6775485587727324379, guid: cfcd8b0b948c1ab4991a0e143999fc18,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2084991260}
+    - target: {fileID: 6775485587727324379, guid: cfcd8b0b948c1ab4991a0e143999fc18,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenLeaveButtonWindow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfcd8b0b948c1ab4991a0e143999fc18, type: 3}
 --- !u!224 &648777266 stripped
@@ -35830,11 +35857,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a96d0cc45e41869fbd353892270fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  memberName: {fileID: 0}
-  memberGrid: {fileID: 0}
-  memberCount: {fileID: 0}
-  kickButton: {fileID: 0}
-  collapseButton: {fileID: 0}
+  partyController: {fileID: 2084991261}
+  memberGrid: {fileID: 1125256369}
+  memberCount: {fileID: 272696229}
+  memberSlot: {fileID: 6823744153693342839, guid: 0a6d2853d44cfe24e8f7a428b0d8d3f9,
+    type: 3}
 --- !u!1 &710855516
 GameObject:
   m_ObjectHideFlags: 0
@@ -41679,7 +41706,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2084991260}
+      objectReference: {fileID: 2084991261}
     - target: {fileID: 7740017859241141844, guid: b389e0b7fc9168b4ab1a3f8f941236cd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -67099,9 +67126,6 @@ MonoBehaviour:
   miniMap: {fileID: 710855516}
   partyWindow: {fileID: 2084991254}
   chatBar: {fileID: 635084011}
-  partyInviteWindow: {fileID: 0}
-  guildReceiveInviteWindow: {fileID: 0}
-  guildSendInviteWindow: {fileID: 0}
   quickSlots:
   - {fileID: 8636313475382363139}
   - {fileID: 742390520}
@@ -93690,7 +93714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2078732315
 Transform:
   m_ObjectHideFlags: 0
@@ -94405,7 +94429,7 @@ MonoBehaviour:
   partyWindowController: {fileID: 2084991260}
   messageBox: {fileID: 1222830118}
   inviteWindow: {fileID: 0}
-  invitationNoticeIcon: {fileID: 0}
+  invitationNoticeIcon: {fileID: 158787165}
   currentSelectedMember: 
 --- !u!1 &2085754387
 GameObject:
@@ -96059,7 +96083,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2084991257}
+      - m_Target: {fileID: 709993832}
         m_MethodName: ToggleHudActive
         m_Mode: 2
         m_Arguments:
@@ -99096,7 +99120,7 @@ PrefabInstance:
     - target: {fileID: 2141503052162091385, guid: bfa807e900deea34384bc9d10e4c7edd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141503052162091385, guid: bfa807e900deea34384bc9d10e4c7edd,
         type: 3}
@@ -99107,7 +99131,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 3558610745940094350}
+      objectReference: {fileID: 2084991261}
     - target: {fileID: 2141503052162091385, guid: bfa807e900deea34384bc9d10e4c7edd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -99126,7 +99150,7 @@ PrefabInstance:
     - target: {fileID: 2141503052162091385, guid: bfa807e900deea34384bc9d10e4c7edd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
+      value: ShowInviteWindow
       objectReference: {fileID: 0}
     - target: {fileID: 2141503052162091385, guid: bfa807e900deea34384bc9d10e4c7edd,
         type: 3}
