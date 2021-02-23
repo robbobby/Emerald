@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using UiControllers.Party;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
@@ -146,7 +147,7 @@ public class GameSceneManager : MonoBehaviour
     {
         ScrollBar.size = 0.4f;
         Network.Enqueue(new C.RequestMapInformation { });
-    //    Inventory.gameObject.SetActive(false);
+        // Inventory.gameObject.SetActive(false);
     }
 
     void Update()
@@ -206,7 +207,7 @@ public class GameSceneManager : MonoBehaviour
             {
                 SelectedItemImage.gameObject.SetActive(false);
 
-                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", true, true);
+                MessageBox.Show($"Drop {SelectedCell.Item.Name}?", okbutton: true, cancelbutton: true);
                 MessageBox.OK += () =>
                 {
                     Network.Enqueue(new C.DropItem { UniqueID = SelectedCell.Item.UniqueID, Count = 1 });
@@ -643,7 +644,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void LogOut_Click()
     {
-        MessageBox.Show($"Return to Character Select?", true, true);
+        MessageBox.Show($"Return to Character Select?", okbutton: true, cancelbutton: true);
         MessageBox.OK += () =>
         {
             Network.Enqueue(new C.LogOut());
