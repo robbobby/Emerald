@@ -49,7 +49,7 @@ public class MapObject : MonoBehaviour
 
 
     public string Name;
-    public System.Drawing.Color NameColour = System.Drawing.Color.White;
+    public Color NameColour = Color.white; 
 
     public int Light;
     [HideInInspector]
@@ -139,6 +139,7 @@ public class MapObject : MonoBehaviour
 
     public virtual void Awake()
     {
+        
         CurrentAction = MirAction.Standing;        
         NameLabel = Instantiate(NameLabelObject, NameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
         if (GameManager.gameStage == GameStage.Game)
@@ -148,6 +149,7 @@ public class MapObject : MonoBehaviour
 
     public virtual void Start()
     {
+       
         SetNameLabel();
     }  
 
@@ -191,18 +193,11 @@ public class MapObject : MonoBehaviour
     {
         
         NameLabel.text = Name;
-        NameLabel.color = SystemColorConvert(NameColour);
+        NameLabel.color = NameColour;
        
     }
 
-    public Color SystemColorConvert(System.Drawing.Color color)
-    {
-        Color NameColorOut = new Color(color.R, color.G, color.B, color.A); 
-        return NameColorOut;
-    }
-
-    
-   
+ 
     public virtual void OnSelect()
     {
         outlineMaterial.SetFloat("_ASEOutlineWidth", OutlineWidth);

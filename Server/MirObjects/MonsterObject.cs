@@ -537,7 +537,7 @@ namespace Server.MirObjects
             {
                 case MonsterClass.Elite:
                 case MonsterClass.Boss:
-                    colour = Color.Yellow;
+                    colour = Color.OrangeRed;
                     break;
             }
 
