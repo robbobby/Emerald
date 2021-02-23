@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+
 public class MapObject : MonoBehaviour
 {
     public GameSceneManager GameScene
@@ -48,8 +49,7 @@ public class MapObject : MonoBehaviour
 
 
     public string Name;
-    public string NameTextcolour;
-
+    public Color NameColour = Color.white; 
 
     public int Light;
     [HideInInspector]
@@ -139,6 +139,7 @@ public class MapObject : MonoBehaviour
 
     public virtual void Awake()
     {
+        
         CurrentAction = MirAction.Standing;        
         NameLabel = Instantiate(NameLabelObject, NameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
         if (GameManager.gameStage == GameStage.Game)
@@ -148,6 +149,7 @@ public class MapObject : MonoBehaviour
 
     public virtual void Start()
     {
+       
         SetNameLabel();
     }  
 
@@ -189,9 +191,13 @@ public class MapObject : MonoBehaviour
 
     public void SetNameLabel()
     {
+        
         NameLabel.text = Name;
+        NameLabel.color = NameColour;
+       
     }
 
+ 
     public virtual void OnSelect()
     {
         outlineMaterial.SetFloat("_ASEOutlineWidth", OutlineWidth);

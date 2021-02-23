@@ -8,7 +8,7 @@ using Network = Emerald.Network;
 using C = ClientPackets;
 using Toggle = UnityEngine.UI.Toggle;
 
-public class PartyController : MonoBehaviour
+public class OldPartyController : MonoBehaviour
 {
     [SerializeField] private Toggle allowGroupToggle;
     [SerializeField] private TMP_InputField inputPlayerName;
@@ -247,24 +247,24 @@ public class PartyController : MonoBehaviour
 
 internal class HudKickButtonListener : MonoBehaviour
 {
-    public void Construct(PartyController partyController, string playerName, GameObject kickButton)
+    public void Construct(OldPartyController oldPartyController, string playerName, GameObject kickButton)
     {
         // Set kick button //
         kickButton.GetComponent<Button>().onClick.AddListener(()
-            => partyController.RemoveMemberFromParty(playerName));
+            => oldPartyController.RemoveMemberFromParty(playerName));
         kickButton.SetActive(true);
     }
 }
 
 internal class PlayerSlotListeners : MonoBehaviour
 {
-    public void Construct(PartyController partyController, string playerName, GameObject memberSlot)
+    public void Construct(OldPartyController oldPartyController, string playerName, GameObject memberSlot)
     {
         // Set on select set currentSelectedMember to selected character in party window
         memberSlot.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (partyController.removeMemberWindow.activeSelf) return;
-            partyController.currentSelectedMember = playerName;
+            if (oldPartyController.removeMemberWindow.activeSelf) return;
+            oldPartyController.currentSelectedMember = playerName;
         });
     }
 }

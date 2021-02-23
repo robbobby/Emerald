@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Aura2API;
 using TMPro;
 using UnityEngine;
@@ -11,8 +9,7 @@ namespace UiControllers.Party
     public class PartyWindowController : MonoBehaviour
     {
         private const int MEMBERS_PER_PAGE = 5;
-        [SerializeField] private NewPartyController partyController;
-        [SerializeField] private GameObject allowGroupToggle;
+        [SerializeField] private PartyController partyController;
         [SerializeField] private GameObject memberSlot;
         [SerializeField] private GameObject memberPage;
         [SerializeField] private TextMeshProUGUI pageCountText;
@@ -55,7 +52,7 @@ namespace UiControllers.Party
 
         public void AllowGroupToggle(Toggle allowGroup)
         {
-            partyController.CmdAllowGroupChange(allowGroup);
+            partyController.CmdAllowGroupChange(allowGroup.isOn);
         }
 
         public void OpenInviteWindow()
@@ -70,7 +67,6 @@ namespace UiControllers.Party
 
         public void OpenRemoveMemberWindow()
         {
-            // if (selectedMember.Length <= 3) return;
             partyController.OpenRemoveMemberWindow();
         }
 
@@ -105,11 +101,11 @@ namespace UiControllers.Party
 
     internal class PlayerSlotListeners : MonoBehaviour
     {
-        public void Construct(NewPartyController partyController, string playerName, GameObject memberSlot)
+        public void Construct(PartyController partyController, string playerName, GameObject memberSlot)
         {
             memberSlot.GetComponent<Button>().onClick.AddListener(() =>
             {
-                partyController.currentSelectedMember = playerName;
+                partyController.CurrentSelectedMember = playerName;
             });
         }
     }

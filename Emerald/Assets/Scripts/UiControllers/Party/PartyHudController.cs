@@ -12,7 +12,7 @@ using UnityEngine.UI;
 namespace UiControllers.Party {
     public class PartyHudController : MonoBehaviour {
         
-        [SerializeField] private NewPartyController partyController;
+        [SerializeField] private PartyController partyController;
         [SerializeField] private GameObject memberGrid;
         [SerializeField] private TextMeshProUGUI memberCount;
         [SerializeField] private GameObject memberSlot;
@@ -79,7 +79,7 @@ namespace UiControllers.Party {
     }
     internal class KickButtonListener : MonoBehaviour
     {
-        public void Construct(NewPartyController partyController, string playerName, GameObject kickButton)
+        public void Construct(PartyController partyController, string playerName, GameObject kickButton)
         {
             // Set kick button //
             kickButton.GetComponent<Button>().onClick.AddListener(()

@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
 
-
+  
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
         UserGameObject.GetComponent<BoxCollider>().enabled = true;
         User.Player = UserGameObject.GetComponent<PlayerObject>();
         User.Player.gameManager = this;
-        User.Player.ObjectID = p.ObjectID;
+        User.Player.ObjectID = p.ObjectID; //Stupple
         User.SetName(p.Name);
         User.SetClass(p.Class);
         User.Player.Gender = p.Gender;
@@ -275,6 +275,7 @@ public class GameManager : MonoBehaviour
             player.Weapon = p.Weapon;
             player.Dead = p.Dead;
             player.Blocking = !p.Dead;
+            player.NameColour = ConvertSystemColor(p.NameColour);
 
             player.gameObject.SetActive(true);
             CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(player);
@@ -284,6 +285,7 @@ public class GameManager : MonoBehaviour
         player = Instantiate(PlayerModel, CurrentScene.Cells[p.Location.X, p.Location.Y].position, Quaternion.identity).GetComponent<PlayerObject>();
         player.gameManager = this;
         player.Name = p.Name;
+        player.NameColour = ConvertSystemColor(p.NameColour);
         player.ObjectID = p.ObjectID;
         player.Gender = p.Gender;
         player.SetModel();
@@ -331,6 +333,7 @@ public class GameManager : MonoBehaviour
         {
             monster = (MonsterObject)ob;
             monster.Name = p.Name;
+            monster.NameColour = ConvertSystemColor(p.NameColour);
             monster.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
             monster.Direction = p.Direction;
             monster.transform.position = CurrentScene.Cells[p.Location.X, p.Location.Y].position;
@@ -347,6 +350,7 @@ public class GameManager : MonoBehaviour
         else
             monster = Instantiate(MonsterModels[(int)p.Image], CurrentScene.Cells[p.Location.X, p.Location.Y].position, Quaternion.identity).GetComponent<MonsterObject>();
         monster.Name = p.Name;
+        monster.NameColour = ConvertSystemColor(p.NameColour);
         monster.ObjectID = p.ObjectID;
         monster.Scale = p.Scale;
         monster.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
@@ -370,6 +374,7 @@ public class GameManager : MonoBehaviour
         {
             npc = (NPCObject)ob;
             npc.Name = p.Name;
+            npc.NameColour = ConvertSystemColor(p.NameColour);
             npc.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
             npc.Direction = p.Direction;
             npc.Icon = p.Icon;
@@ -385,6 +390,7 @@ public class GameManager : MonoBehaviour
         else
             npc = Instantiate(NPCModels[p.Image], CurrentScene.Cells[p.Location.X, p.Location.Y].position, Quaternion.identity).GetComponent<NPCObject>();
         npc.Name = p.Name;
+        npc.NameColour = ConvertSystemColor(p.NameColour);
         npc.ObjectID = p.ObjectID;
         npc.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
         npc.Direction = p.Direction;
@@ -424,6 +430,7 @@ public class GameManager : MonoBehaviour
         GameObject model = Instantiate(Resources.Load($"{p.Image}"), CurrentScene.Cells[p.Location.X, p.Location.Y].position, Quaternion.identity) as GameObject;
         ItemObject item = model.GetComponent<ItemObject>();
         item.Name = p.Name;
+        item.NameColour = ConvertSystemColor(p.NameColour);
         item.ObjectID = p.ObjectID;
         item.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
         item.OutlineMaterial = OutlineMaterial;
@@ -771,4 +778,27 @@ public class GameManager : MonoBehaviour
         GameScene.partyController.RpcAddNewMember(member);
         GameScene.ChatController.ReceiveChat($"{member} has joined the group", ChatType.Group);
     }
+    public void ColourChanged(S.ColourChanged p)
+    {
+        User.Player.NameColour = ConvertSystemColor(p.NameColour);
+        User.Player.SetNameLabel();
+
+
+    }
+    public void ObjectColourChanged(S.ObjectColourChanged p)
+    {
+  
+        if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
+        {
+            ob.NameColour = ConvertSystemColor(p.NameColour);
+            ob.SetNameLabel();
+        }
+    }
+
+    public Color ConvertSystemColor(System.Drawing.Color color)
+    {
+        Color NameColorOut = new Color32(color.R, color.G, color.B, color.A);
+        return NameColorOut;
+    }
+
 }

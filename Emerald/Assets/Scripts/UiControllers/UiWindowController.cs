@@ -3,7 +3,6 @@ using System.Linq;
 using Emerald.UiControllers;
 using JetBrains.Annotations;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;

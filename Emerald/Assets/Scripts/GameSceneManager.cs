@@ -24,7 +24,7 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
-    public NewPartyController partyController;
+    public PartyController partyController;
     public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;
     public Image ExperienceBar;
