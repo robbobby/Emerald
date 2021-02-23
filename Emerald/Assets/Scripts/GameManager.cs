@@ -785,12 +785,11 @@ public class GameManager : MonoBehaviour
     }
     public void ObjectColourChanged(S.ObjectColourChanged p)
     {
-        Debug.Log("ObjectColourChanged" + p.NameColour);
+  
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
         {
             ob.NameColour = p.NameColour;
-            Debug.Log("update ObjectColourChanged " + ob.Name + p.NameColour);
-            
+            ob.SetNameLabel();
         }
     }
 
