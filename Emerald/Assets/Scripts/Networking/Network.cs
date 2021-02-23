@@ -371,6 +371,9 @@ namespace Emerald
                     break;
                 case (short)ServerPacketIds.ObjectDied:
                     ObjectDied((S.ObjectDied)p);
+                    break; 
+                case (short)ServerPacketIds.ObjectColourChanged:
+                    ObjectColourChanged((S.ObjectColourChanged)p);
                     break;
                 case (short)ServerPacketIds.Chat:
                     Chat((S.Chat)p);

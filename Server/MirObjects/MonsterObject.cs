@@ -666,9 +666,10 @@ namespace Server.MirObjects
 
                 PlayerObject playerObj = (PlayerObject)EXPOwner;
                 playerObj.CheckGroupQuestKill(Info);
+                KillAnnouncement(Info.Class);
             }
          
-            KillAnnouncement(Info.Class);
+            
                         
             if (Respawn != null)
                 Respawn.Count--;
@@ -690,19 +691,7 @@ namespace Server.MirObjects
             String ColorStartBlue = "<color=blue>";
             String ColorStartRed = "<color=red>";
             String ColorEnd = "</color>";
-            switch (PetLevel) 
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    return;
-            } //
-
-
+        
             switch (mobClass)
             {
                 case MonsterClass.Boss:
