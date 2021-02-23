@@ -38,12 +38,26 @@ namespace UiControllers.Party {
             CmdSendInviteToPlayer(playerToInvite);
         }
 
+        public void OpenRemoveMemberWindow(string memberToRemove)
+        {
+            RemoveMember(memberToRemove);
+        }
+
         public void OpenRemoveMemberWindow()
         {
-            if (!IsPartyLeader() || currentSelectedMember.Length < 3) return;
-            messageBox.Show($"Are you sure you want to remove {currentSelectedMember}?", true, true);
-            messageBox.OK += () => CmdRemoveMemberFromParty(currentSelectedMember);
-            messageBox.Cancel += () => currentSelectedMember = String.Empty;
+            RemoveMember(currentSelectedMember);
+        }
+        private string RemoveMember(string memberName)
+        {
+            if (!IsPartyLeader() || memberName.Length < 3) return memberName;
+            messageBox.Show($"Are you sure you want to remove {memberName}?", true, true);
+            messageBox.OK += () => CmdRemoveMemberFromParty(memberName);
+            messageBox.Cancel += () => memberName = String.Empty;
+            return memberName;
+        }
+        public void TEST_LOAD_MEMBERS() {
+            for (int i = 0; i < 3; i++) 
+                RpcAddNewMember($"{i} member");
         }
 
         public void OpenLeaveWindow()
@@ -96,6 +110,7 @@ namespace UiControllers.Party {
         {
             partyList.Add(memberName);
             partyWindowController.AddMember(memberName);
+            partyHudController.AddMember(memberName);
         }
     }
 }

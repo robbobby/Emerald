@@ -33,7 +33,7 @@ namespace UiControllers.Party
         }
         
         public void TEST_LOAD_MEMBERS() {
-            for (int i = 0; i < 11; i++) 
+            for (int i = 0; i < 3; i++) 
                 AddMember($"{i} member");
         }
 
@@ -51,11 +51,15 @@ namespace UiControllers.Party
                 if (i >= memberSlotList.Count) return;
                 memberSlotList[i].SetActive(true);
             }
+            
+            SetPageText();
         }
 
         private void SetPageText()
         {
-            pageCountText.SetText($"{currentPage}/{pages.Count}");
+            pageCountText.SetText(memberSlotList.Count <= 5
+                ? string.Empty
+                : $"{currentPage}/{memberSlotList.Count / MEMBERS_PER_PAGE}");
         }
 
         public void AllowGroupToggle(Toggle allowGroup)
