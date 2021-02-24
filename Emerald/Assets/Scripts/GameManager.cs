@@ -563,13 +563,8 @@ public class GameManager : MonoBehaviour
                 player.ChatLabel.SetText(p.Text);
                 player.ChatTime = Time.time + 5;
             }
-        }
-
-        
-    }
-    
-    
-
+        }        
+    }      
 
     public void NewItemInfo(S.NewItemInfo info)
     {
@@ -781,17 +776,12 @@ public class GameManager : MonoBehaviour
     public void ColourChanged(S.ColourChanged p)
     {
         User.Player.NameColour = ConvertSystemColor(p.NameColour);
-        User.Player.SetNameLabel();
-
-
     }
     public void ObjectColourChanged(S.ObjectColourChanged p)
-    {
-  
+    {  
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
         {
             ob.NameColour = ConvertSystemColor(p.NameColour);
-            ob.SetNameLabel();
         }
     }
 

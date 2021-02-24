@@ -47,9 +47,29 @@ public class MapObject : MonoBehaviour
     [HideInInspector]
     protected GameObject minimapDot;
 
+    private string _name;
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            _name = value;
+            NameLabel.text = value;
+        }
+    }
 
-    public string Name;
-    public Color NameColour = Color.white; 
+    private Color nameColour;
+    public Color NameColour
+    {
+        get { return nameColour; }
+        set
+        {
+            if (nameColour == value) return;
+
+            nameColour = value;
+            NameLabel.color = value;
+        }
+    }
 
     public int Light;
     [HideInInspector]
@@ -138,19 +158,17 @@ public class MapObject : MonoBehaviour
     }
 
     public virtual void Awake()
-    {
-        
+    {        
         CurrentAction = MirAction.Standing;        
         NameLabel = Instantiate(NameLabelObject, NameLocation.position, Quaternion.identity, gameObject.transform).GetComponent<TMP_Text>();
+        NameColour = Color.white;
+
         if (GameManager.gameStage == GameStage.Game)
             minimapDot = Instantiate(GameScene.MiniMapDot, Vector3.zero, Quaternion.identity, GameScene.MiniMapView.transform);
-        SetNameLabel();
     }
 
     public virtual void Start()
     {
-       
-        SetNameLabel();
     }  
 
     protected virtual void Update()
@@ -188,15 +206,6 @@ public class MapObject : MonoBehaviour
     public virtual void SetAction()
     {
     }
-
-    public void SetNameLabel()
-    {
-        
-        NameLabel.text = Name;
-        NameLabel.color = NameColour;
-       
-    }
-
  
     public virtual void OnSelect()
     {
