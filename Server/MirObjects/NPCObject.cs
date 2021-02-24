@@ -92,7 +92,7 @@ namespace Server.MirObjects
         public NPCObject(NPCInfo info)
         {
             Info = info;
-            NameColour = Color.Lime;
+            NameColour = Color.White;
 
             if (!Info.IsDefault)
             {
