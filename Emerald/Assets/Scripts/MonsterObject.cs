@@ -84,6 +84,12 @@ public class MonsterObject : MapObject
                     Blocking = false;
                     if (HealthBar != null)
                         HealthBar.gameObject.SetActive(false);
+                    switch (Class)
+                    {
+                        case MonsterClass.Boss:
+                            GameScene.BossUi.SetActive(false);
+                           break;
+                    }
                     Dead = true;
                     break;
             }
