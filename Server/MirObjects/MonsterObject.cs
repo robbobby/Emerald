@@ -539,7 +539,7 @@ namespace Server.MirObjects
                     colour = Color.Orange;
                     break;
                 case MonsterClass.Boss:
-                    colour = Color.BurntOrange;
+                    colour = Color.DarkOrange;
                     break;
             }
 
@@ -668,7 +668,7 @@ namespace Server.MirObjects
 
                 PlayerObject playerObj = (PlayerObject)EXPOwner;
                 playerObj.CheckGroupQuestKill(Info);
-                KillAnnouncement(Info.Class);
+                KillAnnouncement(playerObj);
             }
          
             
@@ -686,15 +686,13 @@ namespace Server.MirObjects
             CurrentMap.MonsterCount--;
         }
 
-        public void KillAnnouncement(MonsterClass mobClass)
+        public void KillAnnouncement(PlayerObject playerObj)
         {
-            PlayerObject playerObj = (PlayerObject)EXPOwner;
-            String ColorStartGreen = "<color=green>";
-            String ColorStartBlue = "<color=blue>";
-            String ColorStartRed = "<color=red>";
-            String ColorEnd = "</color>";
+            string ColorStartGreen = "<color=green>";
+            string ColorStartBlue = "<color=blue>";
+            string ColorEnd = "</color>";
         
-            switch (mobClass)
+            switch (Info.Class)
             {
                 case MonsterClass.Boss:
                     string Massage = $"[{ColorStartBlue}{playerObj.Name}{ColorEnd}] successfully Killed [{ColorStartGreen}{Name}{ColorEnd}] ";
