@@ -169,7 +169,18 @@ public class MapObject : MonoBehaviour
 
     public virtual void Start()
     {
-    }  
+    }
+
+    public void OnEnable()
+
+    {
+        minimapDot?.SetActive(true);
+    }
+
+    public void OnDisable()
+    {
+        minimapDot?.SetActive(false);
+    }
 
     protected virtual void Update()
     {
