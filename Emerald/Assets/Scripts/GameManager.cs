@@ -369,11 +369,12 @@ public class GameManager : MonoBehaviour
 
     public void BossUI(MonsterObject monster)
     {
+        if (monster.Dead == true) return;
         if (monster.Class == MonsterClass.Boss)
         {
             GameScene.BossUi.SetActive(true);
             GameScene.BossUIName.text = monster.Name;
-            //GameScene.BossUIHeal = monster.HealthBar;
+            GameScene.BossUIHeal.value = monster.PercentHealth;
         }
 
     }

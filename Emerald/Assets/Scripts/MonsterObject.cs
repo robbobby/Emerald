@@ -32,6 +32,7 @@ public class MonsterObject : MapObject
     {
         soundPlayer.Update();
         base.Update();
+        BossHealupdate();
     }
 
     public override void SetAction()
@@ -84,12 +85,7 @@ public class MonsterObject : MapObject
                     Blocking = false;
                     if (HealthBar != null)
                         HealthBar.gameObject.SetActive(false);
-                    switch (Class)
-                    {
-                        case MonsterClass.Boss:
-                            GameScene.BossUi.SetActive(false);
-                           break;
-                    }
+                    CheckBossDead();
                     Dead = true;
                     break;
             }
@@ -98,6 +94,26 @@ public class MonsterObject : MapObject
         }
 
         GetComponentInChildren<Animator>().SetInteger("CurrentAction", (int)CurrentAction);
+    }
+
+    public void BossHealupdate()
+    {
+        switch (Class)
+        {
+            case MonsterClass.Boss:
+               GameScene.BossUIHeal.value = PercentHealth;
+                break;
+        }
+    }
+    
+    public void CheckBossDead()
+    {
+        switch (Class)
+        {
+            case MonsterClass.Boss:
+                GameScene.BossUi.SetActive(false);
+                break;
+        }
     }
 
     public override void StruckBegin()
