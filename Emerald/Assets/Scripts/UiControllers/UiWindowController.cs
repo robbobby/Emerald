@@ -51,12 +51,12 @@ namespace UiControllers
             chatActions.Newaction.performed += _ => ToggleChat();
 
             // Window Action Handlers //
-            uiInput.Options.performed += _ => PriorityWindowStateHandler(optionsMenu);
-            uiInput.Inventory.performed += _ => WindowStateHandler(inventoryMenu);
-            uiInput.Character.performed += _ => WindowStateHandler(characterMenu);
-            uiInput.Skills.performed += _ => WindowStateHandler(skillsMenu);
-            uiInput.Guild.performed += _ => WindowStateHandler(guildMenu);
-            uiInput.Party.performed += _ => WindowStateHandler(partyWindow);
+            uiInput.Options.performed += _ => TogglePriorityWindowActiveState(optionsMenu);
+            uiInput.Inventory.performed += _ => ToggleWindowActiveState(inventoryMenu);
+            uiInput.Character.performed += _ => ToggleWindowActiveState(characterMenu);
+            uiInput.Skills.performed += _ => ToggleWindowActiveState(skillsMenu);
+            uiInput.Guild.performed += _ => ToggleWindowActiveState(guildMenu);
+            uiInput.Party.performed += _ => ToggleWindowActiveState(partyWindow);
             uiInput.MiniMap.performed += _ => MiniMapWindowStateHandler();
             uiInput.Escape.performed += _ => HandleEscapePress();
 
@@ -101,19 +101,19 @@ namespace UiControllers
                 for (int i = 0; i < priorityWindowCloseList.Count; i++)
                 {
                     if (!priorityWindowCloseList[i].activeSelf) continue;
-                    PriorityWindowStateHandler(priorityWindowCloseList[i]);
+                    TogglePriorityWindowActiveState(priorityWindowCloseList[i]);
                     return;
                 }
             }
 
             if (activeWindows.Count > 0) {
-                WindowStateHandler(activeWindows.Last());
+                ToggleWindowActiveState(activeWindows.Last());
                 return;
             }
-            PriorityWindowStateHandler(optionsMenu); // No other windows open, open the options menu
+            TogglePriorityWindowActiveState(optionsMenu); // No other windows open, open the options menu
         }
 
-        private void WindowStateHandler(GameObject window) {
+        public void ToggleWindowActiveState(GameObject window) {
             window.SetActive(!window.activeSelf);
             if (window.activeSelf) {
                 activeWindows.Add(window);
@@ -122,7 +122,7 @@ namespace UiControllers
             }
         }
 
-        private void PriorityWindowStateHandler(GameObject window) {
+        public void TogglePriorityWindowActiveState(GameObject window) {
             window.SetActive(!window.activeSelf);
             if (window.activeSelf) {
                 priorityWindowCount++;
