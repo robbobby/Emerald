@@ -819,5 +819,17 @@ public class GameManager : MonoBehaviour
         Color NameColorOut = new Color32(color.R, color.G, color.B, color.A);
         return NameColorOut;
     }
+    
+    public void SetShopGoods(List<UserItem> itemList) { // HashMap more efficient way than 2 loops?
+        for (int i = 0; i < itemList.Count; i++) 
+            GetItemInfoByItemIndex(itemList, i);
+        GameScene.shopController.SetNpcGoods(itemList);
+    }
+
+    private static void GetItemInfoByItemIndex(List<UserItem> itemList, int position) {
+        for (int i = 0; i < ItemInfoList.Count; i++)
+            if (itemList[position].ItemIndex == ItemInfoList[i].Index) 
+                itemList[position].Info = ItemInfoList[i];
+    }
 
 }
