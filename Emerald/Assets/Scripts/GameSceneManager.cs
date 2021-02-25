@@ -68,6 +68,10 @@ public class GameSceneManager : MonoBehaviour
     public MirItemCell[] EquipmentCells = new MirItemCell[14];
     public NPCDialog NPCDialog;
 
+    public TMP_Text BossUIName;
+    public Slider BossUIHeal;
+    public GameObject BossUi;
+
     [HideInInspector]
     public bool PickedUpGold;
     [HideInInspector]

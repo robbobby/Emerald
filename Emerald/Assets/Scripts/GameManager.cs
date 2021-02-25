@@ -45,13 +45,13 @@ public class GameManager : MonoBehaviour
     private Dictionary<uint, MapObject> ObjectList = new Dictionary<uint, MapObject>();
     [HideInInspector]
     public static List<ItemInfo> ItemInfoList = new List<ItemInfo>();
-    
+
     [HideInInspector]
     public static GameStage gameStage;
     [HideInInspector]
     public static GameSceneManager GameScene;
     [HideInInspector]
-    public static UserObject User;    
+    public static UserObject User;
     public static MirScene CurrentScene;
     [HideInInspector]
     public static float NextAction;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         gameStage = GameStage.Login;
         settingsPath = Application.dataPath + "/Settings.json";
-        LoadSettings();       
+        LoadSettings();
         Network.Connect();
     }
 
@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
 
-  
+
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
@@ -120,14 +120,14 @@ public class GameManager : MonoBehaviour
         UserGameObject.GetComponent<BoxCollider>().enabled = true;
         User.Player = UserGameObject.GetComponent<PlayerObject>();
         User.Player.gameManager = this;
-        User.Player.ObjectID = p.ObjectID; //Stupple
+        User.Player.ObjectID = p.ObjectID;
         User.SetName(p.Name);
         User.SetClass(p.Class);
         User.Player.Gender = p.Gender;
         User.Player.SetModel();
         User.SetLevel(p.Level);
         User.Experience = p.Experience;
-        User.MaxExperience = p.MaxExperience;        
+        User.MaxExperience = p.MaxExperience;
 
         User.HP = p.HP;
         User.MP = p.MP;
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         GameScene.UpdateCharacterIcon();
 
-        User.Player.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);        
+        User.Player.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
         UserGameObject.transform.position = CurrentScene.Cells[User.Player.CurrentLocation.x, User.Player.CurrentLocation.y].position;
         User.Player.Direction = p.Direction;
         User.Player.Model.transform.rotation = ClientFunctions.GetRotation(User.Player.Direction);
@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     {
         CleanUp();
         SceneManager.UnloadScene("GameScene");
-        SceneManager.LoadScene("LoginNew");           
+        SceneManager.LoadScene("LoginNew");
     }
 
     private void CleanUp()
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         User.Equipment = new UserItem[14];
         UserGameObject = null;
 
-        ClearObjects();        
+        ClearObjects();
 
         CurrentScene = null;
     }
@@ -189,12 +189,12 @@ public class GameManager : MonoBehaviour
             if (ObjectList.ElementAt(i).Key == User.Player.ObjectID) continue;
             Destroy(ObjectList.ElementAt(i).Value.gameObject);
             ObjectList.Remove(ObjectList.ElementAt(i).Key);
-        }       
+        }
     }
 
     public void MapChanged(S.MapChanged p)
     {
-        ClearObjects();        
+        ClearObjects();
         ClearAction();
         User.Player.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
 
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
             }
             Network.Enqueue(new C.MapChanged { });
             UserGameObject.transform.position = CurrentScene.Cells[User.Player.CurrentLocation.x, User.Player.CurrentLocation.y].position;
-        }                          
+        }
     }
 
     public void BaseStatsInfo(S.BaseStatsInfo p)
@@ -245,10 +245,10 @@ public class GameManager : MonoBehaviour
             ClearAction();
             GameScene.ChatController.ReceiveChat("Displacement.", ChatType.System);
 
-            CurrentScene.Cells[User.Player.CurrentLocation.x, User.Player.CurrentLocation.y].RemoveObject(User.Player);          
+            CurrentScene.Cells[User.Player.CurrentLocation.x, User.Player.CurrentLocation.y].RemoveObject(User.Player);
             User.Player.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
             gameObject.transform.position = CurrentScene.Cells[p.Location.X, p.Location.Y].position;
-            CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(User.Player);            
+            CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(User.Player);
         }
     }
 
@@ -291,11 +291,11 @@ public class GameManager : MonoBehaviour
         player.SetModel();
         player.CurrentLocation = new Vector2Int(p.Location.X, p.Location.Y);
         player.Direction = p.Direction;
-        player.Model.transform.rotation = ClientFunctions.GetRotation(p.Direction);        
+        player.Model.transform.rotation = ClientFunctions.GetRotation(p.Direction);
         player.Armour = p.Armour;
         player.OutlineMaterial = OutlineMaterial;
         player.Weapon = p.Weapon;
-        player.Dead =  p.Dead;
+        player.Dead = p.Dead;
         player.Blocking = !p.Dead;
         ObjectList.Add(p.ObjectID, player);
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(player);
@@ -362,7 +362,21 @@ public class GameManager : MonoBehaviour
         monster.Class = p.MobClass;
 
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(monster);
-        ObjectList.Add(p.ObjectID, monster);        
+        ObjectList.Add(p.ObjectID, monster);
+
+        BossUI(monster);
+    }
+
+    public void BossUI(MonsterObject monster)
+    {
+        if (monster.Dead == true) return;
+        if (monster.Class == MonsterClass.Boss)
+        {
+            GameScene.BossUi.SetActive(true);
+            GameScene.BossUIName.text = monster.Name;
+            GameScene.BossUIHeal.value = monster.PercentHealth;
+        }
+
     }
 
     public void ObjectNPC(S.ObjectNPC p)
@@ -448,11 +462,26 @@ public class GameManager : MonoBehaviour
                 ObjectList.Remove(p.ObjectID);
                 Destroy(ob.gameObject);
             }
+
+            else if (ob is MonsterObject monster)
+            {
+                switch (monster.Class)
+                {
+                    case MonsterClass.Boss:
+                        GameScene.BossUi.SetActive(false);
+                        ob.gameObject.SetActive(false);
+                        CurrentScene.Cells[ob.CurrentLocation.x, ob.CurrentLocation.y].RemoveObject(ob);
+                        return;
+
+                }
+               
+            }
             else
-                ob.gameObject.SetActive(false);
+            ob.gameObject.SetActive(false);
             CurrentScene.Cells[ob.CurrentLocation.x, ob.CurrentLocation.y].RemoveObject(ob);
         }
     }
+
 
     public void ObjectTurn(S.ObjectTurn p)
     {
