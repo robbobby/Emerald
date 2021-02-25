@@ -83,6 +83,7 @@ public class GameSceneManager : MonoBehaviour
 
     public uint NPCID;
     public string NPCName;
+    public ShopController shopController;
 
     private MapObject targetObject;
     public MapObject TargetObject
@@ -672,5 +673,4 @@ public class GameSceneManager : MonoBehaviour
         Network.Enqueue(new C.CallNPC { ObjectID = NPCID, Key = "[" + LinkId + "]" });
         GameManager.InputDelay = Time.time + 0.5f;
     }
-
 }

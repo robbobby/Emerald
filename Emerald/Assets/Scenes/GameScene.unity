@@ -29452,6 +29452,7 @@ MonoBehaviour:
   Slaying: 0
   NPCID: 0
   NPCName: 
+  shopController: {fileID: 1198000936}
   NextHitTime: 0
 --- !u!1 &559140116
 GameObject:
