@@ -665,6 +665,7 @@ namespace Server.MirObjects
             }
 
 
+
             if (Race == ObjectType.Monster)
             {
                 MonsterObject monster = (MonsterObject)this;
@@ -676,6 +677,7 @@ namespace Server.MirObjects
                 }
             }
 
+            if (Race == ObjectType.Monster && !AutoRev && Master == null) return;
 
             if (Race == ObjectType.Player)
             {
