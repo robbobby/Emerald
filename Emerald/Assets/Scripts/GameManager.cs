@@ -832,15 +832,11 @@ public class GameManager : MonoBehaviour
     }
     
     public void SetShopGoods(List<UserItem> itemList) { // HashMap more efficient way than 2 loops?
-        for (int i = 0; i < itemList.Count; i++) 
-            GetItemInfoByItemIndex(itemList, i);
+        for (int i = 0; i < itemList.Count; i++)
+            itemList[i].Info = GetItemInfo(itemList[i].ItemIndex);
         GameScene.shopController.SetNpcGoods(itemList);
         GameScene.WindowController.TogglePriorityWindowActiveState(UiWindows.ShopWindow);
     }
 
-    private static void GetItemInfoByItemIndex(List<UserItem> itemList, int position) {
-        for (int i = 0; i < ItemInfoList.Count; i++)
-            if (itemList[position].ItemIndex == ItemInfoList[i].Index) 
-                itemList[position].Info = ItemInfoList[i];
-    }
+    private static ItemInfo GetItemInfo(int index) => ItemInfoList.First(item => item.Index == index);
 }
