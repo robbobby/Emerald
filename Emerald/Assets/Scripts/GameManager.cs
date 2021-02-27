@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
     {      
         GameScene.MessageBox.Show("You have died, Do you want to revive in town?", okbutton: true , cancelbutton: true);
         GameScene.MessageBox.OK += () => Network.Enqueue(new C.TownRevive());
-        GameScene.MessageBox.Cancel += () => GameScene.MessageBox.gameObject.SetActive(false);
+        GameScene.MessageBox.Cancel += () => gameObject.SetActive(false);
     }
 
     public void LogOutSuccess(S.LogOutSuccess p)
