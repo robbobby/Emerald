@@ -30658,11 +30658,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1439063042}
-        m_MethodName: TogglePriorityWindowActiveState
+        m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 332477668}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 332477672}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -77767,8 +77767,8 @@ MonoBehaviour:
         m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 647342740}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 647342744}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -86954,8 +86954,8 @@ MonoBehaviour:
         m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2033180754}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 2033180760}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -88436,8 +88436,8 @@ MonoBehaviour:
         m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2084991254}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 2084991257}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -91137,8 +91137,8 @@ MonoBehaviour:
         m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2121219932}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 2121219938}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -101457,8 +101457,8 @@ MonoBehaviour:
         m_MethodName: ToggleWindowActiveState
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 227496102}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 227496108}
+          m_ObjectArgumentAssemblyTypeName: UiControllers.WindowController, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

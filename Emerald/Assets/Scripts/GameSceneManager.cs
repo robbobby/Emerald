@@ -165,7 +165,8 @@ public class GameSceneManager : MonoBehaviour
         if (shopController.IsShopWindowOpen())
         {
             Debug.Log("ShopControllerIsActive");
-            // if(Inventory.UseShopInventoryControls());
+            if(Inventory.UseShopInventoryControls())
+                return;
         }
             
         if (SelectedItemImage.gameObject.activeSelf)
