@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Network = Emerald.Network;
 using Emerald;
+using UiControllers;
 using C = ClientPackets;
 using S = ServerPackets;
 
@@ -815,6 +816,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < itemList.Count; i++) 
             GetItemInfoByItemIndex(itemList, i);
         GameScene.shopController.SetNpcGoods(itemList);
+        GameScene.WindowController.TogglePriorityWindowActiveState(UiWindows.ShopWindow);
     }
 
     private static void GetItemInfoByItemIndex(List<UserItem> itemList, int position) {

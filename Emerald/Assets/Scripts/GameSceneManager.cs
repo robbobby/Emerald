@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using UiControllers;
 using UiControllers.Party;
 using UnityEngine.Serialization;
 using Network = Emerald.Network;
@@ -25,6 +26,7 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
+    public UiWindowController WindowController;
     public PartyController partyController;
     public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;

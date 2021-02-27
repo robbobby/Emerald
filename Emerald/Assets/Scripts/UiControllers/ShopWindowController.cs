@@ -9,7 +9,7 @@ using S = ServerPackets;
 
 namespace UiControllers
 {
-    public class ShopWindowController : MonoBehaviour
+    public class ShopWindowController : WindowController
     {
         [SerializeField] private GameObject shopWindow;
         [SerializeField] private GameObject shopPage;
@@ -46,7 +46,6 @@ namespace UiControllers
             ClearShopItems();
             MakeNpcShopItems();
             SetPageGoods();
-            OpenShopWindow();
         }
 
         private void ClearShopItems()
@@ -73,13 +72,17 @@ namespace UiControllers
             }
         }
 
-        private void OpenShopWindow()
+        public override bool ToggleWindowActiveState()
         {
-            shopWindow.SetActive(true);
-            OpenInventoryWithShop();
+            gameObject.SetActive(!gameObject.activeSelf);
             npcDialogue.SetActive(false);
+            if(gameObject.activeSelf)
+                OpenInventoryWithShop();
+            else
+                ResetInventoryToDefault();
+            return gameObject.activeSelf;
         }
-
+        
         private void SetPageGoods()
         {
             SetPageEmpty();
@@ -102,20 +105,25 @@ namespace UiControllers
         {
             inventorySavedPosition = inventoryWindow.transform.localPosition;
             inventoryWindow.GetComponent<DragWindow>().enabled = false;
-            inventoryWindow.SetActive(true);
             inventoryWindow.transform.localPosition = new Vector3(125, 100, 0);
+            inventoryWindow.SetActive(true);
         }
 
-        private void ResetInventoryToDefault()
+        public void ResetInventoryToDefault()
         {
-            inventoryWindow.SetActive(false);
             inventoryWindow.transform.localPosition = inventorySavedPosition;
             inventoryWindow.GetComponent<DragWindow>().enabled = true;
+            inventoryWindow.SetActive(false);
         }
 
         private void SetPageNumberText()
         {
             shopPageText.SetText($"{currentPage + 1}/{(shopItems.Count / 10 < 1 ? 1 : shopItems.Count/10)}");
+        }
+
+        public void SetInventoryWindow()
+        {
+            throw new System.NotImplementedException();
         }
     }
 
