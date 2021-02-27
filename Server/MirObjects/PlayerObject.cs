@@ -2250,7 +2250,7 @@ namespace Server.MirObjects
             CurrentMap = this.CurrentMap;
             CurrentLocation = this.CurrentLocation;
 
-            CurrentMap.AddObject(this);
+            //CurrentMap.AddObject(this);
 
             Enqueue(new S.MapChanged
             {
@@ -2266,7 +2266,7 @@ namespace Server.MirObjects
                 Music = CurrentMap.Info.Music
             });
 
-            GetObjects();
+           // GetObjects();
 
             Enqueue(new S.Revived());
             Broadcast(new S.ObjectRevived { ObjectID = ObjectID, Effect = effect });
@@ -2274,6 +2274,7 @@ namespace Server.MirObjects
             Fishing = false;
             Enqueue(GetFishInfo());
         }
+
         public void TownRevive()
         {
             if (!Dead) return;
@@ -2306,7 +2307,7 @@ namespace Server.MirObjects
             CurrentMap = temp;
             CurrentLocation = bindLocation;
 
-            CurrentMap.AddObject(this);
+            //CurrentMap.AddObject(this);
 
             Enqueue(new S.MapChanged
             {
@@ -2322,16 +2323,15 @@ namespace Server.MirObjects
                 Music = CurrentMap.Info.Music
             });
 
-            GetObjects();
+            //GetObjects();
             Enqueue(new S.Revived());
             Broadcast(new S.ObjectRevived { ObjectID = ObjectID, Effect = true });
-
 
             InSafeZone = true;
             Fishing = false;
             Enqueue(GetFishInfo());
         }
-
+       
         private void GetItemInfo()
         {
             UserItem item;

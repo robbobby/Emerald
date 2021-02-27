@@ -111,7 +111,7 @@ namespace UiControllers
             }
 
             if (activeWindows.Count > 0) {
-                activeWindows.Last().ToggleWindowActiveState();
+                ToggleWindowActiveState(activeWindows.Last());
                 return;
             }
             TogglePriorityWindowActiveState(optionsMenu); // No other windows open, open the options menu
@@ -124,6 +124,7 @@ namespace UiControllers
             else {
                 activeWindows.Remove(window);
             }
+            Debug.Log($"after {activeWindows.Count}");
         }
 
         public void TogglePriorityWindowActiveState(UiWindows window)

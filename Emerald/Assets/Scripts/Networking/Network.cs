@@ -363,6 +363,12 @@ namespace Emerald
                 case (short)ServerPacketIds.ObjectHealth:
                     ObjectHealth((S.ObjectHealth)p);
                     break;
+                case (short)ServerPacketIds.ObjectRevived:
+                    ObjectRevived((S.ObjectRevived)p);
+                    break;
+                case (short)ServerPacketIds.Revived:
+                    gameManager.Revived();
+                    break;
                 case (short)ServerPacketIds.DamageIndicator:
                     DamageIndicator((S.DamageIndicator)p);
                     break;
@@ -804,6 +810,11 @@ namespace Emerald
         public static void ObjectHealth(S.ObjectHealth p)
         {
             gameManager.ObjectHealth(p);
+        }        
+
+        public static void ObjectRevived(S.ObjectRevived p)
+        {
+            gameManager.ObjectRevived(p);
         }
         public static void DamageIndicator(S.DamageIndicator p)
         {
