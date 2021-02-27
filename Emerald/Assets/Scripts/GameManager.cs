@@ -161,8 +161,9 @@ public class GameManager : MonoBehaviour
 
     public void ShowReviveMessage()
     {      
-        GameScene.MessageBox.Show("You have died, Do you want to revive in town?", okbutton: true);
+        GameScene.MessageBox.Show("You have died, Do you want to revive in town?", okbutton: true , cancelbutton: true);
         GameScene.MessageBox.OK += () => Network.Enqueue(new C.TownRevive());
+        GameScene.MessageBox.Cancel += () => GameScene.MessageBox.gameObject.SetActive(false);
     }
 
     public void LogOutSuccess(S.LogOutSuccess p)
@@ -539,8 +540,8 @@ public class GameManager : MonoBehaviour
 
     public void Revived()
     {
-        User.Player.SetAction();
         User.Player.Dead = false;
+        User.Player.SetAction();
         //bool Effect = GetComponentInChildren<Animator>().GetBool("Revied");
     }
 
