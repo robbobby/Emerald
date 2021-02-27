@@ -4,6 +4,11 @@
     <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
     <OutputPath>..\Build\Server\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Emerald\Assets\Scripts\Common.cs" Link="Common.cs" />
     <Compile Include="..\Emerald\Assets\Scripts\Networking\ClientPackets.cs" Link="MirNetwork\ClientPackets.cs" />
