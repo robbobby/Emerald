@@ -26,6 +26,8 @@ namespace Server.MirObjects
 
         public abstract ObjectType Race { get; }
 
+        public MonsterObject monsterObject;
+     //   St;
         public abstract string Name { get; set; }
 
         public long ExplosionInflictedTime;
@@ -646,9 +648,11 @@ namespace Server.MirObjects
 
             return new Point(0, 0);
         }
+        
 
         public void BroadcastHealthChange()
         {
+       
             if (Race != ObjectType.Player && Race != ObjectType.Monster) return;
 
             byte time = Math.Min(byte.MaxValue, (byte)Math.Max(5, (RevTime - Envir.Time) / 1000));
@@ -658,6 +662,19 @@ namespace Server.MirObjects
             {
                 CurrentMap.Broadcast(p, CurrentLocation);
                 return;
+            }
+
+
+
+            if (Race == ObjectType.Monster)
+            {
+                MonsterObject monster = (MonsterObject)this;
+
+                if (monster.Info.Class == MonsterClass.Boss)
+                {
+                    CurrentMap.Broadcast(p, CurrentLocation);
+
+                }
             }
 
             if (Race == ObjectType.Monster && !AutoRev && Master == null) return;
@@ -722,6 +739,8 @@ namespace Server.MirObjects
             }
 
         }
+
+
 
         public void BroadcastDamageIndicator(DamageType type, int damage = 0)
         {

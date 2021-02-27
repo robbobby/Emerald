@@ -240,7 +240,7 @@ namespace Server.MirObjects
 
         public MonsterInfo Info;
         public MapRespawn Respawn;
-        
+
         public override string Name
         {
             get { return Master == null ? Info.GameName : string.Format("{0}({1})", Info.GameName, Master.Name); }
@@ -292,9 +292,9 @@ namespace Server.MirObjects
         public uint HP, MaxHP;
         public ushort MoveSpeed;
 
-        public virtual uint Experience 
-        { 
-            get { return Info.Experience; } 
+        public virtual uint Experience
+        {
+            get { return Info.Experience; }
         }
         public int DeadDelay
         {
@@ -429,7 +429,7 @@ namespace Server.MirObjects
             ActionTime = Envir.Time + 2000;
             if (Info.HasSpawnScript && (Envir.MonsterNPC != null))
             {
-                Envir.MonsterNPC.Call(this,string.Format("[@_SPAWN({0})]", Info.Index));
+                Envir.MonsterNPC.Call(this, string.Format("[@_SPAWN({0})]", Info.Index));
             }
         }
 
@@ -455,16 +455,16 @@ namespace Server.MirObjects
         public virtual void RefreshAll()
         {
             RefreshBase();
-            
-                MaxHP = (uint)Math.Min(uint.MaxValue, MaxHP + PetLevel * 20);
-                MinAC = (ushort)Math.Min(ushort.MaxValue, MinAC + PetLevel * 2);
-                MaxAC = (ushort)Math.Min(ushort.MaxValue, MaxAC + PetLevel * 2);
-                MinMAC = (ushort)Math.Min(ushort.MaxValue, MinMAC + PetLevel * 2);
-                MaxMAC = (ushort)Math.Min(ushort.MaxValue, MaxMAC + PetLevel * 2);
-                MinDC = (ushort)Math.Min(ushort.MaxValue, MinDC + PetLevel);
-                MaxDC = (ushort)Math.Min(ushort.MaxValue, MaxDC + PetLevel);
 
-            if (Info.Name == Settings.SkeletonName ||Info.Name == Settings.ShinsuName ||Info.Name == Settings.AngelName) 
+            MaxHP = (uint)Math.Min(uint.MaxValue, MaxHP + PetLevel * 20);
+            MinAC = (ushort)Math.Min(ushort.MaxValue, MinAC + PetLevel * 2);
+            MaxAC = (ushort)Math.Min(ushort.MaxValue, MaxAC + PetLevel * 2);
+            MinMAC = (ushort)Math.Min(ushort.MaxValue, MinMAC + PetLevel * 2);
+            MaxMAC = (ushort)Math.Min(ushort.MaxValue, MaxMAC + PetLevel * 2);
+            MinDC = (ushort)Math.Min(ushort.MaxValue, MinDC + PetLevel);
+            MaxDC = (ushort)Math.Min(ushort.MaxValue, MaxDC + PetLevel);
+
+            if (Info.Name == Settings.SkeletonName || Info.Name == Settings.ShinsuName || Info.Name == Settings.AngelName)
             {
                 MoveSpeed = (ushort)Math.Min(ushort.MaxValue, (Math.Max(ushort.MinValue, MoveSpeed - MaxPetLevel * 130)));
                 AttackSpeed = (ushort)Math.Min(ushort.MaxValue, (Math.Max(ushort.MinValue, AttackSpeed - MaxPetLevel * 70)));
@@ -567,9 +567,9 @@ namespace Server.MirObjects
                     colour = Color.Navy;
                     break;
             }
-                        
-            
-            
+
+
+
 
             if (Envir.Time < ShockTime)
                 colour = Color.Peru;
@@ -607,7 +607,7 @@ namespace Server.MirObjects
 
             if (!Dead && HP == 0) Die();
 
-           // HealthChanged = true;
+            // HealthChanged = true;
             BroadcastHealthChange();
         }
 
@@ -625,12 +625,12 @@ namespace Server.MirObjects
             CurrentMap.RemoveObject(this);
             if (effects) Broadcast(new S.ObjectTeleportOut { ObjectID = ObjectID, Type = effectnumber });
             Broadcast(new S.ObjectRemove { ObjectID = ObjectID });
-            
+
             CurrentMap.MonsterCount--;
 
             CurrentMap = temp;
             CurrentLocation = location;
-            
+
             CurrentMap.MonsterCount++;
 
             InTrapRock = false;
@@ -659,7 +659,7 @@ namespace Server.MirObjects
 
             if (Info.HasDieScript && (Envir.MonsterNPC != null))
             {
-                Envir.MonsterNPC.Call(this,string.Format("[@_DIE({0})]", Info.Index));
+                Envir.MonsterNPC.Call(this, string.Format("[@_DIE({0})]", Info.Index));
             }
 
             if (EXPOwner != null && Master == null && EXPOwner.Race == ObjectType.Player)
@@ -670,14 +670,14 @@ namespace Server.MirObjects
                 playerObj.CheckGroupQuestKill(Info);
                 KillAnnouncement(playerObj);
             }
-         
-            
-                        
+
+
+
             if (Respawn != null)
                 Respawn.Count--;
 
             if (Master == null && EXPOwner != null)
-                 Drop();
+                Drop();
 
             Master = null;
 
@@ -691,7 +691,7 @@ namespace Server.MirObjects
             string ColorStartGreen = "<color=green>";
             string ColorStartBlue = "<color=blue>";
             string ColorEnd = "</color>";
-        
+
             switch (Info.Class)
             {
                 case MonsterClass.Boss:
@@ -794,7 +794,7 @@ namespace Server.MirObjects
 
                 if (EXPOwner != null && EXPOwner.ItemDropRateOffset > 0)
                     rate -= (int)(rate * (EXPOwner.ItemDropRateOffset / 100));
-                
+
                 if (rate < 1) rate = 1;
 
                 if (Envir.Random.Next(rate) != 0) continue;
@@ -823,7 +823,7 @@ namespace Server.MirObjects
 
                     if (EXPOwner != null && EXPOwner.Race == ObjectType.Player)
                     {
-                        PlayerObject ob = (PlayerObject) EXPOwner;
+                        PlayerObject ob = (PlayerObject)EXPOwner;
 
                         if (ob.CheckGroupQuestItem(item))
                         {
@@ -908,7 +908,7 @@ namespace Server.MirObjects
                 return;
             }
 
-            if(Master != null && TameTime > 0 && Envir.Time >= TameTime)
+            if (Master != null && TameTime > 0 && Envir.Time >= TameTime)
             {
                 Master.Pets.Remove(this);
                 Master = null;
@@ -922,11 +922,11 @@ namespace Server.MirObjects
             ProcessPoison();
 
 
-         /*   if (!HealthChanged) return;
+            /*   if (!HealthChanged) return;
 
-            HealthChanged = false;
-            
-            BroadcastHealthChange();*/
+               HealthChanged = false;
+
+               BroadcastHealthChange();*/
         }
 
         public override void SetOperateTime()
@@ -1185,7 +1185,7 @@ namespace Server.MirObjects
 
                         MoveSpeed = (ushort)Math.Min(3500, MoveSpeed + 100);
                         AttackSpeed = (ushort)Math.Min(3500, AttackSpeed + 100);
- 
+
                         if (poison.Time >= poison.Duration)
                         {
                             MoveSpeed = Info.MoveSpeed;
@@ -1202,7 +1202,7 @@ namespace Server.MirObjects
                  */
             }
 
-            
+
             if (type == CurrentPoison) return;
 
             CurrentPoison = type;
@@ -1299,7 +1299,7 @@ namespace Server.MirObjects
         {
             if (Envir.Time < SearchTime) return;
             if (Master != null && (Master.PMode == PetMode.MoveOnly || Master.PMode == PetMode.None)) return;
-            
+
             SearchTime = Envir.Time + SearchDelay;
 
             if (CurrentMap.Inactive(5)) return;
@@ -1386,7 +1386,7 @@ namespace Server.MirObjects
                 Target = null;
                 return;
             }
-            
+
             MoveTo(Target.CurrentLocation);
         }
         protected virtual bool InAttackRange()
@@ -1407,7 +1407,7 @@ namespace Server.MirObjects
                     if (y < 0) continue;
                     if (y >= Current.Height) break;
 
-                    for (int x = CurrentLocation.X - d; x <= CurrentLocation.X + d; x += Math.Abs(y - CurrentLocation.Y) == d ? 1 : d*2)
+                    for (int x = CurrentLocation.X - d; x <= CurrentLocation.X + d; x += Math.Abs(y - CurrentLocation.Y) == d ? 1 : d * 2)
                     {
                         if (x < 0) continue;
                         if (x >= Current.Width) break;
@@ -1531,7 +1531,7 @@ namespace Server.MirObjects
             if (!CanMove) return;
 
             Direction = dir;
-                
+
             InSafeZone = CurrentMap.GetSafeZone(CurrentLocation) != null;
 
 
@@ -1551,7 +1551,7 @@ namespace Server.MirObjects
         }
 
 
-        public virtual bool Walk(MirDirection dir) 
+        public virtual bool Walk(MirDirection dir)
         {
             if (!CanMove) return false;
 
@@ -1562,13 +1562,13 @@ namespace Server.MirObjects
             Cell cell = CurrentMap.GetCell(location);
 
             if (cell.Objects != null)
-            for (int i = 0; i < cell.Objects.Count; i++)
-            {
-                MapObject ob = cell.Objects[i];
-                if (!ob.Blocking || Race == ObjectType.Creature) continue;
+                for (int i = 0; i < cell.Objects.Count; i++)
+                {
+                    MapObject ob = cell.Objects[i];
+                    if (!ob.Blocking || Race == ObjectType.Creature) continue;
 
-                return false;
-            }
+                    return false;
+                }
 
             CurrentMap.GetCell(CurrentLocation).Remove(this);
 
@@ -1621,7 +1621,7 @@ namespace Server.MirObjects
             if (BindingShotCenter) ReleaseBindingShot();
 
             ShockTime = 0;
-            
+
             if (!Target.IsAttackTarget(this))
             {
                 Target = null;
@@ -1817,7 +1817,7 @@ namespace Server.MirObjects
                     for (int x = location.X - d; x <= location.X + d; x += Math.Abs(y - location.Y) == d ? 1 : d * 2)
                     {
                         if (x < 0) continue;
-                        if (x >= CurrentMap.Width) break;                    
+                        if (x >= CurrentMap.Width) break;
 
                         Cell cell = CurrentMap.GetCell(x, y);
                         if (!cell.Valid || cell.Objects == null) continue;
@@ -1899,7 +1899,7 @@ namespace Server.MirObjects
             {
                 if (attacker.Master == null) //Wild Monster
                     return true;
-                
+
                 //Pet Vs Pet
                 if (Master == attacker.Master)
                     return false;
@@ -2105,7 +2105,7 @@ namespace Server.MirObjects
             if (Target == null && attacker.IsAttackTarget(this))
                 Target = attacker;
 
-            
+
             var armour = GetArmour(type, attacker, out bool hit);
             if (!hit)
                 return 0;
@@ -2249,29 +2249,29 @@ namespace Server.MirObjects
             base.AddBuff(b);
             RefreshAll();
         }
-        
+
         public override Packet GetInfo()
         {
             return new S.ObjectMonster
-                {
-                    ObjectID = ObjectID,
-                    Name = Name,
-                    NameColour = NameColour,
-                    Location = CurrentLocation,
-                    Image = Info.Image,
-                    Direction = Direction,
-                    Effect = Info.Effect,
-                    AI = Info.AI,
-                    Scale = Info.Scale,
-                    Light = Info.Light,
-                    Dead = Dead,
-                    MobClass = Info.Class,
-                    Skeleton = Harvested,
-                    Poison = CurrentPoison,
-                    Hidden = Hidden,
-                    ShockTime = (ShockTime > 0 ? ShockTime - Envir.Time : 0),
-                    BindingShotCenter = BindingShotCenter
-                };
+            {
+                ObjectID = ObjectID,
+                Name = Name,
+                NameColour = NameColour,
+                Location = CurrentLocation,
+                Image = Info.Image,
+                Direction = Direction,
+                Effect = Info.Effect,
+                AI = Info.AI,
+                Scale = Info.Scale,
+                Light = Info.Light,
+                Dead = Dead,
+                MobClass = Info.Class,
+                Skeleton = Harvested,
+                Poison = CurrentPoison,
+                Hidden = Hidden,
+                ShockTime = (ShockTime > 0 ? ShockTime - Envir.Time : 0),
+                BindingShotCenter = BindingShotCenter
+            };
         }
 
         public override void ReceiveChat(string text, ChatType type)
@@ -2890,9 +2890,10 @@ namespace Server.MirObjects
         public override void SendHealth(PlayerObject player)
         {
             if (!player.IsMember(Master) && !(player.IsMember(EXPOwner) && AutoRev) && Envir.Time > RevTime) return;
-            byte time = Math.Min(byte.MaxValue, (byte) Math.Max(5, (RevTime - Envir.Time)/1000));
+            byte time = Math.Min(byte.MaxValue, (byte)Math.Max(5, (RevTime - Envir.Time) / 1000));
             player.Enqueue(new S.ObjectHealth { ObjectID = ObjectID, Percent = PercentHealth, Expire = time });
         }
+
 
         public void PetExp(uint amount)
         {

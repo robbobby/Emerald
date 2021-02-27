@@ -32,7 +32,6 @@ public class MonsterObject : MapObject
     {
         soundPlayer.Update();
         base.Update();
-        BossHealupdate();
     }
 
     public override void SetAction()
@@ -52,7 +51,7 @@ public class MonsterObject : MapObject
             CurrentAction = action.Action;
             Direction = action.Direction;
             Model.transform.rotation = ClientFunctions.GetRotation(Direction);
-
+            BossHealupdate();
             switch (CurrentAction)
             {
                 case MirAction.Walking:
@@ -101,11 +100,10 @@ public class MonsterObject : MapObject
         switch (Class)
         {
             case MonsterClass.Boss:
-               GameScene.BossUIHeal.value = PercentHealth;
+                GameScene.BossUIHeal.value = PercentHealth;
                 break;
         }
     }
-    
     public void CheckBossDead()
     {
         switch (Class)
@@ -115,7 +113,16 @@ public class MonsterObject : MapObject
                 break;
         }
     }
+    public void BossUI(MonsterObject monster)
+    {
+        if (monster.Dead == true) return;
+        if (monster.Class == MonsterClass.Boss)
+        {
+            GameScene.BossUi.SetActive(true);
+            GameScene.BossUIName.text = monster.Name;
+        }
 
+    }
     public override void StruckBegin()
     {
         base.StruckBegin();
