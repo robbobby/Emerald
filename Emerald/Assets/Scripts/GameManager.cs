@@ -364,20 +364,10 @@ public class GameManager : MonoBehaviour
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(monster);
         ObjectList.Add(p.ObjectID, monster);
 
-        BossUI(monster);
+        monster.BossUI(monster);
     }
 
-    public void BossUI(MonsterObject monster)
-    {
-        if (monster.Dead == true) return;
-        if (monster.Class == MonsterClass.Boss)
-        {
-            GameScene.BossUi.SetActive(true);
-            GameScene.BossUIName.text = monster.Name;
-            GameScene.BossUIHeal.value = monster.PercentHealth;
-        }
 
-    }
 
     public void ObjectNPC(S.ObjectNPC p)
     {
@@ -545,6 +535,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
     public void DamageIndicator(S.DamageIndicator p)
     {
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
