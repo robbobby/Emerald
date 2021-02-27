@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
             FindObjectOfType<LoadScreenManager>().LoadScene(p.SceneName, p.FileName);
     }
 
-
     public void UserInformation(S.UserInformation p)
     {
         User.gameObject.SetActive(true);
@@ -157,7 +156,14 @@ public class GameManager : MonoBehaviour
         ObjectList.Add(p.ObjectID, User.Player);
         UserGameObject.GetComponentInChildren<AudioListener>().enabled = true;
         Tooltip.cam = User.Player.Camera.GetComponent<Camera>();
-        GameScene.partyController.name = User.Player.Name;
+        GameScene.partyController.name = User.Player.Name;       
+    }
+
+    public void ShowReviveMessage()
+    {      
+        GameScene.MessageBox.Show("You have died, Do you want to revive in town?", okbutton: true , cancelbutton: true);
+        GameScene.MessageBox.OK += () => Network.Enqueue(new C.TownRevive());
+        GameScene.MessageBox.Cancel += () => GameScene.MessageBox.gameObject.SetActive(false);
     }
 
     public void LogOutSuccess(S.LogOutSuccess p)
@@ -367,8 +373,6 @@ public class GameManager : MonoBehaviour
         monster.BossUI(monster);
     }
 
-
-
     public void ObjectNPC(S.ObjectNPC p)
     {
         MapObject ob;
@@ -427,8 +431,7 @@ public class GameManager : MonoBehaviour
         CurrentScene.Cells[p.Location.X, p.Location.Y].AddObject(gold);
         ObjectList.Add(p.ObjectID, gold);
     }
-
-
+    
     public void ObjectItem(S.ObjectItem p)
     {
         GameObject model = Instantiate(Resources.Load($"{p.Image}"), CurrentScene.Cells[p.Location.X, p.Location.Y].position, Quaternion.identity) as GameObject;
@@ -471,7 +474,6 @@ public class GameManager : MonoBehaviour
             CurrentScene.Cells[ob.CurrentLocation.x, ob.CurrentLocation.y].RemoveObject(ob);
         }
     }
-
 
     public void ObjectTurn(S.ObjectTurn p)
     {
@@ -529,13 +531,30 @@ public class GameManager : MonoBehaviour
     {
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
         {
+           
             ob.PercentHealth = p.Percent;
             ob.HealthTime = Time.time + 5;
             ob.HealthBar.gameObject.SetActive(true);
         }
     }
 
-    
+    public void Revived()
+    {
+        User.Player.Dead = false;
+        User.Player.SetAction();
+        //bool Effect = GetComponentInChildren<Animator>().GetBool("Revied");
+    }
+
+    public void ObjectRevived(S.ObjectRevived p)
+    {
+        if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
+        {
+            ob.Dead = false;
+            ob.ActionFeed.Clear();
+            ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Revive, Direction = ob.Direction, Location = ob.CurrentLocation });
+        }
+    }
+
     public void DamageIndicator(S.DamageIndicator p)
     {
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
@@ -553,8 +572,8 @@ public class GameManager : MonoBehaviour
     public void Death(S.Death p)
     {
         User.Player.Dead = true;
-
         User.Player.ActionFeed.Add(new QueuedAction { Action = MirAction.Die, Direction = p.Direction, Location = new Vector2Int(p.Location.X, p.Location.Y) });
+        ShowReviveMessage();
     }
 
     public void ObjectDied(S.ObjectDied p)
@@ -810,5 +829,4 @@ public class GameManager : MonoBehaviour
         Color NameColorOut = new Color32(color.R, color.G, color.B, color.A);
         return NameColorOut;
     }
-
 }
