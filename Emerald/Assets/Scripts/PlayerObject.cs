@@ -307,6 +307,12 @@ public class PlayerObject : MapObject
                         if (HealthBar != null)
                             HealthBar.gameObject.SetActive(false);
                         break;
+                    case MirAction.Revive:
+                        Blocking = true;
+                        ActionFeed.Clear();
+                        ActionFeed.Add(new QueuedAction { Action = MirAction.Standing, Direction = action.Direction });
+                        //GameScene.pControl.TextureValid = false;                                               
+                        break;
                 }
             }
 

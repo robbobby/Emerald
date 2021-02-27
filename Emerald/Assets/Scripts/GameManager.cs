@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     public static float InputDelay;
     [HideInInspector]
     public static bool UIDragging;
+  
 
     public AudioMixer audioMixer;
 
@@ -158,6 +159,13 @@ public class GameManager : MonoBehaviour
         UserGameObject.GetComponentInChildren<AudioListener>().enabled = true;
         Tooltip.cam = User.Player.Camera.GetComponent<Camera>();
         GameScene.partyController.name = User.Player.Name;
+       
+    }
+
+    public void ShowReviveMessage()
+    {      
+        GameScene.MessageBox.Show("You have died, Do you want to revive in town?", okbutton: true);
+        GameScene.MessageBox.OK += () => Network.Enqueue(new C.TownRevive());
     }
 
     public void LogOutSuccess(S.LogOutSuccess p)
@@ -529,13 +537,27 @@ public class GameManager : MonoBehaviour
     {
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
         {
+           
             ob.PercentHealth = p.Percent;
             ob.HealthTime = Time.time + 5;
             ob.HealthBar.gameObject.SetActive(true);
         }
     }
-
-    
+    public void Revived()
+    {
+        User.Player.SetAction();
+        User.Player.Dead = false;
+        //bool Effect = GetComponentInChildren<Animator>().GetBool("Revied");
+    }
+    public void ObjectRevived(S.ObjectRevived p)
+    {
+        if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
+        {
+            ob.Dead = false;
+            ob.ActionFeed.Clear();
+            ob.ActionFeed.Add(new QueuedAction { Action = MirAction.Revive, Direction = ob.Direction, Location = ob.CurrentLocation });
+        }
+    }
     public void DamageIndicator(S.DamageIndicator p)
     {
         if (ObjectList.TryGetValue(p.ObjectID, out MapObject ob))
@@ -555,6 +577,8 @@ public class GameManager : MonoBehaviour
         User.Player.Dead = true;
 
         User.Player.ActionFeed.Add(new QueuedAction { Action = MirAction.Die, Direction = p.Direction, Location = new Vector2Int(p.Location.X, p.Location.Y) });
+        ShowReviveMessage();
+
     }
 
     public void ObjectDied(S.ObjectDied p)
@@ -811,4 +835,5 @@ public class GameManager : MonoBehaviour
         return NameColorOut;
     }
 
+  
 }
