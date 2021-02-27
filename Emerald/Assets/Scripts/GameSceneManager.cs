@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using UiControllers.Party;
+using UnityEngine.Serialization;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
@@ -117,6 +118,8 @@ public class GameSceneManager : MonoBehaviour
     public QueuedAction QueuedAction;
 
     private MirItemCell _selectedCell;
+    public bool ShopIsActive { get; set; }
+
     [HideInInspector]
     public MirItemCell SelectedCell
     {
@@ -157,6 +160,13 @@ public class GameSceneManager : MonoBehaviour
 
     void Update()
     {
+        if (shopController.IsShopWindowOpen())
+        {
+            Debug.Log("ShopControllerIsActive");
+            // if(Inventory.UseShopInventoryControls());
+                return;
+        }
+            
         if (SelectedItemImage.gameObject.activeSelf)
         {
             SelectedItemImage.transform.position = Input.mousePosition;

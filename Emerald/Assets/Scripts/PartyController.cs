@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ClientPackets;
+using C = ClientPackets;
 using TMPro;
 using UiControllers.Party;
 using UnityEngine;
@@ -112,14 +112,14 @@ public class PartyController : MonoBehaviour {
     }
         
     internal void CmdAllowGroupChange(bool isAllowingGroup) =>
-        Network.Enqueue(new ClientPackets.SwitchAllowGroup() {AllowGroup = isAllowingGroup});
+        Network.Enqueue(new C.SwitchAllowGroup() {AllowGroup = isAllowingGroup});
         
     private void CmdRemoveMemberFromParty(string memberName) =>
-        Network.Enqueue(new ClientPackets.DeleteMemberFromGroup() {Name = memberName});
+        Network.Enqueue(new C.DeleteMemberFromGroup() {Name = memberName});
 
     private  void CmdSendInviteToPlayer(string memberName) =>
-        Network.Enqueue(new ClientPackets.AddMemberToGroup() {Name = memberName});
-        
+        Network.Enqueue(new C.AddMemberToGroup() {Name = memberName});
+
     private void CmdReplyToInvite(bool response) =>
-        Network.Enqueue(new ClientPackets.RespondeToGroupInvite() {AcceptInvite = response});
+        Network.Enqueue(new C.RespondeToGroupInvite() {AcceptInvite = response});
 }

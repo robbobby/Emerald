@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using Aura2API;
 using TMPro;
+using UiControllers;
 using UnityEngine;
+using UnityEngine.Events;
 using C = ClientPackets;
 using Image = UnityEngine.UI.Image;
+using Network = Emerald.Network;
 using S = ServerPackets;
 
 public class ShopController : MonoBehaviour {
@@ -12,60 +15,50 @@ public class ShopController : MonoBehaviour {
     [SerializeField] private GameObject shopItem;
     [SerializeField] private GameObject npcDialogue;
     [SerializeField] private TextMeshProUGUI shopPageText;
+    [SerializeField] private GameObject inventoryWindow; // 125 100
+    [SerializeField] private ShopWindowController shopWindowController;
+    private Vector3 inventorySavedPosition;
+
+    public bool IsShopWindowOpen()
+    {
+        return shopWindow.activeSelf;
+    }
+
+    public void Start()
+    {
+        shopWindowController.ShopController = this;
+    }
+    
     private readonly List<GameObject> shopItemContainers = new List<GameObject>();
     private int currentItemPage;
     
-    
     private List<UserItem> goods = new List<UserItem>();
 
+    private void CmdSellItem(UserItem item) =>
+        Network.Enqueue(new C.SellItem() { UniqueID = item.UniqueID, Count = item.Count});
+
+    private void CmdBuyItem(UserItem item) =>
+        Network.Enqueue(new C.BuyItem() { ItemIndex = item.UniqueID, Count = 1, Type = PanelType.Buy});
+    
+    private void CmdBuyItem(ulong itemUniqueId, uint count) =>
+        Network.Enqueue(new C.BuyItem() { ItemIndex = itemUniqueId, Count = count, Type = PanelType.Buy});
+
+    private void CmdRepairItem(UserItem item) =>
+        Network.Enqueue(new C.RepairItem() { UniqueID = item.UniqueID });
+
+    private void CmdSpecialRepairItem(UserItem item) =>
+        Network.Enqueue(new C.SRepairItem() {UniqueID = item.UniqueID});
+    
+    
     public void SetNpcGoods(List<UserItem> shopItems) {
-        ClearContainers();
-        shopWindow.SetActive(true);
-        npcDialogue.SetActive(false);
-        GameObject currentContainer = MakeNewSellingPage();
-        for (int i = 0; i < shopItems.Count; i++) {
-            if( i != 0 && i % 10 == 0) {
-                currentContainer = MakeNewSellingPage();
-                currentContainer.SetActive(false);
-            }
-            MakeItemAndPutInWindow(shopItems[i], currentContainer);
-        }
-        SetPageNumberText();
+        shopWindowController.SetInitialNpcGoods(shopItems);
     }
 
-    private void SetPageNumberText() {
-        shopPageText.SetText($"{currentItemPage + 1}/{shopItemContainers.Count}");
-    }
-
-    private void ClearContainers() {
-        for (int i = 0; i < shopItemContainers.Count; i++)
-            shopItemContainers[i].Destroy();
-        shopItemContainers.Clear();
-        currentItemPage = 0;
-    }
-
-    private void MakeItemAndPutInWindow(UserItem shopItems, GameObject currentContainer) {
-        GameObject thing = Instantiate(shopItem, currentContainer.transform);
-        thing.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>($"Items/{shopItems.Info.Image}");
-        thing.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().SetText(shopItems.Name);
-    }
-
-    public void HandleChangePage(int nextPage) {
-        if (currentItemPage + nextPage < 0 || currentItemPage + nextPage >= shopItemContainers.Count) return;
-        SetCurrentPage(currentItemPage, currentItemPage += nextPage);
-        SetPageNumberText();
-    }
-
-    private void SetCurrentPage(int oldPage, int newPage) {
-        Debug.Log($"Old page is: {oldPage}");
-        Debug.Log($"New page is: {newPage}");
-        shopItemContainers[oldPage].SetActive(false);
-        shopItemContainers[newPage].SetActive(true);
-    }
-
-    private GameObject MakeNewSellingPage() {
-        GameObject itemContainer = Instantiate(shopItemContainer, shopWindow.transform);
-        shopItemContainers.Add(itemContainer);
-        return itemContainer;
+    public void BuyItem(ulong itemUniqueID, uint count)
+    {
+        Debug.Log(itemUniqueID);
+        // Check money
+        // Check space
+        CmdBuyItem(itemUniqueID, count);
     }
 }

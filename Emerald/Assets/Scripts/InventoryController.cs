@@ -21,5 +21,10 @@ public class InventoryController : MonoBehaviour
             RectTransform rt = cell.GetComponent<RectTransform>();
             rt.localPosition = new Vector3(x % 8 * 43, -(x / 8 * 43), 0);
         }
-    }    
+    }
+
+    public bool UseShopInventoryControls()
+    {
+        return false;
+    }
 }
