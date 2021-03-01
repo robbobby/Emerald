@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Emerald.UiControllers;
 using JetBrains.Annotations;
@@ -13,17 +14,18 @@ namespace UiControllers
     {
         [SerializeField] private GameObject[] chatWindowDisplay = new GameObject[3];
         [SerializeField] private GameObject[] chatWindowsToHide = new GameObject[3];
-        [SerializeField] private GameObject miniMapToggleButton;
-        [SerializeField] private GameObject gfxMenu;
-        [SerializeField] private GameObject soundsSettingsMenu;
-        [SerializeField] private GameObject gameSettingsMenu;
-        [SerializeField] private GameObject characterMenu;
-        [SerializeField] private GameObject inventoryMenu;
-        [SerializeField] private GameObject skillsMenu;
-        [SerializeField] private GameObject guildMenu;
-        [SerializeField] private GameObject optionsMenu;
         [SerializeField] private GameObject miniMap;
-        [SerializeField] private GameObject partyWindow;
+        [SerializeField] private GameObject miniMapToggleButton;
+        [SerializeField] private WindowController gfxMenu;
+        [SerializeField] private WindowController soundsSettingsMenu;
+        [SerializeField] private WindowController gameSettingsMenu;
+        [SerializeField] private WindowController characterMenu;
+        [SerializeField] private WindowController inventoryMenu;
+        [SerializeField] private WindowController skillsMenu;
+        [SerializeField] private WindowController guildMenu;
+        [SerializeField] private WindowController optionsMenu;
+        [SerializeField] private WindowController partyWindow;
+        [SerializeField] private WindowController shopWindow;
         [SerializeField] private TMP_InputField chatBar;
         
         [SerializeField] private MirQuickCell[] quickSlots;
@@ -31,10 +33,10 @@ namespace UiControllers
         private InputController.ChatActions chatActions;
         private InputController.UIActions uiInput; // Not sure if static is the right approach for this
         private InputController.QuickSlotsActions quickSlotsActions;
-        private int[] chatSizes = new int[4] { 0, 120, 165, 250 };
+        private readonly int[] chatSizes = new int[4] { 0, 120, 165, 250 };
         private byte toggleSize = 2;
-        private List<GameObject> priorityWindowCloseList;
-        private List<GameObject> activeWindows;
+        private List<WindowController> priorityWindowCloseList;
+        private List<WindowController> activeWindows;
         private byte priorityWindowCount = 0;
         
         public bool IsPopUpActive { get; set; } = false;
@@ -43,7 +45,7 @@ namespace UiControllers
         /* TODO: Escape button closing windows, by priority? */
         /* TODO: Make windows draggable */
         private void Awake() {
-            activeWindows = new List<GameObject>();
+            activeWindows = new List<WindowController>();
             uiInput = new InputController().UI;
             //quickSlotsEquipped = new IQuickSlotItem[24];
             quickSlotsActions = new InputController().QuickSlots;
@@ -88,7 +90,7 @@ namespace UiControllers
             chatActions.Enable();
             EnableControls();
             // SetPartyInputFieldListeners();
-            priorityWindowCloseList = new List<GameObject>() {gfxMenu, optionsMenu, soundsSettingsMenu, gameSettingsMenu}; // add guild invite to this list
+            priorityWindowCloseList = new List<WindowController>() {gfxMenu, optionsMenu, soundsSettingsMenu, gameSettingsMenu, shopWindow}; // add guild invite to this list
         }
 
         #region UI_HANDLERS
@@ -100,9 +102,11 @@ namespace UiControllers
             if(priorityWindowCount > 0) {
                 for (int i = 0; i < priorityWindowCloseList.Count; i++)
                 {
-                    if (!priorityWindowCloseList[i].activeSelf) continue;
-                    TogglePriorityWindowActiveState(priorityWindowCloseList[i]);
-                    return;
+                    if (priorityWindowCloseList[i].GetWindowActiveState() == true)
+                    {
+                        TogglePriorityWindowActiveState(priorityWindowCloseList[i]);
+                        return;
+                    }
                 }
             }
 
@@ -113,20 +117,25 @@ namespace UiControllers
             TogglePriorityWindowActiveState(optionsMenu); // No other windows open, open the options menu
         }
 
-        public void ToggleWindowActiveState(GameObject window) {
-            window.SetActive(!window.activeSelf);
-            if (window.activeSelf) {
+        public void ToggleWindowActiveState(WindowController window)
+        {
+            if(window.ToggleWindowActiveState())
                 activeWindows.Add(window);
-            } else {
+            else {
                 activeWindows.Remove(window);
             }
+            Debug.Log($"after {activeWindows.Count}");
         }
 
-        public void TogglePriorityWindowActiveState(GameObject window) {
-            window.SetActive(!window.activeSelf);
-            if (window.activeSelf) {
+        public void TogglePriorityWindowActiveState(UiWindows window)
+        {
+            TogglePriorityWindowActiveState(GetWindowController(window));
+        }
+
+        private void TogglePriorityWindowActiveState(WindowController window) {
+            if(window.ToggleWindowActiveState())
                 priorityWindowCount++;
-            } else {
+            else {
                 priorityWindowCount--;
             }
         }
@@ -189,6 +198,35 @@ namespace UiControllers
                 rotation.z,
                 rotation.w);
         }
+
+        private WindowController GetWindowController(UiWindows window)
+        {
+            switch (window)
+            {
+                case UiWindows.GroupWindow:
+                    return partyWindow;
+                case UiWindows.CharacterWindow:
+                    return characterMenu;
+                case UiWindows.BagWindow:
+                    return inventoryMenu;
+                case UiWindows.SkillsWindow:
+                    return skillsMenu;
+                case UiWindows.GuildWindow:
+                    return guildMenu;
+                case UiWindows.ShopWindow:
+                    return shopWindow;
+                case UiWindows.OptionsWindow:
+                    return optionsMenu;
+                case UiWindows.GameSettingsWindow:
+                    return gameSettingsMenu;
+                case UiWindows.GfxSettingsWindow:
+                    return gfxMenu;
+                case UiWindows.SoundSettingsWindow:
+                    return soundsSettingsMenu;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(window), window, null);
+            }
+        }
     
         public void DisableControls()
         {
@@ -218,9 +256,18 @@ namespace UiControllers
         #endregion
     }
 
-    public interface IPopUpWindow {
-        void AddToPopUpWindowList();
-        void ClosePopUp();
+    public enum UiWindows
+    {
+        GroupWindow = 0,
+        CharacterWindow,
+        BagWindow,
+        SkillsWindow,
+        GuildWindow,
+        ShopWindow,
+        OptionsWindow,
+        GameSettingsWindow,
+        GfxSettingsWindow,
+        SoundSettingsWindow
     }
 
 

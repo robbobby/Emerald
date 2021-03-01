@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Network = Emerald.Network;
 using Emerald;
+using UiControllers;
 using C = ClientPackets;
 using S = ServerPackets;
 
@@ -829,4 +830,13 @@ public class GameManager : MonoBehaviour
         Color NameColorOut = new Color32(color.R, color.G, color.B, color.A);
         return NameColorOut;
     }
+    
+    public void SetShopGoods(List<UserItem> itemList) { // HashMap more efficient way than 2 loops?
+        for (int i = 0; i < itemList.Count; i++)
+            itemList[i].Info = GetItemInfo(itemList[i].ItemIndex);
+        GameScene.shopController.SetNpcGoods(itemList);
+        GameScene.WindowController.TogglePriorityWindowActiveState(UiWindows.ShopWindow);
+    }
+
+    private static ItemInfo GetItemInfo(int index) => ItemInfoList.First(item => item.Index == index);
 }

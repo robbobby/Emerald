@@ -460,12 +460,77 @@ namespace Emerald
                 case (short)ServerPacketIds.AddMember:
                     AddMember((S.AddMember)p);
                     break;
+                case(short)ServerPacketIds.NPCGoods:
+                    NpcGoods((S.NPCGoods)p);
+                    break;
+                case(short)ServerPacketIds.NPCSell:
+                    NpcSell((S.NPCSell)p);
+                    break;
+                case(short)ServerPacketIds.NPCRepair:
+                    NpcRepair((S.NPCSell)p);
+                    break;
+                case(short)ServerPacketIds.NPCSRepair:
+                    NpcSpecialRepair((S.NPCSRepair)p);
+                    break;
+                case(short)ServerPacketIds.KeepAlive:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.CompleteQuest:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.ReceiveMail:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.FriendUpdate:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.MentorUpdate:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.GameShopInfo:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.UpdateIntelligentCreatureList:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.LoverUpdate:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.TimeOfDay:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.DefaultNPC:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.GuildBuffList:
+                    // Received but unhandled
+                    break;
+                case(short)ServerPacketIds.AddBuff:
+                    // Received but unhandled
+                    break;
                 // case (short)ServerPacketIds.Send:
-                
+                case(short)ServerPacketIds.ChangePMode:
+                    // Received but unhandled
+                    break;
                 default:
+                    Debug.Log((ServerPacketIds)p.Index);
                     //base.ProcessPacket(p);
                     break;
             }
+        }
+
+        private static void NpcSpecialRepair(S.NPCSRepair npcsRepair)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void NpcRepair(S.NPCSell npcSell)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void NpcSell(S.NPCSell npcSell)
+        {
         }
 
         public static void SendVersion()
@@ -859,6 +924,8 @@ namespace Emerald
         private static void GroupInvite(S.GroupInvite p) => gameManager.ShowGroupInviteWindow(p.Name);
         private static void AddMember(S.AddMember p) => gameManager.AddMemberToGroup(p.Name);
 
+        // Shop Package Handlers //
+        private static void NpcGoods(S.NPCGoods p) => gameManager.SetShopGoods(p.List);
 
         public static void Enqueue(Packet p)
         {

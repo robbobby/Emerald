@@ -6,7 +6,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using UiControllers;
 using UiControllers.Party;
+using UnityEngine.Serialization;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
@@ -24,6 +26,7 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject NPCCamera;
 
+    public UiWindowController WindowController;
     public PartyController partyController;
     public TMP_InputField ChatBar;      
     public Scrollbar ScrollBar;
@@ -83,6 +86,7 @@ public class GameSceneManager : MonoBehaviour
 
     public uint NPCID;
     public string NPCName;
+    public ShopController shopController;
 
     private MapObject targetObject;
     public MapObject TargetObject
@@ -116,6 +120,8 @@ public class GameSceneManager : MonoBehaviour
     public QueuedAction QueuedAction;
 
     private MirItemCell _selectedCell;
+    public bool ShopIsActive { get; set; }
+
     [HideInInspector]
     public MirItemCell SelectedCell
     {
@@ -156,6 +162,13 @@ public class GameSceneManager : MonoBehaviour
 
     void Update()
     {
+        if (shopController.IsShopWindowOpen())
+        {
+            Debug.Log("ShopControllerIsActive");
+            if(Inventory.UseShopInventoryControls())
+                return;
+        }
+            
         if (SelectedItemImage.gameObject.activeSelf)
         {
             SelectedItemImage.transform.position = Input.mousePosition;
@@ -672,5 +685,4 @@ public class GameSceneManager : MonoBehaviour
         Network.Enqueue(new C.CallNPC { ObjectID = NPCID, Key = "[" + LinkId + "]" });
         GameManager.InputDelay = Time.time + 0.5f;
     }
-
 }
