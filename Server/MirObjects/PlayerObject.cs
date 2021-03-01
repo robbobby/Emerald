@@ -14301,7 +14301,7 @@ namespace Server.MirObjects
                 NPCObject ob = CurrentMap.NPCs[i];
                 if (ob.ObjectID != NPCID) continue;
                 
-                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
                 {
                     Enqueue(p);
                     return;
@@ -14355,7 +14355,7 @@ namespace Server.MirObjects
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
                 
-                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
                 {
                     Enqueue(p);
                     return;
@@ -14439,7 +14439,7 @@ namespace Server.MirObjects
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
                 
-                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
                 {
                     Enqueue(p);
                     return;
