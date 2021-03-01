@@ -14300,6 +14300,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[i];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 if (type == PanelType.Buy)
                 {
@@ -14318,6 +14324,12 @@ namespace Server.MirObjects
                 NPCObject ob = CurrentMap.NPCs[i];
                 if (ob.ObjectID != NPCID) continue;
 
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
+                
                 ob.Craft(this, index, count, slots);
             }
         }
@@ -14342,6 +14354,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 UserItem temp = null;
                 int index = -1;
@@ -14420,6 +14438,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 UserItem temp = null;
                 int index = -1;
@@ -14510,6 +14534,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 UserItem temp = null;
                 int index = -1;
@@ -14589,6 +14619,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 List<ClientAuction> listings = new List<ClientAuction>();
 
@@ -14651,6 +14687,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 GetMarket(match, ItemType.Nothing);
             }
@@ -14667,6 +14709,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 GetMarket(string.Empty, MatchType);
             }
@@ -14690,6 +14738,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 foreach (AuctionInfo auction in Envir.Auctions)
                 {
@@ -14760,6 +14814,12 @@ namespace Server.MirObjects
             {
                 NPCObject ob = CurrentMap.NPCs[n];
                 if (ob.ObjectID != NPCID) continue;
+                
+                if (!Functions.InRange(CurrentLocation, ob.CurrentLocation, 10))
+                {
+                    Enqueue(p);
+                    return;
+                }
 
                 foreach (AuctionInfo auction in Account.Auctions)
                 {
