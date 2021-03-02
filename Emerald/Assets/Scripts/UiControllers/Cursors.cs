@@ -61,7 +61,7 @@ namespace UiControllers
 
         public static void UseAeroLink() => SetCursor(AeroLink);
         public static void UseAeroLink1() => SetCursor(AeroLink1);
-        public static void UseAiming() => SetCursor(Aiming);
+        public static void UseAiming() => SetCursor(Aiming, 40, 40);
         public static void UseAttack() => SetCursor(Attack);
         public static void UseBuy() => SetCursor(Buy);
         public static void UseCollection() => SetCursor(Collection);
@@ -76,6 +76,6 @@ namespace UiControllers
         public static void UseUnlock() => SetCursor(Unluck);
 
         private static void SetCursor(Texture2D cursorImage, int offsetX = 0, int offsetY = 0) =>
-            Cursor.SetCursor(cursorImage, new Vector2(20, 20), CursorMode.Auto);
+            Cursor.SetCursor(cursorImage, new Vector2(offsetX, offsetY), CursorMode.Auto);
     }
 }

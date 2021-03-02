@@ -929,8 +929,7 @@ namespace Emerald
 
         private static void SellItem(S.SellItem p)
         {
-            if (!p.Success) return;
-            gameManager.SellItem(p.UniqueID, p.Count);
+            gameManager.SellItem(p);
         }
 
         private static void NpcSpecialRepair(S.NPCSRepair npcsRepair)

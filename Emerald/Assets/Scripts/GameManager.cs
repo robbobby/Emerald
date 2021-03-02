@@ -839,9 +839,10 @@ public class GameManager : MonoBehaviour
     }
 
     private static ItemInfo GetItemInfo(int index) => ItemInfoList.First(item => item.Index == index);
-
-    public void SellItem(ulong uniqueID, uint count)
+    
+    public void SellItem(S.SellItem itemSold)
     {
-        GameScene.RemoveItemFromInventory(uniqueID, count);
+        if(itemSold.Success)
+            GameScene.RemoveItemFromInventory(itemSold.UniqueID, itemSold.Count);
     }
 }

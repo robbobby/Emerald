@@ -42,7 +42,7 @@ public class ShopController : MonoBehaviour {
         IsRepairOptionSelected = !IsRepairOptionSelected;
         if (IsRepairOptionSelected)
         {
-            Cursors.UseRepair();
+            Cursors.UseAiming();
         }
         else
         {
@@ -85,17 +85,6 @@ public class ShopController : MonoBehaviour {
         CmdBuyItem(itemUniqueID, count);
     }
 
-    public void SetCurrentHoveredItem(UserItem item)
-    {
-        this.currentHoveredItem = item;
-    }
-    public void ResetCurrentHoveredItem(UserItem item)
-    {
-        if (this.currentHoveredItem == item)
-        {
-            currentHoveredItem = null;
-        }
-    }
 
     public void SellItem(UserItem item)
     {

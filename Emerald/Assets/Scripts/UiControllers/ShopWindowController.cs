@@ -3,7 +3,6 @@ using Aura2API;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using C = ClientPackets;
 using Image = UnityEngine.UI.Image;
 using S = ServerPackets;
@@ -30,7 +29,6 @@ namespace UiControllers
         {
             if (shopItems.Count < 10) return;
             if (currentPage + pageTurn < 0 || currentPage + pageTurn > shopItems.Count / 10) return;
-            currentPage += pageTurn;
             currentPage += pageTurn;
             SetPageGoods();
         }
@@ -109,22 +107,12 @@ namespace UiControllers
             inventoryWindow.SetActive(true);
         }
 
-        public void ResetInventoryToDefault()
+        private void ResetInventoryToDefault()
         {
             inventoryWindow.transform.localPosition = inventorySavedPosition;
             inventoryWindow.GetComponent<DragWindow>().enabled = true;
             inventoryWindow.SetActive(false);
             ShopController.gameManager.ItemToolTip.Hide();
-        }
-
-        private void SetPageNumberText()
-        {
-            shopPageText.SetText($"{currentPage + 1}/{(shopItems.Count / 10 < 1 ? 1 : shopItems.Count/10)}");
-        }
-
-        public void SetInventoryWindow()
-        {
-            throw new System.NotImplementedException();
         }
     }
 

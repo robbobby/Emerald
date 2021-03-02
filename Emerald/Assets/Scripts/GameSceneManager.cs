@@ -178,12 +178,12 @@ public class GameSceneManager : MonoBehaviour
                         shopController.SellItem(currentHoveredCell.Item);
                         return;
                     }
-
-            if (SelectedItemImage.gameObject.activeSelf)
-            {
-                SelectedItemImage.transform.position = Input.mousePosition;
-                SelectedItemImage.transform.SetAsLastSibling();
-            }
+        }
+        
+        if (SelectedItemImage.gameObject.activeSelf)
+        {
+            SelectedItemImage.transform.position = Input.mousePosition;
+            SelectedItemImage.transform.SetAsLastSibling();
         }
 
         MouseObject = GetMouseObject();

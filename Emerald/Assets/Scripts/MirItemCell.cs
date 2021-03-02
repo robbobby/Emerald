@@ -196,7 +196,11 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
     {
         if (Locked) return;
 
-        if (GameScene.shopController.IsShopWindowOpen()) return;
+        if (GameScene.shopController.IsShopWindowOpen())
+        {
+            GameScene.SetCurrentHoveredCell(this);
+            return;
+        }
 
         if (GameScene.PickedUpGold || GridType == MirGridType.Inspect || GridType == MirGridType.QuestInventory) return;
 
@@ -273,7 +277,6 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GameScene.SetCurrentHoveredCell(this);
         ShowTooltip();
     }
 
