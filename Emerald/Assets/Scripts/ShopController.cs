@@ -42,11 +42,11 @@ public class ShopController : MonoBehaviour {
         IsRepairOptionSelected = !IsRepairOptionSelected;
         if (IsRepairOptionSelected)
         {
-            Cursors.UseAttack();
+            Cursors.UseRepair();
         }
         else
         {
-            // Cursor.SetCursor();
+            Cursors.UseDefault();
         }
     }
 
