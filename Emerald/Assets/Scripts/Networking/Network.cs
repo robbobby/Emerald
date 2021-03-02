@@ -298,6 +298,7 @@ namespace Emerald
 
         public static void ProcessGamePacket(Packet p)
         {
+            // Debug.Log((ServerPacketIds)p.Index);
             switch (p.Index)
             {
                 case (short)ServerPacketIds.MapInformation:
@@ -472,6 +473,12 @@ namespace Emerald
                 case(short)ServerPacketIds.NPCSRepair:
                     NpcSpecialRepair((S.NPCSRepair)p);
                     break;
+                case(short)ServerPacketIds.SellItem:
+                    SellItem((S.SellItem)p);
+                    break;
+                case(short)ServerPacketIds.RemoveSlotItem:
+                    RemoveSlotItem((S.RemoveSlotItem) p);
+                    break;
                 case(short)ServerPacketIds.KeepAlive:
                     // Received but unhandled
                     break;
@@ -513,24 +520,17 @@ namespace Emerald
                     // Received but unhandled
                     break;
                 default:
-                    Debug.Log((ServerPacketIds)p.Index);
+                    ServerPacketIds packetId = (ServerPacketIds) p.Index;
+                    Debug.Log($"Packet received and not handled: {packetId}");
                     //base.ProcessPacket(p);
                     break;
             }
         }
 
-        private static void NpcSpecialRepair(S.NPCSRepair npcsRepair)
+        private static void RemoveSlotItem(S.RemoveSlotItem p)
         {
-            throw new NotImplementedException();
-        }
-
-        private static void NpcRepair(S.NPCSell npcSell)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void NpcSell(S.NPCSell npcSell)
-        {
+            Debug.Log(p.Grid);
+            Debug.Log(p.GridTo);
         }
 
         public static void SendVersion()
@@ -926,6 +926,27 @@ namespace Emerald
 
         // Shop Package Handlers //
         private static void NpcGoods(S.NPCGoods p) => gameManager.SetShopGoods(p.List);
+
+        private static void SellItem(S.SellItem p)
+        {
+            if (!p.Success) return;
+            gameManager.SellItem(p.UniqueID, p.Count);
+        }
+
+        private static void NpcSpecialRepair(S.NPCSRepair npcsRepair)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void NpcRepair(S.NPCSell npcSell)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void NpcSell(S.NPCSell npcSell)
+        {
+        }
+
 
         public static void Enqueue(Packet p)
         {

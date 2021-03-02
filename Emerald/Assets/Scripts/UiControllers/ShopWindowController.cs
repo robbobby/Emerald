@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Aura2API;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using C = ClientPackets;
 using Image = UnityEngine.UI.Image;
@@ -35,9 +36,7 @@ namespace UiControllers
 
         private void SetShopPageText()
         {
-            shopPageText.SetText(shopItems.Count <= 10
-                ? string.Empty
-                : $"{(currentPage + 1)}/{(shopItems.Count / 10 + 1)}");
+            shopPageText.SetText(shopItems.Count <= 10 ? string.Empty : $"{(currentPage + 1)}/{(shopItems.Count / 10 + 1)}");
         }
 
         public void SetInitialNpcGoods(List<UserItem> shopItems)
@@ -114,6 +113,7 @@ namespace UiControllers
             inventoryWindow.transform.localPosition = inventorySavedPosition;
             inventoryWindow.GetComponent<DragWindow>().enabled = true;
             inventoryWindow.SetActive(false);
+            ShopController.gameManager.ItemToolTip.Hide();
         }
 
         private void SetPageNumberText()
@@ -127,11 +127,36 @@ namespace UiControllers
         }
     }
 
-    internal class ShopItemListener : MonoBehaviour
+    internal class ShopItemListener : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        private UserItem item;
+        private ShopController shopController;
         public void Construct(ShopController shopController, UserItem item, GameObject shopItem)
         {
             shopItem.GetComponent<MirButton>().ClickEvent.AddListener(() => shopController.BuyItem(item.UniqueID, 1));
+            this.item = item;
+            this.shopController = shopController;
+        }
+
+        private void ShowTooltip()
+        {
+            shopController.gameManager.ItemToolTip.Item = item;
+            shopController.gameManager.ItemToolTip.Show();
+        }
+
+        private void HideTooltip()
+        {
+            shopController.gameManager.ItemToolTip.Hide();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            HideTooltip();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            ShowTooltip();
         }
     }
     

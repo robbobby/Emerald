@@ -17,7 +17,7 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
     {
         get { return GameManager.User; }
     }
-
+    
     public Image ItemImage;
     public Sprite IconImage;
     public Image HighlightImage;
@@ -196,6 +196,8 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
     {
         if (Locked) return;
 
+        if (GameScene.shopController.IsShopWindowOpen()) return;
+
         if (GameScene.PickedUpGold || GridType == MirGridType.Inspect || GridType == MirGridType.QuestInventory) return;
 
         if (GameScene.SelectedCell == null && (GridType == MirGridType.Mail)) return;
@@ -271,6 +273,7 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GameScene.SetCurrentHoveredCell(this);
         ShowTooltip();
     }
 

@@ -120,6 +120,7 @@ public class GameSceneManager : MonoBehaviour
     public QueuedAction QueuedAction;
 
     private MirItemCell _selectedCell;
+    private MirItemCell currentHoveredCell;
     public bool ShopIsActive { get; set; }
 
     [HideInInspector]
@@ -155,6 +156,7 @@ public class GameSceneManager : MonoBehaviour
 
     void Start()
     {
+        ItemToolTip.GameScene = this;
         ScrollBar.size = 0.4f;
         Network.Enqueue(new C.RequestMapInformation { });
         // Inventory.gameObject.SetActive(false);
@@ -163,11 +165,17 @@ public class GameSceneManager : MonoBehaviour
     void Update()
     {
         if (shopController.IsShopWindowOpen())
-        {
-            Debug.Log("ShopControllerIsActive");
-            if(Inventory.UseShopInventoryControls())
-                return;
-        }
+            if (shopController.IsRepairOptionSelected)
+            {
+                
+            }
+        if (Input.GetMouseButtonDown(0))
+            if(currentHoveredCell)
+                if (currentHoveredCell.Item != null)
+                {
+                    shopController.SellItem(currentHoveredCell.Item);
+                    return;
+                }
             
         if (SelectedItemImage.gameObject.activeSelf)
         {
@@ -684,5 +692,29 @@ public class GameSceneManager : MonoBehaviour
 
         Network.Enqueue(new C.CallNPC { ObjectID = NPCID, Key = "[" + LinkId + "]" });
         GameManager.InputDelay = Time.time + 0.5f;
+    }
+
+    public void GetItemMouseIsOver()
+    {
+        
+    }
+
+    public void SetCurrentHoveredCell(MirItemCell mirItemCell)
+    {
+        this.currentHoveredCell = mirItemCell;
+    }
+
+    public void RemoveItemFromInventory(ulong uniqueID, uint itemSoldCount)
+    {
+        MirItemCell itemSold = GetCell(Inventory.Cells, uniqueID);
+        if (itemSold.Item.Count > itemSoldCount)
+        {
+            itemSold.Item.Count -= itemSoldCount;
+        }
+        else
+        {
+            itemSold.RemoveItem();
+            itemSold.Item = null;
+        }
     }
 }
