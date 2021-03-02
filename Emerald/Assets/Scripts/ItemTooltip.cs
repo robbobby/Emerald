@@ -15,6 +15,7 @@ public class ItemTooltip : MonoBehaviour
     public TMP_Text BottomTextBox;
     public TMP_Text PriceTextBox;
     public Image IconImage;
+    public GameObject PriceSection;
     public GameSceneManager GameScene { private get; set; }
 
     private UserItem item;
@@ -80,6 +81,7 @@ public class ItemTooltip : MonoBehaviour
     void RefreshToolTipItem()
     {
         BottomTextBox.text = string.Empty;
+        PriceSection.SetActive(false);
         mainstring = string.Empty;
         switch (Item.Info.Type)
         {
@@ -89,60 +91,74 @@ public class ItemTooltip : MonoBehaviour
                 SetDamageStats();
                 // CheckSpecialStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Armour:
                 SetDamageStats();
                 SetArmourStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Helmet:
                 SetDamageStats();
                 SetArmourStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Necklace:
                 SetDamageStats();
                 // CheckSpecialStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Bracelet:
                 SetDamageStats();
                 // CheckSpecialStats();
                 SetArmourStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Ring:
                 SetArmourStats();
                 SetDamageStats();
                 // CheckSpecialStats();
                 SetDurabilityStats();
+                SetLeveRequired();
                 break;
-            case ItemType.Amulet:
-                SetDurabilityStats("Condition");
+            case ItemType.Boots:
+                SetArmourStats();
+                SetDamageStats();
+                SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Belt:
                 SetDamageStats();
                 SetArmourStats();
                 SetDurabilityStats();
-                break;
-            case ItemType.Boots:
-                SetDamageStats();
-                SetArmourStats();
-                SetDurabilityStats();
+                SetLeveRequired();
                 break;
             case ItemType.Stone:
+                SetArmourStats();
+                SetDamageStats();
+                SetLeveRequired();
+                break;
+            case ItemType.Potion:
+                CheckHealingStats();
                 break;
             case ItemType.Torch:
                 SetDurabilityStats();
                 break;
-            case ItemType.Potion:
-                CheckHealingStats();
+            case ItemType.Amulet:
+                SetDurabilityStats("Condition");
                 break;
             case ItemType.Ore:
                 SetDurabilityWithoutMaximumDurability("Purity");
                 break;
             case ItemType.Meat:
                 SetDurabilityWithoutMaximumDurability("Quality");
+                break;
+            case ItemType.Book:
+                SetLeveRequired();
                 break;
             case ItemType.CraftingMaterial:
                 break;
@@ -151,8 +167,6 @@ public class ItemTooltip : MonoBehaviour
             case ItemType.Gem:
                 break;
             case ItemType.Mount:
-                break;
-            case ItemType.Book:
                 break;
             case ItemType.Script:
                 break;
@@ -191,9 +205,9 @@ public class ItemTooltip : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
         NameTextBox.text = item.FriendlyName;
         TypeTextBox.text = item.Info.Type.ToString();
-        TopTextBox.text = $"BP<br>0<br>Required Level: {item.Info.RequiredAmount}";
         MainTextBox.text = mainstring;
 
         DescriptionTextBox.text = item.Info.ToolTip;
@@ -204,10 +218,15 @@ public class ItemTooltip : MonoBehaviour
         }
     }
 
+    private void SetLeveRequired()
+    {
+        TopTextBox.text = $"BP<br>0<br>Required Level: {item.Info.RequiredAmount}";
+    }
+
     private void SetItemPrice()
     {
-        
-        PriceTextBox.text += item.Info.Price;
+        PriceSection.SetActive(true);
+        PriceTextBox.text = $"{item.Price()/2:n0}"; // C# Nice way to format number as 1,000,000
     }
 
     private void SetDurabilityWithoutMaximumDurability(string durabilityName = "Durability")

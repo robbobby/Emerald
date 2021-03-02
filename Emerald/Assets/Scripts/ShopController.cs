@@ -19,6 +19,7 @@ public class ShopController : MonoBehaviour {
     [SerializeField] private GameObject inventoryWindow; // 125 100
     [SerializeField] private ShopWindowController shopWindowController; 
     [SerializeField] private Texture2D repairCursor;
+    [SerializeField] private Texture2D gameCursor;
     [SerializeField] internal GameSceneManager gameManager; // 125 100
     private UserItem currentHoveredItem;
 
@@ -41,7 +42,11 @@ public class ShopController : MonoBehaviour {
         IsRepairOptionSelected = !IsRepairOptionSelected;
         if (IsRepairOptionSelected)
         {
-            Cursor.SetCursor(repairCursor, new Vector2(20, 20), CursorMode.Auto);
+            Cursors.UseAttack();
+        }
+        else
+        {
+            // Cursor.SetCursor();
         }
     }
 

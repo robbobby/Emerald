@@ -31,6 +31,7 @@ namespace UiControllers
             if (shopItems.Count < 10) return;
             if (currentPage + pageTurn < 0 || currentPage + pageTurn > shopItems.Count / 10) return;
             currentPage += pageTurn;
+            currentPage += pageTurn;
             SetPageGoods();
         }
 

@@ -165,22 +165,25 @@ public class GameSceneManager : MonoBehaviour
     void Update()
     {
         if (shopController.IsShopWindowOpen())
+        {
             if (shopController.IsRepairOptionSelected)
             {
                 
             }
-        if (Input.GetMouseButtonDown(0))
-            if(currentHoveredCell)
-                if (currentHoveredCell.Item != null)
-                {
-                    shopController.SellItem(currentHoveredCell.Item);
-                    return;
-                }
-            
-        if (SelectedItemImage.gameObject.activeSelf)
-        {
-            SelectedItemImage.transform.position = Input.mousePosition;
-            SelectedItemImage.transform.SetAsLastSibling();
+
+            if (Input.GetMouseButtonDown(0))
+                if (currentHoveredCell)
+                    if (currentHoveredCell.Item != null)
+                    {
+                        shopController.SellItem(currentHoveredCell.Item);
+                        return;
+                    }
+
+            if (SelectedItemImage.gameObject.activeSelf)
+            {
+                SelectedItemImage.transform.position = Input.mousePosition;
+                SelectedItemImage.transform.SetAsLastSibling();
+            }
         }
 
         MouseObject = GetMouseObject();
