@@ -1,7 +1,13 @@
 fileFormatVersion: 2
 guid: 821e9dc9dfa39eb44b6c82ba0d657972
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -8552506580933864648
+    second: MsgInfo_Red
+  - first:
+      213: 8190963851148154228
+    second: MsgInfo_Green
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -85,11 +91,53 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: MsgInfo_Red
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 11
+        width: 143
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 58, y: 9, z: 58, w: 8}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8331f38e3946f4980800000000000000
+      internalID: -8552506580933864648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MsgInfo_Green
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 11
+        width: 143
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 58, y: 9, z: 58, w: 8}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47550cb99362ca170800000000000000
+      internalID: 8190963851148154228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a84a9f4d5d71a0949a1fcef64b168c95
     internalID: 0
     vertices: []
     indices: 

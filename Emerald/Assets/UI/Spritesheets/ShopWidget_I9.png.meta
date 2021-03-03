@@ -13,13 +13,13 @@ TextureImporter:
     second: ShopItemWidget_I9_2
   - first:
       213: -8453777906322568721
-    second: ShopRepairButtonWidget_I9_6
+    second: ShopRepairButton_D
   - first:
       213: -301870687610923685
-    second: ShopRepairButtonWidget_I9_3
+    second: ShopRepairButton_H
   - first:
       213: 8036894284125081732
-    second: ShopWidgetButton_I9_7
+    second: ShopWidgetButton_N
   - first:
       213: -2709496605903992493
     second: ShopWidget_I9_8
@@ -121,7 +121,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 59
+        y: 58
         width: 177
         height: 69
       alignment: 0
@@ -141,10 +141,10 @@ TextureImporter:
       name: ShopItemWidget_I9_1
       rect:
         serializedVersion: 2
-        x: 180
-        y: 59
+        x: 181
+        y: 58
         width: 177
-        height: 69
+        height: 70
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,7 +165,7 @@ TextureImporter:
         x: 360
         y: 57
         width: 177
-        height: 71
+        height: 69
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShopRepairButtonWidget_I9_6
+      name: ShopRepairButton_D
       rect:
         serializedVersion: 2
         x: 539
@@ -201,7 +201,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShopRepairButtonWidget_I9_3
+      name: ShopRepairButton_H
       rect:
         serializedVersion: 2
         x: 590
@@ -222,7 +222,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShopWidgetButton_I9_7
+      name: ShopWidgetButton_N
       rect:
         serializedVersion: 2
         x: 641
