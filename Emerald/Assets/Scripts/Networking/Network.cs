@@ -473,9 +473,9 @@ namespace Emerald
                 case(short)ServerPacketIds.NPCRepair:
                     NpcGoods();
                     break;
-                // case(short)ServerPacketIds.NPCSRepair:
-                    // NpcSpecialRepair((S.NPCSRepair)p);
-                    // break;
+                case(short)ServerPacketIds.NPCSRepair:
+                    NpcSpecialRepair((S.NPCSRepair)p);
+                    break;
                 case(short)ServerPacketIds.RepairItem:
                     // RepairItem((S.RepairItem) p);
                     break;
@@ -947,7 +947,7 @@ namespace Emerald
             gameManager.SellItem(p);
         }
 
-        private static void NpcSpecialRepair(S.NPCSRepair npcsRepair)
+        private static void NpcSpecialRepair(S.NPCSRepair npcSRepair)
         {
             throw new NotImplementedException();
         }
@@ -964,7 +964,7 @@ namespace Emerald
 
         public static void Enqueue(Packet p)
         {
-            Debug.Log(p);
+            // Debug.Log(p);
             if (_sendList != null && p != null)
                 _sendList.Enqueue(p);
         }
