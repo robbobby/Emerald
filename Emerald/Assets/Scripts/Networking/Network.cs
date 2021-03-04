@@ -298,7 +298,7 @@ namespace Emerald
 
         public static void ProcessGamePacket(Packet p)
         {
-            // Debug.Log((ServerPacketIds)p.Index);
+            Debug.Log((ServerPacketIds)p.Index);
             switch (p.Index)
             {
                 case (short)ServerPacketIds.MapInformation:
@@ -479,6 +479,12 @@ namespace Emerald
                 case(short)ServerPacketIds.RemoveSlotItem:
                     RemoveSlotItem((S.RemoveSlotItem) p);
                     break;
+                case(short)ServerPacketIds.RepairItem:
+                    RepairItem((S.RepairItem) p);
+                    break;
+                case(short)ServerPacketIds.ItemRepaired:
+                    ItemRepaired((S.ItemRepaired) p);
+                    break;
                 case(short)ServerPacketIds.KeepAlive:
                     // Received but unhandled
                     break;
@@ -525,6 +531,15 @@ namespace Emerald
                     //base.ProcessPacket(p);
                     break;
             }
+        }
+
+        private static void ItemRepaired(S.ItemRepaired itemRepaired)
+        {
+            gameManager.ItemRepaired(itemRepaired);
+        }
+
+        private static void RepairItem(S.RepairItem repairItem)
+        {
         }
 
         private static void RemoveSlotItem(S.RemoveSlotItem p)

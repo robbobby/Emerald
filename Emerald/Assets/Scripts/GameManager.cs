@@ -845,4 +845,15 @@ public class GameManager : MonoBehaviour
         if(itemSold.Success)
             GameScene.RemoveItemFromInventory(itemSold.UniqueID, itemSold.Count);
     }
+
+    public void ItemRepaired(S.ItemRepaired itemRepaired)
+    {
+        var item = GameScene.GetCell(GameScene.Inventory.Cells, itemRepaired.UniqueID).Item;
+        item.CurrentDura = itemRepaired.CurrentDura;
+        item.MaxDura = itemRepaired.MaxDura;
+        if (GameScene.ItemToolTip.IsSameItemId(itemRepaired.UniqueID))
+        {
+            GameScene.ItemToolTip.Item = item;
+        }
+    }
 }

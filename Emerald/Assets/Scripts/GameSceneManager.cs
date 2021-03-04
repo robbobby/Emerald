@@ -166,12 +166,21 @@ public class GameSceneManager : MonoBehaviour
     {
         if (shopController.IsShopWindowOpen())
         {
-            if (shopController.IsRepairOptionSelected)
+            if (shopController.IsRepairOptionActive)
             {
-                
-            }
-
-            if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (currentHoveredCell.Item?.CurrentDura != currentHoveredCell.Item?.MaxDura)
+                    {
+                        Debug.Log($"Current Item = {currentHoveredCell.Item.Name}");
+                        Debug.Log($"Current UniqeId = {currentHoveredCell.Item.UniqueID}");
+                        Debug.Log($"Current dura = {currentHoveredCell.Item.CurrentDura}");
+                        Debug.Log($"Current max dura = {currentHoveredCell.Item.MaxDura}");
+                        shopController.RepairItem(currentHoveredCell.Item);
+                        return;
+                    }
+                }
+            } else if (Input.GetMouseButtonDown(0))
                 if (currentHoveredCell)
                     if (currentHoveredCell.Item != null)
                     {

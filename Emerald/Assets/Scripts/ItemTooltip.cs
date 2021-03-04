@@ -277,4 +277,6 @@ public class ItemTooltip : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public bool IsSameItemId(ulong itemRepairedUniqueID) => Item.UniqueID == itemRepairedUniqueID;
 }

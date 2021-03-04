@@ -29,7 +29,7 @@ public class ShopController : MonoBehaviour {
 
     private Vector3 inventorySavedPosition;
 
-    public bool IsRepairOptionSelected { get; private set; }
+    public bool IsRepairOptionActive { get; private set; }
 
     public void Start()
     {
@@ -39,10 +39,10 @@ public class ShopController : MonoBehaviour {
 
     public void SetIsRepairingOption()
     {
-        IsRepairOptionSelected = !IsRepairOptionSelected;
-        if (IsRepairOptionSelected)
+        IsRepairOptionActive = !IsRepairOptionActive;
+        if (IsRepairOptionActive)
         {
-            Cursors.UseAiming();
+            Cursors.UseRepair();
         }
         else
         {
@@ -57,6 +57,30 @@ public class ShopController : MonoBehaviour {
         return shopWindow.activeSelf;
     }
 
+    public void SetNpcGoods(List<UserItem> shopItems) {
+        shopWindowController.SetInitialNpcGoods(shopItems);
+    }
+
+    public void BuyItem(ulong itemUniqueID, uint count)
+    {
+        // Check money
+        // Check space
+        CmdBuyItem(itemUniqueID, count);
+    }
+    
+    public void SellItem(UserItem item)
+    {
+        CmdSellItem(item);
+    }
+
+    public void RepairItem(UserItem item)
+    {
+        // repair noise?
+        // Check money
+        
+        CmdRepairItem(item);
+    }
+    
     private void CmdSellItem(UserItem item)
     {
         Network.Enqueue(new C.SellItem() {UniqueID = item.UniqueID, Count = item.Count});
@@ -68,26 +92,10 @@ public class ShopController : MonoBehaviour {
         Network.Enqueue(new C.BuyItem() { ItemIndex = itemUniqueId, Count = count, Type = PanelType.Buy});
 
     private void CmdRepairItem(UserItem item) =>
-        Network.Enqueue(new C.RepairItem() { UniqueID = item.UniqueID });
+        Network.Enqueue(new C.RepairItem() 
+            { UniqueID = item.UniqueID });
+    
 
     private void CmdSpecialRepairItem(UserItem item) =>
         Network.Enqueue(new C.SRepairItem() {UniqueID = item.UniqueID});
-    
-    
-    public void SetNpcGoods(List<UserItem> shopItems) {
-        shopWindowController.SetInitialNpcGoods(shopItems);
-    }
-
-    public void BuyItem(ulong itemUniqueID, uint count)
-    {
-        // Check money
-        // Check space
-        CmdBuyItem(itemUniqueID, count);
-    }
-
-
-    public void SellItem(UserItem item)
-    {
-        CmdSellItem(item);
-    }
 }
