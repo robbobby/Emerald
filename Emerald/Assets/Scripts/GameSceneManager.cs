@@ -174,8 +174,8 @@ public class GameSceneManager : MonoBehaviour
                     {
                         Debug.Log($"Current Item = {currentHoveredCell.Item.Name}");
                         Debug.Log($"Current UniqeId = {currentHoveredCell.Item.UniqueID}");
-                        Debug.Log($"Current dura = {currentHoveredCell.Item.CurrentDura}");
-                        Debug.Log($"Current max dura = {currentHoveredCell.Item.MaxDura}");
+                        // Debug.Log($"Current dura = {currentHoveredCell.Item.CurrentDura}");
+                        // Debug.Log($"Current max dura = {currentHoveredCell.Item.MaxDura}");
                         shopController.RepairItem(currentHoveredCell.Item);
                         return;
                     }

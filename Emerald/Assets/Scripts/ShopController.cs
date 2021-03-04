@@ -34,7 +34,6 @@ public class ShopController : MonoBehaviour {
     public void Start()
     {
         shopWindowController.ShopController = this;
-        repairCursor.Resize(20, 20);
     }
 
     public void SetIsRepairingOption()
@@ -43,6 +42,7 @@ public class ShopController : MonoBehaviour {
         if (IsRepairOptionActive)
         {
             Cursors.UseRepair();
+            // gameManager.NPCTextButton("Repair");
         }
         else
         {
@@ -92,8 +92,7 @@ public class ShopController : MonoBehaviour {
         Network.Enqueue(new C.BuyItem() { ItemIndex = itemUniqueId, Count = count, Type = PanelType.Buy});
 
     private void CmdRepairItem(UserItem item) =>
-        Network.Enqueue(new C.RepairItem() 
-            { UniqueID = item.UniqueID });
+        Network.Enqueue(new ClientPackets.RepairItem() { UniqueID = item.UniqueID });
     
 
     private void CmdSpecialRepairItem(UserItem item) =>
