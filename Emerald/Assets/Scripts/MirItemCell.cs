@@ -189,7 +189,6 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
             QuickCell.IconImage.sprite = ItemImage.sprite;
             QuickCell.IconImage.color = ItemImage.color;
         }
-
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -269,6 +268,7 @@ public class MirItemCell : MonoBehaviour, IQuickSlotItem, IPointerDownHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        GameScene.SetCurrentHoveredCell(null);
         if (GameScene.SelectedCell == null) return;
         if (!eventData.hovered.Contains(GameScene.SelectedCell.gameObject)) return;
 

@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using UiControllers;
-using UiControllers.Party;
-using UnityEngine.Serialization;
 using Network = Emerald.Network;
 using C = ClientPackets;
 using S = ServerPackets;
 using Image = UnityEngine.UI.Image;
-using Color = UnityEngine.Color;
 
 public class GameSceneManager : MonoBehaviour
 {
-    
     protected static UserObject User
     {
         get { return GameManager.User; }
@@ -176,15 +170,18 @@ public class GameSceneManager : MonoBehaviour
                         return;
                     }
                 }
-            } else if (Input.GetMouseButtonDown(0))
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
                 if (currentHoveredCell)
                     if (currentHoveredCell.Item != null)
                     {
                         shopController.SellItem(currentHoveredCell.Item);
                         return;
                     }
+            }
         }
-        
+
         if (SelectedItemImage.gameObject.activeSelf)
         {
             SelectedItemImage.transform.position = Input.mousePosition;

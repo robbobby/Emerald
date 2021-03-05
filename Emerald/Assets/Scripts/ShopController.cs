@@ -12,14 +12,8 @@ using S = ServerPackets;
 
 public class ShopController : MonoBehaviour {
     [SerializeField] private GameObject shopWindow;
-    [SerializeField] private GameObject shopItemContainer;
-    [SerializeField] private GameObject shopItem;
     [SerializeField] private GameObject npcDialogue;
-    [SerializeField] private TextMeshProUGUI shopPageText;
-    [SerializeField] private GameObject inventoryWindow; // 125 100
     [SerializeField] private ShopWindowController shopWindowController; 
-    [SerializeField] private Texture2D repairCursor;
-    [SerializeField] private Texture2D gameCursor;
     [SerializeField] internal GameSceneManager gameManager; // 125 100
     private UserItem currentHoveredItem;
 
@@ -29,7 +23,11 @@ public class ShopController : MonoBehaviour {
 
     private Vector3 inventorySavedPosition;
 
-    public bool IsRepairOptionActive { get; private set; }
+    public bool IsRepairOptionActive
+    {
+        get => shopWindowController.IsRepairOptionActive;
+        private set => shopWindowController.IsRepairOptionActive = value;
+    }
 
     public void Start()
     {
@@ -77,7 +75,6 @@ public class ShopController : MonoBehaviour {
     {
         // repair noise?
         // Check money
-        
         CmdRepairItem(item);
     }
     

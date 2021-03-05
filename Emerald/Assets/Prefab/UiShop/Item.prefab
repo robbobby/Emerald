@@ -294,8 +294,8 @@ GameObject:
   - component: {fileID: 4196811481453079365}
   - component: {fileID: 4196811481453079366}
   - component: {fileID: 4196811481453079367}
-  - component: {fileID: 2577493173054182808}
   - component: {fileID: 4955350805838112799}
+  - component: {fileID: 2631711458249780545}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -363,27 +363,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2577493173054182808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4196811481453079362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8e88be46c6325543bd3367b1689db68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NeutralButton: {fileID: 4808383420459086209, guid: 9fb480bba29bf49638273c3911c8d4cd,
-    type: 3}
-  HoverButton: {fileID: 3739360390818891512, guid: 9fb480bba29bf49638273c3911c8d4cd,
-    type: 3}
-  DownButton: {fileID: 2975256914798797857, guid: 9fb480bba29bf49638273c3911c8d4cd,
-    type: 3}
-  ClickEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!82 &4955350805838112799
 AudioSource:
   m_ObjectHideFlags: 0
@@ -480,6 +459,49 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2631711458249780545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4196811481453079362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4196811481453079367}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1266076457992942904
 PrefabInstance:
   m_ObjectHideFlags: 0
