@@ -199,7 +199,7 @@ namespace Server.MirDatabase
             for (int i = 0; i < count; i++)
             {
                 UserMagic magic = new UserMagic(reader);
-                if (magic.InfoModel == null) continue;
+                if (magic.Info == null) continue;
                 Magics.Add(magic);
             }
             //reset all magic cooldowns on char loading < stops ppl from having none working skills after a server crash

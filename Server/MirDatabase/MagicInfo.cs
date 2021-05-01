@@ -7,7 +7,7 @@ using Server.MirEnvir;
 using S = ServerPackets;
 
 namespace Server.MirDatabase {
-    public class MagicInfoModel {
+    public class MagicInfo {
         protected static Envir Envir {
             get { return Envir.Main; }
         }
@@ -23,21 +23,11 @@ namespace Server.MirDatabase {
         public float MultiplierBase = 1.0f, MultiplierBonus;
         public byte Range = 9;
 
+        public MagicInfo() {
+        }
         public override string ToString() => Name;
 
-        public MagicInfoModel(string name, Spell spell, byte icon, byte level1, byte level2, byte level3, ushort need1, ushort need2, ushort need3, byte range) {
-            Name = name;
-            Spell = spell;
-            Icon = icon;
-            Level1 = level1;
-            Level2 = level2;
-            Level3 = level3;
-            Need1 = need1;
-            Need2 = need2;
-            Need3 = need3;
-            Range = range;
-        }
-        public MagicInfoModel(BinaryReader reader, int version = int.MaxValue, int customVersion = int.MaxValue) {
+        public MagicInfo(BinaryReader reader, int version = int.MaxValue, int customVersion = int.MaxValue) {
             Name = reader.ReadString();
             Spell = (Spell)reader.ReadByte();
             BaseCost = reader.ReadByte();
@@ -97,18 +87,18 @@ namespace Server.MirDatabase {
         }
         
         public Spell Spell;
-        public MagicInfoModel InfoModel;
+        public MagicInfo Info;
 
         public byte Level, Key;
         public ushort Experience;
         public bool IsTempSpell;
         public long CastTime;
 
-        private MagicInfoModel GetMagicInfo(Spell spell) {
-            for (int i = 0; i < Envir.MagicInfoList.Count; i++) {
-                MagicInfoModel infoModel = Envir.MagicInfoList[i];
-                if (infoModel.Spell != spell) continue;
-                return infoModel;
+        private MagicInfo GetMagicInfo(Spell spell) {
+            for (int i = 0; i < Envir.MagicEnvir.MagicInfoList.Count; i++) {
+                MagicInfo info = Envir.MagicEnvir.MagicInfoList[i];
+                if (info.Spell != spell) continue;
+                return info;
             }
             return null;
         }
@@ -116,11 +106,11 @@ namespace Server.MirDatabase {
         public UserMagic(Spell spell) {
             Spell = spell;
 
-            InfoModel = GetMagicInfo(Spell);
+            Info = GetMagicInfo(Spell);
         }
         public UserMagic(BinaryReader reader) {
             Spell = (Spell)reader.ReadByte();
-            InfoModel = GetMagicInfo(Spell);
+            Info = GetMagicInfo(Spell);
 
             Level = reader.ReadByte();
             Key = reader.ReadByte();
@@ -150,42 +140,42 @@ namespace Server.MirDatabase {
 
         public ClientMagic CreateClientMagic() {
             return new ClientMagic {
-                Name = InfoModel.Name,
+                Name = Info.Name,
                 Spell = Spell,
-                BaseCost = InfoModel.BaseCost,
-                LevelCost = InfoModel.LevelCost,
-                Icon = InfoModel.Icon,
-                Level1 = InfoModel.Level1,
-                Level2 = InfoModel.Level2,
-                Level3 = InfoModel.Level3,
-                Need1 = InfoModel.Need1,
-                Need2 = InfoModel.Need2,
-                Need3 = InfoModel.Need3,
+                BaseCost = Info.BaseCost,
+                LevelCost = Info.LevelCost,
+                Icon = Info.Icon,
+                Level1 = Info.Level1,
+                Level2 = Info.Level2,
+                Level3 = Info.Level3,
+                Need1 = Info.Need1,
+                Need2 = Info.Need2,
+                Need3 = Info.Need3,
                 Level = Level,
                 Key = Key,
                 Experience = Experience,
                 IsTempSpell = IsTempSpell,
                 Delay = GetDelay(),
-                Range = InfoModel.Range,
+                Range = Info.Range,
                 CastTime = (CastTime != 0) && (Envir.Time > CastTime) ? Envir.Time - CastTime : 0
             };
         }
 
         public int GetDamage(int DamageBase) => (int)((DamageBase + GetPower()) * GetMultiplier());
 
-        public float GetMultiplier() => (InfoModel.MultiplierBase + (Level * InfoModel.MultiplierBonus));
+        public float GetMultiplier() => (Info.MultiplierBase + (Level * Info.MultiplierBonus));
 
         public int GetPower() => (int)Math.Round((MPower() / 4F) * (Level + 1) + DefPower());
 
         public int MPower() => 
-            InfoModel.MPowerBonus > 0 ? Envir.Random.Next(InfoModel.MPowerBase, InfoModel.MPowerBonus + InfoModel.MPowerBase) : InfoModel.MPowerBase;
+            Info.MPowerBonus > 0 ? Envir.Random.Next(Info.MPowerBase, Info.MPowerBonus + Info.MPowerBase) : Info.MPowerBase;
         
         public int DefPower() => 
-            InfoModel.PowerBonus > 0 ? Envir.Random.Next(InfoModel.PowerBase, InfoModel.PowerBonus + InfoModel.PowerBase) : InfoModel.PowerBase;
+            Info.PowerBonus > 0 ? Envir.Random.Next(Info.PowerBase, Info.PowerBonus + Info.PowerBase) : Info.PowerBase;
 
         public int GetPower(int power) => (int)Math.Round(power / 4F * (Level + 1) + DefPower());
 
-        public long GetDelay() => InfoModel.DelayBase - (Level * InfoModel.DelayReduction);
+        public long GetDelay() => Info.DelayBase - (Level * Info.DelayReduction);
         
     }
 }
