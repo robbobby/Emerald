@@ -1,0 +1,1225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{3FAFA936-B757-4EDF-72D6-1818A97F2517}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>.</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_2019_4_20;UNITY_2019_4;UNITY_2019;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_OSX;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;ENABLE_SPATIALTRACKING;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;AURA_IN_PROJECT;UNITY_POST_PROCESSING_STACK_V2;TERRAINPACKAGE_EXIST;__MICROSPLAT__;__MICROSPLAT_ALPHAHOLE__;__MICROSPLAT_DETAILRESAMPLE__;__MICROSPLAT_GLOBALTEXTURE__;__MICROSPLAT_SNOW__;__MICROSPLAT_STREAMS__;__MICROSPLAT_TERRAINBLEND__;__MICROSPLAT_TESSELLATION__;__MICROSPLAT_TEXTURECLUSTERS__;__MICROSPLAT_TRIPLANAR__;__MICROSPLAT_WINDGLITTER__;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoConfig>true</NoConfig>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
+    <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\AuraFreeCamera.cs" />
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\AutoMoveAndRotate.cs" />
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\DebugFps.cs" />
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\LightFlicker.cs" />
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\MoveSinCos.cs" />
+     <Compile Include="Assets\Components\Aura 2\Examples\Sources\Scripts\SinRotationOffset.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Extensions\FloatEqualsApproximatelyExtention.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Extensions\MLPDataSaver.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Extensions\ShowOnlyAttribute.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Extensions\TransformExtensions.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPCombinedMesh.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPCombinedVolume.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPForceNoProbes.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPForceSaveProbes.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPLight.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPPoint.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPPointData.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPPortal.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPQuickEditing.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPTracePoint.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MLPVolume.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\MagicLightProbes.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CalculateLightIntensity.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CheckForLightLeakAreas.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CheckNearbyGeometry.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CheckVisibility.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CullByHeight.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CullByLightIntensity.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CullGeometryCollisions.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\CullingByEquivalentColor.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\DublicateVertical.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\EquivalentProbesOptimization.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FillVolume.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindAreasAtShadingBorders.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindClosestPoints.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindGeometryEdges.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindGeometryIntersections.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindOutOfRangeAreas.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\FindOutOfRangePoins.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\PartialVolumeFilling.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\RemoveUnusedPoints.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\SetDistanceFromGeometry.cs" />
+     <Compile Include="Assets\Components\Magic Light Probes\Passes\StoreNearLights.cs" />
+     <Compile Include="Assets\CustomizeImageInfo.cs" />
+     <Compile Include="Assets\InputManager\InputController.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\GlitterLight.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\MicroSplatKeywords.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\MicroSplatObject.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\MicroSplatPropData.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\MicroSplatRuntimeUtil.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\MicroSplatTerrain.cs" />
+     <Compile Include="Assets\MicroSplat\Core\Scripts\TextureArrayConfig.cs" />
+     <Compile Include="Assets\MicroSplat\Snow\Scripts\SnowUtilities.cs" />
+     <Compile Include="Assets\MicroSplat\Streams\Scripts\StreamCollider.cs" />
+     <Compile Include="Assets\MicroSplat\Streams\Scripts\StreamEmitter.cs" />
+     <Compile Include="Assets\MicroSplat\Streams\Scripts\StreamManager.cs" />
+     <Compile Include="Assets\MicroSplat\TerrainBlending\MicroSplatBlendableObject.cs" />
+     <Compile Include="Assets\MicroSplat\TerrainBlending\MicroSplatUseInstanceNormal.cs" />
+     <Compile Include="Assets\MiniMapController.cs" />
+     <Compile Include="Assets\MirQuickCell.cs" />
+     <Compile Include="Assets\PlayerCustomizeManager.cs" />
+     <Compile Include="Assets\Scripts\CharSel\CharSelManager.cs" />
+     <Compile Include="Assets\Scripts\CharSel\NewCharacterBox.cs" />
+     <Compile Include="Assets\Scripts\CharacterWindow.cs" />
+     <Compile Include="Assets\Scripts\ChatController.cs" />
+     <Compile Include="Assets\Scripts\ChatMessage.cs" />
+     <Compile Include="Assets\Scripts\ClickableText.cs" />
+     <Compile Include="Assets\Scripts\Common.cs" />
+     <Compile Include="Assets\Scripts\Controls\MirButton.cs" />
+     <Compile Include="Assets\Scripts\Controls\MirMessageBox.cs" />
+     <Compile Include="Assets\Scripts\Controls\MirSelectButton.cs" />
+     <Compile Include="Assets\Scripts\DamagePopup.cs" />
+     <Compile Include="Assets\Scripts\DragRotate.cs" />
+     <Compile Include="Assets\Scripts\DragWindow.cs" />
+     <Compile Include="Assets\Scripts\Effects\CameraFade.cs" />
+     <Compile Include="Assets\Scripts\Effects\FogLayer.cs" />
+     <Compile Include="Assets\Scripts\Effects\LightFlickerEffect.cs" />
+     <Compile Include="Assets\Scripts\FollowMousePosition.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameSceneManager.cs" />
+     <Compile Include="Assets\Scripts\InventoryController.cs" />
+     <Compile Include="Assets\Scripts\ItemObject.cs" />
+     <Compile Include="Assets\Scripts\ItemTooltip.cs" />
+     <Compile Include="Assets\Scripts\LoadScreenManager.cs" />
+     <Compile Include="Assets\Scripts\Login\DoorFX.cs" />
+     <Compile Include="Assets\Scripts\Login\LoginConnectBox.cs" />
+     <Compile Include="Assets\Scripts\Login\LoginManager.cs" />
+     <Compile Include="Assets\Scripts\Login\LoginSceneChange.cs" />
+     <Compile Include="Assets\Scripts\MapObject.cs" />
+     <Compile Include="Assets\Scripts\MirItemCell.cs" />
+     <Compile Include="Assets\Scripts\MirScene.cs" />
+     <Compile Include="Assets\Scripts\MonsterAnimationController.cs" />
+     <Compile Include="Assets\Scripts\MonsterObject.cs" />
+     <Compile Include="Assets\Scripts\NPCDialog.cs" />
+     <Compile Include="Assets\Scripts\NPCObject.cs" />
+     <Compile Include="Assets\Scripts\NameLabel.cs" />
+     <Compile Include="Assets\Scripts\Networking\ClientPackets.cs" />
+     <Compile Include="Assets\Scripts\Networking\Network.cs" />
+     <Compile Include="Assets\Scripts\Networking\ServerPackets.cs" />
+     <Compile Include="Assets\Scripts\NewCharacterAnimationManager.cs" />
+     <Compile Include="Assets\Scripts\OutputMapGrid.cs" />
+     <Compile Include="Assets\Scripts\PartyController.cs" />
+     <Compile Include="Assets\Scripts\PlayerAnimationController.cs" />
+     <Compile Include="Assets\Scripts\PlayerObject.cs" />
+     <Compile Include="Assets\Scripts\Settings.cs" />
+     <Compile Include="Assets\Scripts\ShopController.cs" />
+     <Compile Include="Assets\Scripts\Sound\AudioFader.cs" />
+     <Compile Include="Assets\Scripts\Sound\AudioPlayList.cs" />
+     <Compile Include="Assets\Scripts\Sound\Char\TerrainPlaylist.cs" />
+     <Compile Include="Assets\Scripts\Sound\SetVolume.cs" />
+     <Compile Include="Assets\Scripts\Tooltip.cs" />
+     <Compile Include="Assets\Scripts\TopRightMenuManager.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\Cursors.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\Party\OldPartyController.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\Party\PartyHudController.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\Party\PartyWindowController.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\QuickSlot.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\ShopWindowController.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\UiWindowController.cs" />
+     <Compile Include="Assets\Scripts\UiControllers\WindowController.cs" />
+     <Compile Include="Assets\Scripts\UnityCommon.cs" />
+     <Compile Include="Assets\Scripts\UserObject.cs" />
+     <Compile Include="Assets\SkillSlot.cs" />
+     <Compile Include="Assets\SkillWindowController.cs" />
+     <Compile Include="Assets\SoundSettingsWindow.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\CollisionExtension.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\MMOAmbientMusic.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\MMOAmbientSound.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\MMOBlockingVolume.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\MMONavPoint.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\AttenuationAndGainNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\AttenuationNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\AudioNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\ConcatenatorNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\DelayNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\DistanceCrossFadeNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\DopplerNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\EnveloperNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\LoopNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\MixerNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\ModulatorNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\OscillatorNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\OutputNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\Nodes\RandomNode.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\SoundCoroutineRunner.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\SoundCue.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\SoundCueGraph.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\SoundNodePlayer.cs" />
+     <Compile Include="Assets\_Unreal_Assets\12. Scripts\SoundEditor\SoundOscilator.cs" />
+     <None Include="Assets\_Unreal_Assets\01. Scene\Legend\MirPb03\Nature\Water\bd_Waterfall\Materials\M_Waterfall_01.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_Mask_FadeInOut.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_Mask.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Wire 2Sided.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+     <None Include="Assets\Components\Magic Light Probes\Passes\Compute Shaders\CalculateProbeSpacing.compute" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Diffuse Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\04. MMO_MaterialTemplate_Ground\Shaders\MT_MeshLand_3.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Emissive01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout 2Sided Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Translucent.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Bumped Improved.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_TransferDoor.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Demon\Dem_Evil_01\Materials\M_Dev_Evil_01fx.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\04. MMO_MaterialTemplate_Ground\Shaders\MT_MeshLand_2.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\FX_P_Excercise.Met.Huoxing_01.shader" />
+     <None Include="Assets\mcs.rsp" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Addative Simple Full.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Integrated Particle\Shader_Integrated Paticle(WithNormal).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Multiply Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout 2Sided Diffuse (Fixed).shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\WavingGrassBillboard.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Bumped.shader" />
+     <None Include="Assets\MicroSplat\Snow\ReadMe.txt" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\FX_P_Excercise.Met.Huoxing_02.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Multiply Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Cutout 2Sided Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Wire 2Sided.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Shadow\Cutout Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Multiply ZWrite Full.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Ghost.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Addative Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Multiply Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout 2Sided Bumped (Fixed).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Addative ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Bumped Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Bumped Specular Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_PBR_Special.cginc" />
+     <None Include="Assets\Content\Common\Effects\03. FX\01. Spells\Warrior\FX_Warrior_SE_DunJi\Shaders\M_RingBC_003.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent 2Sided Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_FadeInOut.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent 2Sided Diffuse Improved.shader" />
+     <None Include="Assets\MicroSplat\AlphaHole\ReadMe.txt" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_PBR.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent ZWrite Diffuse.shader" />
+     <None Include="Assets\MicroSplat\Streams\Scripts\Resources\StreamUpdate.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Transparent Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Simple Bumped Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Internal-DepthNormalsTexture.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Resources\ColorMask.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Cutout Simple Wire.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_Light_FX_02.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_VertexBlend.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Wire Simple.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout Simple Diffuse.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_RimLight(TextureAnimation).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent 2Sided Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Addative Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent 2Sided Diffuse.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_ObjectBorder(SimpleBorder).shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_GateFX.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\01. Spells\Assassin\Fx_Assassin_SE_DragonDance\Shaders\M_Materials_005.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Texture Exporter\TextureExporter_GL.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Element\Ele_C_Test\Fx_Ele_Mat.shader" />
+     <None Include="Assets\_Unreal_Assets\01. Scene\Legend\MirPb03\MirPb03_LSP\Shaders\MT_Landscape_5_Pb03.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Lamp01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Addative Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout 2Sided Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Addative Simple Full.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Water01.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Emissive_Masked.shader" />
+     <None Include="Assets\Components\Magic Light Probes\Passes\Compute Shaders\CalculateDistanceFromGeometry.compute" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_Unlit.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent ZWrite Bumped.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\Content\Common\Effects\03. FX\01. Spells\Archer\FX_Archer_SE_RapidKick\Shaders\M_liuguang05_p.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent Simple Full Improved.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_ObjectSkin.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent Simple Bumped.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\TransferDoor.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout Simple Diffuse.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Login_001\Shaders\M_Fire_001.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\MT_Emitter_SubUV_Additive.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Specular Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Bumped Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Wire ZWrite.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Addative Simple Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Opaque.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Addative Simple Full.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base02.shader" />
+     <None Include="Assets\_Unreal_Assets\01. Scene\Legend\MirPb03\Nature\Tree\bd_sky\Materials\MT_bd_sky02.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Multiply Simple Wire.shader" />
+     <None Include="Assets\Components\Magic Light Probes\Passes\Compute Shaders\RecalculateVolumeFilling.compute" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent ZWrite Diffuse Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent Simple Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_BronzeStatuary_NA.shader" />
+     <None Include="Assets\_Unreal_Assets\01. Scene\Legend\MirPb03\Nature\Water\bd_Waterfall\Materials\M_Waterfall_02.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Mobile\(Mobile)Shader_DissolveTexture(SimpleFade).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Bumped Specular.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Item\Shaders\M_Item_02.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout 2Sided Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent Simple Diffuse Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Multiply ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Addative Simple Full.shader" />
+     <None Include="Assets\UI\Animations\03. FX\FX_GlobeMaterial\Shaders\MT_Globe.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Opaque.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Hair_Translucent.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent ZWrite Wire.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\AddPass.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Cutout Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Addative ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent ZWrite Wire.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Login_001\Shaders\M_Log_Effect.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Hair_Mask.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\03. MMO_MaterialTemplate_Env\Shaders\MT_Base01.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_D_N_Simple.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\StandardSpecular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent Simple Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Multiply ZWrite Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\09. Avatar\Shaders\MT_DropModel.shader" />
+     <None Include="Assets\Components\Magic Light Probes\Shaders\MLPVolumeBounds 1.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Addative ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Addative ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Multiply Simple Full.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Shader_DissolveTexture(TextureAnimation).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Shadow\Opaque.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_DS_N_M_Emissive.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\UnityStandardInput.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\04. MMO_MaterialTemplate_Ground\Shaders\MT_MeshLand_4.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Specular Improved.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Distortion Effect\Shader_DistortionEffect(WithMask).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_Core.cginc" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_PlayerOutline.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout Simple Wire.shader" />
+     <None Include="Assets\UI\Animations\03. FX\FX_GlobeMaterial\Shaders\MT_Globe_02.shader" />
+     <None Include="Assets\_Unreal_Assets\08. UI\Mir_Sprite_Shader.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent 2Sided Full Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Bumped Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Fire01.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Mask.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_LampCloud02.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Ripple01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Multiply Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Cutout Simple Full.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Player.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_Mask_2Sided.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout 2Sided Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Addative ZWrite Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\TerrainSplatmapCommon_MixUV.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Addative ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Addative ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Multiply ZWrite Wire.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_Light_FX_01.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent ZWrite Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\ColorMask0.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Multiply Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Specular Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Bumped.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\UnityStandardMeta.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\UnityStandardCore.cginc" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent 2Sided Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent 2Sided Bumped.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Cutout Simple Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\NoiseCommon.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent ZWrite Full Improved.shader" />
+     <None Include="Assets\Components\Magic Light Probes\Shaders\MLPVolumeBounds.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Login_001\Shaders\M_Cylinder_Liuguang18a.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout 2Sided Bumped.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\Base.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\02. Scene\FX_Scene\Shaders\PMT_Light.shader" />
+     <None Include="Assets\MicroSplat\AntiTile\ReadMe.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent ZWrite Diffuse Improved.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\MicroSplat\Triplanar\ReadMe.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Simple Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent Simple Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent ZWrite Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Demon\Dem_BloodDemon\Materials\M_Dem_BloodDemon.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Foilage\MatFoilage_Grass_Phong.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout Simple Diffuse (Fixed).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent 2Sided Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\UnityStandardCoreForward.cginc" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_Achievement_066.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\M_Achievement_067.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Multiply Simple Wire.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\FireMaterial_Shader.shader" />
+     <None Include="Assets\_Unreal_Assets\09. Avatar\Shaders\MT_DropModel_Mask.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Shadow\Cutout Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent ZWrite Bumped.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\MT_Traials_1.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Rock\MT_Rock01.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_ObjectBorder(NormalBorder).shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\04. MMO_MaterialTemplate_Ground\Shaders\MT_Landscape_5.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Shader_DissolveTexture(SimpleFade).shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_VertexAnimation.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\02. Scene\FX_Excercise\Shaders\M_ps_01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Multiply Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Addative Simple Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout 2Sided Bumped Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent 2Sided Bumped Improved.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Distortion Effect\Mobile\(Mobile)Shader_DistortionEffect(WithMask).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_GS_Platform.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Projector\Projector.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\FX_Portal\Shaders\MT_Light_FX_01.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Ice1.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\ColorMask0 NoInstance.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Gameplay\Traps\worm\Shaders\M_S.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent Simple Bumped Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Water01_Scene.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_DS_N_Multi_PPS.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Shadow\Cutout Simple Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\Standard-Base.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_DA_N_S_Mask_Freeze.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_Mask_2Sided_FadeInOut.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Diffuse Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Flowing_Sand.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Texture Exporter\TextureExporter.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_GS.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent Simple Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Multiply ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Addative ZWrite Full.shader" />
+     <None Include="Assets\MicroSplat\GlobalTexture\ReadMe.txt" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout Simple Bumped (Fixed).shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\Standard-AddPass.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent ZWrite Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Bumped.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Female_Emissive_Eye_ToDo.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Emissive.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Shadow\Cutout Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout Simple Wire.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\FX_Mat\M_Tra_4Tex_UvNoise_Character.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout 2Sided Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Multiply ZWrite Full.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_VertexAnimation(WithRimLight).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent ZWrite Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout Simple Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent ZWrite Diffuse Improved.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Login_001\Shaders\Glow01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Multiply Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout 2Sided Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Simple Specular.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent 2Sided Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout 2Sided Diffuse (Fixed).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Multiply ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_Shadow.cginc" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent 2Sided Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_Tessellation.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout 2Sided Bumped (Fixed).shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\02. Scene\FX_Scene\Shaders\PMT_Light_snow.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Demon\Dem_Evil_01\Materials\M_Dev_Evil_02fx.shader" />
+     <None Include="Assets\_Unreal_Assets\09. Avatar\Shaders\MT_DropModel_2Side.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Addative ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Multiply ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Projector\Projector.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Diffuse Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Addative ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout 2Sided Diffuse (Fixed).shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Object Skin\Shader_RimLight.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\06. WeaponFX\FX_Sword2H_150\Shaders\M_Sword2H_150_01.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\01. Spells\Warrior\FX_Warrior_SE_DunJi\Shaders\m_dunji_001.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Bumped Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Wire Simple.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\06. WeaponFX\FX_Sword2H_150\Shaders\M_Sword2H_150_02.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent ZWrite Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Cutout Simple Bumped.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\MT_Trails_1.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Bumped Specular.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Login_001\Shaders\M_SpineKick_Nitu02.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Mobile\(Mobile)Shader_DissolveTexture(TextureAnimation).shader" />
+     <None Include="Assets\_Unreal_Assets\01. Scene\General\WaterDecal\Shaders\MT_Water_Decal01.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout 2Sided Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Cutout 2Sided Bumped (Fixed).shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Lava\Shaders\M_Scene_Lava.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout Simple Bumped (Fixed).shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Multiply ZWrite Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout Simple Diffuse (Fixed).shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\01. Spells\Monster\Core\Fx_Monster\Shaders\M_Boss001a.shader" />
+     <None Include="Assets\MicroSplat\TextureClusters\ReadMe.txt" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Foilage\MT_DA_N_S_Mask_Foilage.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Standard\Standard.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent ZWrite Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent 2Sided Wire.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Multiply ZWrite Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\Error.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent 2Sided Diffuse Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout 2Sided Diffuse.shader" />
+     <None Include="Assets\_Unreal_Assets\10. Maps\Developer\Rz_Slash.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent 2Sided Bumped.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Shader_DissolveTexture(MaskFade).shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\04. Material\FX_MatInt\Materials\Mat_Add_2Text_UvNoise_DOF.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_ColorMask0.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Addative Simple Wire.shader" />
+     <None Include="Assets\MicroSplat\Streams\ReadMe.txt" />
+     <None Include="Assets\_Unreal_Assets\09. Avatar\Shaders\MT_DiffuseColor.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent 2Sided Diffuse Improved.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout Simple Bumped (Fixed).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Cutout Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent Simple Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_ForwardBase.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent 2Sided Diffuse.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent Simple Bumped Specular Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Boss\Shenlong\Shader\MTC_ColorMetal_2Side.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Specular.shader" />
+     <None Include="Assets\UI\Elements\Health Bar\HealthBar.shader" />
+     <None Include="Assets\MicroSplat\Tessellation\ReadMe.txt" />
+     <None Include="Assets\MicroSplat\TerrainBlending\ReadMe.txt" />
+     <None Include="Assets\Components\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Meta.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Foilage\MatFoilage_Grass.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent Simple Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_DepthNormals.cginc" />
+     <None Include="Assets\Content\Common\Effects\03. FX\01. Spells\Warrior\FX_Warrior_SE_Zangetsu\Shaders\M_Zangetsu_Daoguang01.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\TerrainSplatmapCommon.cginc" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent Simple Bumped.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Tessellation\Transparent Simple Diffuse Improved.shader" />
+     <None Include="Assets\Content\Common\Effects\03. FX\02. Scene\FX_Lava\Shaders\M_Scene_LavaDrop.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_Standard.cginc" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_BronzeStatuary.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Transparent ZWrite Bumped Improved.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_DA_Emissive_Web.shader" />
+     <None Include="Assets\MicroSplat\Streams\Scripts\Resources\StreamUpdateSRP.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\FirstPass.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Integrated Particle\Shader_Integrated Paticle(ValueControl).shader" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Demon\Dem_Grell_02\Materials\FxMat_Dev_Grell_02.shader" />
+     <None Include="Assets\_Unreal_Assets\03. FX\02. Scene\FX_Scene\MT_Splash01.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Transparent ZWrite Full.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\Nature\MT_Web.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Diffuse.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\cginc\Wireframe_VertexLit.cginc" />
+     <None Include="Assets\_Unreal_Assets\05. Creature\Monster\Element\Ele_SendDevil\Shaders\M_Ele_SendDevil2_INST.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_Base01_Mask02.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_PlayerFace.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Geometry Shader\Cutout Simple Diffuse (Fixed).shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Resources\Transparent Simple Full.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent Simple Diffuse Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\PBR\Transparent Simple Wire.shader" />
+     <None Include="Assets\_Unreal_Assets\11. External\UV Mixxer\Shaders\Standard-FirstPass.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\01. MMO_MaterialTemplate\Character\Shaders\MT_Hair_Opaque.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\06. MMO_MaterialTemplate_Scene\Shaders\MT_D_N_ND_Rock1.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\One Directional Light\Transparent 2Sided Bumped Specular Improved.shader" />
+     <None Include="Assets\VacuumShaders\The Amazing Wireframe Shader\Shaders\Unlit\Cutout 2Sided Wire.shader" />
+     <None Include="Assets\Components\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+     <None Include="Assets\Content\Login\Effects\Environment\Shaders\Dissolve Texture\Shader_DissolveTexture(MaskAnimation).shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\03. MMO_MaterialTemplate_Env\Shaders\MT_Base01_FadeInOut.shader" />
+     <None Include="Assets\_Unreal_Assets\04. Material_Template\05. MMO_MatWater\MT_Water01.shader" />
+ <Reference Include="Unity.Timeline.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.VSCode.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.InputSystem">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Timeline">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.CollabProxy.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Postprocessing.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Rider.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Postprocessing.Runtime">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AIModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ARModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AccessibilityModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AndroidJNIModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AnimationModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AnimationModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AssetBundleModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.AudioModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AudioModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ClothModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ClusterInputModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ClusterRendererModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.CoreModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.CrashReportingModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.DSPGraphModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.DirectorModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.DirectorModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.GameCenterModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GameCenterModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.GridModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.GridModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HotReloadModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.HotReloadModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.IMGUIModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.IMGUIModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ImageConversionModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.InputModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.InputModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.InputLegacyModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.JSONSerializeModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.LocalizationModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ParticleSystemModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PerformanceReportingModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PhysicsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.PhysicsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Physics2DModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.Physics2DModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ProfilerModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ProfilerModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.ScreenCaptureModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SharedInternalsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SpriteMaskModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SpriteShapeModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.StreamingModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.StreamingModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SubstanceModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SubstanceModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.SubsystemsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TLSModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TLSModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TerrainModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TerrainPhysicsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TextCoreModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TextCoreModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TextRenderingModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TilemapModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.TilemapModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UIModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UIElementsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UIElementsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UNETModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UNETModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UmbraModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UmbraModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityAnalyticsModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityConnectModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityTestProtocolModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityWebRequestModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VFXModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VRModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VehiclesModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VideoModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.WindModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.XRModule">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+ </Reference>
+ <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ </Reference>
+ <Reference Include="VacuumShaders.TheAmazingWireframeShader">
+ <HintPath>/Users/rob/Desktop/NewVersion/Emerald/Assets/VacuumShaders/The Amazing Wireframe Shader/Scripts/VacuumShaders.TheAmazingWireframeShader.dll</HintPath>
+ </Reference>
+ <Reference Include="mscorlib">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
+ </Reference>
+ <Reference Include="System">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Core">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Core.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Serialization">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Runtime.Serialization.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.Linq">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.Linq.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Numerics">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Numerics.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Numerics.Vectors">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Numerics.Vectors.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Http">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Net.Http.dll</HintPath>
+ </Reference>
+ <Reference Include="Microsoft.CSharp">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Microsoft.CSharp.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="Microsoft.Win32.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/Microsoft.Win32.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.AppContext">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.AppContext.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Collections.Concurrent">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.Concurrent.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Collections.NonGeneric">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.NonGeneric.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Collections.Specialized">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.Specialized.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Collections">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ComponentModel.Annotations">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.Annotations.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ComponentModel.EventBasedAsync">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.EventBasedAsync.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ComponentModel.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ComponentModel.TypeConverter">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.TypeConverter.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ComponentModel">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Console">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Console.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data.Common">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Data.Common.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.Contracts">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Contracts.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.Debug">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Debug.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.FileVersionInfo">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.FileVersionInfo.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.Process">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Process.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.StackTrace">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.StackTrace.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.TextWriterTraceListener">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.Tools">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Tools.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Diagnostics.TraceSource">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.TraceSource.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Drawing.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Dynamic.Runtime">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Dynamic.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Globalization.Calendars">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.Calendars.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Globalization.Extensions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Globalization">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.Compression.ZipFile">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.Compression.ZipFile.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.FileSystem.DriveInfo">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.DriveInfo.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.FileSystem.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.FileSystem.Watcher">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.Watcher.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.FileSystem">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.IsolatedStorage">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.IsolatedStorage.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.MemoryMappedFiles">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.MemoryMappedFiles.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.Pipes">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.Pipes.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.UnmanagedMemoryStream">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.UnmanagedMemoryStream.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Linq.Expressions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Expressions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Linq.Parallel">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Parallel.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Linq.Queryable">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Queryable.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Linq">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Http.Rtc">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Http.Rtc.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.NameResolution">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.NameResolution.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.NetworkInformation">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.NetworkInformation.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Ping">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Ping.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Requests">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Requests.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Security">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Security.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.Sockets">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Sockets.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.WebHeaderCollection">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebHeaderCollection.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.WebSockets.Client">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebSockets.Client.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Net.WebSockets">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebSockets.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ObjectModel">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ObjectModel.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection.Emit.ILGeneration">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.ILGeneration.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection.Emit.Lightweight">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.Lightweight.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection.Emit">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection.Extensions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Reflection">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Resources.Reader">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.Reader.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Resources.ResourceManager">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.ResourceManager.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Resources.Writer">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.Writer.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.CompilerServices.VisualC">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.CompilerServices.VisualC.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Extensions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Handles">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Handles.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.InteropServices">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Numerics">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Numerics.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Serialization.Formatters">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Formatters.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Serialization.Json">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Serialization.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.Serialization.Xml">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Xml.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Claims">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Claims.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Cryptography.Algorithms">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Algorithms.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Cryptography.Csp">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Csp.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Cryptography.Encoding">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Encoding.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Cryptography.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Cryptography.X509Certificates">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.X509Certificates.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.Principal">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Principal.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Security.SecureString">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.SecureString.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ServiceModel.Duplex">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Duplex.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ServiceModel.Http">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Http.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ServiceModel.NetTcp">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.NetTcp.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ServiceModel.Primitives">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Primitives.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ServiceModel.Security">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Security.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Text.Encoding.Extensions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.Encoding.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Text.Encoding">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.Encoding.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Text.RegularExpressions">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.RegularExpressions.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.Overlapped">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Overlapped.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.Tasks.Parallel">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Tasks.Parallel.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.Tasks">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Tasks.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.Thread">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Thread.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.ThreadPool">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.ThreadPool.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading.Timer">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Timer.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Threading">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.dll</HintPath>
+ </Reference>
+ <Reference Include="System.ValueTuple">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ValueTuple.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.ReaderWriter">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.ReaderWriter.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.XDocument">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XDocument.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.XPath.XDocument">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.XPath">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.XmlDocument">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XmlDocument.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Xml.XmlSerializer">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XmlSerializer.dll</HintPath>
+ </Reference>
+ <Reference Include="netstandard">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/netstandard.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityScript">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/UnityScript.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityScript.Lang">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/UnityScript.Lang.dll</HintPath>
+ </Reference>
+ <Reference Include="Boo.Lang">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>/Applications/Unity/Hub/Editor/2019.4.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/System.Drawing.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="XNode.csproj">
+      <Project>{82249D4A-5419-B235-FEC4-8D32AC7E8E5C}</Project>
+      <Name>XNode</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProject.csproj">
+      <Project>{9A6C9A81-26F3-C623-C6B9-2B40310EB1E0}</Project>
+      <Name>AstarPathfindingProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="PackageToolsEditor.csproj">
+      <Project>{153FEA09-6D1E-48F0-53EB-426DFD7CADE3}</Project>
+      <Name>PackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{54D070B8-7C38-B286-3D57-4DACEDD9382B}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
+      <Project>{992667FC-48ED-D119-D9A2-226150035170}</Project>
+      <Name>AstarPathfindingProjectEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{CF4D03A5-826C-12F2-47B7-4E9C2BA0D383}</Project>
+      <Name>NavMeshComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="Aura2_Core.csproj">
+      <Project>{A3776BB0-9B47-7331-8F34-1BFF2DD3AA25}</Project>
+      <Name>Aura2_Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Aura2_Editor.csproj">
+      <Project>{F19AB52F-2121-DC53-E21D-ACB5A8F74052}</Project>
+      <Name>Aura2_Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="XNodeEditor.csproj">
+      <Project>{27798557-1B1E-EAAC-705F-36459446846B}</Project>
+      <Name>XNodeEditor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
