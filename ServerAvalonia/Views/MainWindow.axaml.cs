@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -13,6 +14,12 @@ namespace ServerAvalonia.Views {
 
         private void InitializeComponent() {
             AvaloniaXamlLoader.Load(this);
+        }
+        private void OnOpenClicked(object? sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+        private void OnCloseClicked(object? sender, EventArgs e) {
+            throw new NotImplementedException();
         }
     }
 }

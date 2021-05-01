@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -18,6 +19,9 @@ namespace ServerAvalonia {
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+        private void OpenAbout(object? sender, EventArgs e) {
+            throw new NotImplementedException();
         }
     }
 }
