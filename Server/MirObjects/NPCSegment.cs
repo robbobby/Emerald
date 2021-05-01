@@ -2950,7 +2950,7 @@ namespace Server.MirObjects
 
                         var magic = new UserMagic(skill) { Level = spellLevel };
 
-                        if (magic.Info == null) return;
+                        if (magic.InfoModel == null) return;
 
                         player.Info.Magics.Add(magic);
                         player.Enqueue(magic.GetInfo());

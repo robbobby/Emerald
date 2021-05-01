@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:serverAvalonia="clr-namespace:ServerAvalonia"
+        xmlns:userControls="clr-namespace:ServerAvalonia.UserControls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ServerAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -12,7 +13,7 @@
         ExtendClientAreaToDecorationsHint="True"
         Title="ServerAvalonia">
 
-    
+
     <NativeMenu.Menu>
         <NativeMenu>
             <NativeMenuItem Header="File">
@@ -41,8 +42,7 @@
         </NativeMenu>
     </NativeMenu.Menu>
 
-    <Panel>
-                
+    <DockPanel HorizontalAlignment="Left" Margin="0,25,0,0">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial
@@ -52,18 +52,8 @@
                     MaterialOpacity="0.65" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        <Panel Margin="20, 30">
-            <Grid ColumnDefinitions="Auto, Auto, Auto, *"
-                  RowDefinitions="Auto, Auto, Auto, *">
-                <Button Content="Hello" />
-                <Button Grid.Row="1" Content="Hello" />
-                <Button Grid.Row="2" Content="Hello" />
-                <Button Grid.Row="2" Grid.Column="1" Content="Hello" />
-                <Button Grid.Row="2" Grid.Column="2" Content="Hello" />
-                <Button Grid.Row="2" Grid.Column="3" Content="Hello" />
-            </Grid>
-        </Panel>
-    </Panel>
+            <userControls:SideBar DockPanel.Dock="Left" Width="200" />
+    </DockPanel>
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>

@@ -13,10 +13,8 @@ using Server.MirNetwork;
 using Server.MirObjects;
 using S = ServerPackets;
 
-namespace Server.MirEnvir
-{
-    public class MobThread
-    {
+namespace Server.MirEnvir {
+    public class MobThread {
         public int Id = 0;
         public long LastRunTime = 0;
         public long StartTime = 0;
@@ -26,8 +24,7 @@ namespace Server.MirEnvir
         public bool Stop = false;
     }
 
-    public class RandomProvider
-    {
+    public class RandomProvider {
         private static int seed = Environment.TickCount;
         private static readonly ThreadLocal<Random> RandomWrapper = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
 
@@ -42,8 +39,7 @@ namespace Server.MirEnvir
             RandomWrapper.Value.Next(minValue, maxValue);
     }
 
-    public class Envir
-    {
+    public class Envir {
         public static Envir Main { get; } = new Envir();
 
         public static Envir Edit { get; } = new Envir();
@@ -95,14 +91,14 @@ namespace Server.MirEnvir
         private TcpListener _StatusPort;
         private int _sessionID;
         public List<MirConnection> Connections = new List<MirConnection>();
-        
+
 
         //Server DB
         public int MapIndex, ItemIndex, MonsterIndex, NPCIndex, QuestIndex, GameshopIndex, ConquestIndex, RespawnIndex;
         public List<MapInfo> MapInfoList = new List<MapInfo>();
         public List<ItemInfo> ItemInfoList = new List<ItemInfo>();
         public List<MonsterInfo> MonsterInfoList = new List<MonsterInfo>();
-        public List<MagicInfo> MagicInfoList = new List<MagicInfo>();
+        public List<MagicInfoModel> MagicInfoList = new List<MagicInfoModel>();
         public List<NPCInfo> NPCInfoList = new List<NPCInfo>();
         public DragonInfo DragonInfo = new DragonInfo();
         public List<QuestInfo> QuestInfoList = new List<QuestInfo>();
@@ -114,15 +110,15 @@ namespace Server.MirEnvir
         public int NextAccountID, NextCharacterID;
         public ulong NextUserItemID, NextAuctionID, NextMailID;
         public List<AccountInfo> AccountList = new List<AccountInfo>();
-        public List<CharacterInfo> CharacterList = new List<CharacterInfo>(); 
+        public List<CharacterInfo> CharacterList = new List<CharacterInfo>();
         public LinkedList<AuctionInfo> Auctions = new LinkedList<AuctionInfo>();
         public int GuildCount, NextGuildID;
         public List<GuildObject> GuildList = new List<GuildObject>();
-       
+
 
         //Live Info
         public List<Map> MapList = new List<Map>();
-        public List<SafeZoneInfo> StartPoints = new List<SafeZoneInfo>(); 
+        public List<SafeZoneInfo> StartPoints = new List<SafeZoneInfo>();
         public List<ItemInfo> StartItems = new List<ItemInfo>();
         public List<MailInfo> Mail = new List<MailInfo>();
         public List<PlayerObject> Players = new List<PlayerObject>();
@@ -132,14 +128,14 @@ namespace Server.MirEnvir
 
         public List<ConquestInfo> ConquestInfos = new List<ConquestInfo>();
         public List<ConquestObject> Conquests = new List<ConquestObject>();
-        
+
 
 
         //multithread vars
         readonly object _locker = new object();
         public MobThread[] MobThreads = new MobThread[Settings.ThreadLimit];
         private Thread[] MobThreading = new Thread[Settings.ThreadLimit];
-        public int spawnmultiplyer = 1;//set this to 2 if you want double spawns (warning this can easely lag your server far beyond what you imagine)
+        public int spawnmultiplyer = 1; //set this to 2 if you want double spawns (warning this can easely lag your server far beyond what you imagine)
 
         public List<string> CustomCommands = new List<string>();
         public Dragon DragonSystem;
@@ -147,21 +143,20 @@ namespace Server.MirEnvir
         public NPCObject MonsterNPC;
         public NPCObject RobotNPC;
 
-        public List<DropInfo> FishingDrops = new List<DropInfo>();
-        public List<DropInfo> AwakeningDrops = new List<DropInfo>();
+        private readonly List<DropInfo> _fishingDrops = new List<DropInfo>();
+        private readonly List<DropInfo> _awakeningDrops = new List<DropInfo>();
 
-        public List<DropInfo> StrongboxDrops = new List<DropInfo>();
-        public List<DropInfo> BlackstoneDrops = new List<DropInfo>();
+        private readonly List<DropInfo> _strongboxDrops = new List<DropInfo>();
+        private readonly List<DropInfo> _blackstoneDrops = new List<DropInfo>();
 
-        public List<GuildAtWar> GuildsAtWar = new List<GuildAtWar>();
-        public List<MapRespawn> SavedSpawns = new List<MapRespawn>();
+        public readonly List<GuildAtWar> GuildsAtWar = new List<GuildAtWar>();
+        public readonly List<MapRespawn> SavedSpawns = new List<MapRespawn>();
 
-        public List<Rank_Character_Info> RankTop = new List<Rank_Character_Info>();
-        public List<Rank_Character_Info>[] RankClass = new List<Rank_Character_Info>[5];
-        public int[] RankBottomLevel = new int[6];
-        static HttpServer http;
-        static Envir()
-        {
+        private readonly List<Rank_Character_Info> RankTop = new List<Rank_Character_Info>();
+        private readonly List<Rank_Character_Info>[] _rankClass = new List<Rank_Character_Info>[5];
+        public readonly int[] RankBottomLevel = new int[6];
+        private static HttpServer _http;
+        static Envir() {
             AccountIDReg =
                 new Regex(@"^[A-Za-z0-9]{" + Globals.MinAccountIDLength + "," + Globals.MaxAccountIDLength + "}$");
             PasswordReg =
@@ -169,20 +164,16 @@ namespace Server.MirEnvir
             EMailReg = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             CharacterReg =
                 new Regex(@"^[\u4e00-\u9fa5_A-Za-z0-9]{" + Globals.MinCharacterNameLength + "," + Globals.MaxCharacterNameLength +
-                          "}$");
+                    "}$");
 
-            var path = Path.Combine(Settings.EnvirPath,  "DisabledChars.txt");
+            var path = Path.Combine(Settings.EnvirPath, "DisabledChars.txt");
             DisabledCharNames.Clear();
-            if (!File.Exists(path))
-            {
-                File.WriteAllText(path,"");
-            }
-            else
-            {
+            if (!File.Exists(path)) {
+                File.WriteAllText(path, "");
+            } else {
                 var lines = File.ReadAllLines(path);
 
-                for (var i = 0; i < lines.Length; i++)
-                {
+                for (int i = 0; i < lines.Length; i++) {
                     if (lines[i].StartsWith(";") || string.IsNullOrWhiteSpace(lines[i])) continue;
                     DisabledCharNames.Add(lines[i].ToUpper());
                 }
@@ -196,22 +187,17 @@ namespace Server.MirEnvir
         private long warTime, mailTime, guildTime, conquestTime, rentalItemsTime;
         private int DailyTime = DateTime.Now.Day;
 
-        private bool MagicExists(Spell spell)
-        {
-            for (var i = 0; i < MagicInfoList.Count; i++ )
-            {
+        private bool MagicExists(Spell spell) {
+            for (var i = 0; i < MagicInfoList.Count; i++) {
                 if (MagicInfoList[i].Spell == spell) return true;
             }
             return false;
         }
 
-        private void UpdateMagicInfo()
-        {
-            for (var i = 0; i < MagicInfoList.Count; i++)
-            {
-                switch(MagicInfoList[i].Spell)
-                {
-                        //warrior
+        private void UpdateMagicInfo() {
+            for (var i = 0; i < MagicInfoList.Count; i++) {
+                switch (MagicInfoList[i].Spell) {
+                    //warrior
                     case Spell.Thrusting:
                         MagicInfoList[i].MultiplierBase = 0.25f;
                         MagicInfoList[i].MultiplierBonus = 0.25f;
@@ -243,11 +229,11 @@ namespace Server.MirEnvir
                         MagicInfoList[i].MultiplierBase = 3.25f;
                         MagicInfoList[i].MultiplierBonus = 0.25f;
                         break;
-                        //wiz
+                    //wiz
                     case Spell.Repulsion:
                         MagicInfoList[i].MPowerBase = 4;
                         break;
-                        //tao
+                    //tao
                     case Spell.Poisoning:
                         MagicInfoList[i].MPowerBase = 0;
                         break;
@@ -258,7 +244,7 @@ namespace Server.MirEnvir
                         MagicInfoList[i].MPowerBase = 0;
                         MagicInfoList[i].PowerBase = 0;
                         break;
-                        //sin
+                    //sin
                     case Spell.FatalSword:
                         MagicInfoList[i].MPowerBase = 20;
                         break;
@@ -283,138 +269,1647 @@ namespace Server.MirEnvir
                         MagicInfoList[i].MultiplierBase = 1f;
                         MagicInfoList[i].MultiplierBonus = 0.4f;
                         break;
-                        //archer
-                        //no changes :p
+                    //archer
+                    //no changes :p
                 }
             }
         }
 
-        private void FillMagicInfoList()
-        {
+        private void FillMagicInfoList() {
             //Warrior
-            if (!MagicExists(Spell.Fencing)) MagicInfoList.Add(new MagicInfo {Name = "Fencing", Spell = Spell.Fencing, Icon = 2, Level1 = 7, Level2 = 9, Level3 = 12, Need1 = 270, Need2 = 600, Need3 = 1300, Range = 0 });
-            if (!MagicExists(Spell.Slaying)) MagicInfoList.Add(new MagicInfo { Name = "Slaying", Spell = Spell.Slaying, Icon = 6, Level1 = 15, Level2 = 17, Level3 = 20, Need1 = 500, Need2 = 1100, Need3 = 1800, Range = 0 });
-            if (!MagicExists(Spell.Thrusting)) MagicInfoList.Add(new MagicInfo { Name = "Thrusting", Spell = Spell.Thrusting, Icon = 11, Level1 = 22, Level2 = 24, Level3 = 27, Need1 = 2000, Need2 = 3500, Need3 = 6000, Range = 0, MultiplierBase = 0.25f, MultiplierBonus = 0.25f });
-            if (!MagicExists(Spell.HalfMoon)) MagicInfoList.Add(new MagicInfo { Name = "HalfMoon", Spell = Spell.HalfMoon, Icon = 24, Level1 = 26, Level2 = 28, Level3 = 31, Need1 = 5000, Need2 = 8000, Need3 = 14000, BaseCost = 3, Range = 0, MultiplierBase =0.3f, MultiplierBonus = 0.1f });
-            if (!MagicExists(Spell.ShoulderDash)) MagicInfoList.Add(new MagicInfo { Name = "ShoulderDash", Spell = Spell.ShoulderDash, Icon = 26, Level1 = 30, Level2 = 32, Level3 = 34, Need1 = 3000, Need2 = 4000, Need3 = 6000, BaseCost = 4, LevelCost = 4, DelayBase = 2500, Range = 0 , MPowerBase = 4});
-            if (!MagicExists(Spell.TwinDrakeBlade)) MagicInfoList.Add(new MagicInfo { Name = "TwinDrakeBlade", Spell = Spell.TwinDrakeBlade, Icon = 37, Level1 = 32, Level2 = 34, Level3 = 37, Need1 = 4000, Need2 = 6000, Need3 = 10000, BaseCost = 10, Range = 0 , MultiplierBase = 0.8f, MultiplierBonus = 0.1f});
-            if (!MagicExists(Spell.Entrapment)) MagicInfoList.Add(new MagicInfo { Name = "Entrapment", Spell = Spell.Entrapment, Icon = 46, Level1 = 32, Level2 = 35, Level3 = 37, Need1 = 2000, Need2 = 3500, Need3 = 5500, BaseCost = 15, LevelCost = 3, Range = 9 });
-            if (!MagicExists(Spell.FlamingSword)) MagicInfoList.Add(new MagicInfo { Name = "FlamingSword", Spell = Spell.FlamingSword, Icon = 25, Level1 = 35, Level2 = 37, Level3 = 40, Need1 = 2000, Need2 = 4000, Need3 = 6000, BaseCost = 7, Range = 0, MultiplierBase = 1.4f, MultiplierBonus = 0.4f});
-            if (!MagicExists(Spell.LionRoar)) MagicInfoList.Add(new MagicInfo { Name = "LionRoar", Spell = Spell.LionRoar, Icon = 42, Level1 = 36, Level2 = 39, Level3 = 41, Need1 = 5000, Need2 = 8000, Need3 = 12000, BaseCost = 14, LevelCost = 4, Range = 0 });
-            if (!MagicExists(Spell.CrossHalfMoon)) MagicInfoList.Add(new MagicInfo { Name = "CrossHalfMoon", Spell = Spell.CrossHalfMoon, Icon = 33, Level1 = 38, Level2 = 40, Level3 = 42, Need1 = 7000, Need2 = 11000, Need3 = 16000, BaseCost = 6, Range = 0, MultiplierBase = 0.4f, MultiplierBonus = 0.1f });
-            if (!MagicExists(Spell.BladeAvalanche)) MagicInfoList.Add(new MagicInfo { Name = "BladeAvalanche", Spell = Spell.BladeAvalanche, Icon = 43, Level1 = 38, Level2 = 41, Level3 = 43, Need1 = 5000, Need2 = 8000, Need3 = 12000, BaseCost = 14, LevelCost = 4, Range = 0, MultiplierBonus = 0.3f});
-            if (!MagicExists(Spell.ProtectionField)) MagicInfoList.Add(new MagicInfo { Name = "ProtectionField", Spell = Spell.ProtectionField, Icon = 50, Level1 = 39, Level2 = 42, Level3 = 45, Need1 = 6000, Need2 = 12000, Need3 = 18000, BaseCost = 23, LevelCost = 6, Range = 0 });
-            if (!MagicExists(Spell.Rage)) MagicInfoList.Add(new MagicInfo { Name = "Rage", Spell = Spell.Rage, Icon = 49, Level1 = 44, Level2 = 47, Level3 = 50, Need1 = 8000, Need2 = 14000, Need3 = 20000, BaseCost = 20, LevelCost = 5, Range = 0 });
-            if (!MagicExists(Spell.CounterAttack)) MagicInfoList.Add(new MagicInfo { Name = "CounterAttack", Spell = Spell.CounterAttack, Icon = 72, Level1 = 47, Level2 = 51, Level3 = 55, Need1 = 7000, Need2 = 11000, Need3 = 15000, BaseCost = 12, LevelCost = 4, DelayBase = 24000, Range = 0 , MultiplierBonus = 0.4f});
-            if (!MagicExists(Spell.SlashingBurst)) MagicInfoList.Add(new MagicInfo { Name = "SlashingBurst", Spell = Spell.SlashingBurst, Icon = 55, Level1 = 50, Level2 = 53, Level3 = 56, Need1 = 10000, Need2 = 16000, Need3 = 24000, BaseCost = 25, LevelCost = 4, MPowerBase = 1, PowerBase = 3, DelayBase = 14000, DelayReduction = 4000, Range = 0 , MultiplierBase = 3.25f, MultiplierBonus = 0.25f});
-            if (!MagicExists(Spell.Fury)) MagicInfoList.Add(new MagicInfo { Name = "Fury", Spell = Spell.Fury, Icon = 76, Level1 = 45, Level2 = 48, Level3 = 51, Need1 = 8000, Need2 = 14000, Need3 = 20000, BaseCost = 10, LevelCost = 4, DelayBase = 600000, DelayReduction = 120000, Range = 0 });
-            if (!MagicExists(Spell.ImmortalSkin)) MagicInfoList.Add(new MagicInfo { Name = "ImmortalSkin", Spell = Spell.ImmortalSkin, Icon = 80, Level1 = 60, Level2 = 61, Level3 = 62, Need1 = 1560, Need2 = 2200, Need3 = 3000, BaseCost = 10, LevelCost = 4, DelayBase = 600000, DelayReduction = 120000, Range = 0 });
+            if (!MagicExists(Spell.Fencing))
+                MagicInfoList.Add(new MagicInfoModel("Fencing", Spell.Fencing, 2, 7, 9, 12,
+                    270, 600, 1300, 0));
+            if (!MagicExists(Spell.Slaying))
+                MagicInfoList.Add(new MagicInfoModel("Slaying", Spell.Slaying, 6, 15, 17, 20,
+                    500, 1100, 1800, 0));
+            if (!MagicExists(Spell.Thrusting))
+                MagicInfoList.Add(new MagicInfoModel(
+                    Name = "Thrusting",
+                    Spell = Spell.Thrusting,
+                    Icon = 11,
+                    Level1 = 22,
+                    Level2 = 24,
+                    Level3 = 27,
+                    Need1 = 2000,
+                    Need2 = 3500,
+                    Need3 = 6000,
+                    Range = 0,
+                    MultiplierBase = 0.25f,
+                    MultiplierBonus = 0.25f
+                );
+            if (!MagicExists(Spell.HalfMoon))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "HalfMoon",
+                    Spell = Spell.HalfMoon,
+                    Icon = 24,
+                    Level1 = 26,
+                    Level2 = 28,
+                    Level3 = 31,
+                    Need1 = 5000,
+                    Need2 = 8000,
+                    Need3 = 14000,
+                    BaseCost = 3,
+                    Range = 0,
+                    MultiplierBase = 0.3f,
+                    MultiplierBonus = 0.1f
+                });
+            if (!MagicExists(Spell.ShoulderDash))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ShoulderDash",
+                    Spell = Spell.ShoulderDash,
+                    Icon = 26,
+                    Level1 = 30,
+                    Level2 = 32,
+                    Level3 = 34,
+                    Need1 = 3000,
+                    Need2 = 4000,
+                    Need3 = 6000,
+                    BaseCost = 4,
+                    LevelCost = 4,
+                    DelayBase = 2500,
+                    Range = 0,
+                    MPowerBase = 4
+                });
+            if (!MagicExists(Spell.TwinDrakeBlade))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "TwinDrakeBlade",
+                    Spell = Spell.TwinDrakeBlade,
+                    Icon = 37,
+                    Level1 = 32,
+                    Level2 = 34,
+                    Level3 = 37,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 10000,
+                    BaseCost = 10,
+                    Range = 0,
+                    MultiplierBase = 0.8f,
+                    MultiplierBonus = 0.1f
+                });
+            if (!MagicExists(Spell.Entrapment))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Entrapment",
+                    Spell = Spell.Entrapment,
+                    Icon = 46,
+                    Level1 = 32,
+                    Level2 = 35,
+                    Level3 = 37,
+                    Need1 = 2000,
+                    Need2 = 3500,
+                    Need3 = 5500,
+                    BaseCost = 15,
+                    LevelCost = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.FlamingSword))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FlamingSword",
+                    Spell = Spell.FlamingSword,
+                    Icon = 25,
+                    Level1 = 35,
+                    Level2 = 37,
+                    Level3 = 40,
+                    Need1 = 2000,
+                    Need2 = 4000,
+                    Need3 = 6000,
+                    BaseCost = 7,
+                    Range = 0,
+                    MultiplierBase = 1.4f,
+                    MultiplierBonus = 0.4f
+                });
+            if (!MagicExists(Spell.LionRoar))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "LionRoar",
+                    Spell = Spell.LionRoar,
+                    Icon = 42,
+                    Level1 = 36,
+                    Level2 = 39,
+                    Level3 = 41,
+                    Need1 = 5000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 14,
+                    LevelCost = 4,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.CrossHalfMoon))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "CrossHalfMoon",
+                    Spell = Spell.CrossHalfMoon,
+                    Icon = 33,
+                    Level1 = 38,
+                    Level2 = 40,
+                    Level3 = 42,
+                    Need1 = 7000,
+                    Need2 = 11000,
+                    Need3 = 16000,
+                    BaseCost = 6,
+                    Range = 0,
+                    MultiplierBase = 0.4f,
+                    MultiplierBonus = 0.1f
+                });
+            if (!MagicExists(Spell.BladeAvalanche))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "BladeAvalanche",
+                    Spell = Spell.BladeAvalanche,
+                    Icon = 43,
+                    Level1 = 38,
+                    Level2 = 41,
+                    Level3 = 43,
+                    Need1 = 5000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 14,
+                    LevelCost = 4,
+                    Range = 0,
+                    MultiplierBonus = 0.3f
+                });
+            if (!MagicExists(Spell.ProtectionField))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ProtectionField",
+                    Spell = Spell.ProtectionField,
+                    Icon = 50,
+                    Level1 = 39,
+                    Level2 = 42,
+                    Level3 = 45,
+                    Need1 = 6000,
+                    Need2 = 12000,
+                    Need3 = 18000,
+                    BaseCost = 23,
+                    LevelCost = 6,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Rage))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Rage",
+                    Spell = Spell.Rage,
+                    Icon = 49,
+                    Level1 = 44,
+                    Level2 = 47,
+                    Level3 = 50,
+                    Need1 = 8000,
+                    Need2 = 14000,
+                    Need3 = 20000,
+                    BaseCost = 20,
+                    LevelCost = 5,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.CounterAttack))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "CounterAttack",
+                    Spell = Spell.CounterAttack,
+                    Icon = 72,
+                    Level1 = 47,
+                    Level2 = 51,
+                    Level3 = 55,
+                    Need1 = 7000,
+                    Need2 = 11000,
+                    Need3 = 15000,
+                    BaseCost = 12,
+                    LevelCost = 4,
+                    DelayBase = 24000,
+                    Range = 0,
+                    MultiplierBonus = 0.4f
+                });
+            if (!MagicExists(Spell.SlashingBurst))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SlashingBurst",
+                    Spell = Spell.SlashingBurst,
+                    Icon = 55,
+                    Level1 = 50,
+                    Level2 = 53,
+                    Level3 = 56,
+                    Need1 = 10000,
+                    Need2 = 16000,
+                    Need3 = 24000,
+                    BaseCost = 25,
+                    LevelCost = 4,
+                    MPowerBase = 1,
+                    PowerBase = 3,
+                    DelayBase = 14000,
+                    DelayReduction = 4000,
+                    Range = 0,
+                    MultiplierBase = 3.25f,
+                    MultiplierBonus = 0.25f
+                });
+            if (!MagicExists(Spell.Fury))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Fury",
+                    Spell = Spell.Fury,
+                    Icon = 76,
+                    Level1 = 45,
+                    Level2 = 48,
+                    Level3 = 51,
+                    Need1 = 8000,
+                    Need2 = 14000,
+                    Need3 = 20000,
+                    BaseCost = 10,
+                    LevelCost = 4,
+                    DelayBase = 600000,
+                    DelayReduction = 120000,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.ImmortalSkin))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ImmortalSkin",
+                    Spell = Spell.ImmortalSkin,
+                    Icon = 80,
+                    Level1 = 60,
+                    Level2 = 61,
+                    Level3 = 62,
+                    Need1 = 1560,
+                    Need2 = 2200,
+                    Need3 = 3000,
+                    BaseCost = 10,
+                    LevelCost = 4,
+                    DelayBase = 600000,
+                    DelayReduction = 120000,
+                    Range = 0
+                });
 
             //Wizard
-            if (!MagicExists(Spell.FireBall)) MagicInfoList.Add(new MagicInfo { Name = "FireBall", Spell = Spell.FireBall, Icon = 0, Level1 = 7, Level2 = 9, Level3 = 11, Need1 = 200, Need2 = 350, Need3 = 700, BaseCost = 3, LevelCost = 2, MPowerBase = 8, PowerBase = 2, Range = 9 });
-            if (!MagicExists(Spell.Repulsion)) MagicInfoList.Add(new MagicInfo { Name = "Repulsion", Spell = Spell.Repulsion, Icon = 7, Level1 = 12, Level2 = 15, Level3 = 19, Need1 = 500, Need2 = 1300, Need3 = 2200, BaseCost = 2, LevelCost = 2, Range = 0, MPowerBase = 4});
-            if (!MagicExists(Spell.ElectricShock)) MagicInfoList.Add(new MagicInfo { Name = "ElectricShock", Spell = Spell.ElectricShock, Icon = 19, Level1 = 13, Level2 = 18, Level3 = 24, Need1 = 530, Need2 = 1100, Need3 = 2200, BaseCost = 3, LevelCost = 1, Range = 9 });
-            if (!MagicExists(Spell.GreatFireBall)) MagicInfoList.Add(new MagicInfo { Name = "GreatFireBall", Spell = Spell.GreatFireBall, Icon = 4, Level1 = 15, Level2 = 18, Level3 = 21, Need1 = 2000, Need2 = 2700, Need3 = 3500, BaseCost = 5, LevelCost = 1, MPowerBase = 6, PowerBase = 10, Range = 9 });
-            if (!MagicExists(Spell.HellFire)) MagicInfoList.Add(new MagicInfo { Name = "HellFire", Spell = Spell.HellFire, Icon = 8, Level1 = 16, Level2 = 20, Level3 = 24, Need1 = 700, Need2 = 2700, Need3 = 3500, BaseCost = 10, LevelCost = 3, MPowerBase = 14, PowerBase = 6, Range = 0 });
-            if (!MagicExists(Spell.ThunderBolt)) MagicInfoList.Add(new MagicInfo { Name = "ThunderBolt", Spell = Spell.ThunderBolt, Icon = 10, Level1 = 17, Level2 = 20, Level3 = 23, Need1 = 500, Need2 = 2000, Need3 = 3500, BaseCost = 9, LevelCost = 2, MPowerBase = 8, MPowerBonus = 20, PowerBase = 9, Range = 9 });
-            if (!MagicExists(Spell.Teleport)) MagicInfoList.Add(new MagicInfo { Name = "Teleport", Spell = Spell.Teleport, Icon = 20, Level1 = 19, Level2 = 22, Level3 = 25, Need1 = 350, Need2 = 1000, Need3 = 2000, BaseCost = 10, LevelCost = 3, Range = 0 });
-            if (!MagicExists(Spell.FireBang)) MagicInfoList.Add(new MagicInfo { Name = "FireBang", Spell = Spell.FireBang, Icon = 22, Level1 = 22, Level2 = 25, Level3 = 28, Need1 = 3000, Need2 = 5000, Need3 = 10000, BaseCost = 14, LevelCost = 4, MPowerBase = 8, PowerBase = 8, Range = 9 });
-            if (!MagicExists(Spell.FireWall)) MagicInfoList.Add(new MagicInfo { Name = "FireWall", Spell = Spell.FireWall, Icon = 21, Level1 = 24, Level2 = 28, Level3 = 33, Need1 = 4000, Need2 = 10000, Need3 = 20000, BaseCost = 30, LevelCost = 5, MPowerBase = 3, PowerBase = 3, Range = 9 });
-            if (!MagicExists(Spell.Lightning)) MagicInfoList.Add(new MagicInfo { Name = "Lightning", Spell = Spell.Lightning, Icon = 9, Level1 = 26, Level2 = 29, Level3 = 32, Need1 = 3000, Need2 = 6000, Need3 = 12000, BaseCost = 38, LevelCost = 7, MPowerBase = 12, PowerBase = 12, Range = 0 });
-            if (!MagicExists(Spell.FrostCrunch)) MagicInfoList.Add(new MagicInfo { Name = "FrostCrunch", Spell = Spell.FrostCrunch, Icon = 38, Level1 = 28, Level2 = 30, Level3 = 33, Need1 = 3000, Need2 = 5000, Need3 = 8000, BaseCost = 15, LevelCost = 3, MPowerBase = 12, PowerBase = 12, Range = 9 });
-            if (!MagicExists(Spell.ThunderStorm)) MagicInfoList.Add(new MagicInfo { Name = "ThunderStorm", Spell = Spell.ThunderStorm, Icon = 23, Level1 = 30, Level2 = 32, Level3 = 34, Need1 = 4000, Need2 = 8000, Need3 = 12000, BaseCost = 29, LevelCost = 9, MPowerBase = 10, MPowerBonus = 20, PowerBase = 10, PowerBonus = 20, Range = 0 });
-            if (!MagicExists(Spell.MagicShield)) MagicInfoList.Add(new MagicInfo { Name = "MagicShield", Spell = Spell.MagicShield, Icon = 30, Level1 = 31, Level2 = 34, Level3 = 38, Need1 = 3000, Need2 = 7000, Need3 = 10000, BaseCost = 35, LevelCost = 5, Range = 0 });
-            if (!MagicExists(Spell.TurnUndead)) MagicInfoList.Add(new MagicInfo { Name = "TurnUndead", Spell = Spell.TurnUndead, Icon = 31, Level1 = 32, Level2 = 35, Level3 = 39, Need1 = 3000, Need2 = 7000, Need3 = 10000, BaseCost = 52, LevelCost = 13, Range = 9 });
-            if (!MagicExists(Spell.Vampirism)) MagicInfoList.Add(new MagicInfo { Name = "Vampirism", Spell = Spell.Vampirism, Icon = 47, Level1 = 33, Level2 = 36, Level3 = 40, Need1 = 3000, Need2 = 5000, Need3 = 8000, BaseCost = 26, LevelCost = 13, MPowerBase = 12, PowerBase = 12, Range = 9 });
-            if (!MagicExists(Spell.IceStorm)) MagicInfoList.Add(new MagicInfo { Name = "IceStorm", Spell = Spell.IceStorm, Icon = 32, Level1 = 35, Level2 = 37, Level3 = 40, Need1 = 4000, Need2 = 8000, Need3 = 12000, BaseCost = 33, LevelCost = 3, MPowerBase = 12, PowerBase = 14, Range = 9 });
-            if (!MagicExists(Spell.FlameDisruptor)) MagicInfoList.Add(new MagicInfo { Name = "FlameDisruptor", Spell = Spell.FlameDisruptor, Icon = 34, Level1 = 38, Level2 = 40, Level3 = 42, Need1 = 5000, Need2 = 9000, Need3 = 14000, BaseCost = 28, LevelCost = 3, MPowerBase = 15, MPowerBonus = 20, PowerBase = 9, Range = 9 });
-            if (!MagicExists(Spell.Mirroring)) MagicInfoList.Add(new MagicInfo { Name = "Mirroring", Spell = Spell.Mirroring, Icon = 41, Level1 = 41, Level2 = 43, Level3 = 45, Need1 = 6000, Need2 = 11000, Need3 = 16000, BaseCost = 21, Range = 0 });
-            if (!MagicExists(Spell.FlameField)) MagicInfoList.Add(new MagicInfo { Name = "FlameField", Spell = Spell.FlameField, Icon = 44, Level1 = 42, Level2 = 43, Level3 = 45, Need1 = 6000, Need2 = 11000, Need3 = 16000, BaseCost = 45, LevelCost = 8, MPowerBase = 100, PowerBase = 25, Range = 9 });
-            if (!MagicExists(Spell.Blizzard)) MagicInfoList.Add(new MagicInfo { Name = "Blizzard", Spell = Spell.Blizzard, Icon = 51, Level1 = 44, Level2 = 47, Level3 = 50, Need1 = 8000, Need2 = 16000, Need3 = 24000, BaseCost = 65, LevelCost = 10, MPowerBase = 30, MPowerBonus = 10, PowerBase = 20, PowerBonus = 5, Range = 9 });
-            if (!MagicExists(Spell.MagicBooster)) MagicInfoList.Add(new MagicInfo { Name = "MagicBooster", Spell = Spell.MagicBooster, Icon = 73, Level1 = 47, Level2 = 49, Level3 = 52, Need1 = 12000, Need2 = 18000, Need3 = 24000, BaseCost = 150, LevelCost = 15, Range = 0 });
-            if (!MagicExists(Spell.MeteorStrike)) MagicInfoList.Add(new MagicInfo { Name = "MeteorStrike", Spell = Spell.MeteorStrike, Icon = 52, Level1 = 49, Level2 = 52, Level3 = 55, Need1 = 15000, Need2 = 20000, Need3 = 25000, BaseCost = 115, LevelCost = 17, MPowerBase = 40, MPowerBonus = 10, PowerBase = 20, PowerBonus = 15, Range = 9 });
-            if (!MagicExists(Spell.IceThrust)) MagicInfoList.Add(new MagicInfo { Name = "IceThrust", Spell = Spell.IceThrust, Icon = 56, Level1 = 53, Level2 = 56, Level3 = 59, Need1 = 17000, Need2 = 22000, Need3 = 27000, BaseCost = 100, LevelCost = 20, MPowerBase = 100, PowerBase = 50, Range = 0 });
-            if (!MagicExists(Spell.Blink)) MagicInfoList.Add(new MagicInfo { Name = "Blink", Spell = Spell.Blink, Icon = 20, Level1 = 19, Level2 = 22, Level3 = 25, Need1 = 350, Need2 = 1000, Need3 = 2000, BaseCost = 10, LevelCost = 3, Range = 9 });
+            if (!MagicExists(Spell.FireBall))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FireBall",
+                    Spell = Spell.FireBall,
+                    Icon = 0,
+                    Level1 = 7,
+                    Level2 = 9,
+                    Level3 = 11,
+                    Need1 = 200,
+                    Need2 = 350,
+                    Need3 = 700,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    MPowerBase = 8,
+                    PowerBase = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Repulsion))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Repulsion",
+                    Spell = Spell.Repulsion,
+                    Icon = 7,
+                    Level1 = 12,
+                    Level2 = 15,
+                    Level3 = 19,
+                    Need1 = 500,
+                    Need2 = 1300,
+                    Need3 = 2200,
+                    BaseCost = 2,
+                    LevelCost = 2,
+                    Range = 0,
+                    MPowerBase = 4
+                });
+            if (!MagicExists(Spell.ElectricShock))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ElectricShock",
+                    Spell = Spell.ElectricShock,
+                    Icon = 19,
+                    Level1 = 13,
+                    Level2 = 18,
+                    Level3 = 24,
+                    Need1 = 530,
+                    Need2 = 1100,
+                    Need3 = 2200,
+                    BaseCost = 3,
+                    LevelCost = 1,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.GreatFireBall))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "GreatFireBall",
+                    Spell = Spell.GreatFireBall,
+                    Icon = 4,
+                    Level1 = 15,
+                    Level2 = 18,
+                    Level3 = 21,
+                    Need1 = 2000,
+                    Need2 = 2700,
+                    Need3 = 3500,
+                    BaseCost = 5,
+                    LevelCost = 1,
+                    MPowerBase = 6,
+                    PowerBase = 10,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.HellFire))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "HellFire",
+                    Spell = Spell.HellFire,
+                    Icon = 8,
+                    Level1 = 16,
+                    Level2 = 20,
+                    Level3 = 24,
+                    Need1 = 700,
+                    Need2 = 2700,
+                    Need3 = 3500,
+                    BaseCost = 10,
+                    LevelCost = 3,
+                    MPowerBase = 14,
+                    PowerBase = 6,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.ThunderBolt))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ThunderBolt",
+                    Spell = Spell.ThunderBolt,
+                    Icon = 10,
+                    Level1 = 17,
+                    Level2 = 20,
+                    Level3 = 23,
+                    Need1 = 500,
+                    Need2 = 2000,
+                    Need3 = 3500,
+                    BaseCost = 9,
+                    LevelCost = 2,
+                    MPowerBase = 8,
+                    MPowerBonus = 20,
+                    PowerBase = 9,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Teleport))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Teleport",
+                    Spell = Spell.Teleport,
+                    Icon = 20,
+                    Level1 = 19,
+                    Level2 = 22,
+                    Level3 = 25,
+                    Need1 = 350,
+                    Need2 = 1000,
+                    Need3 = 2000,
+                    BaseCost = 10,
+                    LevelCost = 3,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.FireBang))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FireBang",
+                    Spell = Spell.FireBang,
+                    Icon = 22,
+                    Level1 = 22,
+                    Level2 = 25,
+                    Level3 = 28,
+                    Need1 = 3000,
+                    Need2 = 5000,
+                    Need3 = 10000,
+                    BaseCost = 14,
+                    LevelCost = 4,
+                    MPowerBase = 8,
+                    PowerBase = 8,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.FireWall))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FireWall",
+                    Spell = Spell.FireWall,
+                    Icon = 21,
+                    Level1 = 24,
+                    Level2 = 28,
+                    Level3 = 33,
+                    Need1 = 4000,
+                    Need2 = 10000,
+                    Need3 = 20000,
+                    BaseCost = 30,
+                    LevelCost = 5,
+                    MPowerBase = 3,
+                    PowerBase = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Lightning))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Lightning",
+                    Spell = Spell.Lightning,
+                    Icon = 9,
+                    Level1 = 26,
+                    Level2 = 29,
+                    Level3 = 32,
+                    Need1 = 3000,
+                    Need2 = 6000,
+                    Need3 = 12000,
+                    BaseCost = 38,
+                    LevelCost = 7,
+                    MPowerBase = 12,
+                    PowerBase = 12,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.FrostCrunch))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FrostCrunch",
+                    Spell = Spell.FrostCrunch,
+                    Icon = 38,
+                    Level1 = 28,
+                    Level2 = 30,
+                    Level3 = 33,
+                    Need1 = 3000,
+                    Need2 = 5000,
+                    Need3 = 8000,
+                    BaseCost = 15,
+                    LevelCost = 3,
+                    MPowerBase = 12,
+                    PowerBase = 12,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.ThunderStorm))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ThunderStorm",
+                    Spell = Spell.ThunderStorm,
+                    Icon = 23,
+                    Level1 = 30,
+                    Level2 = 32,
+                    Level3 = 34,
+                    Need1 = 4000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 29,
+                    LevelCost = 9,
+                    MPowerBase = 10,
+                    MPowerBonus = 20,
+                    PowerBase = 10,
+                    PowerBonus = 20,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.MagicShield))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MagicShield",
+                    Spell = Spell.MagicShield,
+                    Icon = 30,
+                    Level1 = 31,
+                    Level2 = 34,
+                    Level3 = 38,
+                    Need1 = 3000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 35,
+                    LevelCost = 5,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.TurnUndead))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "TurnUndead",
+                    Spell = Spell.TurnUndead,
+                    Icon = 31,
+                    Level1 = 32,
+                    Level2 = 35,
+                    Level3 = 39,
+                    Need1 = 3000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 52,
+                    LevelCost = 13,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Vampirism))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Vampirism",
+                    Spell = Spell.Vampirism,
+                    Icon = 47,
+                    Level1 = 33,
+                    Level2 = 36,
+                    Level3 = 40,
+                    Need1 = 3000,
+                    Need2 = 5000,
+                    Need3 = 8000,
+                    BaseCost = 26,
+                    LevelCost = 13,
+                    MPowerBase = 12,
+                    PowerBase = 12,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.IceStorm))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "IceStorm",
+                    Spell = Spell.IceStorm,
+                    Icon = 32,
+                    Level1 = 35,
+                    Level2 = 37,
+                    Level3 = 40,
+                    Need1 = 4000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 33,
+                    LevelCost = 3,
+                    MPowerBase = 12,
+                    PowerBase = 14,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.FlameDisruptor))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FlameDisruptor",
+                    Spell = Spell.FlameDisruptor,
+                    Icon = 34,
+                    Level1 = 38,
+                    Level2 = 40,
+                    Level3 = 42,
+                    Need1 = 5000,
+                    Need2 = 9000,
+                    Need3 = 14000,
+                    BaseCost = 28,
+                    LevelCost = 3,
+                    MPowerBase = 15,
+                    MPowerBonus = 20,
+                    PowerBase = 9,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Mirroring))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Mirroring",
+                    Spell = Spell.Mirroring,
+                    Icon = 41,
+                    Level1 = 41,
+                    Level2 = 43,
+                    Level3 = 45,
+                    Need1 = 6000,
+                    Need2 = 11000,
+                    Need3 = 16000,
+                    BaseCost = 21,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.FlameField))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FlameField",
+                    Spell = Spell.FlameField,
+                    Icon = 44,
+                    Level1 = 42,
+                    Level2 = 43,
+                    Level3 = 45,
+                    Need1 = 6000,
+                    Need2 = 11000,
+                    Need3 = 16000,
+                    BaseCost = 45,
+                    LevelCost = 8,
+                    MPowerBase = 100,
+                    PowerBase = 25,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Blizzard))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Blizzard",
+                    Spell = Spell.Blizzard,
+                    Icon = 51,
+                    Level1 = 44,
+                    Level2 = 47,
+                    Level3 = 50,
+                    Need1 = 8000,
+                    Need2 = 16000,
+                    Need3 = 24000,
+                    BaseCost = 65,
+                    LevelCost = 10,
+                    MPowerBase = 30,
+                    MPowerBonus = 10,
+                    PowerBase = 20,
+                    PowerBonus = 5,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.MagicBooster))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MagicBooster",
+                    Spell = Spell.MagicBooster,
+                    Icon = 73,
+                    Level1 = 47,
+                    Level2 = 49,
+                    Level3 = 52,
+                    Need1 = 12000,
+                    Need2 = 18000,
+                    Need3 = 24000,
+                    BaseCost = 150,
+                    LevelCost = 15,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.MeteorStrike))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MeteorStrike",
+                    Spell = Spell.MeteorStrike,
+                    Icon = 52,
+                    Level1 = 49,
+                    Level2 = 52,
+                    Level3 = 55,
+                    Need1 = 15000,
+                    Need2 = 20000,
+                    Need3 = 25000,
+                    BaseCost = 115,
+                    LevelCost = 17,
+                    MPowerBase = 40,
+                    MPowerBonus = 10,
+                    PowerBase = 20,
+                    PowerBonus = 15,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.IceThrust))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "IceThrust",
+                    Spell = Spell.IceThrust,
+                    Icon = 56,
+                    Level1 = 53,
+                    Level2 = 56,
+                    Level3 = 59,
+                    Need1 = 17000,
+                    Need2 = 22000,
+                    Need3 = 27000,
+                    BaseCost = 100,
+                    LevelCost = 20,
+                    MPowerBase = 100,
+                    PowerBase = 50,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Blink))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Blink",
+                    Spell = Spell.Blink,
+                    Icon = 20,
+                    Level1 = 19,
+                    Level2 = 22,
+                    Level3 = 25,
+                    Need1 = 350,
+                    Need2 = 1000,
+                    Need3 = 2000,
+                    BaseCost = 10,
+                    LevelCost = 3,
+                    Range = 9
+                });
             //if (!MagicExists(Spell.FastMove)) MagicInfoList.Add(new MagicInfo { Name = "FastMove", Spell = Spell.ImmortalSkin, Icon = ?, Level1 = ?, Level2 = ?, Level3 = ?, Need1 = ?, Need2 = ?, Need3 = ?, BaseCost = ?, LevelCost = ?, DelayBase = ?, DelayReduction = ? });
-            if (!MagicExists(Spell.StormEscape)) MagicInfoList.Add(new MagicInfo { Name = "StormEscape", Spell = Spell.StormEscape, Icon = 23, Level1 = 60, Level2 = 61, Level3 = 62, Need1 = 2200, Need2 = 3300, Need3 = 4400, BaseCost = 65, LevelCost = 8, MPowerBase = 12, PowerBase = 4, Range = 9 });
-            
-            
+            if (!MagicExists(Spell.StormEscape))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "StormEscape",
+                    Spell = Spell.StormEscape,
+                    Icon = 23,
+                    Level1 = 60,
+                    Level2 = 61,
+                    Level3 = 62,
+                    Need1 = 2200,
+                    Need2 = 3300,
+                    Need3 = 4400,
+                    BaseCost = 65,
+                    LevelCost = 8,
+                    MPowerBase = 12,
+                    PowerBase = 4,
+                    Range = 9
+                });
+
+
             //Taoist
-            if (!MagicExists(Spell.Healing)) MagicInfoList.Add(new MagicInfo { Name = "Healing", Spell = Spell.Healing, Icon = 1, Level1 = 7, Level2 = 11, Level3 = 14, Need1 = 150, Need2 = 350, Need3 = 700, BaseCost = 3, LevelCost = 2, MPowerBase = 14, Range = 9 });
-            if (!MagicExists(Spell.SpiritSword)) MagicInfoList.Add(new MagicInfo { Name = "SpiritSword", Spell = Spell.SpiritSword, Icon = 3, Level1 = 9, Level2 = 12, Level3 = 15, Need1 = 350, Need2 = 1300, Need3 = 2700, Range = 0 });
-            if (!MagicExists(Spell.Poisoning)) MagicInfoList.Add(new MagicInfo { Name = "Poisoning", Spell = Spell.Poisoning, Icon = 5, Level1 = 14, Level2 = 17, Level3 = 20, Need1 = 700, Need2 = 1300, Need3 = 2700, BaseCost = 2, LevelCost = 1, Range = 9 });
-            if (!MagicExists(Spell.SoulFireBall)) MagicInfoList.Add(new MagicInfo { Name = "SoulFireBall", Spell = Spell.SoulFireBall, Icon = 12, Level1 = 18, Level2 = 21, Level3 = 24, Need1 = 1300, Need2 = 2700, Need3 = 4000, BaseCost = 3, LevelCost = 1, MPowerBase = 8, PowerBase = 3, Range = 9 });
-            if (!MagicExists(Spell.SummonSkeleton)) MagicInfoList.Add(new MagicInfo { Name = "SummonSkeleton", Spell = Spell.SummonSkeleton, Icon = 16, Level1 = 19, Level2 = 22, Level3 = 26, Need1 = 1000, Need2 = 2000, Need3 = 3500, BaseCost = 12, LevelCost = 4, Range = 0 });
-            if (!MagicExists(Spell.Hiding)) MagicInfoList.Add(new MagicInfo { Name = "Hiding", Spell = Spell.Hiding, Icon = 17, Level1 = 20, Level2 = 23, Level3 = 26, Need1 = 1300, Need2 = 2700, Need3 = 5300, BaseCost = 1, LevelCost = 1, Range = 0 });
-            if (!MagicExists(Spell.MassHiding)) MagicInfoList.Add(new MagicInfo { Name = "MassHiding", Spell = Spell.MassHiding, Icon = 18, Level1 = 21, Level2 = 25, Level3 = 29, Need1 = 1300, Need2 = 2700, Need3 = 5300, BaseCost = 2, LevelCost = 2, Range = 9 });
-            if (!MagicExists(Spell.SoulShield)) MagicInfoList.Add(new MagicInfo { Name = "SoulShield", Spell = Spell.SoulShield, Icon = 13, Level1 = 22, Level2 = 24, Level3 = 26, Need1 = 2000, Need2 = 3500, Need3 = 7000, BaseCost = 2, LevelCost = 2, Range = 9 });
-            if (!MagicExists(Spell.Revelation)) MagicInfoList.Add(new MagicInfo { Name = "Revelation", Spell = Spell.Revelation, Icon = 27, Level1 = 23, Level2 = 25, Level3 = 28, Need1 = 1500, Need2 = 2500, Need3 = 4000, BaseCost = 4, LevelCost = 4, Range = 9 });
-            if (!MagicExists(Spell.BlessedArmour)) MagicInfoList.Add(new MagicInfo { Name = "BlessedArmour", Spell = Spell.BlessedArmour, Icon = 14, Level1 = 25, Level2 = 27, Level3 = 29, Need1 = 4000, Need2 = 6000, Need3 = 10000, BaseCost = 2, LevelCost = 2, Range = 9 });
-            if (!MagicExists(Spell.EnergyRepulsor)) MagicInfoList.Add(new MagicInfo { Name = "EnergyRepulsor", Spell = Spell.EnergyRepulsor, Icon = 36, Level1 = 27, Level2 = 29, Level3 = 31, Need1 = 1800, Need2 = 2400, Need3 = 3200, BaseCost = 2, LevelCost = 2, Range = 0, MPowerBase = 4 });
-            if (!MagicExists(Spell.TrapHexagon)) MagicInfoList.Add(new MagicInfo { Name = "TrapHexagon", Spell = Spell.TrapHexagon, Icon = 15, Level1 = 28, Level2 = 30, Level3 = 32, Need1 = 2500, Need2 = 5000, Need3 = 10000, BaseCost = 7, LevelCost = 3, Range = 9 });
-            if (!MagicExists(Spell.Purification)) MagicInfoList.Add(new MagicInfo { Name = "Purification", Spell = Spell.Purification, Icon = 39, Level1 = 30, Level2 = 32, Level3 = 35, Need1 = 3000, Need2 = 5000, Need3 = 8000, BaseCost = 14, LevelCost = 2, Range = 9 });
-            if (!MagicExists(Spell.MassHealing)) MagicInfoList.Add(new MagicInfo { Name = "MassHealing", Spell = Spell.MassHealing, Icon = 28, Level1 = 31, Level2 = 33, Level3 = 36, Need1 = 2000, Need2 = 4000, Need3 = 8000, BaseCost = 28, LevelCost = 3, MPowerBase = 10, PowerBase = 4, Range = 9 });
-            if (!MagicExists(Spell.Hallucination)) MagicInfoList.Add(new MagicInfo { Name = "Hallucination", Spell = Spell.Hallucination, Icon = 48, Level1 = 31, Level2 = 34, Level3 = 36, Need1 = 4000, Need2 = 6000, Need3 = 9000, BaseCost = 22, LevelCost = 10, Range = 9 });
-            if (!MagicExists(Spell.UltimateEnhancer)) MagicInfoList.Add(new MagicInfo { Name = "UltimateEnchancer", Spell = Spell.UltimateEnhancer, Icon = 35, Level1 = 33, Level2 = 35, Level3 = 38, Need1 = 5000, Need2 = 7000, Need3 = 10000, BaseCost = 28, LevelCost = 4, Range = 9 });
-            if (!MagicExists(Spell.SummonShinsu)) MagicInfoList.Add(new MagicInfo { Name = "SummonShinsu", Spell = Spell.SummonShinsu, Icon = 29, Level1 = 35, Level2 = 37, Level3 = 40, Need1 = 2000, Need2 = 4000, Need3 = 6000, BaseCost = 28, LevelCost = 4, Range = 0 });
-            if (!MagicExists(Spell.Reincarnation)) MagicInfoList.Add(new MagicInfo { Name = "Reincarnation", Spell = Spell.Reincarnation, Icon = 53, Level1 = 37, Level2 = 39, Level3 = 41, Need1 = 2000, Need2 = 6000, Need3 = 10000, BaseCost = 125, LevelCost = 17, Range = 9 });
-            if (!MagicExists(Spell.SummonHolyDeva)) MagicInfoList.Add(new MagicInfo { Name = "SummonHolyDeva", Spell = Spell.SummonHolyDeva, Icon = 40, Level1 = 38, Level2 = 41, Level3 = 43, Need1 = 4000, Need2 = 6000, Need3 = 9000, BaseCost = 28, LevelCost = 4, Range = 0 });
-            if (!MagicExists(Spell.Curse)) MagicInfoList.Add(new MagicInfo { Name = "Curse", Spell = Spell.Curse, Icon = 45, Level1 = 40, Level2 = 42, Level3 = 44, Need1 = 4000, Need2 = 6000, Need3 = 9000, BaseCost = 17, LevelCost = 3, Range = 9, MPowerBase = 20 });
-            if (!MagicExists(Spell.Plague)) MagicInfoList.Add(new MagicInfo { Name = "Plague", Spell = Spell.Plague, Icon = 74, Level1 = 42, Level2 = 44, Level3 = 47, Need1 = 5000, Need2 = 9000, Need3 = 13000, BaseCost = 20, LevelCost = 5, Range = 9 });
-            if (!MagicExists(Spell.PoisonCloud)) MagicInfoList.Add(new MagicInfo { Name = "PoisonCloud", Spell = Spell.PoisonCloud, Icon = 54, Level1 = 43, Level2 = 45, Level3 = 48, Need1 = 4000, Need2 = 8000, Need3 = 12000, BaseCost = 30, LevelCost = 5, MPowerBase = 40, PowerBase = 20, DelayBase = 18000, DelayReduction = 2000, Range = 9 });
-            if (!MagicExists(Spell.EnergyShield)) MagicInfoList.Add(new MagicInfo { Name = "EnergyShield", Spell = Spell.EnergyShield, Icon = 57, Level1 = 48, Level2 = 51, Level3 = 54, Need1 = 5000, Need2 = 9000, Need3 = 13000, BaseCost = 50, LevelCost = 20, Range = 9 });
-            if (!MagicExists(Spell.PetEnhancer)) MagicInfoList.Add(new MagicInfo { Name = "PetEnhancer", Spell = Spell.PetEnhancer, Icon = 78, Level1 = 45, Level2 = 48, Level3 = 51, Need1 = 4000, Need2 = 8000, Need3 = 12000, BaseCost = 30, LevelCost = 40, Range = 0 });
+            if (!MagicExists(Spell.Healing))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Healing",
+                    Spell = Spell.Healing,
+                    Icon = 1,
+                    Level1 = 7,
+                    Level2 = 11,
+                    Level3 = 14,
+                    Need1 = 150,
+                    Need2 = 350,
+                    Need3 = 700,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    MPowerBase = 14,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SpiritSword))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SpiritSword",
+                    Spell = Spell.SpiritSword,
+                    Icon = 3,
+                    Level1 = 9,
+                    Level2 = 12,
+                    Level3 = 15,
+                    Need1 = 350,
+                    Need2 = 1300,
+                    Need3 = 2700,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Poisoning))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Poisoning",
+                    Spell = Spell.Poisoning,
+                    Icon = 5,
+                    Level1 = 14,
+                    Level2 = 17,
+                    Level3 = 20,
+                    Need1 = 700,
+                    Need2 = 1300,
+                    Need3 = 2700,
+                    BaseCost = 2,
+                    LevelCost = 1,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SoulFireBall))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SoulFireBall",
+                    Spell = Spell.SoulFireBall,
+                    Icon = 12,
+                    Level1 = 18,
+                    Level2 = 21,
+                    Level3 = 24,
+                    Need1 = 1300,
+                    Need2 = 2700,
+                    Need3 = 4000,
+                    BaseCost = 3,
+                    LevelCost = 1,
+                    MPowerBase = 8,
+                    PowerBase = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonSkeleton))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonSkeleton",
+                    Spell = Spell.SummonSkeleton,
+                    Icon = 16,
+                    Level1 = 19,
+                    Level2 = 22,
+                    Level3 = 26,
+                    Need1 = 1000,
+                    Need2 = 2000,
+                    Need3 = 3500,
+                    BaseCost = 12,
+                    LevelCost = 4,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Hiding))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Hiding",
+                    Spell = Spell.Hiding,
+                    Icon = 17,
+                    Level1 = 20,
+                    Level2 = 23,
+                    Level3 = 26,
+                    Need1 = 1300,
+                    Need2 = 2700,
+                    Need3 = 5300,
+                    BaseCost = 1,
+                    LevelCost = 1,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.MassHiding))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MassHiding",
+                    Spell = Spell.MassHiding,
+                    Icon = 18,
+                    Level1 = 21,
+                    Level2 = 25,
+                    Level3 = 29,
+                    Need1 = 1300,
+                    Need2 = 2700,
+                    Need3 = 5300,
+                    BaseCost = 2,
+                    LevelCost = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SoulShield))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SoulShield",
+                    Spell = Spell.SoulShield,
+                    Icon = 13,
+                    Level1 = 22,
+                    Level2 = 24,
+                    Level3 = 26,
+                    Need1 = 2000,
+                    Need2 = 3500,
+                    Need3 = 7000,
+                    BaseCost = 2,
+                    LevelCost = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Revelation))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Revelation",
+                    Spell = Spell.Revelation,
+                    Icon = 27,
+                    Level1 = 23,
+                    Level2 = 25,
+                    Level3 = 28,
+                    Need1 = 1500,
+                    Need2 = 2500,
+                    Need3 = 4000,
+                    BaseCost = 4,
+                    LevelCost = 4,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.BlessedArmour))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "BlessedArmour",
+                    Spell = Spell.BlessedArmour,
+                    Icon = 14,
+                    Level1 = 25,
+                    Level2 = 27,
+                    Level3 = 29,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 10000,
+                    BaseCost = 2,
+                    LevelCost = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.EnergyRepulsor))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "EnergyRepulsor",
+                    Spell = Spell.EnergyRepulsor,
+                    Icon = 36,
+                    Level1 = 27,
+                    Level2 = 29,
+                    Level3 = 31,
+                    Need1 = 1800,
+                    Need2 = 2400,
+                    Need3 = 3200,
+                    BaseCost = 2,
+                    LevelCost = 2,
+                    Range = 0,
+                    MPowerBase = 4
+                });
+            if (!MagicExists(Spell.TrapHexagon))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "TrapHexagon",
+                    Spell = Spell.TrapHexagon,
+                    Icon = 15,
+                    Level1 = 28,
+                    Level2 = 30,
+                    Level3 = 32,
+                    Need1 = 2500,
+                    Need2 = 5000,
+                    Need3 = 10000,
+                    BaseCost = 7,
+                    LevelCost = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Purification))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Purification",
+                    Spell = Spell.Purification,
+                    Icon = 39,
+                    Level1 = 30,
+                    Level2 = 32,
+                    Level3 = 35,
+                    Need1 = 3000,
+                    Need2 = 5000,
+                    Need3 = 8000,
+                    BaseCost = 14,
+                    LevelCost = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.MassHealing))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MassHealing",
+                    Spell = Spell.MassHealing,
+                    Icon = 28,
+                    Level1 = 31,
+                    Level2 = 33,
+                    Level3 = 36,
+                    Need1 = 2000,
+                    Need2 = 4000,
+                    Need3 = 8000,
+                    BaseCost = 28,
+                    LevelCost = 3,
+                    MPowerBase = 10,
+                    PowerBase = 4,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Hallucination))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Hallucination",
+                    Spell = Spell.Hallucination,
+                    Icon = 48,
+                    Level1 = 31,
+                    Level2 = 34,
+                    Level3 = 36,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 9000,
+                    BaseCost = 22,
+                    LevelCost = 10,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.UltimateEnhancer))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "UltimateEnchancer",
+                    Spell = Spell.UltimateEnhancer,
+                    Icon = 35,
+                    Level1 = 33,
+                    Level2 = 35,
+                    Level3 = 38,
+                    Need1 = 5000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 28,
+                    LevelCost = 4,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonShinsu))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonShinsu",
+                    Spell = Spell.SummonShinsu,
+                    Icon = 29,
+                    Level1 = 35,
+                    Level2 = 37,
+                    Level3 = 40,
+                    Need1 = 2000,
+                    Need2 = 4000,
+                    Need3 = 6000,
+                    BaseCost = 28,
+                    LevelCost = 4,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Reincarnation))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Reincarnation",
+                    Spell = Spell.Reincarnation,
+                    Icon = 53,
+                    Level1 = 37,
+                    Level2 = 39,
+                    Level3 = 41,
+                    Need1 = 2000,
+                    Need2 = 6000,
+                    Need3 = 10000,
+                    BaseCost = 125,
+                    LevelCost = 17,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonHolyDeva))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonHolyDeva",
+                    Spell = Spell.SummonHolyDeva,
+                    Icon = 40,
+                    Level1 = 38,
+                    Level2 = 41,
+                    Level3 = 43,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 9000,
+                    BaseCost = 28,
+                    LevelCost = 4,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Curse))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Curse",
+                    Spell = Spell.Curse,
+                    Icon = 45,
+                    Level1 = 40,
+                    Level2 = 42,
+                    Level3 = 44,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 9000,
+                    BaseCost = 17,
+                    LevelCost = 3,
+                    Range = 9,
+                    MPowerBase = 20
+                });
+            if (!MagicExists(Spell.Plague))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Plague",
+                    Spell = Spell.Plague,
+                    Icon = 74,
+                    Level1 = 42,
+                    Level2 = 44,
+                    Level3 = 47,
+                    Need1 = 5000,
+                    Need2 = 9000,
+                    Need3 = 13000,
+                    BaseCost = 20,
+                    LevelCost = 5,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.PoisonCloud))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "PoisonCloud",
+                    Spell = Spell.PoisonCloud,
+                    Icon = 54,
+                    Level1 = 43,
+                    Level2 = 45,
+                    Level3 = 48,
+                    Need1 = 4000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 30,
+                    LevelCost = 5,
+                    MPowerBase = 40,
+                    PowerBase = 20,
+                    DelayBase = 18000,
+                    DelayReduction = 2000,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.EnergyShield))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "EnergyShield",
+                    Spell = Spell.EnergyShield,
+                    Icon = 57,
+                    Level1 = 48,
+                    Level2 = 51,
+                    Level3 = 54,
+                    Need1 = 5000,
+                    Need2 = 9000,
+                    Need3 = 13000,
+                    BaseCost = 50,
+                    LevelCost = 20,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.PetEnhancer))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "PetEnhancer",
+                    Spell = Spell.PetEnhancer,
+                    Icon = 78,
+                    Level1 = 45,
+                    Level2 = 48,
+                    Level3 = 51,
+                    Need1 = 4000,
+                    Need2 = 8000,
+                    Need3 = 12000,
+                    BaseCost = 30,
+                    LevelCost = 40,
+                    Range = 0
+                });
             //if (!MagicExists(Spell.HealingCircle)) MagicInfoList.Add(new MagicInfo { Name = "HealingCircle", Spell = Spell.ImmortalSkin, Icon = ?, Level1 = ?, Level2 = ?, Level3 = ?, Need1 = ?, Need2 = ?, Need3 = ?, BaseCost = ?, LevelCost = ?, DelayBase = ?, DelayReduction = ? });
 
             //Assassin
-            if (!MagicExists(Spell.FatalSword)) MagicInfoList.Add(new MagicInfo { Name = "FatalSword", Spell = Spell.FatalSword, Icon = 58, Level1 = 7, Level2 = 9, Level3 = 12, Need1 = 500, Need2 = 1000, Need3 = 2300, Range = 0 });
-            if (!MagicExists(Spell.DoubleSlash)) MagicInfoList.Add(new MagicInfo { Name = "DoubleSlash", Spell = Spell.DoubleSlash, Icon = 59, Level1 = 15, Level2 = 17, Level3 = 19, Need1 = 700, Need2 = 1500, Need3 = 2200, BaseCost = 2, LevelCost = 1 });
-            if (!MagicExists(Spell.Haste)) MagicInfoList.Add(new MagicInfo { Name = "Haste", Spell = Spell.Haste, Icon = 60, Level1 = 20, Level2 = 22, Level3 = 25, Need1 = 2000, Need2 = 3000, Need3 = 6000, BaseCost = 3, LevelCost = 2, Range = 0 });
-            if (!MagicExists(Spell.FlashDash)) MagicInfoList.Add(new MagicInfo { Name = "FlashDash", Spell = Spell.FlashDash, Icon = 61, Level1 = 25, Level2 = 27, Level3 = 30, Need1 = 4000, Need2 = 7000, Need3 = 9000, BaseCost = 12, LevelCost = 2, DelayBase = 200, Range = 0 });
-            if (!MagicExists(Spell.LightBody)) MagicInfoList.Add(new MagicInfo { Name = "LightBody", Spell = Spell.LightBody, Icon = 68, Level1 = 27, Level2 = 29, Level3 = 32, Need1 = 5000, Need2 = 7000, Need3 = 10000, BaseCost = 11, LevelCost = 2, Range = 0 });
-            if (!MagicExists(Spell.HeavenlySword)) MagicInfoList.Add(new MagicInfo { Name = "HeavenlySword", Spell = Spell.HeavenlySword, Icon = 62, Level1 = 30, Level2 = 32, Level3 = 35, Need1 = 4000, Need2 = 8000, Need3 = 10000, BaseCost = 13, LevelCost = 2, MPowerBase = 8, Range = 0 });
-            if (!MagicExists(Spell.FireBurst)) MagicInfoList.Add(new MagicInfo { Name = "FireBurst", Spell = Spell.FireBurst, Icon = 63, Level1 = 33, Level2 = 35, Level3 = 38, Need1 = 4000, Need2 = 6000, Need3 = 8000, BaseCost = 10, LevelCost = 1, Range = 0 });
-            if (!MagicExists(Spell.Trap)) MagicInfoList.Add(new MagicInfo { Name = "Trap", Spell = Spell.Trap, Icon = 64, Level1 = 33, Level2 = 35, Level3 = 38, Need1 = 2000, Need2 = 4000, Need3 = 6000, BaseCost = 14, LevelCost = 2, DelayBase = 60000, DelayReduction = 15000, Range = 9 });
-            if (!MagicExists(Spell.PoisonSword)) MagicInfoList.Add(new MagicInfo { Name = "PoisonSword", Spell = Spell.PoisonSword, Icon = 69, Level1 = 34, Level2 = 36, Level3 = 39, Need1 = 5000, Need2 = 8000, Need3 = 11000, BaseCost = 14, LevelCost = 3, Range = 0 });
-            if (!MagicExists(Spell.MoonLight)) MagicInfoList.Add(new MagicInfo { Name = "MoonLight", Spell = Spell.MoonLight, Icon = 65, Level1 = 36, Level2 = 39, Level3 = 42, Need1 = 3000, Need2 = 5000, Need3 = 8000, BaseCost = 36, LevelCost = 3, Range = 0 });
-            if (!MagicExists(Spell.MPEater)) MagicInfoList.Add(new MagicInfo { Name = "MPEater", Spell = Spell.MPEater, Icon = 66, Level1 = 38, Level2 = 41, Level3 = 44, Need1 = 5000, Need2 = 8000, Need3 = 11000, Range = 0 });
-            if (!MagicExists(Spell.SwiftFeet)) MagicInfoList.Add(new MagicInfo { Name = "SwiftFeet", Spell = Spell.SwiftFeet, Icon = 67, Level1 = 40, Level2 = 43, Level3 = 46, Need1 = 4000, Need2 = 6000, Need3 = 9000, BaseCost = 17, LevelCost = 5, DelayBase = 210000, DelayReduction = 40000, Range = 0 });
-            if (!MagicExists(Spell.DarkBody)) MagicInfoList.Add(new MagicInfo { Name = "DarkBody", Spell = Spell.DarkBody, Icon = 70, Level1 = 46, Level2 = 49, Level3 = 52, Need1 = 6000, Need2 = 10000, Need3 = 14000, BaseCost = 40, LevelCost = 7, Range = 0 });
-            if (!MagicExists(Spell.Hemorrhage)) MagicInfoList.Add(new MagicInfo { Name = "Hemorrhage", Spell = Spell.Hemorrhage, Icon = 75, Level1 = 47, Level2 = 51, Level3 = 55, Need1 = 9000, Need2 = 15000, Need3 = 21000, Range = 0 });
-            if (!MagicExists(Spell.CrescentSlash)) MagicInfoList.Add(new MagicInfo { Name = "CresentSlash", Spell = Spell.CrescentSlash, Icon = 71, Level1 = 50, Level2 = 53, Level3 = 56, Need1 = 12000, Need2 = 16000, Need3 = 24000, BaseCost = 19, LevelCost = 5, Range = 0 });
+            if (!MagicExists(Spell.FatalSword))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FatalSword",
+                    Spell = Spell.FatalSword,
+                    Icon = 58,
+                    Level1 = 7,
+                    Level2 = 9,
+                    Level3 = 12,
+                    Need1 = 500,
+                    Need2 = 1000,
+                    Need3 = 2300,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.DoubleSlash))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "DoubleSlash",
+                    Spell = Spell.DoubleSlash,
+                    Icon = 59,
+                    Level1 = 15,
+                    Level2 = 17,
+                    Level3 = 19,
+                    Need1 = 700,
+                    Need2 = 1500,
+                    Need3 = 2200,
+                    BaseCost = 2,
+                    LevelCost = 1
+                });
+            if (!MagicExists(Spell.Haste))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Haste",
+                    Spell = Spell.Haste,
+                    Icon = 60,
+                    Level1 = 20,
+                    Level2 = 22,
+                    Level3 = 25,
+                    Need1 = 2000,
+                    Need2 = 3000,
+                    Need3 = 6000,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.FlashDash))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FlashDash",
+                    Spell = Spell.FlashDash,
+                    Icon = 61,
+                    Level1 = 25,
+                    Level2 = 27,
+                    Level3 = 30,
+                    Need1 = 4000,
+                    Need2 = 7000,
+                    Need3 = 9000,
+                    BaseCost = 12,
+                    LevelCost = 2,
+                    DelayBase = 200,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.LightBody))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "LightBody",
+                    Spell = Spell.LightBody,
+                    Icon = 68,
+                    Level1 = 27,
+                    Level2 = 29,
+                    Level3 = 32,
+                    Need1 = 5000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 11,
+                    LevelCost = 2,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.HeavenlySword))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "HeavenlySword",
+                    Spell = Spell.HeavenlySword,
+                    Icon = 62,
+                    Level1 = 30,
+                    Level2 = 32,
+                    Level3 = 35,
+                    Need1 = 4000,
+                    Need2 = 8000,
+                    Need3 = 10000,
+                    BaseCost = 13,
+                    LevelCost = 2,
+                    MPowerBase = 8,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.FireBurst))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "FireBurst",
+                    Spell = Spell.FireBurst,
+                    Icon = 63,
+                    Level1 = 33,
+                    Level2 = 35,
+                    Level3 = 38,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 8000,
+                    BaseCost = 10,
+                    LevelCost = 1,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Trap))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Trap",
+                    Spell = Spell.Trap,
+                    Icon = 64,
+                    Level1 = 33,
+                    Level2 = 35,
+                    Level3 = 38,
+                    Need1 = 2000,
+                    Need2 = 4000,
+                    Need3 = 6000,
+                    BaseCost = 14,
+                    LevelCost = 2,
+                    DelayBase = 60000,
+                    DelayReduction = 15000,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.PoisonSword))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "PoisonSword",
+                    Spell = Spell.PoisonSword,
+                    Icon = 69,
+                    Level1 = 34,
+                    Level2 = 36,
+                    Level3 = 39,
+                    Need1 = 5000,
+                    Need2 = 8000,
+                    Need3 = 11000,
+                    BaseCost = 14,
+                    LevelCost = 3,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.MoonLight))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MoonLight",
+                    Spell = Spell.MoonLight,
+                    Icon = 65,
+                    Level1 = 36,
+                    Level2 = 39,
+                    Level3 = 42,
+                    Need1 = 3000,
+                    Need2 = 5000,
+                    Need3 = 8000,
+                    BaseCost = 36,
+                    LevelCost = 3,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.MPEater))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MPEater",
+                    Spell = Spell.MPEater,
+                    Icon = 66,
+                    Level1 = 38,
+                    Level2 = 41,
+                    Level3 = 44,
+                    Need1 = 5000,
+                    Need2 = 8000,
+                    Need3 = 11000,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.SwiftFeet))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SwiftFeet",
+                    Spell = Spell.SwiftFeet,
+                    Icon = 67,
+                    Level1 = 40,
+                    Level2 = 43,
+                    Level3 = 46,
+                    Need1 = 4000,
+                    Need2 = 6000,
+                    Need3 = 9000,
+                    BaseCost = 17,
+                    LevelCost = 5,
+                    DelayBase = 210000,
+                    DelayReduction = 40000,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.DarkBody))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "DarkBody",
+                    Spell = Spell.DarkBody,
+                    Icon = 70,
+                    Level1 = 46,
+                    Level2 = 49,
+                    Level3 = 52,
+                    Need1 = 6000,
+                    Need2 = 10000,
+                    Need3 = 14000,
+                    BaseCost = 40,
+                    LevelCost = 7,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.Hemorrhage))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Hemorrhage",
+                    Spell = Spell.Hemorrhage,
+                    Icon = 75,
+                    Level1 = 47,
+                    Level2 = 51,
+                    Level3 = 55,
+                    Need1 = 9000,
+                    Need2 = 15000,
+                    Need3 = 21000,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.CrescentSlash))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "CresentSlash",
+                    Spell = Spell.CrescentSlash,
+                    Icon = 71,
+                    Level1 = 50,
+                    Level2 = 53,
+                    Level3 = 56,
+                    Need1 = 12000,
+                    Need2 = 16000,
+                    Need3 = 24000,
+                    BaseCost = 19,
+                    LevelCost = 5,
+                    Range = 0
+                });
             //if (!MagicExists(Spell.MoonMist)) MagicInfoList.Add(new MagicInfo { Name = "MoonMist", Spell = Spell.ImmortalSkin, Icon = ?, Level1 = ?, Level2 = ?, Level3 = ?, Need1 = ?, Need2 = ?, Need3 = ?, BaseCost = ?, LevelCost = ?, DelayBase = ?, DelayReduction = ? });
 
             //Archer
-            if (!MagicExists(Spell.Focus)) MagicInfoList.Add(new MagicInfo { Name = "Focus", Spell = Spell.Focus, Icon = 88, Level1 = 7, Level2 = 13, Level3 = 17, Need1 = 270, Need2 = 600, Need3 = 1300, Range = 0 });
-            if (!MagicExists(Spell.StraightShot)) MagicInfoList.Add(new MagicInfo { Name = "StraightShot", Spell = Spell.StraightShot, Icon = 89, Level1 = 9, Level2 = 12, Level3 = 16, Need1 = 350, Need2 = 750, Need3 = 1400, BaseCost = 3, LevelCost = 2, MPowerBase = 8, PowerBase = 3, Range = 9 });
-            if (!MagicExists(Spell.DoubleShot)) MagicInfoList.Add(new MagicInfo { Name = "DoubleShot", Spell = Spell.DoubleShot, Icon = 90, Level1 = 14, Level2 = 18, Level3 = 21, Need1 = 700, Need2 = 1500, Need3 = 2100, BaseCost = 3, LevelCost = 2, MPowerBase = 6, PowerBase = 2, Range = 9 });
-            if (!MagicExists(Spell.ExplosiveTrap)) MagicInfoList.Add(new MagicInfo { Name = "ExplosiveTrap", Spell = Spell.ExplosiveTrap, Icon = 91, Level1 = 22, Level2 = 25, Level3 = 30, Need1 = 2000, Need2 = 3500, Need3 = 5000, BaseCost = 10, LevelCost = 3, MPowerBase = 15, PowerBase = 15, Range = 0 });
-            if (!MagicExists(Spell.DelayedExplosion)) MagicInfoList.Add(new MagicInfo { Name = "DelayedExplosion", Spell = Spell.DelayedExplosion, Icon = 92, Level1 = 31, Level2 = 34, Level3 = 39, Need1 = 3000, Need2 = 7000, Need3 = 10000, BaseCost = 8, LevelCost = 2, MPowerBase = 30, PowerBase = 15, Range = 9 });
-            if (!MagicExists(Spell.Meditation)) MagicInfoList.Add(new MagicInfo { Name = "Meditation", Spell = Spell.Meditation, Icon = 93, Level1 = 19, Level2 = 24, Level3 = 29, Need1 = 1800, Need2 = 2600, Need3 = 5600, BaseCost = 8, LevelCost = 2, Range = 0 });
-            if (!MagicExists(Spell.ElementalShot)) MagicInfoList.Add(new MagicInfo { Name = "ElementalShot", Spell = Spell.ElementalShot, Icon = 94, Level1 = 20, Level2 = 25, Level3 = 31, Need1 = 1800, Need2 = 2700, Need3 = 6000, BaseCost = 8, LevelCost = 2, MPowerBase = 6, PowerBase = 3, Range = 9 });
-            if (!MagicExists(Spell.Concentration)) MagicInfoList.Add(new MagicInfo { Name = "Concentration", Spell = Spell.Concentration, Icon = 96, Level1 = 23, Level2 = 27, Level3 = 32, Need1 = 2100, Need2 = 3800, Need3 = 6500, BaseCost = 8, LevelCost = 2, Range = 0 });
-            if (!MagicExists(Spell.ElementalBarrier)) MagicInfoList.Add(new MagicInfo { Name = "ElementalBarrier", Spell = Spell.ElementalBarrier, Icon = 98, Level1 = 33, Level2 = 38, Level3 = 44, Need1 = 3000, Need2 = 7000, Need3 = 10000, BaseCost = 10, LevelCost = 2, MPowerBase = 15, PowerBase = 5, Range = 0 });
-            if (!MagicExists(Spell.BackStep)) MagicInfoList.Add(new MagicInfo { Name = "BackStep", Spell = Spell.BackStep, Icon = 95, Level1 = 30, Level2 = 34, Level3 = 38, Need1 = 2400, Need2 = 3000, Need3 = 6000, BaseCost = 12, LevelCost = 2, DelayBase = 2500, Range = 0 });
-            if (!MagicExists(Spell.BindingShot)) MagicInfoList.Add(new MagicInfo { Name = "BindingShot", Spell = Spell.BindingShot, Icon = 97, Level1 = 35, Level2 = 39, Level3 = 42, Need1 = 400, Need2 = 7000, Need3 = 9500, BaseCost = 7, LevelCost = 3, Range = 9 });
-            if (!MagicExists(Spell.SummonVampire)) MagicInfoList.Add(new MagicInfo { Name = "SummonVampire", Spell = Spell.SummonVampire, Icon = 99, Level1 = 28, Level2 = 33, Level3 = 41, Need1 = 2000, Need2 = 2700, Need3 = 7500, BaseCost = 10, LevelCost = 5, Range = 9 });
-            if (!MagicExists(Spell.VampireShot)) MagicInfoList.Add(new MagicInfo { Name = "VampireShot", Spell = Spell.VampireShot, Icon = 100, Level1 = 26, Level2 = 32, Level3 = 36, Need1 = 3000, Need2 = 6000, Need3 = 12000, BaseCost = 12, LevelCost = 3, MPowerBase = 10, PowerBase = 7, Range = 9 });
-            if (!MagicExists(Spell.SummonToad)) MagicInfoList.Add(new MagicInfo { Name = "SummonToad", Spell = Spell.SummonToad, Icon = 101, Level1 = 37, Level2 = 43, Level3 = 47, Need1 = 5800, Need2 = 10000, Need3 = 13000, BaseCost = 10, LevelCost = 5, Range = 9 });
-            if (!MagicExists(Spell.PoisonShot)) MagicInfoList.Add(new MagicInfo { Name = "PoisonShot", Spell = Spell.PoisonShot, Icon = 102, Level1 = 40, Level2 = 45, Level3 = 49, Need1 = 6000, Need2 = 14000, Need3 = 16000, BaseCost = 10, LevelCost = 4, MPowerBase = 10, PowerBase = 10, Range = 9 });
-            if (!MagicExists(Spell.CrippleShot)) MagicInfoList.Add(new MagicInfo { Name = "CrippleShot", Spell = Spell.CrippleShot, Icon = 103, Level1 = 43, Level2 = 47, Level3 = 50, Need1 = 12000, Need2 = 15000, Need3 = 18000, BaseCost = 15, LevelCost = 3, MPowerBase = 10, MPowerBonus = 20, PowerBase = 10, Range = 9 });
-            if (!MagicExists(Spell.SummonSnakes)) MagicInfoList.Add(new MagicInfo { Name = "SummonSnakes", Spell = Spell.SummonSnakes, Icon = 104, Level1 = 46, Level2 = 51, Level3 = 54, Need1 = 14000, Need2 = 17000, Need3 = 20000, BaseCost = 10, LevelCost = 5, Range = 9 });
-            if (!MagicExists(Spell.NapalmShot)) MagicInfoList.Add(new MagicInfo { Name = "NapalmShot", Spell = Spell.NapalmShot, Icon = 105, Level1 = 48, Level2 = 52, Level3 = 55, Need1 = 15000, Need2 = 18000, Need3 = 21000, BaseCost = 40, LevelCost = 10, MPowerBase = 25, MPowerBonus = 25, PowerBase = 25, Range = 9 });
-            if (!MagicExists(Spell.OneWithNature)) MagicInfoList.Add(new MagicInfo { Name = "OneWithNature", Spell = Spell.OneWithNature, Icon = 106, Level1 = 50, Level2 = 53, Level3 = 56, Need1 = 17000, Need2 = 19000, Need3 = 24000, BaseCost = 80, LevelCost = 15, MPowerBase = 75, MPowerBonus = 35, PowerBase = 30, PowerBonus = 20, Range = 9 });
-            if (!MagicExists(Spell.MentalState)) MagicInfoList.Add(new MagicInfo { Name = "MentalState", Spell = Spell.MentalState, Icon = 81, Level1 = 11, Level2 = 15, Level3 = 22, Need1 = 500, Need2 = 900, Need3 = 1800, BaseCost = 1, LevelCost = 1, Range = 0 });
+            if (!MagicExists(Spell.Focus))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Focus",
+                    Spell = Spell.Focus,
+                    Icon = 88,
+                    Level1 = 7,
+                    Level2 = 13,
+                    Level3 = 17,
+                    Need1 = 270,
+                    Need2 = 600,
+                    Need3 = 1300,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.StraightShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "StraightShot",
+                    Spell = Spell.StraightShot,
+                    Icon = 89,
+                    Level1 = 9,
+                    Level2 = 12,
+                    Level3 = 16,
+                    Need1 = 350,
+                    Need2 = 750,
+                    Need3 = 1400,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    MPowerBase = 8,
+                    PowerBase = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.DoubleShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "DoubleShot",
+                    Spell = Spell.DoubleShot,
+                    Icon = 90,
+                    Level1 = 14,
+                    Level2 = 18,
+                    Level3 = 21,
+                    Need1 = 700,
+                    Need2 = 1500,
+                    Need3 = 2100,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    MPowerBase = 6,
+                    PowerBase = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.ExplosiveTrap))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ExplosiveTrap",
+                    Spell = Spell.ExplosiveTrap,
+                    Icon = 91,
+                    Level1 = 22,
+                    Level2 = 25,
+                    Level3 = 30,
+                    Need1 = 2000,
+                    Need2 = 3500,
+                    Need3 = 5000,
+                    BaseCost = 10,
+                    LevelCost = 3,
+                    MPowerBase = 15,
+                    PowerBase = 15,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.DelayedExplosion))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "DelayedExplosion",
+                    Spell = Spell.DelayedExplosion,
+                    Icon = 92,
+                    Level1 = 31,
+                    Level2 = 34,
+                    Level3 = 39,
+                    Need1 = 3000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 8,
+                    LevelCost = 2,
+                    MPowerBase = 30,
+                    PowerBase = 15,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Meditation))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Meditation",
+                    Spell = Spell.Meditation,
+                    Icon = 93,
+                    Level1 = 19,
+                    Level2 = 24,
+                    Level3 = 29,
+                    Need1 = 1800,
+                    Need2 = 2600,
+                    Need3 = 5600,
+                    BaseCost = 8,
+                    LevelCost = 2,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.ElementalShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ElementalShot",
+                    Spell = Spell.ElementalShot,
+                    Icon = 94,
+                    Level1 = 20,
+                    Level2 = 25,
+                    Level3 = 31,
+                    Need1 = 1800,
+                    Need2 = 2700,
+                    Need3 = 6000,
+                    BaseCost = 8,
+                    LevelCost = 2,
+                    MPowerBase = 6,
+                    PowerBase = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.Concentration))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Concentration",
+                    Spell = Spell.Concentration,
+                    Icon = 96,
+                    Level1 = 23,
+                    Level2 = 27,
+                    Level3 = 32,
+                    Need1 = 2100,
+                    Need2 = 3800,
+                    Need3 = 6500,
+                    BaseCost = 8,
+                    LevelCost = 2,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.ElementalBarrier))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "ElementalBarrier",
+                    Spell = Spell.ElementalBarrier,
+                    Icon = 98,
+                    Level1 = 33,
+                    Level2 = 38,
+                    Level3 = 44,
+                    Need1 = 3000,
+                    Need2 = 7000,
+                    Need3 = 10000,
+                    BaseCost = 10,
+                    LevelCost = 2,
+                    MPowerBase = 15,
+                    PowerBase = 5,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.BackStep))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "BackStep",
+                    Spell = Spell.BackStep,
+                    Icon = 95,
+                    Level1 = 30,
+                    Level2 = 34,
+                    Level3 = 38,
+                    Need1 = 2400,
+                    Need2 = 3000,
+                    Need3 = 6000,
+                    BaseCost = 12,
+                    LevelCost = 2,
+                    DelayBase = 2500,
+                    Range = 0
+                });
+            if (!MagicExists(Spell.BindingShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "BindingShot",
+                    Spell = Spell.BindingShot,
+                    Icon = 97,
+                    Level1 = 35,
+                    Level2 = 39,
+                    Level3 = 42,
+                    Need1 = 400,
+                    Need2 = 7000,
+                    Need3 = 9500,
+                    BaseCost = 7,
+                    LevelCost = 3,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonVampire))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonVampire",
+                    Spell = Spell.SummonVampire,
+                    Icon = 99,
+                    Level1 = 28,
+                    Level2 = 33,
+                    Level3 = 41,
+                    Need1 = 2000,
+                    Need2 = 2700,
+                    Need3 = 7500,
+                    BaseCost = 10,
+                    LevelCost = 5,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.VampireShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "VampireShot",
+                    Spell = Spell.VampireShot,
+                    Icon = 100,
+                    Level1 = 26,
+                    Level2 = 32,
+                    Level3 = 36,
+                    Need1 = 3000,
+                    Need2 = 6000,
+                    Need3 = 12000,
+                    BaseCost = 12,
+                    LevelCost = 3,
+                    MPowerBase = 10,
+                    PowerBase = 7,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonToad))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonToad",
+                    Spell = Spell.SummonToad,
+                    Icon = 101,
+                    Level1 = 37,
+                    Level2 = 43,
+                    Level3 = 47,
+                    Need1 = 5800,
+                    Need2 = 10000,
+                    Need3 = 13000,
+                    BaseCost = 10,
+                    LevelCost = 5,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.PoisonShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "PoisonShot",
+                    Spell = Spell.PoisonShot,
+                    Icon = 102,
+                    Level1 = 40,
+                    Level2 = 45,
+                    Level3 = 49,
+                    Need1 = 6000,
+                    Need2 = 14000,
+                    Need3 = 16000,
+                    BaseCost = 10,
+                    LevelCost = 4,
+                    MPowerBase = 10,
+                    PowerBase = 10,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.CrippleShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "CrippleShot",
+                    Spell = Spell.CrippleShot,
+                    Icon = 103,
+                    Level1 = 43,
+                    Level2 = 47,
+                    Level3 = 50,
+                    Need1 = 12000,
+                    Need2 = 15000,
+                    Need3 = 18000,
+                    BaseCost = 15,
+                    LevelCost = 3,
+                    MPowerBase = 10,
+                    MPowerBonus = 20,
+                    PowerBase = 10,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.SummonSnakes))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "SummonSnakes",
+                    Spell = Spell.SummonSnakes,
+                    Icon = 104,
+                    Level1 = 46,
+                    Level2 = 51,
+                    Level3 = 54,
+                    Need1 = 14000,
+                    Need2 = 17000,
+                    Need3 = 20000,
+                    BaseCost = 10,
+                    LevelCost = 5,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.NapalmShot))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "NapalmShot",
+                    Spell = Spell.NapalmShot,
+                    Icon = 105,
+                    Level1 = 48,
+                    Level2 = 52,
+                    Level3 = 55,
+                    Need1 = 15000,
+                    Need2 = 18000,
+                    Need3 = 21000,
+                    BaseCost = 40,
+                    LevelCost = 10,
+                    MPowerBase = 25,
+                    MPowerBonus = 25,
+                    PowerBase = 25,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.OneWithNature))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "OneWithNature",
+                    Spell = Spell.OneWithNature,
+                    Icon = 106,
+                    Level1 = 50,
+                    Level2 = 53,
+                    Level3 = 56,
+                    Need1 = 17000,
+                    Need2 = 19000,
+                    Need3 = 24000,
+                    BaseCost = 80,
+                    LevelCost = 15,
+                    MPowerBase = 75,
+                    MPowerBonus = 35,
+                    PowerBase = 30,
+                    PowerBonus = 20,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.MentalState))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "MentalState",
+                    Spell = Spell.MentalState,
+                    Icon = 81,
+                    Level1 = 11,
+                    Level2 = 15,
+                    Level3 = 22,
+                    Need1 = 500,
+                    Need2 = 900,
+                    Need3 = 1800,
+                    BaseCost = 1,
+                    LevelCost = 1,
+                    Range = 0
+                });
 
             //Custom
-            if (!MagicExists(Spell.Portal)) MagicInfoList.Add(new MagicInfo { Name = "Portal", Spell = Spell.Portal, Icon = 1, Level1 = 7, Level2 = 11, Level3 = 14, Need1 = 150, Need2 = 350, Need3 = 700, BaseCost = 3, LevelCost = 2, Range = 9 });
-            if (!MagicExists(Spell.BattleCry)) MagicInfoList.Add(new MagicInfo {  Name = "BattleCry", Spell = Spell.BattleCry, Icon = 42, Level1 = 48, Level2 = 51, Level3 = 55, Need1 = 8000, Need2 = 11000, Need3 = 15000, BaseCost = 22, LevelCost = 10, Range = 0 });
+            if (!MagicExists(Spell.Portal))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "Portal",
+                    Spell = Spell.Portal,
+                    Icon = 1,
+                    Level1 = 7,
+                    Level2 = 11,
+                    Level3 = 14,
+                    Need1 = 150,
+                    Need2 = 350,
+                    Need3 = 700,
+                    BaseCost = 3,
+                    LevelCost = 2,
+                    Range = 9
+                });
+            if (!MagicExists(Spell.BattleCry))
+                MagicInfoList.Add(new MagicInfoModel {
+                    Name = "BattleCry",
+                    Spell = Spell.BattleCry,
+                    Icon = 42,
+                    Level1 = 48,
+                    Level2 = 51,
+                    Level3 = 55,
+                    Need1 = 8000,
+                    Need2 = 11000,
+                    Need3 = 15000,
+                    BaseCost = 22,
+                    LevelCost = 10,
+                    Range = 0
+                });
         }
 
-        private string CanStartEnvir()
-        {
-            if (Settings.EnforceDBChecks)
-            {
+        private string CanStartEnvir() {
+            if (Settings.EnforceDBChecks) {
                 if (StartPoints.Count == 0) return "Cannot start server without start points";
 
                 if (GetMonsterInfo(Settings.SkeletonName, true) == null) return "Cannot start server without mob: " + Settings.SkeletonName;
@@ -464,10 +1959,8 @@ namespace Server.MirEnvir
             return "true";
         }
 
-        private void WorkLoop()
-        {
-            try
-            {
+        private void WorkLoop() {
+            try {
                 Time = Stopwatch.ElapsedMilliseconds;
 
                 var conTime = Time;
@@ -482,10 +1975,8 @@ namespace Server.MirEnvir
 
                 LinkedListNode<MapObject> current = null;
 
-                if (Settings.Multithreaded)
-                {
-                    for (var j = 0; j < MobThreads.Length; j++)
-                    {
+                if (Settings.Multithreaded) {
+                    for (var j = 0; j < MobThreads.Length; j++) {
                         MobThreads[j] = new MobThread();
                         MobThreads[j].Id = j;
                     }
@@ -493,8 +1984,7 @@ namespace Server.MirEnvir
 
                 StartEnvir();
                 var canstartserver = CanStartEnvir();
-                if (canstartserver != "true")
-                {
+                if (canstartserver != "true") {
                     MessageQueue.Enqueue(canstartserver);
                     StopEnvir();
                     _thread = null;
@@ -502,31 +1992,27 @@ namespace Server.MirEnvir
                     return;
                 }
 
-                if (Settings.Multithreaded)
-                {
-                    for (var j = 0; j < MobThreads.Length; j++)
-                    {
+                if (Settings.Multithreaded) {
+                    for (var j = 0; j < MobThreads.Length; j++) {
                         var Info = MobThreads[j];
                         if (j <= 0) continue;
-                        MobThreading[j] = new Thread(() => ThreadLoop(Info)) {IsBackground = true};
+                        MobThreading[j] = new Thread(() => ThreadLoop(Info)) {
+                            IsBackground = true
+                        };
                         MobThreading[j].Start();
                     }
                 }
 
                 StartNetwork();
-                if (Settings.StartHTTPService)
-                {
-                    http = new HttpServer();
-                    http.Start();
-                }               
-                try
-                {
-                    while (Running)
-                    {
+                if (Settings.StartHTTPService) {
+                    _http = new HttpServer();
+                    _http.Start();
+                }
+                try {
+                    while (Running) {
                         Time = Stopwatch.ElapsedMilliseconds;
 
-                        if (Time >= processTime)
-                        {
+                        if (Time >= processTime) {
                             LastCount = processCount;
                             LastRealCount = processRealCount;
                             processCount = 0;
@@ -535,24 +2021,19 @@ namespace Server.MirEnvir
                         }
 
 
-                        if (conTime != Time)
-                        {
+                        if (conTime != Time) {
                             conTime = Time;
 
                             AdjustLights();
 
-                            lock (Connections)
-                            {
-                                for (var i = Connections.Count - 1; i >= 0; i--)
-                                {
+                            lock (Connections) {
+                                for (var i = Connections.Count - 1; i >= 0; i--) {
                                     Connections[i].Process();
                                 }
                             }
 
-                            lock (StatusConnections)
-                            {
-                                for (var i = StatusConnections.Count - 1; i >= 0; i--)
-                                {
+                            lock (StatusConnections) {
+                                for (var i = StatusConnections.Count - 1; i >= 0; i--) {
                                     StatusConnections[i].Process();
                                 }
                             }
@@ -562,25 +2043,21 @@ namespace Server.MirEnvir
                         if (current == null)
                             current = Objects.First;
 
-                        if (current == Objects.First)
-                        {
+                        if (current == Objects.First) {
                             LastRunTime = Time - StartTime;
                             StartTime = Time;
                         }
 
-                        if (Settings.Multithreaded)
-                        {
-                            for (var j = 1; j < MobThreads.Length; j++)
-                            {
+                        if (Settings.Multithreaded) {
+                            for (var j = 1; j < MobThreads.Length; j++) {
                                 var Info = MobThreads[j];
 
                                 if (!Info.Stop) continue;
                                 Info.EndTime = Time + 10;
                                 Info.Stop = false;
                             }
-                            lock (_locker)
-                            {
-                                Monitor.PulseAll(_locker);         // changing a blocking condition. (this makes the threads wake up!)
+                            lock (_locker) {
+                                Monitor.PulseAll(_locker); // changing a blocking condition. (this makes the threads wake up!)
                             }
                             //run the first loop in the main thread so the main thread automaticaly 'halts' untill the other threads are finished
                             ThreadLoop(MobThreads[0]);
@@ -588,19 +2065,15 @@ namespace Server.MirEnvir
 
                         var TheEnd = false;
                         var Start = Stopwatch.ElapsedMilliseconds;
-                        while (!TheEnd && Stopwatch.ElapsedMilliseconds - Start < 20)
-                        {
-                            if (current == null)
-                            {
+                        while (!TheEnd && Stopwatch.ElapsedMilliseconds - Start < 20) {
+                            if (current == null) {
                                 TheEnd = true;
                                 break;
                             }
 
                             var next = current.Next;
-                            if (!Settings.Multithreaded || current.Value.Race != ObjectType.Monster || current.Value.Master != null)
-                            {
-                                if (Time > current.Value.OperateTime)
-                                {
+                            if (!Settings.Multithreaded || current.Value.Race != ObjectType.Monster || current.Value.Master != null) {
+                                if (Time > current.Value.OperateTime) {
 
                                     current.Value.Process();
                                     current.Value.SetOperateTime();
@@ -617,8 +2090,7 @@ namespace Server.MirEnvir
 
                         Process();
 
-                        if (Time >= saveTime)
-                        {
+                        if (Time >= saveTime) {
                             saveTime = Time + Settings.SaveDelay * Settings.Minute;
                             BeginSaveAccounts();
                             SaveGuilds();
@@ -626,19 +2098,16 @@ namespace Server.MirEnvir
                             SaveConquests();
                         }
 
-                        if (Time >= userTime)
-                        {
+                        if (Time >= userTime) {
                             userTime = Time + Settings.Minute * 5;
-                            Broadcast(new S.Chat
-                                {
-                                    Message = string.Format(GameLanguage.OnlinePlayers, Players.Count),
-                                    Type = ChatType.Hint
-                                });
+                            Broadcast(new S.Chat {
+                                Message = string.Format(GameLanguage.OnlinePlayers, Players.Count),
+                                Type = ChatType.Hint
+                            });
                         }
 
-                        if (Time >= SpawnTime)
-                        {
-                            SpawnTime = Time + Settings.Second * 10;//technicaly this limits the respawn tick code to a minimum of 10 second each but lets assume it's not meant to be this accurate
+                        if (Time >= SpawnTime) {
+                            SpawnTime = Time + Settings.Second * 10; //technicaly this limits the respawn tick code to a minimum of 10 second each but lets assume it's not meant to be this accurate
                             Main.RespawnTick.Process();
                         }
 
@@ -648,13 +2117,10 @@ namespace Server.MirEnvir
 
                     }
 
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     MessageQueue.Enqueue(ex);
 
-                    lock (Connections)
-                    {
+                    lock (Connections) {
                         for (var i = Connections.Count - 1; i >= 0; i--)
                             Connections[i].SendDisconnect(3);
                     }
@@ -676,9 +2142,7 @@ namespace Server.MirEnvir
                 SaveGuilds(true);
                 SaveConquests(true);
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 // Get stack trace for the exception with source file information
                 var st = new StackTrace(ex, true);
                 // Get the top stack frame
@@ -693,38 +2157,32 @@ namespace Server.MirEnvir
             _thread = null;
 
         }
-        
-        private void ThreadLoop(MobThread Info)
-        {
+
+        private void ThreadLoop(MobThread Info) {
             Info.Stop = false;
             var starttime = Time;
-            try
-            {
+            try {
 
                 var stopping = false;
                 if (Info._current == null)
                     Info._current = Info.ObjectsList.First;
                 stopping = Info._current == null;
                 //while (stopping == false)
-                while (Running)
-                {
+                while (Running) {
                     if (Info._current == null)
                         Info._current = Info.ObjectsList.First;
-                    else
-                    {
+                    else {
                         var next = Info._current.Next;
 
                         //if we reach the end of our list > go back to the top (since we are running threaded, we dont want the system to sit there for xxms doing nothing)
-                        if (Info._current == Info.ObjectsList.Last)
-                        {
+                        if (Info._current == Info.ObjectsList.Last) {
                             next = Info.ObjectsList.First;
                             Info.LastRunTime = (Info.LastRunTime + (Time - Info.StartTime)) / 2;
                             //Info.LastRunTime = (Time - Info.StartTime) /*> 0 ? (Time - Info.StartTime) : Info.LastRunTime */;
                             Info.StartTime = Time;
                         }
-                        if (Time > Info._current.Value.OperateTime)
-                        {
-                            if (Info._current.Value.Master == null)//since we are running multithreaded, dont allow pets to be processed (unless you constantly move pets into their map appropriate thead)
+                        if (Time > Info._current.Value.OperateTime) {
+                            if (Info._current.Value.Master == null) //since we are running multithreaded, dont allow pets to be processed (unless you constantly move pets into their map appropriate thead)
                             {
                                 Info._current.Value.Process();
                                 Info._current.Value.SetOperateTime();
@@ -733,8 +2191,7 @@ namespace Server.MirEnvir
                         Info._current = next;
                     }
                     //if it's the main thread > make it loop till the subthreads are done, else make it stop after 'endtime'
-                    if (Info.Id == 0)
-                    {
+                    if (Info.Id == 0) {
                         stopping = true;
                         for (var x = 1; x < MobThreads.Length; x++)
                             if (MobThreads[x].Stop == false)
@@ -746,14 +2203,11 @@ namespace Server.MirEnvir
 
                     if (Stopwatch.ElapsedMilliseconds <= Info.EndTime || !Running) continue;
                     Info.Stop = true;
-                    lock (_locker)
-                    {
+                    lock (_locker) {
                         while (Info.Stop) Monitor.Wait(_locker);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 if (ex is ThreadInterruptedException) return;
                 MessageQueue.Enqueue(ex);
 
@@ -763,8 +2217,7 @@ namespace Server.MirEnvir
             //Info.Stop = true;
         }
 
-        private void AdjustLights()
-        {
+        private void AdjustLights() {
             var oldLights = Lights;
 
             var hours = Now.Hour * 2 % 24;
@@ -779,40 +2232,35 @@ namespace Server.MirEnvir
 
             if (oldLights == Lights) return;
 
-            Broadcast(new S.TimeOfDay { Lights = Lights });
+            Broadcast(new S.TimeOfDay {
+                Lights = Lights
+            });
         }
 
-        public void Process()
-        {        
+        public void Process() {
             //if we get to a new day : reset daily's
-            if (Now.Day != DailyTime)
-            {
+            if (Now.Day != DailyTime) {
                 DailyTime = Now.Day;
                 ProcessNewDay();
             }
 
-            if(Time >= warTime)
-            {
-                for (var i = GuildsAtWar.Count - 1; i >= 0; i--)
-                {
+            if (Time >= warTime) {
+                for (var i = GuildsAtWar.Count - 1; i >= 0; i--) {
                     GuildsAtWar[i].TimeRemaining -= Settings.Minute;
 
                     if (GuildsAtWar[i].TimeRemaining >= 0) continue;
                     GuildsAtWar[i].EndWar();
                     GuildsAtWar.RemoveAt(i);
                 }
-                
+
                 warTime = Time + Settings.Minute;
             }
 
-            if (Time >= mailTime)
-            {
-                for (var i = Mail.Count - 1; i >= 0; i--)
-                {
+            if (Time >= mailTime) {
+                for (var i = Mail.Count - 1; i >= 0; i--) {
                     var mail = Mail[i];
 
-                    if(mail.Receive())
-                    {
+                    if (mail.Receive()) {
                         //collected mail ok
                     }
                 }
@@ -820,17 +2268,14 @@ namespace Server.MirEnvir
                 mailTime = Time + Settings.Minute * 1;
             }
 
-            if (Time >= guildTime)
-            {
+            if (Time >= guildTime) {
                 guildTime = Time + Settings.Minute;
-                for (var i = 0; i < GuildList.Count; i++)
-                {
+                for (var i = 0; i < GuildList.Count; i++) {
                     GuildList[i].Process();
                 }
             }
 
-            if (Time >= conquestTime)
-            {
+            if (Time >= conquestTime) {
                 conquestTime = Time + Settings.Second * 10;
                 for (var i = 0; i < Conquests.Count; i++)
                     Conquests[i].Process();
@@ -842,21 +2287,17 @@ namespace Server.MirEnvir
 
         }
 
-        public void Broadcast(Packet p)
-        {
+        public void Broadcast(Packet p) {
             for (var i = 0; i < Players.Count; i++) Players[i].Enqueue(p);
         }
 
-        public void RequiresBaseStatUpdate()
-        {
+        public void RequiresBaseStatUpdate() {
             for (var i = 0; i < Players.Count; i++) Players[i].HasUpdatedBaseStats = false;
         }
 
-        public void SaveDB()
-        {
+        public void SaveDB() {
             using (var stream = File.Create(DatabasePath))
-            using (var writer = new BinaryWriter(stream))
-            {
+            using (var writer = new BinaryWriter(stream)) {
                 writer.Write(Version);
                 writer.Write(CustomVersion);
                 writer.Write(MapIndex);
@@ -904,13 +2345,11 @@ namespace Server.MirEnvir
                 RespawnTick.Save(writer);
             }
         }
-        public void SaveAccounts()
-        {
+        public void SaveAccounts() {
             while (Saving)
                 Thread.Sleep(1);
 
-            try
-            {
+            try {
                 using (var stream = File.Create(AccountPath + "n"))
                     SaveAccounts(stream);
                 if (File.Exists(AccountPath))
@@ -918,17 +2357,13 @@ namespace Server.MirEnvir
                 File.Move(AccountPath + "n", AccountPath);
                 if (File.Exists(AccountPath + "o"))
                     File.Delete(AccountPath + "o");
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageQueue.Enqueue(ex);
             }
         }
 
-        private void SaveAccounts(Stream stream)
-        {
-            using (var writer = new BinaryWriter(stream))
-            {
+        private void SaveAccounts(Stream stream) {
+            using (var writer = new BinaryWriter(stream)) {
                 writer.Write(Version);
                 writer.Write(CustomVersion);
                 writer.Write(NextAccountID);
@@ -948,31 +2383,30 @@ namespace Server.MirEnvir
                 writer.Write(NextMailID);
                 writer.Write(Mail.Count);
                 foreach (var mail in Mail)
-                        mail.Save(writer);
+                    mail.Save(writer);
 
                 writer.Write(GameshopLog.Count);
-                foreach (var item in GameshopLog)
-                {
+                foreach (var item in GameshopLog) {
                     writer.Write(item.Key);
                     writer.Write(item.Value);
                 }
 
                 writer.Write(SavedSpawns.Count);
-                foreach (var Spawn in SavedSpawns)
-                {
-                    var Save = new RespawnSave { RespawnIndex = Spawn.Info.RespawnIndex, NextSpawnTick = Spawn.NextSpawnTick, Spawned = Spawn.Count >= Spawn.Info.Count * spawnmultiplyer };
+                foreach (var Spawn in SavedSpawns) {
+                    var Save = new RespawnSave {
+                        RespawnIndex = Spawn.Info.RespawnIndex,
+                        NextSpawnTick = Spawn.NextSpawnTick,
+                        Spawned = Spawn.Count >= Spawn.Info.Count * spawnmultiplyer
+                    };
                     Save.save(writer);
                 }
             }
         }
 
-        private void SaveGuilds(bool forced = false)
-        {
+        private void SaveGuilds(bool forced = false) {
             if (!Directory.Exists(Settings.GuildPath)) Directory.CreateDirectory(Settings.GuildPath);
-            for (var i = 0; i < GuildList.Count; i++)
-            {
-                if (GuildList[i].NeedSave || forced)
-                {
+            for (var i = 0; i < GuildList.Count; i++) {
+                if (GuildList[i].NeedSave || forced) {
                     GuildList[i].NeedSave = false;
                     var mStream = new MemoryStream();
                     var writer = new BinaryWriter(mStream);
@@ -983,11 +2417,9 @@ namespace Server.MirEnvir
                 }
             }
         }
-        private void EndSaveGuildsAsync(IAsyncResult result)
-        {
+        private void EndSaveGuildsAsync(IAsyncResult result) {
             var fStream = result.AsyncState as FileStream;
-            try
-            {
+            try {
                 if (fStream == null) return;
                 var oldfilename = fStream.Name.Substring(0, fStream.Name.Length - 1);
                 var newfilename = fStream.Name;
@@ -998,28 +2430,22 @@ namespace Server.MirEnvir
                 File.Move(newfilename, oldfilename);
                 if (File.Exists(oldfilename + "o"))
                     File.Delete(oldfilename + "o");
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
             }
         }
 
-        private void SaveGoods(bool forced = false)
-        {
+        private void SaveGoods(bool forced = false) {
             if (!Directory.Exists(Settings.GoodsPath)) Directory.CreateDirectory(Settings.GoodsPath);
 
-            for (var i = 0; i < MapList.Count; i++)
-            {
+            for (var i = 0; i < MapList.Count; i++) {
                 var map = MapList[i];
 
                 if (map.NPCs.Count < 1) continue;
 
-                for (var j = 0; j < map.NPCs.Count; j++)
-                {
+                for (var j = 0; j < map.NPCs.Count; j++) {
                     var npc = map.NPCs[j];
 
-                    if (forced)
-                    {
+                    if (forced) {
                         npc.ProcessGoods(forced);
                     }
 
@@ -1035,8 +2461,7 @@ namespace Server.MirEnvir
                     writer.Write(CustomVersion);
                     writer.Write(npc.UsedGoods.Count);
 
-                    for (var k = 0; k < npc.UsedGoods.Count; k++)
-                    {
+                    for (var k = 0; k < npc.UsedGoods.Count; k++) {
                         npc.UsedGoods[k].Save(writer);
                     }
 
@@ -1046,10 +2471,8 @@ namespace Server.MirEnvir
                 }
             }
         }
-        private void EndSaveGoodsAsync(IAsyncResult result)
-        {
-            try
-            {
+        private void EndSaveGoodsAsync(IAsyncResult result) {
+            try {
                 var fStream = result.AsyncState as FileStream;
                 if (fStream == null) return;
                 var oldfilename = fStream.Name.Substring(0, fStream.Name.Length - 1);
@@ -1061,17 +2484,13 @@ namespace Server.MirEnvir
                 File.Move(newfilename, oldfilename);
                 if (File.Exists(oldfilename + "o"))
                     File.Delete(oldfilename + "o");
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
             }
         }
 
-        private void SaveConquests(bool forced = false)
-        {
+        private void SaveConquests(bool forced = false) {
             if (!Directory.Exists(Settings.ConquestsPath)) Directory.CreateDirectory(Settings.ConquestsPath);
-            for (var i = 0; i < Conquests.Count; i++)
-            {
+            for (var i = 0; i < Conquests.Count; i++) {
                 if (!Conquests[i].NeedSave && !forced) continue;
                 Conquests[i].NeedSave = false;
                 var mStream = new MemoryStream();
@@ -1082,11 +2501,9 @@ namespace Server.MirEnvir
                 fStream.BeginWrite(data, 0, data.Length, EndSaveConquestsAsync, fStream);
             }
         }
-        private void EndSaveConquestsAsync(IAsyncResult result)
-        {
+        private void EndSaveConquestsAsync(IAsyncResult result) {
             var fStream = result.AsyncState as FileStream;
-            try
-            {
+            try {
                 if (fStream == null) return;
                 var oldfilename = fStream.Name.Substring(0, fStream.Name.Length - 1);
                 var newfilename = fStream.Name;
@@ -1097,24 +2514,19 @@ namespace Server.MirEnvir
                 File.Move(newfilename, oldfilename);
                 if (File.Exists(oldfilename + "o"))
                     File.Delete(oldfilename + "o");
-            }
-            catch (Exception)
-            {
-                
+            } catch (Exception) {
+
             }
         }
 
-        public void BeginSaveAccounts()
-        {
+        public void BeginSaveAccounts() {
             if (Saving) return;
 
             Saving = true;
-            
 
-            using (var mStream = new MemoryStream())
-            {
-                if (File.Exists(AccountPath))
-                {
+
+            using (var mStream = new MemoryStream()) {
+                if (File.Exists(AccountPath)) {
                     if (!Directory.Exists(BackUpPath)) Directory.CreateDirectory(BackUpPath);
                     var fileName =
                         $"Accounts {Now.Year:0000}-{Now.Month:00}-{Now.Day:00} {Now.Hour:00}-{Now.Minute:00}-{Now.Second:00}.bak";
@@ -1130,13 +2542,10 @@ namespace Server.MirEnvir
             }
 
         }
-        private void EndSaveAccounts(IAsyncResult result)
-        {
+        private void EndSaveAccounts(IAsyncResult result) {
             var fStream = result.AsyncState as FileStream;
-            try
-            {
-                if (fStream != null)
-                {
+            try {
+                if (fStream != null) {
                     var oldfilename = fStream.Name.Substring(0, fStream.Name.Length - 1);
                     var newfilename = fStream.Name;
                     fStream.EndWrite(result);
@@ -1147,24 +2556,19 @@ namespace Server.MirEnvir
                     if (File.Exists(oldfilename + "o"))
                         File.Delete(oldfilename + "o");
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
             }
 
             Saving = false;
         }
 
-        public void LoadDB()
-        {
-            lock (LoadLock)
-            {
+        public void LoadDB() {
+            lock (LoadLock) {
                 if (!File.Exists(DatabasePath))
                     SaveDB();
 
                 using (var stream = File.OpenRead(DatabasePath))
-                using (var reader = new BinaryReader(stream))
-                {
+                using (var reader = new BinaryReader(stream)) {
                     LoadVersion = reader.ReadInt32();
                     if (LoadVersion > 57)
                         LoadCustomVersion = reader.ReadInt32();
@@ -1172,18 +2576,15 @@ namespace Server.MirEnvir
                     ItemIndex = reader.ReadInt32();
                     MonsterIndex = reader.ReadInt32();
 
-                    if (LoadVersion > 33)
-                    {
+                    if (LoadVersion > 33) {
                         NPCIndex = reader.ReadInt32();
                         QuestIndex = reader.ReadInt32();
                     }
-                    if (LoadVersion >= 63)
-                    {
+                    if (LoadVersion >= 63) {
                         GameshopIndex = reader.ReadInt32();
                     }
 
-                    if (LoadVersion >= 66)
-                    {
+                    if (LoadVersion >= 66) {
                         ConquestIndex = reader.ReadInt32();
                     }
 
@@ -1198,11 +2599,9 @@ namespace Server.MirEnvir
 
                     count = reader.ReadInt32();
                     ItemInfoList.Clear();
-                    for (var i = 0; i < count; i++)
-                    {
+                    for (var i = 0; i < count; i++) {
                         ItemInfoList.Add(new ItemInfo(reader, LoadVersion, LoadCustomVersion));
-                        if (ItemInfoList[i] != null && ItemInfoList[i].RandomStatsId < Settings.RandomItemStatsList.Count)
-                        {
+                        if (ItemInfoList[i] != null && ItemInfoList[i].RandomStatsId < Settings.RandomItemStatsList.Count) {
                             ItemInfoList[i].RandomStats = Settings.RandomItemStatsList[ItemInfoList[i].RandomStatsId];
                         }
                     }
@@ -1211,8 +2610,7 @@ namespace Server.MirEnvir
                     for (var i = 0; i < count; i++)
                         MonsterInfoList.Add(new MonsterInfo(reader));
 
-                    if (LoadVersion > 33)
-                    {
+                    if (LoadVersion > 33) {
                         count = reader.ReadInt32();
                         NPCInfoList.Clear();
                         for (var i = 0; i < count; i++)
@@ -1225,13 +2623,11 @@ namespace Server.MirEnvir
                     }
 
                     DragonInfo = LoadVersion >= 11 ? new DragonInfo(reader) : new DragonInfo();
-                    if (LoadVersion >= 58)
-                    {
+                    if (LoadVersion >= 58) {
                         count = reader.ReadInt32();
-                        for (var i = 0; i < count; i++)
-                        {
-                            var m = new MagicInfo(reader, LoadVersion, LoadCustomVersion);
-                            if(!MagicExists(m.Spell))
+                        for (var i = 0; i < count; i++) {
+                            var m = new MagicInfoModel(reader, LoadVersion, LoadCustomVersion);
+                            if (!MagicExists(m.Spell))
                                 MagicInfoList.Add(m);
                         }
                     }
@@ -1239,26 +2635,21 @@ namespace Server.MirEnvir
                     if (LoadVersion <= 70)
                         UpdateMagicInfo();
 
-                    if (LoadVersion >= 63)
-                    {
+                    if (LoadVersion >= 63) {
                         count = reader.ReadInt32();
                         GameShopList.Clear();
-                        for (var i = 0; i < count; i++)
-                        {
+                        for (var i = 0; i < count; i++) {
                             var item = new GameShopItem(reader, LoadVersion, LoadCustomVersion);
-                            if (Main.BindGameShop(item))
-                            {
+                            if (Main.BindGameShop(item)) {
                                 GameShopList.Add(item);
                             }
                         }
                     }
 
-                    if (LoadVersion >= 66)
-                    {
+                    if (LoadVersion >= 66) {
                         ConquestInfos.Clear();
                         count = reader.ReadInt32();
-                        for (var i = 0; i < count; i++)
-                        {
+                        for (var i = 0; i < count; i++) {
                             ConquestInfos.Add(new ConquestInfo(reader));
                         }
                     }
@@ -1273,39 +2664,33 @@ namespace Server.MirEnvir
 
         }
 
-        public void LoadAccounts()
-        {
+        public void LoadAccounts() {
             //reset ranking
-            for (var i = 0; i < RankClass.Count(); i++)
-            {
-                if (RankClass[i] != null)
-                    RankClass[i].Clear();
+            for (var i = 0; i < _rankClass.Count(); i++) {
+                if (_rankClass[i] != null)
+                    _rankClass[i].Clear();
                 else
-                    RankClass[i] = new List<Rank_Character_Info>();
+                    _rankClass[i] = new List<Rank_Character_Info>();
             }
             RankTop.Clear();
-            for (var i = 0; i < RankBottomLevel.Count(); i++)
-            {
+            for (var i = 0; i < RankBottomLevel.Count(); i++) {
                 RankBottomLevel[i] = 0;
             }
 
 
-            lock (LoadLock)
-            {
+            lock (LoadLock) {
                 if (!File.Exists(AccountPath))
                     SaveAccounts();
 
                 using (var stream = File.OpenRead(AccountPath))
-                using (var reader = new BinaryReader(stream))
-                {
+                using (var reader = new BinaryReader(stream)) {
                     LoadVersion = reader.ReadInt32();
                     if (LoadVersion > 57) LoadCustomVersion = reader.ReadInt32();
                     NextAccountID = reader.ReadInt32();
                     NextCharacterID = reader.ReadInt32();
                     NextUserItemID = reader.ReadUInt64();
 
-                    if (LoadVersion > 27)
-                    {
+                    if (LoadVersion > 27) {
                         GuildCount = reader.ReadInt32();
                         NextGuildID = reader.ReadInt32();
                     }
@@ -1313,8 +2698,7 @@ namespace Server.MirEnvir
                     var count = reader.ReadInt32();
                     AccountList.Clear();
                     CharacterList.Clear();
-                    for (var i = 0; i < count; i++)
-                    {
+                    for (var i = 0; i < count; i++) {
                         AccountList.Add(new AccountInfo(reader));
                         CharacterList.AddRange(AccountList[i].Characters);
                     }
@@ -1329,8 +2713,7 @@ namespace Server.MirEnvir
                         NextAuctionID = reader.ReadUInt64();
 
                     count = reader.ReadInt32();
-                    for (var i = 0; i < count; i++)
-                    {
+                    for (var i = 0; i < count; i++) {
                         var auction = new AuctionInfo(reader, LoadVersion, LoadCustomVersion);
 
                         if (!BindItem(auction.Item) || !BindCharacter(auction)) continue;
@@ -1339,34 +2722,28 @@ namespace Server.MirEnvir
                         auction.CharacterInfo.AccountInfo.Auctions.AddLast(auction);
                     }
 
-                    if (LoadVersion == 7)
-                    {
-                        foreach (var auction in Auctions)
-                        {
+                    if (LoadVersion == 7) {
+                        foreach (var auction in Auctions) {
                             if (auction.Sold && auction.Expired) auction.Expired = false;
 
                             auction.AuctionID = ++NextAuctionID;
                         }
                     }
 
-                    if(LoadVersion > 43)
-                    {
+                    if (LoadVersion > 43) {
                         NextMailID = reader.ReadUInt64();
 
                         Mail.Clear();
 
                         count = reader.ReadInt32();
-                        for (var i = 0; i < count; i++)
-                        {
+                        for (var i = 0; i < count; i++) {
                             Mail.Add(new MailInfo(reader, LoadVersion, LoadCustomVersion));
                         }
                     }
 
-                    if(LoadVersion >= 63)
-                    {
+                    if (LoadVersion >= 63) {
                         var logCount = reader.ReadInt32();
-                        for (var i = 0; i < logCount; i++)
-                        {
+                        for (var i = 0; i < logCount; i++) {
                             GameshopLog.Add(reader.ReadInt32(), reader.ReadInt32());
                         }
 
@@ -1376,18 +2753,15 @@ namespace Server.MirEnvir
                     if (LoadVersion < 68) return;
                     {
                         var SaveCount = reader.ReadInt32();
-                        for (var i = 0; i < SaveCount; i++)
-                        {
+                        for (var i = 0; i < SaveCount; i++) {
                             var Saved = new RespawnSave(reader);
-                            foreach (var Respawn in SavedSpawns)
-                            {
+                            foreach (var Respawn in SavedSpawns) {
                                 if (Respawn.Info.RespawnIndex != Saved.RespawnIndex) continue;
                                 Respawn.NextSpawnTick = Saved.NextSpawnTick;
                                 if (!Saved.Spawned || Respawn.Info.Count * spawnmultiplyer <= Respawn.Count)
                                     continue;
                                 var mobcount = Respawn.Info.Count * spawnmultiplyer - Respawn.Count;
-                                for (var j = 0; j < mobcount; j++)
-                                {
+                                for (var j = 0; j < mobcount; j++) {
                                     Respawn.Spawn();
                                 }
                             }
@@ -1398,22 +2772,19 @@ namespace Server.MirEnvir
             }
         }
 
-        public void LoadGuilds()
-        {
-            lock (LoadLock)
-            {
+        public void LoadGuilds() {
+            lock (LoadLock) {
                 var count = 0;
 
                 GuildList.Clear();
 
-                for (var i = 0; i < GuildCount; i++)
-                {
+                for (var i = 0; i < GuildCount; i++) {
                     GuildObject newGuild;
                     if (!File.Exists(Path.Combine(Settings.GuildPath, i + ".mgd"))) continue;
                     using (var stream = File.OpenRead(Path.Combine(Settings.GuildPath, i + ".mgd")))
                     using (var reader = new BinaryReader(stream))
                         newGuild = new GuildObject(reader);
-    
+
                     //if (!newGuild.Ranks.Any(a => (byte)a.Options == 255)) continue;
                     //if (GuildList.Any(e => e.Name == newGuild.Name)) continue;
                     GuildList.Add(newGuild);
@@ -1425,18 +2796,15 @@ namespace Server.MirEnvir
             }
         }
 
-        public void LoadFishingDrops()
-        {
-            FishingDrops.Clear();
-            
-            for (byte i = 0; i <= 19; i++)
-            {
+        public void LoadFishingDrops() {
+            _fishingDrops.Clear();
+
+            for (byte i = 0; i <= 19; i++) {
                 var path = Path.Combine(Settings.DropPath, Settings.FishingDropFilename + ".txt");
 
                 path = path.Replace("00", i.ToString("D2"));
 
-                if (!File.Exists(path) && i < 2)
-                {
+                if (!File.Exists(path) && i < 2) {
                     var newfile = File.Create(path);
                     newfile.Close();
                 }
@@ -1445,24 +2813,21 @@ namespace Server.MirEnvir
 
                 var lines = File.ReadAllLines(path);
 
-                for (var j = 0; j < lines.Length; j++)
-                {
+                for (var j = 0; j < lines.Length; j++) {
                     if (lines[j].StartsWith(";") || string.IsNullOrWhiteSpace(lines[j])) continue;
 
                     var drop = DropInfo.FromLine(lines[j]);
-                    if (drop == null)
-                    {
+                    if (drop == null) {
                         MessageQueue.Enqueue($"Could not load fishing drop: {lines[j]}");
                         continue;
                     }
 
                     drop.Type = i;
 
-                    FishingDrops.Add(drop);
+                    _fishingDrops.Add(drop);
                 }
 
-                FishingDrops.Sort((drop1, drop2) =>
-                {
+                _fishingDrops.Sort((drop1, drop2) => {
                     if (drop1.Chance > 0 && drop2.Chance == 0)
                         return 1;
                     if (drop1.Chance == 0 && drop2.Chance > 0)
@@ -1470,17 +2835,15 @@ namespace Server.MirEnvir
 
                     return drop1.Item.Type.CompareTo(drop2.Item.Type);
                 });
-            }  
+            }
         }
 
-        public void LoadAwakeningMaterials()
-        {
-            AwakeningDrops.Clear();
+        public void LoadAwakeningMaterials() {
+            _awakeningDrops.Clear();
 
             var path = Path.Combine(Settings.DropPath, Settings.AwakeningDropFilename + ".txt");
 
-            if (!File.Exists(path))
-            {
+            if (!File.Exists(path)) {
                 var newfile = File.Create(path);
                 newfile.Close();
 
@@ -1488,22 +2851,19 @@ namespace Server.MirEnvir
 
             var lines = File.ReadAllLines(path);
 
-            for (var i = 0; i < lines.Length; i++)
-            {
+            for (var i = 0; i < lines.Length; i++) {
                 if (lines[i].StartsWith(";") || string.IsNullOrWhiteSpace(lines[i])) continue;
 
                 var drop = DropInfo.FromLine(lines[i]);
-                if (drop == null)
-                {
+                if (drop == null) {
                     MessageQueue.Enqueue($"Could not load Awakening drop: {lines[i]}");
                     continue;
                 }
 
-                AwakeningDrops.Add(drop);
+                _awakeningDrops.Add(drop);
             }
 
-            AwakeningDrops.Sort((drop1, drop2) =>
-            {
+            _awakeningDrops.Sort((drop1, drop2) => {
                 if (drop1.Chance > 0 && drop2.Chance == 0)
                     return 1;
                 if (drop1.Chance == 0 && drop2.Chance > 0)
@@ -1513,36 +2873,31 @@ namespace Server.MirEnvir
             });
         }
 
-        public void LoadStrongBoxDrops()
-        {
-            StrongboxDrops.Clear();
+        public void LoadStrongBoxDrops() {
+            _strongboxDrops.Clear();
 
             var path = Path.Combine(Settings.DropPath, Settings.StrongboxDropFilename + ".txt");
 
-            if (!File.Exists(path))
-            {
+            if (!File.Exists(path)) {
                 var newfile = File.Create(path);
                 newfile.Close();
             }
 
             var lines = File.ReadAllLines(path);
 
-            for (var i = 0; i < lines.Length; i++)
-            {
+            for (var i = 0; i < lines.Length; i++) {
                 if (lines[i].StartsWith(";") || string.IsNullOrWhiteSpace(lines[i])) continue;
 
                 var drop = DropInfo.FromLine(lines[i]);
-                if (drop == null)
-                {
+                if (drop == null) {
                     MessageQueue.Enqueue($"Could not load strongbox drop: {lines[i]}");
                     continue;
                 }
 
-                StrongboxDrops.Add(drop);
+                _strongboxDrops.Add(drop);
             }
 
-            StrongboxDrops.Sort((drop1, drop2) =>
-            {
+            _strongboxDrops.Sort((drop1, drop2) => {
                 if (drop1.Chance > 0 && drop2.Chance == 0)
                     return 1;
                 if (drop1.Chance == 0 && drop2.Chance > 0)
@@ -1552,14 +2907,12 @@ namespace Server.MirEnvir
             });
         }
 
-        public void LoadBlackStoneDrops()
-        {
-            BlackstoneDrops.Clear();
+        public void LoadBlackStoneDrops() {
+            _blackstoneDrops.Clear();
 
             var path = Path.Combine(Settings.DropPath, Settings.BlackstoneDropFilename + ".txt");
 
-            if (!File.Exists(path))
-            {
+            if (!File.Exists(path)) {
                 var newfile = File.Create(path);
                 newfile.Close();
 
@@ -1567,22 +2920,19 @@ namespace Server.MirEnvir
 
             var lines = File.ReadAllLines(path);
 
-            for (var i = 0; i < lines.Length; i++)
-            {
+            for (var i = 0; i < lines.Length; i++) {
                 if (lines[i].StartsWith(";") || string.IsNullOrWhiteSpace(lines[i])) continue;
 
                 var drop = DropInfo.FromLine(lines[i]);
-                if (drop == null)
-                {
+                if (drop == null) {
                     MessageQueue.Enqueue($"Could not load blackstone drop: {lines[i]}");
                     continue;
                 }
 
-                BlackstoneDrops.Add(drop);
+                _blackstoneDrops.Add(drop);
             }
 
-            BlackstoneDrops.Sort((drop1, drop2) =>
-            {
+            _blackstoneDrops.Sort((drop1, drop2) => {
                 if (drop1.Chance > 0 && drop2.Chance == 0)
                     return 1;
                 if (drop1.Chance == 0 && drop2.Chance > 0)
@@ -1592,10 +2942,8 @@ namespace Server.MirEnvir
             });
         }
 
-        public void LoadConquests()
-        {
-            lock (LoadLock)
-            {
+        public void LoadConquests() {
+            lock (LoadLock) {
                 var count = 0;
 
                 Conquests.Clear();
@@ -1606,21 +2954,21 @@ namespace Server.MirEnvir
                 ConquestWallObject tempWall;
                 ConquestSiegeObject tempSiege;
 
-                for (var i = 0; i < ConquestInfos.Count; i++)
-                {
+                for (var i = 0; i < ConquestInfos.Count; i++) {
                     ConquestObject newConquest;
                     tempMap = GetMap(ConquestInfos[i].MapIndex);
 
                     if (tempMap == null) continue;
 
-                    if (File.Exists(Path.Combine(Settings.ConquestsPath, ConquestInfos[i].Index + ".mcd")))
-                    {
+                    if (File.Exists(Path.Combine(Settings.ConquestsPath, ConquestInfos[i].Index + ".mcd"))) {
                         using (var stream = File.OpenRead(Path.Combine(Settings.ConquestsPath, ConquestInfos[i].Index + ".mcd")))
                         using (var reader = new BinaryReader(stream))
-                            newConquest = new ConquestObject(reader) { Info = ConquestInfos[i], ConquestMap = tempMap };
+                            newConquest = new ConquestObject(reader) {
+                                Info = ConquestInfos[i],
+                                ConquestMap = tempMap
+                            };
 
-                        for (var k = 0; k < GuildList.Count; k++)
-                        {
+                        for (var k = 0; k < GuildList.Count; k++) {
                             if (newConquest.Owner != GuildList[k].Guildindex) continue;
                             newConquest.Guild = GuildList[k];
                             GuildList[k].Conquest = newConquest;
@@ -1629,119 +2977,127 @@ namespace Server.MirEnvir
                         Conquests.Add(newConquest);
                         tempMap.Conquest.Add(newConquest);
                         count++;
-                    }
-                    else
-                    {
-                        newConquest = new ConquestObject { Info = ConquestInfos[i], NeedSave = true, ConquestMap = tempMap };
+                    } else {
+                        newConquest = new ConquestObject {
+                            Info = ConquestInfos[i],
+                            NeedSave = true,
+                            ConquestMap = tempMap
+                        };
 
                         Conquests.Add(newConquest);
                         tempMap.Conquest.Add(newConquest);
                     }
 
                     //Bind Info to Saved Archer objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ConquestGuards.Count; j++)
-                    {
+                    for (var j = 0; j < ConquestInfos[i].ConquestGuards.Count; j++) {
                         tempArcher = newConquest.ArcherList.FirstOrDefault(x => x.Index == ConquestInfos[i].ConquestGuards[j].Index);
 
-                        if (tempArcher != null)
-                        {
+                        if (tempArcher != null) {
                             tempArcher.Info = ConquestInfos[i].ConquestGuards[j];
                             tempArcher.Conquest = newConquest;
-                        }
-                        else
-                        {
-                            newConquest.ArcherList.Add(new ConquestArcherObject { Info = ConquestInfos[i].ConquestGuards[j], Alive = true, Index = ConquestInfos[i].ConquestGuards[j].Index, Conquest = newConquest });
+                        } else {
+                            newConquest.ArcherList.Add(new ConquestArcherObject {
+                                Info = ConquestInfos[i].ConquestGuards[j],
+                                Alive = true,
+                                Index = ConquestInfos[i].ConquestGuards[j].Index,
+                                Conquest = newConquest
+                            });
                         }
                     }
 
                     //Remove archers that have been removed from DB
-                    for (var j = 0; j < newConquest.ArcherList.Count; j++)
-                    {
+                    for (var j = 0; j < newConquest.ArcherList.Count; j++) {
                         if (newConquest.ArcherList[j].Info == null)
                             newConquest.ArcherList.Remove(newConquest.ArcherList[j]);
                     }
 
                     //Bind Info to Saved Gate objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ConquestGates.Count; j++)
-                    {
+                    for (var j = 0; j < ConquestInfos[i].ConquestGates.Count; j++) {
                         tempGate = newConquest.GateList.FirstOrDefault(x => x.Index == ConquestInfos[i].ConquestGates[j].Index);
 
-                        if (tempGate != null)
-                        {
+                        if (tempGate != null) {
                             tempGate.Info = ConquestInfos[i].ConquestGates[j];
                             tempGate.Conquest = newConquest;
-                        }
-                        else
-                        {
-                            newConquest.GateList.Add(new ConquestGateObject { Info = ConquestInfos[i].ConquestGates[j], Health = uint.MaxValue, Index = ConquestInfos[i].ConquestGates[j].Index, Conquest = newConquest });
+                        } else {
+                            newConquest.GateList.Add(new ConquestGateObject {
+                                Info = ConquestInfos[i].ConquestGates[j],
+                                Health = uint.MaxValue,
+                                Index = ConquestInfos[i].ConquestGates[j].Index,
+                                Conquest = newConquest
+                            });
                         }
                     }
 
                     //Bind Info to Saved Flag objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ConquestFlags.Count; j++)
-                    {
-                        newConquest.FlagList.Add(new ConquestFlagObject { Info = ConquestInfos[i].ConquestFlags[j], Index = ConquestInfos[i].ConquestFlags[j].Index, Conquest = newConquest });
+                    for (var j = 0; j < ConquestInfos[i].ConquestFlags.Count; j++) {
+                        newConquest.FlagList.Add(new ConquestFlagObject {
+                            Info = ConquestInfos[i].ConquestFlags[j],
+                            Index = ConquestInfos[i].ConquestFlags[j].Index,
+                            Conquest = newConquest
+                        });
                     }
 
                     //Remove Gates that have been removed from DB
-                    for (var j = 0; j < newConquest.GateList.Count; j++)
-                    {
+                    for (var j = 0; j < newConquest.GateList.Count; j++) {
                         if (newConquest.GateList[j].Info == null)
                             newConquest.GateList.Remove(newConquest.GateList[j]);
                     }
 
                     //Bind Info to Saved Wall objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ConquestWalls.Count; j++)
-                    {
+                    for (var j = 0; j < ConquestInfos[i].ConquestWalls.Count; j++) {
                         tempWall = newConquest.WallList.FirstOrDefault(x => x.Index == ConquestInfos[i].ConquestWalls[j].Index);
 
-                        if (tempWall != null)
-                        {
+                        if (tempWall != null) {
                             tempWall.Info = ConquestInfos[i].ConquestWalls[j];
                             tempWall.Conquest = newConquest;
-                        }
-                        else
-                        {
-                            newConquest.WallList.Add(new ConquestWallObject { Info = ConquestInfos[i].ConquestWalls[j], Index = ConquestInfos[i].ConquestWalls[j].Index, Health = uint.MaxValue, Conquest = newConquest });
+                        } else {
+                            newConquest.WallList.Add(new ConquestWallObject {
+                                Info = ConquestInfos[i].ConquestWalls[j],
+                                Index = ConquestInfos[i].ConquestWalls[j].Index,
+                                Health = uint.MaxValue,
+                                Conquest = newConquest
+                            });
                         }
                     }
 
                     //Remove Walls that have been removed from DB
-                    for (var j = 0; j < newConquest.WallList.Count; j++)
-                    {
+                    for (var j = 0; j < newConquest.WallList.Count; j++) {
                         if (newConquest.WallList[j].Info == null)
                             newConquest.WallList.Remove(newConquest.WallList[j]);
                     }
 
-                    
+
                     //Bind Info to Saved Siege objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ConquestSieges.Count; j++)
-                    {
+                    for (var j = 0; j < ConquestInfos[i].ConquestSieges.Count; j++) {
                         tempSiege = newConquest.SiegeList.FirstOrDefault(x => x.Index == ConquestInfos[i].ConquestSieges[j].Index);
 
-                        if (tempSiege != null)
-                        {
+                        if (tempSiege != null) {
                             tempSiege.Info = ConquestInfos[i].ConquestSieges[j];
                             tempSiege.Conquest = newConquest;
-                        }
-                        else
-                        {
-                            newConquest.SiegeList.Add(new ConquestSiegeObject { Info = ConquestInfos[i].ConquestSieges[j], Index = ConquestInfos[i].ConquestSieges[j].Index, Health = uint.MaxValue, Conquest = newConquest });
+                        } else {
+                            newConquest.SiegeList.Add(new ConquestSiegeObject {
+                                Info = ConquestInfos[i].ConquestSieges[j],
+                                Index = ConquestInfos[i].ConquestSieges[j].Index,
+                                Health = uint.MaxValue,
+                                Conquest = newConquest
+                            });
                         }
                     }
 
                     //Remove Siege that have been removed from DB
-                    for (var j = 0; j < newConquest.SiegeList.Count; j++)
-                    {
+                    for (var j = 0; j < newConquest.SiegeList.Count; j++) {
                         if (newConquest.SiegeList[j].Info == null)
                             newConquest.SiegeList.Remove(newConquest.SiegeList[j]);
                     }
 
                     //Bind Info to Saved Flag objects or create new objects
-                    for (var j = 0; j < ConquestInfos[i].ControlPoints.Count; j++)
-                    {
+                    for (var j = 0; j < ConquestInfos[i].ControlPoints.Count; j++) {
                         ConquestFlagObject cp;
-                        newConquest.ControlPoints.Add(cp = new ConquestFlagObject { Info = ConquestInfos[i].ControlPoints[j], Index = ConquestInfos[i].ControlPoints[j].Index, Conquest = newConquest }, new Dictionary<GuildObject, int>());
+                        newConquest.ControlPoints.Add(cp = new ConquestFlagObject {
+                            Info = ConquestInfos[i].ControlPoints[j],
+                            Index = ConquestInfos[i].ControlPoints[j].Index,
+                            Conquest = newConquest
+                        }, new Dictionary<GuildObject, int>());
 
                         cp.Spawn();
                     }
@@ -1757,10 +3113,8 @@ namespace Server.MirEnvir
             }
         }
 
-        private bool BindCharacter(AuctionInfo auction)
-        {
-            for (var i = 0; i < CharacterList.Count; i++)
-            {
+        private bool BindCharacter(AuctionInfo auction) {
+            for (var i = 0; i < CharacterList.Count; i++) {
                 if (CharacterList[i].Index != auction.CharacterIndex) continue;
 
                 auction.CharacterInfo = CharacterList[i];
@@ -1770,55 +3124,49 @@ namespace Server.MirEnvir
 
         }
 
-        public void Start()
-        {
+        public void Start() {
             if (Running || _thread != null) return;
 
             Running = true;
 
-            _thread = new Thread(WorkLoop) {IsBackground = true};
+            _thread = new Thread(WorkLoop) {
+                IsBackground = true
+            };
             _thread.Start();
 
         }
-        public void Stop()
-        {
+        public void Stop() {
             Running = false;
 
-            lock (_locker)
-            {
-                Monitor.PulseAll(_locker);         // changing a blocking condition. (this makes the threads wake up!)
+            lock (_locker) {
+                Monitor.PulseAll(_locker); // changing a blocking condition. (this makes the threads wake up!)
             }
 
             //simply intterupt all the mob threads if they are running (will give an invisible error on them but fastest way of getting rid of them on shutdowns)
-            for (var i = 1; i < MobThreading.Length; i++)
-            {
+            for (var i = 1; i < MobThreading.Length; i++) {
                 if (MobThreads[i] != null)
                     MobThreads[i].EndTime = Time + 9999;
                 if (MobThreading[i] != null &&
-                    MobThreading[i].ThreadState != System.Threading.ThreadState.Stopped && MobThreading[i].ThreadState != System.Threading.ThreadState.Unstarted)
-                {
+                    MobThreading[i].ThreadState != System.Threading.ThreadState.Stopped && MobThreading[i].ThreadState != System.Threading.ThreadState.Unstarted) {
                     MobThreading[i].Interrupt();
                 }
             }
 
-            http?.Stop();
+            _http?.Stop();
 
             while (_thread != null)
-                    Thread.Sleep(1);
+                Thread.Sleep(1);
         }
 
-        public void Reboot()
-        {
-            new Thread(() =>
-            {
+        public void Reboot() {
+            new Thread(() => {
                 MessageQueue.Enqueue("Server rebooting...");
                 Stop();
                 Start();
             }).Start();
         }
-        
-        private void StartEnvir()
-        {
+
+        private void StartEnvir() {
             Players.Clear();
             StartPoints.Clear();
             StartItems.Clear();
@@ -1841,8 +3189,7 @@ namespace Server.MirEnvir
                 MapInfoList[i].CreateMap();
             MessageQueue.Enqueue($"{MapInfoList.Count} Maps Loaded.");
 
-            for (var i = 0; i < ItemInfoList.Count; i++)
-            {
+            for (var i = 0; i < ItemInfoList.Count; i++) {
                 if (ItemInfoList[i].StartItem)
                     StartItems.Add(ItemInfoList[i]);
             }
@@ -1856,25 +3203,35 @@ namespace Server.MirEnvir
             LoadBlackStoneDrops();
             MessageQueue.Enqueue("Drops Loaded.");
 
-            if (DragonInfo.Enabled)
-            {
+            if (DragonInfo.Enabled) {
                 DragonSystem = new Dragon(DragonInfo);
-                if (DragonSystem != null)
-                {
+                if (DragonSystem != null) {
                     if (DragonSystem.Load()) DragonSystem.Info.LoadDrops();
                 }
 
                 MessageQueue.Enqueue("Dragon Loaded.");
             }
 
-            DefaultNPC = new NPCObject(new NPCInfo() { Name = "DefaultNPC", FileName = Settings.DefaultNPCFilename, IsDefault = true });
-            MonsterNPC = new NPCObject(new NPCInfo() { Name = "MonsterNPC", FileName = Settings.MonsterNPCFilename, IsDefault = true });
-            RobotNPC = new NPCObject(new NPCInfo() { Name = "RobotNPC", FileName = Settings.RobotNPCFilename, IsDefault = true, IsRobot = true });
+            DefaultNPC = new NPCObject(new NPCInfo() {
+                Name = "DefaultNPC",
+                FileName = Settings.DefaultNPCFilename,
+                IsDefault = true
+            });
+            MonsterNPC = new NPCObject(new NPCInfo() {
+                Name = "MonsterNPC",
+                FileName = Settings.MonsterNPCFilename,
+                IsDefault = true
+            });
+            RobotNPC = new NPCObject(new NPCInfo() {
+                Name = "RobotNPC",
+                FileName = Settings.RobotNPCFilename,
+                IsDefault = true,
+                IsRobot = true
+            });
 
             MessageQueue.Enqueue("Envir Started.");
         }
-        private void StartNetwork()
-        {
+        private void StartNetwork() {
             Connections.Clear();
 
             LoadAccounts();
@@ -1887,8 +3244,7 @@ namespace Server.MirEnvir
             _listener.Start();
             _listener.BeginAcceptTcpClient(Connection, null);
 
-            if (StatusPortEnabled)
-            {
+            if (StatusPortEnabled) {
                 _StatusPort = new TcpListener(IPAddress.Parse(Settings.IPAddress), 3000);
                 _StatusPort.Start();
                 _StatusPort.BeginAcceptTcpClient(StatusConnection, null);
@@ -1898,8 +3254,7 @@ namespace Server.MirEnvir
             //FixGuilds();
         }
 
-        private void StopEnvir()
-        {
+        private void StopEnvir() {
             SaveGoods(true);
 
             MapList.Clear();
@@ -1914,17 +3269,14 @@ namespace Server.MirEnvir
 
             MessageQueue.Enqueue("Envir Stopped.");
         }
-        private void StopNetwork()
-        {
+        private void StopNetwork() {
             _listener.Stop();
-            lock (Connections)
-            {
+            lock (Connections) {
                 for (var i = Connections.Count - 1; i >= 0; i--)
                     Connections[i].SendDisconnect(0);
             }
 
-            if (StatusPortEnabled)
-            {
+            if (StatusPortEnabled) {
                 _StatusPort.Stop();
                 for (var i = StatusConnections.Count - 1; i >= 0; i--)
                     StatusConnections[i].SendDisconnect();
@@ -1932,8 +3284,7 @@ namespace Server.MirEnvir
 
             var expire = Time + 5000;
 
-            while (Connections.Count != 0 && Stopwatch.ElapsedMilliseconds < expire)
-            {
+            while (Connections.Count != 0 && Stopwatch.ElapsedMilliseconds < expire) {
                 Time = Stopwatch.ElapsedMilliseconds;
 
                 for (var i = Connections.Count - 1; i >= 0; i--)
@@ -1941,13 +3292,12 @@ namespace Server.MirEnvir
 
                 Thread.Sleep(1);
             }
-            
+
 
             Connections.Clear();
 
             expire = Time + 10000;
-            while (StatusConnections.Count != 0 && Stopwatch.ElapsedMilliseconds < expire)
-            {
+            while (StatusConnections.Count != 0 && Stopwatch.ElapsedMilliseconds < expire) {
                 Time = Stopwatch.ElapsedMilliseconds;
 
                 for (var i = StatusConnections.Count - 1; i >= 0; i--)
@@ -1961,21 +3311,16 @@ namespace Server.MirEnvir
             MessageQueue.Enqueue("Network Stopped.");
         }
 
-        private void CleanUp()
-        {
-            for (var i = 0; i < CharacterList.Count; i++)
-            {
+        private void CleanUp() {
+            for (var i = 0; i < CharacterList.Count; i++) {
                 var info = CharacterList[i];
 
-                if (info.Deleted)
-                {
+                if (info.Deleted) {
                     #region Mentor Cleanup
-                    if (info.Mentor > 0)
-                    {
+                    if (info.Mentor > 0) {
                         var Mentor = GetCharacterInfo(info.Mentor);
 
-                        if (Mentor != null)
-                        {
+                        if (Mentor != null) {
                             Mentor.Mentor = 0;
                             Mentor.MentorExp = 0;
                             Mentor.isMentor = false;
@@ -1988,8 +3333,7 @@ namespace Server.MirEnvir
                     #endregion
 
                     #region Marriage Cleanup
-                    if (info.Married > 0)
-                    {
+                    if (info.Married > 0) {
                         var Lover = GetCharacterInfo(info.Married);
 
                         info.Married = 0;
@@ -2002,18 +3346,14 @@ namespace Server.MirEnvir
                     }
                     #endregion
 
-                    if (info.DeleteDate < DateTime.Now.AddDays(-7))
-                    {
+                    if (info.DeleteDate < DateTime.Now.AddDays(-7)) {
                         //delete char from db
                     }
                 }
 
-                if(info.Mail.Count > Settings.MailCapacity)
-                {
-                    for (var j = info.Mail.Count - 1 - (int)Settings.MailCapacity; j >= 0; j--)
-                    {
-                        if (info.Mail[j].DateOpened > DateTime.Now && info.Mail[j].Collected && info.Mail[j].Items.Count == 0 && info.Mail[j].Gold == 0)
-                        {
+                if (info.Mail.Count > Settings.MailCapacity) {
+                    for (var j = info.Mail.Count - 1 - (int)Settings.MailCapacity; j >= 0; j--) {
+                        if (info.Mail[j].DateOpened > DateTime.Now && info.Mail[j].Collected && info.Mail[j].Items.Count == 0 && info.Mail[j].Gold == 0) {
                             info.Mail.Remove(info.Mail[j]);
                         }
                     }
@@ -2021,29 +3361,20 @@ namespace Server.MirEnvir
             }
         }
 
-        private void Connection(IAsyncResult result)
-        {
-            try
-            {
+        private void Connection(IAsyncResult result) {
+            try {
                 if (!Running || !_listener.Server.IsBound) return;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 MessageQueue.Enqueue(e.ToString());
             }
 
-            try
-            {
+            try {
                 var tempTcpClient = _listener.EndAcceptTcpClient(result);
                 lock (Connections)
                     Connections.Add(new MirConnection(++_sessionID, tempTcpClient));
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageQueue.Enqueue(ex);
-            }
-            finally
-            {
+            } finally {
                 while (Connections.Count >= Settings.MaxUser)
                     Thread.Sleep(1);
 
@@ -2052,22 +3383,16 @@ namespace Server.MirEnvir
             }
         }
 
-        private void StatusConnection(IAsyncResult result)
-        {
+        private void StatusConnection(IAsyncResult result) {
             if (!Running || !_StatusPort.Server.IsBound) return;
 
-            try
-            {
+            try {
                 var tempTcpClient = _StatusPort.EndAcceptTcpClient(result);
                 lock (StatusConnections)
                     StatusConnections.Add(new MirStatusConnection(tempTcpClient));
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageQueue.Enqueue(ex);
-            }
-            finally
-            {
+            } finally {
                 while (StatusConnections.Count >= 5) //dont allow to many status port connections it's just an abuse thing
                     Thread.Sleep(1);
 
@@ -2075,154 +3400,163 @@ namespace Server.MirEnvir
                     _StatusPort.BeginAcceptTcpClient(StatusConnection, null);
             }
         }
-     
-        public void NewAccount(ClientPackets.NewAccount p, MirConnection c)
-        {
-            if (!Settings.AllowNewAccount)
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 0});
+
+        public void NewAccount(ClientPackets.NewAccount p, MirConnection c) {
+            if (!Settings.AllowNewAccount) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 0
+                });
                 return;
             }
 
-            if (!AccountIDReg.IsMatch(p.AccountID))
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 1});
+            if (!AccountIDReg.IsMatch(p.AccountID)) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 1
+                });
                 return;
             }
 
-            if (!PasswordReg.IsMatch(p.Password))
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 2});
+            if (!PasswordReg.IsMatch(p.Password)) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 2
+                });
                 return;
             }
             if (!string.IsNullOrWhiteSpace(p.EMailAddress) && !EMailReg.IsMatch(p.EMailAddress) ||
-                p.EMailAddress.Length > 50)
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 3});
+                p.EMailAddress.Length > 50) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 3
+                });
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.UserName) && p.UserName.Length > 20)
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 4});
+            if (!string.IsNullOrWhiteSpace(p.UserName) && p.UserName.Length > 20) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 4
+                });
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.SecretQuestion) && p.SecretQuestion.Length > 30)
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 5});
+            if (!string.IsNullOrWhiteSpace(p.SecretQuestion) && p.SecretQuestion.Length > 30) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 5
+                });
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.SecretAnswer) && p.SecretAnswer.Length > 30)
-            {
-                c.Enqueue(new ServerPackets.NewAccount {Result = 6});
+            if (!string.IsNullOrWhiteSpace(p.SecretAnswer) && p.SecretAnswer.Length > 30) {
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 6
+                });
                 return;
             }
 
-            lock (AccountLock)
-            {
-                if (AccountExists(p.AccountID))
-                {
-                    c.Enqueue(new ServerPackets.NewAccount {Result = 7});
+            lock (AccountLock) {
+                if (AccountExists(p.AccountID)) {
+                    c.Enqueue(new ServerPackets.NewAccount {
+                        Result = 7
+                    });
                     return;
                 }
 
-                AccountList.Add(new AccountInfo(p) {Index = ++NextAccountID, CreationIP = c.IPAddress});
+                AccountList.Add(new AccountInfo(p) {
+                    Index = ++NextAccountID,
+                    CreationIP = c.IPAddress
+                });
 
 
-                c.Enqueue(new ServerPackets.NewAccount {Result = 8});
+                c.Enqueue(new ServerPackets.NewAccount {
+                    Result = 8
+                });
             }
         }
 
-        public int HTTPNewAccount(ClientPackets.NewAccount p, string ip)
-        {
-            if (!Settings.AllowNewAccount)
-            {                
+        public int HTTPNewAccount(ClientPackets.NewAccount p, string ip) {
+            if (!Settings.AllowNewAccount) {
                 return 0;
             }
 
-            if (!AccountIDReg.IsMatch(p.AccountID))
-            {
+            if (!AccountIDReg.IsMatch(p.AccountID)) {
                 return 1;
             }
 
-            if (!PasswordReg.IsMatch(p.Password))
-            {
+            if (!PasswordReg.IsMatch(p.Password)) {
                 return 2;
             }
             if (!string.IsNullOrWhiteSpace(p.EMailAddress) && !EMailReg.IsMatch(p.EMailAddress) ||
-                p.EMailAddress.Length > 50)
-            {
+                p.EMailAddress.Length > 50) {
                 return 3;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.UserName) && p.UserName.Length > 20)
-            {
+            if (!string.IsNullOrWhiteSpace(p.UserName) && p.UserName.Length > 20) {
                 return 4;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.SecretQuestion) && p.SecretQuestion.Length > 30)
-            {
+            if (!string.IsNullOrWhiteSpace(p.SecretQuestion) && p.SecretQuestion.Length > 30) {
                 return 5;
             }
 
-            if (!string.IsNullOrWhiteSpace(p.SecretAnswer) && p.SecretAnswer.Length > 30)
-            {
+            if (!string.IsNullOrWhiteSpace(p.SecretAnswer) && p.SecretAnswer.Length > 30) {
                 return 6;
             }
 
-            lock (AccountLock)
-            {
-                if (AccountExists(p.AccountID))
-                {
+            lock (AccountLock) {
+                if (AccountExists(p.AccountID)) {
                     return 7;
                 }
 
-                AccountList.Add(new AccountInfo(p) { Index = ++NextAccountID, CreationIP = ip });
+                AccountList.Add(new AccountInfo(p) {
+                    Index = ++NextAccountID,
+                    CreationIP = ip
+                });
                 return 8;
             }
         }
 
-        public void ChangePassword(ClientPackets.ChangePassword p, MirConnection c)
-        {
-            if (!Settings.AllowChangePassword)
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 0});
+        public void ChangePassword(ClientPackets.ChangePassword p, MirConnection c) {
+            if (!Settings.AllowChangePassword) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 0
+                });
                 return;
             }
 
-            if (!AccountIDReg.IsMatch(p.AccountID))
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 1});
+            if (!AccountIDReg.IsMatch(p.AccountID)) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 1
+                });
                 return;
             }
 
-            if (!PasswordReg.IsMatch(p.CurrentPassword))
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 2});
+            if (!PasswordReg.IsMatch(p.CurrentPassword)) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 2
+                });
                 return;
             }
 
-            if (!PasswordReg.IsMatch(p.NewPassword))
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 3});
+            if (!PasswordReg.IsMatch(p.NewPassword)) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 3
+                });
                 return;
             }
 
             var account = GetAccount(p.AccountID);
 
-            if (account == null)
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 4});
+            if (account == null) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 4
+                });
                 return;
             }
 
-            if (account.Banned)
-            {
-                if (account.ExpiryDate > Now)
-                {
-                    c.Enqueue(new ServerPackets.ChangePasswordBanned {Reason = account.BanReason, ExpiryDate = account.ExpiryDate});
+            if (account.Banned) {
+                if (account.ExpiryDate > Now) {
+                    c.Enqueue(new ServerPackets.ChangePasswordBanned {
+                        Reason = account.BanReason,
+                        ExpiryDate = account.ExpiryDate
+                    });
                     return;
                 }
                 account.Banned = false;
@@ -2230,48 +3564,51 @@ namespace Server.MirEnvir
             account.BanReason = string.Empty;
             account.ExpiryDate = DateTime.MinValue;
 
-            if (string.CompareOrdinal(account.Password, p.CurrentPassword) != 0)
-            {
-                c.Enqueue(new ServerPackets.ChangePassword {Result = 5});
+            if (string.CompareOrdinal(account.Password, p.CurrentPassword) != 0) {
+                c.Enqueue(new ServerPackets.ChangePassword {
+                    Result = 5
+                });
                 return;
             }
 
             account.Password = p.NewPassword;
-            c.Enqueue(new ServerPackets.ChangePassword {Result = 6});
+            c.Enqueue(new ServerPackets.ChangePassword {
+                Result = 6
+            });
         }
-        public void Login(ClientPackets.Login p, MirConnection c)
-        {
-            if (!Settings.AllowLogin)
-            {
-                c.Enqueue(new ServerPackets.Login { Result = 0 });
+        public void Login(ClientPackets.Login p, MirConnection c) {
+            if (!Settings.AllowLogin) {
+                c.Enqueue(new ServerPackets.Login {
+                    Result = 0
+                });
                 return;
             }
 
-            if (!AccountIDReg.IsMatch(p.AccountID))
-            {
-                c.Enqueue(new ServerPackets.Login { Result = 1 });
+            if (!AccountIDReg.IsMatch(p.AccountID)) {
+                c.Enqueue(new ServerPackets.Login {
+                    Result = 1
+                });
                 return;
             }
 
-            if (!PasswordReg.IsMatch(p.Password))
-            {
-                c.Enqueue(new ServerPackets.Login { Result = 2 });
+            if (!PasswordReg.IsMatch(p.Password)) {
+                c.Enqueue(new ServerPackets.Login {
+                    Result = 2
+                });
                 return;
             }
             var account = GetAccount(p.AccountID);
 
-            if (account == null)
-            {
-                c.Enqueue(new ServerPackets.Login { Result = 3 });
+            if (account == null) {
+                c.Enqueue(new ServerPackets.Login {
+                    Result = 3
+                });
                 return;
             }
 
-            if (account.Banned)
-            {
-                if (account.ExpiryDate > DateTime.Now)
-                {
-                    c.Enqueue(new ServerPackets.LoginBanned
-                    {
+            if (account.Banned) {
+                if (account.ExpiryDate > DateTime.Now) {
+                    c.Enqueue(new ServerPackets.LoginBanned {
                         Reason = account.BanReason,
                         ExpiryDate = account.ExpiryDate
                     });
@@ -2279,33 +3616,31 @@ namespace Server.MirEnvir
                 }
                 account.Banned = false;
             }
-                account.BanReason = string.Empty;
-                account.ExpiryDate = DateTime.MinValue;
+            account.BanReason = string.Empty;
+            account.ExpiryDate = DateTime.MinValue;
 
 
-            if (string.CompareOrdinal(account.Password, p.Password) != 0)
-            {
-                if (account.WrongPasswordCount++ >= 5)
-                {
+            if (string.CompareOrdinal(account.Password, p.Password) != 0) {
+                if (account.WrongPasswordCount++ >= 5) {
                     account.Banned = true;
                     account.BanReason = "Too many Wrong Login Attempts.";
                     account.ExpiryDate = DateTime.Now.AddMinutes(2);
 
-                    c.Enqueue(new ServerPackets.LoginBanned
-                    {
+                    c.Enqueue(new ServerPackets.LoginBanned {
                         Reason = account.BanReason,
                         ExpiryDate = account.ExpiryDate
                     });
                     return;
                 }
 
-                c.Enqueue(new ServerPackets.Login { Result = 4 });
+                c.Enqueue(new ServerPackets.Login {
+                    Result = 4
+                });
                 return;
             }
             account.WrongPasswordCount = 0;
 
-            lock (AccountLock)
-            {
+            lock (AccountLock) {
                 account.Connection?.SendDisconnect(1);
 
                 account.Connection = c;
@@ -2318,60 +3653,53 @@ namespace Server.MirEnvir
             account.LastIP = c.IPAddress;
 
             MessageQueue.Enqueue(account.Connection.SessionID + ", " + account.Connection.IPAddress + ", User logged in.");
-            c.Enqueue(new ServerPackets.LoginSuccess { });
+            c.Enqueue(new ServerPackets.LoginSuccess {
+            });
         }
 
-        public void Logout(ClientPackets.Logout p, MirConnection c)
-        {
+        public void Logout(ClientPackets.Logout p, MirConnection c) {
             c.Account.Connection = null;
             c.Account = null;
             c.Stage = GameStage.Login;
-            c.Enqueue(new ServerPackets.LogoutSuccess { });
+            c.Enqueue(new ServerPackets.LogoutSuccess {
+            });
         }
 
-        public void RequestCharacters(MirConnection c)
-        {            
-            c.Enqueue(new ServerPackets.SelectCharacters { Characters = c.Account.GetSelectInfo() });
+        public void RequestCharacters(MirConnection c) {
+            c.Enqueue(new ServerPackets.SelectCharacters {
+                Characters = c.Account.GetSelectInfo()
+            });
         }
 
-        public int HTTPLogin(string AccountID, string Password)
-        {
-            if (!Settings.AllowLogin)
-            {
+        public int HTTPLogin(string AccountID, string Password) {
+            if (!Settings.AllowLogin) {
                 return 0;
             }
 
-            if (!AccountIDReg.IsMatch(AccountID))
-            {
+            if (!AccountIDReg.IsMatch(AccountID)) {
                 return 1;
             }
 
-            if (!PasswordReg.IsMatch(Password))
-            {
+            if (!PasswordReg.IsMatch(Password)) {
                 return 2;
             }
 
             var account = GetAccount(AccountID);
 
-            if (account == null)
-            {
+            if (account == null) {
                 return 3;
             }
 
-            if (account.Banned)
-            {
-                if (account.ExpiryDate > DateTime.Now)
-                {
+            if (account.Banned) {
+                if (account.ExpiryDate > DateTime.Now) {
                     return 4;
                 }
                 account.Banned = false;
             }
             account.BanReason = string.Empty;
             account.ExpiryDate = DateTime.MinValue;
-            if (string.CompareOrdinal(account.Password, Password) != 0)
-            {
-                if (account.WrongPasswordCount++ >= 5)
-                {
+            if (string.CompareOrdinal(account.Password, Password) != 0) {
+                if (account.WrongPasswordCount++ >= 5) {
                     account.Banned = true;
                     account.BanReason = "Too many Wrong Login Attempts.";
                     account.ExpiryDate = DateTime.Now.AddMinutes(2);
@@ -2383,86 +3711,94 @@ namespace Server.MirEnvir
             return 7;
         }
 
-        public void NewCharacter(ClientPackets.NewCharacter p, MirConnection c, bool IsGm)
-        {
-            if (!Settings.AllowNewCharacter)
-            {
-                c.Enqueue(new ServerPackets.NewCharacter {Result = 0});
+        public void NewCharacter(ClientPackets.NewCharacter p, MirConnection c, bool IsGm) {
+            if (!Settings.AllowNewCharacter) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 0
+                });
                 return;
             }
 
-            if (!CharacterReg.IsMatch(p.Name) || p.Name.Length < 5)
-            {
-                c.Enqueue(new ServerPackets.NewCharacter {Result = 1});
+            if (!CharacterReg.IsMatch(p.Name) || p.Name.Length < 5) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 1
+                });
                 return;
             }
 
-            if (!IsGm && DisabledCharNames.Contains(p.Name.ToUpper()))
-            {
-                c.Enqueue(new ServerPackets.NewCharacter { Result = 1 });
+            if (!IsGm && DisabledCharNames.Contains(p.Name.ToUpper())) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 1
+                });
                 return;
             }
 
-            if (p.Gender != MirGender.Male && p.Gender != MirGender.Female)
-            {
-                c.Enqueue(new ServerPackets.NewCharacter {Result = 2});
+            if (p.Gender != MirGender.Male && p.Gender != MirGender.Female) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 2
+                });
                 return;
             }
 
             if (p.Class != MirClass.Warrior && p.Class != MirClass.Wizard && p.Class != MirClass.Taoist &&
-                p.Class != MirClass.Assassin && p.Class != MirClass.Archer)
-            {
-                c.Enqueue(new ServerPackets.NewCharacter {Result = 3});
+                p.Class != MirClass.Assassin && p.Class != MirClass.Archer) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 3
+                });
                 return;
             }
 
-            if(p.Class == MirClass.Assassin && !Settings.AllowCreateAssassin ||
-                p.Class == MirClass.Archer && !Settings.AllowCreateArcher)
-            {
-                c.Enqueue(new ServerPackets.NewCharacter { Result = 3 });
+            if (p.Class == MirClass.Assassin && !Settings.AllowCreateAssassin ||
+                p.Class == MirClass.Archer && !Settings.AllowCreateArcher) {
+                c.Enqueue(new ServerPackets.NewCharacter {
+                    Result = 3
+                });
                 return;
             }
 
             var count = 0;
 
-            for (var i = 0; i < c.Account.Characters.Count; i++)
-            {
+            for (var i = 0; i < c.Account.Characters.Count; i++) {
                 if (c.Account.Characters[i].Deleted) continue;
 
-                if (++count >= Globals.MaxCharacterCount)
-                {
-                    c.Enqueue(new ServerPackets.NewCharacter {Result = 4});
+                if (++count >= Globals.MaxCharacterCount) {
+                    c.Enqueue(new ServerPackets.NewCharacter {
+                        Result = 4
+                    });
                     return;
                 }
             }
 
-            lock (AccountLock)
-            {
-                if (CharacterExists(p.Name))
-                {
-                    c.Enqueue(new ServerPackets.NewCharacter {Result = 5});
+            lock (AccountLock) {
+                if (CharacterExists(p.Name)) {
+                    c.Enqueue(new ServerPackets.NewCharacter {
+                        Result = 5
+                    });
                     return;
                 }
 
-                var info = new CharacterInfo(p, c) { Index = ++NextCharacterID, AccountInfo = c.Account };
+                var info = new CharacterInfo(p, c) {
+                    Index = ++NextCharacterID,
+                    AccountInfo = c.Account
+                };
 
                 c.Account.Characters.Add(info);
                 CharacterList.Add(info);
 
-                c.Enqueue(new ServerPackets.NewCharacterSuccess {CharInfo = info.ToSelectInfo()});
+                c.Enqueue(new ServerPackets.NewCharacterSuccess {
+                    CharInfo = info.ToSelectInfo()
+                });
             }
         }
 
-        public bool AccountExists(string accountID)
-        {
-                for (var i = 0; i < AccountList.Count; i++)
-                    if (string.Compare(AccountList[i].AccountID, accountID, StringComparison.OrdinalIgnoreCase) == 0)
-                        return true;
+        public bool AccountExists(string accountID) {
+            for (var i = 0; i < AccountList.Count; i++)
+                if (string.Compare(AccountList[i].AccountID, accountID, StringComparison.OrdinalIgnoreCase) == 0)
+                    return true;
 
-                return false;
+            return false;
         }
-        public bool CharacterExists(string name)
-        {
+        public bool CharacterExists(string name) {
             for (var i = 0; i < CharacterList.Count; i++)
                 if (string.Compare(CharacterList[i].Name, name, StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
@@ -2470,29 +3806,23 @@ namespace Server.MirEnvir
             return false;
         }
 
-        private AccountInfo GetAccount(string accountID)
-        {
-                for (var i = 0; i < AccountList.Count; i++)
-                    if (string.Compare(AccountList[i].AccountID, accountID, StringComparison.OrdinalIgnoreCase) == 0)
-                        return AccountList[i];
+        private AccountInfo GetAccount(string accountID) {
+            for (var i = 0; i < AccountList.Count; i++)
+                if (string.Compare(AccountList[i].AccountID, accountID, StringComparison.OrdinalIgnoreCase) == 0)
+                    return AccountList[i];
 
-                return null;
+            return null;
         }
-        public List<AccountInfo> MatchAccounts(string accountID, bool match = false)
-        {
+        public List<AccountInfo> MatchAccounts(string accountID, bool match = false) {
             if (string.IsNullOrEmpty(accountID)) return new List<AccountInfo>(AccountList);
 
             var list = new List<AccountInfo>();
 
-            for (var i = 0; i < AccountList.Count; i++)
-            {
-                if (match)
-                {
+            for (var i = 0; i < AccountList.Count; i++) {
+                if (match) {
                     if (AccountList[i].AccountID.Equals(accountID, StringComparison.OrdinalIgnoreCase))
                         list.Add(AccountList[i]);
-                }
-                else
-                {
+                } else {
                     if (AccountList[i].AccountID.IndexOf(accountID, StringComparison.OrdinalIgnoreCase) >= 0)
                         list.Add(AccountList[i]);
                 }
@@ -2501,23 +3831,17 @@ namespace Server.MirEnvir
             return list;
         }
 
-        public List<AccountInfo> MatchAccountsByPlayer(string playerName, bool match = false)
-        {
+        public List<AccountInfo> MatchAccountsByPlayer(string playerName, bool match = false) {
             if (string.IsNullOrEmpty(playerName)) return new List<AccountInfo>(AccountList);
 
             var list = new List<AccountInfo>();
 
-            for (var i = 0; i < AccountList.Count; i++)
-            {
-                for (var j = 0; j < AccountList[i].Characters.Count; j++)
-                {
-                    if (match)
-                    {
+            for (var i = 0; i < AccountList.Count; i++) {
+                for (var j = 0; j < AccountList[i].Characters.Count; j++) {
+                    if (match) {
                         if (AccountList[i].Characters[j].Name.Equals(playerName, StringComparison.OrdinalIgnoreCase))
                             list.Add(AccountList[i]);
-                    }
-                    else
-                    {
+                    } else {
                         if (AccountList[i].Characters[j].Name.IndexOf(playerName, StringComparison.OrdinalIgnoreCase) >= 0)
                             list.Add(AccountList[i]);
                     }
@@ -2527,100 +3851,104 @@ namespace Server.MirEnvir
             return list;
         }
 
-        public void CreateAccountInfo()
-        {
-            AccountList.Add(new AccountInfo {Index = ++NextAccountID});
+        public void CreateAccountInfo() {
+            AccountList.Add(new AccountInfo {
+                Index = ++NextAccountID
+            });
         }
-        public void CreateMapInfo()
-        {
-            MapInfoList.Add(new MapInfo {Index = ++MapIndex});
+        public void CreateMapInfo() {
+            MapInfoList.Add(new MapInfo {
+                Index = ++MapIndex
+            });
         }
-        public void CreateItemInfo(ItemType type = ItemType.Nothing)
-        {
-            ItemInfoList.Add(new ItemInfo { Index = ++ItemIndex, Type = type, RandomStatsId = 255});
+        public void CreateItemInfo(ItemType type = ItemType.Nothing) {
+            ItemInfoList.Add(new ItemInfo {
+                Index = ++ItemIndex,
+                Type = type,
+                RandomStatsId = 255
+            });
         }
-        public void CreateMonsterInfo()
-        {
-            MonsterInfoList.Add(new MonsterInfo {Index = ++MonsterIndex});
+        public void CreateMonsterInfo() {
+            MonsterInfoList.Add(new MonsterInfo {
+                Index = ++MonsterIndex
+            });
         }
-        public void CreateNPCInfo()
-        {
-            NPCInfoList.Add(new NPCInfo { Index = ++NPCIndex });
+        public void CreateNPCInfo() {
+            NPCInfoList.Add(new NPCInfo {
+                Index = ++NPCIndex
+            });
         }
-        public void CreateQuestInfo()
-        {
-            QuestInfoList.Add(new QuestInfo { Index = ++QuestIndex });
+        public void CreateQuestInfo() {
+            QuestInfoList.Add(new QuestInfo {
+                Index = ++QuestIndex
+            });
         }
 
-        public void AddToGameShop(ItemInfo Info)
-        {
-            GameShopList.Add(new GameShopItem { GIndex = ++GameshopIndex, GoldPrice = (uint)(1000 * Settings.CredxGold), CreditPrice = 1000, ItemIndex = Info.Index, Info = Info, Date = DateTime.Now, Class = "All", Category = Info.Type.ToString() });
+        public void AddToGameShop(ItemInfo Info) {
+            GameShopList.Add(new GameShopItem {
+                GIndex = ++GameshopIndex,
+                GoldPrice = (uint)(1000 * Settings.CredxGold),
+                CreditPrice = 1000,
+                ItemIndex = Info.Index,
+                Info = Info,
+                Date = DateTime.Now,
+                Class = "All",
+                Category = Info.Type.ToString()
+            });
         }
 
-        public void Remove(MapInfo info)
-        {
+        public void Remove(MapInfo info) {
             MapInfoList.Remove(info);
             //Desync all objects\
         }
-        public void Remove(ItemInfo info)
-        {
+        public void Remove(ItemInfo info) {
             ItemInfoList.Remove(info);
         }
-        public void Remove(MonsterInfo info)
-        {
+        public void Remove(MonsterInfo info) {
             MonsterInfoList.Remove(info);
             //Desync all objects\
         }
-        public void Remove(NPCInfo info)
-        {
+        public void Remove(NPCInfo info) {
             NPCInfoList.Remove(info);
             //Desync all objects\
         }
-        public void Remove(QuestInfo info)
-        {
+        public void Remove(QuestInfo info) {
             QuestInfoList.Remove(info);
             //Desync all objects\
         }
 
-        public void Remove(GameShopItem info)
-        {
+        public void Remove(GameShopItem info) {
             GameShopList.Remove(info);
 
-            if (GameShopList.Count == 0)
-            {
+            if (GameShopList.Count == 0) {
                 GameshopIndex = 0;
             }
-                
+
             //Desync all objects\
         }
 
-        public UserItem CreateFreshItem(ItemInfo info)
-        {
-            var item = new UserItem(info)
-                {
-                    UniqueID = ++NextUserItemID,
-                    CurrentDura = info.Durability,
-                    MaxDura = info.Durability
-                };
+        public UserItem CreateFreshItem(ItemInfo info) {
+            var item = new UserItem(info) {
+                UniqueID = ++NextUserItemID,
+                CurrentDura = info.Durability,
+                MaxDura = info.Durability
+            };
 
             UpdateItemExpiry(item);
 
             return item;
         }
-        public UserItem CreateDropItem(int index)
-        {
+        public UserItem CreateDropItem(int index) {
             return CreateDropItem(GetItemInfo(index));
         }
-        public UserItem CreateDropItem(ItemInfo info)
-        {
+        public UserItem CreateDropItem(ItemInfo info) {
             if (info == null) return null;
 
-            var item = new UserItem(info)
-                {
-                    UniqueID = ++NextUserItemID,
-                    MaxDura = info.Durability,
-                    CurrentDura = (ushort) Math.Min(info.Durability, Random.Next(info.Durability) + 1000)
-                };
+            var item = new UserItem(info) {
+                UniqueID = ++NextUserItemID,
+                MaxDura = info.Durability,
+                CurrentDura = (ushort)Math.Min(info.Durability, Random.Next(info.Durability) + 1000)
+            };
 
             UpgradeItem(item);
 
@@ -2630,12 +3958,10 @@ namespace Server.MirEnvir
             return item;
         }
 
-        public UserItem CreateShopItem(ItemInfo info)
-        {
+        public UserItem CreateShopItem(ItemInfo info) {
             if (info == null) return null;
 
-            var item = new UserItem(info)
-            {
+            var item = new UserItem(info) {
                 UniqueID = ++NextUserItemID,
                 CurrentDura = info.Durability,
                 MaxDura = info.Durability,
@@ -2644,10 +3970,9 @@ namespace Server.MirEnvir
             return item;
         }
 
-        public void UpdateItemExpiry(UserItem item)
-        {
+        public void UpdateItemExpiry(UserItem item) {
             //can't have expiry on usable items
-            if (item.Info.Type == ItemType.Scroll || item.Info.Type == ItemType.Potion || 
+            if (item.Info.Type == ItemType.Scroll || item.Info.Type == ItemType.Potion ||
                 item.Info.Type == ItemType.Transform || item.Info.Type == ItemType.Script) return;
 
             var expiryInfo = new ExpireInfo();
@@ -2655,8 +3980,7 @@ namespace Server.MirEnvir
             var r = new Regex(@"\[(.*?)\]");
             var expiryMatch = r.Match(item.Info.Name);
 
-            if (expiryMatch.Success)
-            {
+            if (expiryMatch.Success) {
                 var parameter = expiryMatch.Groups[1].Captures[0].Value;
 
                 var numAlpha = new Regex("(?<Numeric>[0-9]*)(?<Alpha>[a-zA-Z]*)");
@@ -2667,8 +3991,7 @@ namespace Server.MirEnvir
 
                 int.TryParse(match.Groups["Numeric"].Value, out num);
 
-                switch (alpha)
-                {
+                switch (alpha) {
                     case "m":
                         expiryInfo.ExpiryDate = DateTime.Now.AddMinutes(num);
                         break;
@@ -2693,51 +4016,48 @@ namespace Server.MirEnvir
             }
         }
 
-        public void UpgradeItem(UserItem item)
-        {
+        public void UpgradeItem(UserItem item) {
             if (item.Info.RandomStats == null) return;
             var stat = item.Info.RandomStats;
-            if (stat.MaxDuraChance > 0 && Random.Next(stat.MaxDuraChance) == 0)
-            {
+            if (stat.MaxDuraChance > 0 && Random.Next(stat.MaxDuraChance) == 0) {
                 var dura = RandomomRange(stat.MaxDuraMaxStat, stat.MaxDuraStatChance);
                 item.MaxDura = (ushort)Math.Min(ushort.MaxValue, item.MaxDura + dura * 1000);
                 item.CurrentDura = (ushort)Math.Min(ushort.MaxValue, item.CurrentDura + dura * 1000);
             }
 
-            if (stat.MaxAcChance > 0 && Random.Next(stat.MaxAcChance) == 0) item.AC = (byte)(RandomomRange(stat.MaxAcMaxStat-1, stat.MaxAcStatChance)+1);
-            if (stat.MaxMacChance > 0 && Random.Next(stat.MaxMacChance) == 0) item.MAC = (byte)(RandomomRange(stat.MaxMacMaxStat-1, stat.MaxMacStatChance)+1);
-            if (stat.MaxDcChance > 0 && Random.Next(stat.MaxDcChance) == 0) item.DC = (byte)(RandomomRange(stat.MaxDcMaxStat-1, stat.MaxDcStatChance)+1);
-            if (stat.MaxMcChance > 0 && Random.Next(stat.MaxScChance) == 0) item.MC = (byte)(RandomomRange(stat.MaxMcMaxStat-1, stat.MaxMcStatChance)+1);
-            if (stat.MaxScChance > 0 && Random.Next(stat.MaxMcChance) == 0) item.SC = (byte)(RandomomRange(stat.MaxScMaxStat-1, stat.MaxScStatChance)+1);
-            if (stat.AccuracyChance > 0 && Random.Next(stat.AccuracyChance) == 0) item.Accuracy = (byte)(RandomomRange(stat.AccuracyMaxStat-1, stat.AccuracyStatChance)+1);
-            if (stat.AgilityChance > 0 && Random.Next(stat.AgilityChance) == 0) item.Agility = (byte)(RandomomRange(stat.AgilityMaxStat-1, stat.AgilityStatChance)+1);
-            if (stat.HpChance > 0 && Random.Next(stat.HpChance) == 0) item.HP = (byte)(RandomomRange(stat.HpMaxStat-1, stat.HpStatChance)+1);
-            if (stat.MpChance > 0 && Random.Next(stat.MpChance) == 0) item.MP = (byte)(RandomomRange(stat.MpMaxStat-1, stat.MpStatChance)+1);
-            if (stat.StrongChance > 0 && Random.Next(stat.StrongChance) == 0) item.Strong = (byte)(RandomomRange(stat.StrongMaxStat-1, stat.StrongStatChance)+1);
-            if (stat.MagicResistChance > 0 && Random.Next(stat.MagicResistChance) == 0) item.MagicResist = (byte)(RandomomRange(stat.MagicResistMaxStat-1, stat.MagicResistStatChance)+1);
-            if (stat.PoisonResistChance > 0 && Random.Next(stat.PoisonResistChance) == 0) item.PoisonResist = (byte)(RandomomRange(stat.PoisonResistMaxStat-1, stat.PoisonResistStatChance)+1);
-            if (stat.HpRecovChance > 0 && Random.Next(stat.HpRecovChance) == 0) item.HealthRecovery = (byte)(RandomomRange(stat.HpRecovMaxStat-1, stat.HpRecovStatChance)+1);
-            if (stat.MpRecovChance > 0 && Random.Next(stat.MpRecovChance) == 0) item.ManaRecovery = (byte)(RandomomRange(stat.MpRecovMaxStat-1, stat.MpRecovStatChance)+1);
-            if (stat.PoisonRecovChance > 0 && Random.Next(stat.PoisonRecovChance) == 0) item.PoisonRecovery = (byte)(RandomomRange(stat.PoisonRecovMaxStat-1, stat.PoisonRecovStatChance)+1);
-            if (stat.CriticalRateChance > 0 && Random.Next(stat.CriticalRateChance) == 0) item.CriticalRate = (byte)(RandomomRange(stat.CriticalRateMaxStat-1, stat.CriticalRateStatChance)+1);
-            if (stat.CriticalDamageChance > 0 && Random.Next(stat.CriticalDamageChance) == 0) item.CriticalDamage = (byte)(RandomomRange(stat.CriticalDamageMaxStat-1, stat.CriticalDamageStatChance)+1);
-            if (stat.FreezeChance > 0 && Random.Next(stat.FreezeChance) == 0) item.Freezing = (byte)(RandomomRange(stat.FreezeMaxStat-1, stat.FreezeStatChance)+1);
-            if (stat.PoisonAttackChance > 0 && Random.Next(stat.PoisonAttackChance) == 0) item.PoisonAttack = (byte)(RandomomRange(stat.PoisonAttackMaxStat-1, stat.PoisonAttackStatChance)+1);
-            if (stat.AttackSpeedChance > 0 && Random.Next(stat.AttackSpeedChance) == 0) item.AttackSpeed = (sbyte)(RandomomRange(stat.AttackSpeedMaxStat-1, stat.AttackSpeedStatChance)+1);
-            if (stat.LuckChance > 0 && Random.Next(stat.LuckChance) == 0) item.Luck = (sbyte)(RandomomRange(stat.LuckMaxStat-1, stat.LuckStatChance)+1);
+            if (stat.MaxAcChance > 0 && Random.Next(stat.MaxAcChance) == 0) item.AC = (byte)(RandomomRange(stat.MaxAcMaxStat - 1, stat.MaxAcStatChance) + 1);
+            if (stat.MaxMacChance > 0 && Random.Next(stat.MaxMacChance) == 0) item.MAC = (byte)(RandomomRange(stat.MaxMacMaxStat - 1, stat.MaxMacStatChance) + 1);
+            if (stat.MaxDcChance > 0 && Random.Next(stat.MaxDcChance) == 0) item.DC = (byte)(RandomomRange(stat.MaxDcMaxStat - 1, stat.MaxDcStatChance) + 1);
+            if (stat.MaxMcChance > 0 && Random.Next(stat.MaxScChance) == 0) item.MC = (byte)(RandomomRange(stat.MaxMcMaxStat - 1, stat.MaxMcStatChance) + 1);
+            if (stat.MaxScChance > 0 && Random.Next(stat.MaxMcChance) == 0) item.SC = (byte)(RandomomRange(stat.MaxScMaxStat - 1, stat.MaxScStatChance) + 1);
+            if (stat.AccuracyChance > 0 && Random.Next(stat.AccuracyChance) == 0) item.Accuracy = (byte)(RandomomRange(stat.AccuracyMaxStat - 1, stat.AccuracyStatChance) + 1);
+            if (stat.AgilityChance > 0 && Random.Next(stat.AgilityChance) == 0) item.Agility = (byte)(RandomomRange(stat.AgilityMaxStat - 1, stat.AgilityStatChance) + 1);
+            if (stat.HpChance > 0 && Random.Next(stat.HpChance) == 0) item.HP = (byte)(RandomomRange(stat.HpMaxStat - 1, stat.HpStatChance) + 1);
+            if (stat.MpChance > 0 && Random.Next(stat.MpChance) == 0) item.MP = (byte)(RandomomRange(stat.MpMaxStat - 1, stat.MpStatChance) + 1);
+            if (stat.StrongChance > 0 && Random.Next(stat.StrongChance) == 0) item.Strong = (byte)(RandomomRange(stat.StrongMaxStat - 1, stat.StrongStatChance) + 1);
+            if (stat.MagicResistChance > 0 && Random.Next(stat.MagicResistChance) == 0) item.MagicResist = (byte)(RandomomRange(stat.MagicResistMaxStat - 1, stat.MagicResistStatChance) + 1);
+            if (stat.PoisonResistChance > 0 && Random.Next(stat.PoisonResistChance) == 0) item.PoisonResist = (byte)(RandomomRange(stat.PoisonResistMaxStat - 1, stat.PoisonResistStatChance) + 1);
+            if (stat.HpRecovChance > 0 && Random.Next(stat.HpRecovChance) == 0) item.HealthRecovery = (byte)(RandomomRange(stat.HpRecovMaxStat - 1, stat.HpRecovStatChance) + 1);
+            if (stat.MpRecovChance > 0 && Random.Next(stat.MpRecovChance) == 0) item.ManaRecovery = (byte)(RandomomRange(stat.MpRecovMaxStat - 1, stat.MpRecovStatChance) + 1);
+            if (stat.PoisonRecovChance > 0 && Random.Next(stat.PoisonRecovChance) == 0) item.PoisonRecovery = (byte)(RandomomRange(stat.PoisonRecovMaxStat - 1, stat.PoisonRecovStatChance) + 1);
+            if (stat.CriticalRateChance > 0 && Random.Next(stat.CriticalRateChance) == 0) item.CriticalRate = (byte)(RandomomRange(stat.CriticalRateMaxStat - 1, stat.CriticalRateStatChance) + 1);
+            if (stat.CriticalDamageChance > 0 && Random.Next(stat.CriticalDamageChance) == 0) item.CriticalDamage = (byte)(RandomomRange(stat.CriticalDamageMaxStat - 1, stat.CriticalDamageStatChance) + 1);
+            if (stat.FreezeChance > 0 && Random.Next(stat.FreezeChance) == 0) item.Freezing = (byte)(RandomomRange(stat.FreezeMaxStat - 1, stat.FreezeStatChance) + 1);
+            if (stat.PoisonAttackChance > 0 && Random.Next(stat.PoisonAttackChance) == 0) item.PoisonAttack = (byte)(RandomomRange(stat.PoisonAttackMaxStat - 1, stat.PoisonAttackStatChance) + 1);
+            if (stat.AttackSpeedChance > 0 && Random.Next(stat.AttackSpeedChance) == 0) item.AttackSpeed = (sbyte)(RandomomRange(stat.AttackSpeedMaxStat - 1, stat.AttackSpeedStatChance) + 1);
+            if (stat.LuckChance > 0 && Random.Next(stat.LuckChance) == 0) item.Luck = (sbyte)(RandomomRange(stat.LuckMaxStat - 1, stat.LuckStatChance) + 1);
             if (stat.CurseChance > 0 && Random.Next(100) <= stat.CurseChance) item.Cursed = true;
         }
 
-        public int RandomomRange(int count, int rate)
-        {
+        public int RandomomRange(int count, int rate) {
             var x = 0;
-            for (var i = 0; i < count; i++) if (Random.Next(rate) == 0) x++;
+            for (var i = 0; i < count; i++)
+                if (Random.Next(rate) == 0)
+                    x++;
             return x;
         }
-        public bool BindItem(UserItem item)
-        {
-            for (var i = 0; i < ItemInfoList.Count; i++)
-            {
+        public bool BindItem(UserItem item) {
+            for (var i = 0; i < ItemInfoList.Count; i++) {
                 var info = ItemInfoList[i];
                 if (info.Index != item.ItemIndex) continue;
                 item.Info = info;
@@ -2747,10 +4067,8 @@ namespace Server.MirEnvir
             return false;
         }
 
-        public bool BindGameShop(GameShopItem item, bool editEnvir = true)
-        {
-            for (var i = 0; i < Edit.ItemInfoList.Count; i++)
-            {
+        public bool BindGameShop(GameShopItem item, bool editEnvir = true) {
+            for (var i = 0; i < Edit.ItemInfoList.Count; i++) {
                 var info = Edit.ItemInfoList[i];
                 if (info.Index != item.ItemIndex) continue;
                 item.Info = info;
@@ -2760,10 +4078,8 @@ namespace Server.MirEnvir
             return false;
         }
 
-        public bool BindSlotItems(UserItem item)
-        {           
-            for (var i = 0; i < item.Slots.Length; i++)
-            {
+        public bool BindSlotItems(UserItem item) {
+            for (var i = 0; i < item.Slots.Length; i++) {
                 if (item.Slots[i] == null) continue;
 
                 if (!BindItem(item.Slots[i])) return false;
@@ -2774,10 +4090,8 @@ namespace Server.MirEnvir
             return true;
         }
 
-        public bool BindQuest(QuestProgressInfo quest)
-        {
-            for (var i = 0; i < QuestInfoList.Count; i++)
-            {
+        public bool BindQuest(QuestProgressInfo quest) {
+            for (var i = 0; i < QuestInfoList.Count; i++) {
                 var info = QuestInfoList[i];
                 if (info.Index != quest.Index) continue;
                 quest.Info = info;
@@ -2786,13 +4100,11 @@ namespace Server.MirEnvir
             return false;
         }
 
-        public Map GetMap(int index)
-        {
+        public Map GetMap(int index) {
             return MapList.FirstOrDefault(t => t.Info.Index == index);
         }
 
-        public Map GetMapByNameAndInstance(string name, int instanceValue = 0)
-        {
+        public Map GetMapByNameAndInstance(string name, int instanceValue = 0) {
             if (instanceValue < 0) instanceValue = 0;
             if (instanceValue > 0) instanceValue--;
 
@@ -2800,36 +4112,29 @@ namespace Server.MirEnvir
             return instanceValue < instanceMapList.Count() ? instanceMapList[instanceValue] : null;
         }
 
-        public MapObject GetObject(uint objectID)
-        {
+        public MapObject GetObject(uint objectID) {
             return Objects.FirstOrDefault(e => e.ObjectID == objectID);
         }
 
-        public MonsterInfo GetMonsterInfo(int index)
-        {
+        public MonsterInfo GetMonsterInfo(int index) {
             for (var i = 0; i < MonsterInfoList.Count; i++)
-                if (MonsterInfoList[i].Index == index) return MonsterInfoList[i];
+                if (MonsterInfoList[i].Index == index)
+                    return MonsterInfoList[i];
 
             return null;
         }
 
-        public NPCObject GetNPC(string name)
-        {
+        public NPCObject GetNPC(string name) {
             return MapList.SelectMany(t1 => t1.NPCs.Where(t => t.Info.Name == name)).FirstOrDefault();
         }
 
-        public MonsterInfo GetMonsterInfo(string name, bool Strict = false)
-        {
-            for (var i = 0; i < MonsterInfoList.Count; i++)
-            {
+        public MonsterInfo GetMonsterInfo(string name, bool Strict = false) {
+            for (var i = 0; i < MonsterInfoList.Count; i++) {
                 var info = MonsterInfoList[i];
-                if (Strict)
-                {
+                if (Strict) {
                     if (info.Name != name) continue;
                     return info;
-                }
-                else
-                {
+                } else {
                     //if (info.Name != name && !info.Name.Replace(" ", "").StartsWith(name, StringComparison.OrdinalIgnoreCase)) continue;
                     if (string.Compare(info.Name, name, StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(info.Name.Replace(" ", ""), name.Replace(" ", ""), StringComparison.OrdinalIgnoreCase) != 0) continue;
                     return info;
@@ -2837,24 +4142,21 @@ namespace Server.MirEnvir
             }
             return null;
         }
-        public PlayerObject GetPlayer(string name)
-        {
+        public PlayerObject GetPlayer(string name) {
             for (var i = 0; i < Players.Count; i++)
                 if (string.Compare(Players[i].Name, name, StringComparison.OrdinalIgnoreCase) == 0)
                     return Players[i];
 
             return null;
         }
-        public PlayerObject GetPlayer(uint PlayerId)
-        {
+        public PlayerObject GetPlayer(uint PlayerId) {
             for (var i = 0; i < Players.Count; i++)
                 if (Players[i].Info.Index == PlayerId)
                     return Players[i];
 
             return null;
         }
-        public CharacterInfo GetCharacterInfo(string name)
-        {
+        public CharacterInfo GetCharacterInfo(string name) {
             for (var i = 0; i < CharacterList.Count; i++)
                 if (string.Compare(CharacterList[i].Name, name, StringComparison.OrdinalIgnoreCase) == 0)
                     return CharacterList[i];
@@ -2862,8 +4164,7 @@ namespace Server.MirEnvir
             return null;
         }
 
-        public CharacterInfo GetCharacterInfo(int index)
-        {
+        public CharacterInfo GetCharacterInfo(int index) {
             for (var i = 0; i < CharacterList.Count; i++)
                 if (CharacterList[i].Index == index)
                     return CharacterList[i];
@@ -2871,35 +4172,28 @@ namespace Server.MirEnvir
             return null;
         }
 
-        public ItemInfo GetItemInfo(int index)
-        {
-            for (var i = 0; i < ItemInfoList.Count; i++)
-            {
+        public ItemInfo GetItemInfo(int index) {
+            for (var i = 0; i < ItemInfoList.Count; i++) {
                 var info = ItemInfoList[i];
                 if (info.Index != index) continue;
                 return info;
             }
             return null;
         }
-        public ItemInfo GetItemInfo(string name)
-        {
-            for (var i = 0; i < ItemInfoList.Count; i++)
-            {
+        public ItemInfo GetItemInfo(string name) {
+            for (var i = 0; i < ItemInfoList.Count; i++) {
                 var info = ItemInfoList[i];
                 if (string.Compare(info.Name.Replace(" ", ""), name, StringComparison.OrdinalIgnoreCase) != 0) continue;
                 return info;
             }
             return null;
         }
-        public QuestInfo GetQuestInfo(int index)
-        {
+        public QuestInfo GetQuestInfo(int index) {
             return QuestInfoList.FirstOrDefault(info => info.Index == index);
         }
 
-        public ItemInfo GetBook(short Skill)
-        {
-            for (var i = 0; i < ItemInfoList.Count; i++)
-            {
+        public ItemInfo GetBook(short Skill) {
+            for (var i = 0; i < ItemInfoList.Count; i++) {
                 var info = ItemInfoList[i];
                 if (info.Type != ItemType.Book || info.Shape != Skill) continue;
                 return info;
@@ -2907,38 +4201,31 @@ namespace Server.MirEnvir
             return null;
         }
 
-        public void MessageAccount(AccountInfo account, string message, ChatType type)
-        {
+        public void MessageAccount(AccountInfo account, string message, ChatType type) {
             if (account?.Characters == null) return;
 
-            for (var i = 0; i < account.Characters.Count; i++)
-            {
+            for (var i = 0; i < account.Characters.Count; i++) {
                 if (account.Characters[i].Player == null) continue;
                 account.Characters[i].Player.ReceiveChat(message, type);
                 return;
             }
         }
-        public GuildObject GetGuild(string name)
-        {
-            for (var i = 0; i < GuildList.Count; i++)
-            {
+        public GuildObject GetGuild(string name) {
+            for (var i = 0; i < GuildList.Count; i++) {
                 if (string.Compare(GuildList[i].Name.Replace(" ", ""), name, StringComparison.OrdinalIgnoreCase) != 0) continue;
                 return GuildList[i];
             }
             return null;
         }
-        public GuildObject GetGuild(int index)
-        {
+        public GuildObject GetGuild(int index) {
             for (var i = 0; i < GuildList.Count; i++)
                 if (GuildList[i].Guildindex == index)
                     return GuildList[i];
             return null;
         }
 
-        public void ProcessNewDay()
-        {
-            foreach (var c in CharacterList)
-            {
+        public void ProcessNewDay() {
+            foreach (var c in CharacterList) {
                 ClearDailyQuests(c);
 
                 c.NewDay = true;
@@ -2947,22 +4234,18 @@ namespace Server.MirEnvir
             }
         }
 
-        private void ProcessRentedItems()
-        {
-            foreach (var characterInfo in CharacterList)
-            {
+        private void ProcessRentedItems() {
+            foreach (var characterInfo in CharacterList) {
                 if (characterInfo.RentedItems.Count <= 0)
                     continue;
 
-                foreach (var rentedItemInfo in characterInfo.RentedItems)
-                {
+                foreach (var rentedItemInfo in characterInfo.RentedItems) {
                     if (rentedItemInfo.ItemReturnDate >= Now)
                         continue;
 
                     var rentingPlayer = GetCharacterInfo(rentedItemInfo.RentingPlayerName);
 
-                    for (var i = 0; i < rentingPlayer.Inventory.Length; i++)
-                    {
+                    for (var i = 0; i < rentingPlayer.Inventory.Length; i++) {
                         if (rentedItemInfo.ItemId != rentingPlayer?.Inventory[i]?.UniqueID)
                             continue;
 
@@ -2982,12 +4265,14 @@ namespace Server.MirEnvir
                             continue;
 
                         rentingPlayer.Player.ReceiveChat($"{item.Info.FriendlyName} has just expired from your inventory.", ChatType.Hint);
-                        rentingPlayer.Player.Enqueue(new S.DeleteItem { UniqueID = item.UniqueID, Count = item.Count });
+                        rentingPlayer.Player.Enqueue(new S.DeleteItem {
+                            UniqueID = item.UniqueID,
+                            Count = item.Count
+                        });
                         rentingPlayer.Player.RefreshStats();
                     }
 
-                    for (var i = 0; i < rentingPlayer.Equipment.Length; i++)
-                    {
+                    for (var i = 0; i < rentingPlayer.Equipment.Length; i++) {
                         var item = rentingPlayer.Equipment[i];
 
                         if (item?.RentalInformation == null)
@@ -2999,19 +4284,21 @@ namespace Server.MirEnvir
                         ReturnRentalItem(item, item.RentalInformation.OwnerName, rentingPlayer, false);
                         rentingPlayer.Equipment[i] = null;
                         rentingPlayer.HasRentedItem = false;
-                        
+
                         if (rentingPlayer.Player == null)
                             continue;
 
                         rentingPlayer.Player.ReceiveChat($"{item.Info.FriendlyName} has just expired from your inventory.", ChatType.Hint);
-                        rentingPlayer.Player.Enqueue(new S.DeleteItem { UniqueID = item.UniqueID, Count = item.Count });
+                        rentingPlayer.Player.Enqueue(new S.DeleteItem {
+                            UniqueID = item.UniqueID,
+                            Count = item.Count
+                        });
                         rentingPlayer.Player.RefreshStats();
                     }
                 }
             }
 
-            foreach (var characterInfo in CharacterList)
-            {
+            foreach (var characterInfo in CharacterList) {
                 if (characterInfo.RentedItemsToRemove.Count <= 0)
                     continue;
 
@@ -3022,8 +4309,7 @@ namespace Server.MirEnvir
             }
         }
 
-        public bool ReturnRentalItem(UserItem rentedItem, string ownerName, CharacterInfo rentingCharacterInfo, bool removeNow = true)
-        {
+        public bool ReturnRentalItem(UserItem rentedItem, string ownerName, CharacterInfo rentingCharacterInfo, bool removeNow = true) {
             if (rentedItem.RentalInformation == null)
                 return false;
 
@@ -3033,15 +4319,14 @@ namespace Server.MirEnvir
             foreach (var rentalInformation in owner.RentedItems)
                 if (rentalInformation.ItemId == rentedItem.UniqueID)
                     owner.RentedItemsToRemove.Add(rentalInformation);
-            
+
             rentedItem.RentalInformation.BindingFlags = BindMode.none;
             rentedItem.RentalInformation.RentalLocked = true;
             rentedItem.RentalInformation.ExpiryDate = rentedItem.RentalInformation.ExpiryDate.AddDays(1);
 
             returnItems.Add(rentedItem);
 
-            var mail = new MailInfo(owner.Index, true)
-            {
+            var mail = new MailInfo(owner.Index, true) {
                 Sender = rentingCharacterInfo.Name,
                 Message = rentedItem.Info.FriendlyName,
                 Items = returnItems
@@ -3049,8 +4334,7 @@ namespace Server.MirEnvir
 
             mail.Send();
 
-            if (removeNow)
-            {
+            if (removeNow) {
                 foreach (var rentalInformationToRemove in owner.RentedItemsToRemove)
                     owner.RentedItems.Remove(rentalInformationToRemove);
 
@@ -3060,39 +4344,32 @@ namespace Server.MirEnvir
             return true;
         }
 
-        private void ClearDailyQuests(CharacterInfo info)
-        {
-            foreach (var quest in QuestInfoList)
-            {
+        private void ClearDailyQuests(CharacterInfo info) {
+            foreach (var quest in QuestInfoList) {
                 if (quest.Type != QuestType.Daily) continue;
 
-                for (var i = 0; i < info.CompletedQuests.Count; i++)
-                {
+                for (var i = 0; i < info.CompletedQuests.Count; i++) {
                     if (info.CompletedQuests[i] != quest.Index) continue;
 
                     info.CompletedQuests.RemoveAt(i);
-                } 
+                }
             }
 
             info.Player?.GetCompletedQuests();
         }
 
-        public GuildBuffInfo FindGuildBuffInfo(int Id)
-        {
+        public GuildBuffInfo FindGuildBuffInfo(int Id) {
             for (var i = 0; i < Settings.Guild_BuffList.Count; i++)
                 if (Settings.Guild_BuffList[i].Id == Id)
                     return Settings.Guild_BuffList[i];
             return null;
         }
 
-        public void ClearGameshopLog()
-        {
+        public void ClearGameshopLog() {
             Main.GameshopLog.Clear();
 
-            for (var i = 0; i < AccountList.Count; i++)
-            {
-                for (var f = 0; f < AccountList[i].Characters.Count; f++)
-                {
+            for (var i = 0; i < AccountList.Count; i++) {
+                for (var f = 0; f < AccountList[i].Characters.Count; f++) {
                     AccountList[i].Characters[f].GSpurchases.Clear();
                 }
             }
@@ -3102,35 +4379,29 @@ namespace Server.MirEnvir
 
         }
 
-        int RankCount = 100;//could make this a global but it made sence since this is only used here, it should stay here
+        int RankCount = 100; //could make this a global but it made sence since this is only used here, it should stay here
 
-        public int InsertRank(List<Rank_Character_Info> Ranking, Rank_Character_Info NewRank)
-        {
-            if (Ranking.Count == 0)
-            {
+        public int InsertRank(List<Rank_Character_Info> Ranking, Rank_Character_Info NewRank) {
+            if (Ranking.Count == 0) {
                 Ranking.Add(NewRank);
                 return Ranking.Count;
             }
 
-            for (var i = 0; i < Ranking.Count; i++)
-            {
+            for (var i = 0; i < Ranking.Count; i++) {
                 //if level is lower
-                if (Ranking[i].level < NewRank.level)
-                {
+                if (Ranking[i].level < NewRank.level) {
                     Ranking.Insert(i, NewRank);
                     return i + 1;
                 }
 
                 //if exp is lower but level = same
-                if (Ranking[i].level == NewRank.level && Ranking[i].Experience < NewRank.Experience)
-                {
+                if (Ranking[i].level == NewRank.level && Ranking[i].Experience < NewRank.Experience) {
                     Ranking.Insert(i, NewRank);
                     return i + 1;
                 }
             }
 
-            if (Ranking.Count < RankCount)
-            {
+            if (Ranking.Count < RankCount) {
                 Ranking.Add(NewRank);
                 return Ranking.Count;
             }
@@ -3138,142 +4409,124 @@ namespace Server.MirEnvir
             return 0;
         }
 
-        public bool TryAddRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type)
-        {
-            var NewRank = new Rank_Character_Info() { Name = info.Name, Class = info.Class, Experience = info.Experience, level = info.Level, PlayerId = info.Index, info = info };
+        public bool TryAddRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type) {
+            var NewRank = new Rank_Character_Info() {
+                Name = info.Name,
+                Class = info.Class,
+                Experience = info.Experience,
+                level = info.Level,
+                PlayerId = info.Index,
+                info = info
+            };
             var NewRankIndex = InsertRank(Ranking, NewRank);
             if (NewRankIndex == 0) return false;
-            for (var i = NewRankIndex; i < Ranking.Count; i++ )
-            {
+            for (var i = NewRankIndex; i < Ranking.Count; i++) {
                 SetNewRank(Ranking[i], i + 1, type);
             }
             info.Rank[type] = NewRankIndex;
             return true;
         }
 
-        public int FindRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type)
-        {
+        public int FindRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type) {
             var startindex = info.Rank[type];
             if (startindex > 0) //if there's a previously known rank then the user can only have gone down in the ranking (or stayed the same)
             {
-                for (var i = startindex-1; i < Ranking.Count; i++)
-                {
+                for (var i = startindex - 1; i < Ranking.Count; i++) {
                     if (Ranking[i].Name == info.Name)
                         return i;
                 }
-                info.Rank[type] = 0;//set the rank to 0 to tell future searches it's not there anymore
+                info.Rank[type] = 0; //set the rank to 0 to tell future searches it's not there anymore
             }
-            return -1;//index can be 0
+            return -1; //index can be 0
         }
 
-        public bool UpdateRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type)
-        {
+        public bool UpdateRank(List<Rank_Character_Info> Ranking, CharacterInfo info, byte type) {
             var CurrentRank = FindRank(Ranking, info, type);
-            if (CurrentRank == -1) return false;//not in ranking list atm
-            
+            if (CurrentRank == -1) return false; //not in ranking list atm
+
             var NewRank = CurrentRank;
             //next find our updated rank
-            for (var i = CurrentRank-1; i >= 0; i-- )
-            {
+            for (var i = CurrentRank - 1; i >= 0; i--) {
                 if (Ranking[i].level > info.Level || Ranking[i].level == info.Level && Ranking[i].Experience > info.Experience) break;
-                    NewRank =i;
+                NewRank = i;
             }
 
             Ranking[CurrentRank].level = info.Level;
             Ranking[CurrentRank].Experience = info.Experience;
 
-            if (NewRank < CurrentRank)
-            {//if we gained any ranks
+            if (NewRank < CurrentRank) { //if we gained any ranks
                 Ranking.Insert(NewRank, Ranking[CurrentRank]);
                 Ranking.RemoveAt(CurrentRank + 1);
-                for (var i = NewRank + 1; i < Math.Min(Ranking.Count, CurrentRank +1); i++)
-                {
+                for (var i = NewRank + 1; i < Math.Min(Ranking.Count, CurrentRank + 1); i++) {
                     SetNewRank(Ranking[i], i + 1, type);
                 }
             }
-            info.Rank[type] = NewRank+1;
-            
+            info.Rank[type] = NewRank + 1;
+
             return true;
         }
 
-        public void SetNewRank(Rank_Character_Info Rank, int Index, byte type)
-        {
+        public void SetNewRank(Rank_Character_Info Rank, int Index, byte type) {
             if (!(Rank.info is CharacterInfo Player)) return;
             Player.Rank[type] = Index;
         }
 
-        public void RemoveRank(CharacterInfo info)
-        {
+        public void RemoveRank(CharacterInfo info) {
             List<Rank_Character_Info> Ranking;
             var Rankindex = -1;
             //first check overall top           
-            if (info.Level >= RankBottomLevel[0])
-            {
+            if (info.Level >= RankBottomLevel[0]) {
                 Ranking = RankTop;
                 Rankindex = FindRank(Ranking, info, 0);
-                if (Rankindex >= 0)
-                {
+                if (Rankindex >= 0) {
                     Ranking.RemoveAt(Rankindex);
-                    for (var i = Rankindex; i < Ranking.Count(); i++)
-                    {
+                    for (var i = Rankindex; i < Ranking.Count(); i++) {
                         SetNewRank(Ranking[i], i, 0);
                     }
                 }
             }
             //next class based top
-            if (info.Level < RankBottomLevel[(byte) info.Class + 1]) return;
+            if (info.Level < RankBottomLevel[(byte)info.Class + 1]) return;
             {
                 Ranking = RankTop;
                 Rankindex = FindRank(Ranking, info, 1);
-                if (Rankindex >= 0)
-                {
+                if (Rankindex >= 0) {
                     Ranking.RemoveAt(Rankindex);
-                    for (var i = Rankindex; i < Ranking.Count(); i++)
-                    {
+                    for (var i = Rankindex; i < Ranking.Count(); i++) {
                         SetNewRank(Ranking[i], i, 1);
                     }
                 }
             }
         }
 
-        public void CheckRankUpdate(CharacterInfo info)
-        {
+        public void CheckRankUpdate(CharacterInfo info) {
             List<Rank_Character_Info> Ranking;
             Rank_Character_Info NewRank;
-            
+
             //first check overall top           
-            if (info.Level >= RankBottomLevel[0])
-            {
+            if (info.Level >= RankBottomLevel[0]) {
                 Ranking = RankTop;
-                if (!UpdateRank(Ranking, info,0))
-                {
-                    if (TryAddRank(Ranking, info, 0))
-                    {
-                        if (Ranking.Count > RankCount)
-                        {
+                if (!UpdateRank(Ranking, info, 0)) {
+                    if (TryAddRank(Ranking, info, 0)) {
+                        if (Ranking.Count > RankCount) {
                             SetNewRank(Ranking[RankCount], 0, 0);
                             Ranking.RemoveAt(RankCount);
 
                         }
                     }
                 }
-                if (Ranking.Count >= RankCount)
-                { 
-                    NewRank = Ranking[Ranking.Count -1];
+                if (Ranking.Count >= RankCount) {
+                    NewRank = Ranking[Ranking.Count - 1];
                     if (NewRank != null)
                         RankBottomLevel[0] = NewRank.level;
                 }
             }
             //now check class top
-            if (info.Level >= RankBottomLevel[(byte)info.Class + 1])
-            {
-                Ranking = RankClass[(byte)info.Class];
-                if (!UpdateRank(Ranking, info,1))
-                {
-                    if (TryAddRank(Ranking, info, 1))
-                    {
-                        if (Ranking.Count > RankCount)
-                        {
+            if (info.Level >= RankBottomLevel[(byte)info.Class + 1]) {
+                Ranking = _rankClass[(byte)info.Class];
+                if (!UpdateRank(Ranking, info, 1)) {
+                    if (TryAddRank(Ranking, info, 1)) {
+                        if (Ranking.Count > RankCount) {
                             SetNewRank(Ranking[RankCount], 0, 1);
                             Ranking.RemoveAt(RankCount);
                         }
@@ -3281,34 +4534,30 @@ namespace Server.MirEnvir
                 }
 
                 if (Ranking.Count < RankCount) return;
-                NewRank = Ranking[Ranking.Count -1];
+                NewRank = Ranking[Ranking.Count - 1];
                 if (NewRank != null)
                     RankBottomLevel[(byte)info.Class + 1] = NewRank.level;
             }
         }
 
 
-        public void ReloadNPCs()
-        {
+        public void ReloadNPCs() {
             var allNpcs = new List<NPCObject>();
-            foreach (var map in MapList)
-            {
+            foreach (var map in MapList) {
                 allNpcs.AddRange(map.NPCs);
             }
-            foreach (var item in allNpcs)
-            {
+            foreach (var item in allNpcs) {
                 item.LoadInfo(true);
             }
             Main.DefaultNPC.LoadInfo(true);
             MessageQueue.Enqueue("NPCs reloaded...");
         }
 
-        public void ReloadDrops()
-        {
+        public void ReloadDrops() {
             foreach (var item in MonsterInfoList)
                 item.LoadDrops();
             MessageQueue.Enqueue("Drops reloaded...");
         }
-   
+
     }
 }

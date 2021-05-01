@@ -5919,13 +5919,13 @@ namespace Server.MirObjects
                     break;
                 case Spell.DoubleSlash:
                     magic = GetMagic(spell);
-                    if (magic == null || magic.Info.BaseCost + (magic.Level * magic.Info.LevelCost) > MP)
+                    if (magic == null || magic.InfoModel.BaseCost + (magic.Level * magic.InfoModel.LevelCost) > MP)
                     {
                         spell = Spell.None;
                         break;
                     }
                     level = magic.Level;
-                    ChangeMP(-(magic.Info.BaseCost + magic.Level * magic.Info.LevelCost));
+                    ChangeMP(-(magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost));
                     break;
                 case Spell.Thrusting:
                 case Spell.FlamingSword:
@@ -5940,23 +5940,23 @@ namespace Server.MirObjects
                 case Spell.HalfMoon:
                 case Spell.CrossHalfMoon:
                     magic = GetMagic(spell);
-                    if (magic == null || magic.Info.BaseCost + (magic.Level * magic.Info.LevelCost) > MP)
+                    if (magic == null || magic.InfoModel.BaseCost + (magic.Level * magic.InfoModel.LevelCost) > MP)
                     {
                         spell = Spell.None;
                         break;
                     }
                     level = magic.Level;
-                    ChangeMP(-(magic.Info.BaseCost + magic.Level * magic.Info.LevelCost));
+                    ChangeMP(-(magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost));
                     break;
                 case Spell.TwinDrakeBlade:
                     magic = GetMagic(spell);
-                    if (!TwinDrakeBlade || magic == null || magic.Info.BaseCost + magic.Level * magic.Info.LevelCost > MP)
+                    if (!TwinDrakeBlade || magic == null || magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost > MP)
                     {
                         spell = Spell.None;
                         break;
                     }
                     level = magic.Level;
-                    ChangeMP(-(magic.Info.BaseCost + magic.Level * magic.Info.LevelCost));
+                    ChangeMP(-(magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost));
                     break;
                 default:
                     spell = Spell.None;
@@ -6395,7 +6395,7 @@ namespace Server.MirObjects
                 return;
             }
 
-            if ((location.X != 0) && (location.Y != 0) && magic.Info.Range != 0 && Functions.InRange(CurrentLocation, location, magic.Info.Range) == false) return;
+            if ((location.X != 0) && (location.Y != 0) && magic.InfoModel.Range != 0 && Functions.InRange(CurrentLocation, location, magic.InfoModel.Range) == false) return;
 
             if (Hidden)
             {
@@ -6427,7 +6427,7 @@ namespace Server.MirObjects
                 return;
             }
 
-            int cost = magic.Info.BaseCost + magic.Info.LevelCost * magic.Level;
+            int cost = magic.InfoModel.BaseCost + magic.InfoModel.LevelCost * magic.Level;
 
             if (spell == Spell.Teleport || spell == Spell.Blink || spell == Spell.StormEscape)
                 for (int i = 0; i < Buffs.Count; i++)
@@ -8836,7 +8836,7 @@ namespace Server.MirObjects
                             ReceiveChat(("You cannot teleport on this map"), ChatType.System);
                             return;
                         }
-                        if (Functions.InRange(CurrentLocation, location, magic.Info.Range) == false) return;
+                        if (Functions.InRange(CurrentLocation, location, magic.InfoModel.Range) == false) return;
                         if (!CurrentMap.ValidPoint(location) || Envir.Random.Next(4) >= magic.Level + 1 || !Teleport(CurrentMap, location, false)) return;
                         CurrentMap.Broadcast(new S.ObjectEffect { ObjectID = ObjectID, Effect = SpellEffect.Teleport }, CurrentLocation);
                         LevelMagic(magic);
@@ -9618,35 +9618,35 @@ namespace Server.MirObjects
             switch (magic.Level)
             {
                 case 0:
-                    if (Level < magic.Info.Level1)
+                    if (Level < magic.InfoModel.Level1)
                         return;
 
                     magic.Experience += exp;
-                    if (magic.Experience >= magic.Info.Need1)
+                    if (magic.Experience >= magic.InfoModel.Need1)
                     {
                         magic.Level++;
-                        magic.Experience = (ushort)(magic.Experience - magic.Info.Need1);
+                        magic.Experience = (ushort)(magic.Experience - magic.InfoModel.Need1);
                         RefreshStats();
                     }
                     break;
                 case 1:
-                    if (Level < magic.Info.Level2)
+                    if (Level < magic.InfoModel.Level2)
                         return;
 
                     magic.Experience += exp;
-                    if (magic.Experience >= magic.Info.Need2)
+                    if (magic.Experience >= magic.InfoModel.Need2)
                     {
                         magic.Level++;
-                        magic.Experience = (ushort)(magic.Experience - magic.Info.Need2);
+                        magic.Experience = (ushort)(magic.Experience - magic.InfoModel.Need2);
                         RefreshStats();
                     }
                     break;
                 case 2:
-                    if (Level < magic.Info.Level3)
+                    if (Level < magic.InfoModel.Level3)
                         return;
 
                     magic.Experience += exp;
-                    if (magic.Experience >= magic.Info.Need3)
+                    if (magic.Experience >= magic.InfoModel.Need3)
                     {
                         magic.Level++;
                         magic.Experience = 0;
@@ -11344,7 +11344,7 @@ namespace Server.MirObjects
                 case ItemType.Book:
                     UserMagic magic = new UserMagic((Spell)item.Info.Shape);
 
-                    if (magic.Info == null)
+                    if (magic.InfoModel == null)
                     {
                         Enqueue(p);
                         return;
@@ -14102,7 +14102,7 @@ namespace Server.MirObjects
                     if (TwinDrakeBlade) return;
                     magic = GetMagic(spell);
                     if (magic == null) return;
-                    cost = magic.Info.BaseCost + magic.Level * magic.Info.LevelCost;
+                    cost = magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost;
                     if (cost >= MP) return;
 
                     TwinDrakeBlade = true;
@@ -14114,7 +14114,7 @@ namespace Server.MirObjects
                     if (FlamingSword || Envir.Time < FlamingSwordTime) return;
                     magic = GetMagic(spell);
                     if (magic == null) return;
-                    cost = magic.Info.BaseCost + magic.Level * magic.Info.LevelCost;
+                    cost = magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost;
                     if (cost >= MP) return;
 
                     FlamingSword = true;
@@ -14126,7 +14126,7 @@ namespace Server.MirObjects
                     if (CounterAttack || Envir.Time < CounterAttackTime) return;
                     magic = GetMagic(spell);
                     if (magic == null) return;
-                    cost = magic.Info.BaseCost + magic.Level * magic.Info.LevelCost;
+                    cost = magic.InfoModel.BaseCost + magic.Level * magic.InfoModel.LevelCost;
                     if (cost >= MP) return;
 
                     CounterAttack = true;

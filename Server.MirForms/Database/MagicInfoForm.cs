@@ -11,7 +11,7 @@ namespace Server
 
         public Envir Envir => SMain.EditEnvir;
 
-        private MagicInfo _selectedMagicInfo;
+        private MagicInfoModel _selectedMagicInfoModel;
 
         public MagicInfoForm()
         {
@@ -23,11 +23,11 @@ namespace Server
 
         private void UpdateMagicForm(byte field = 0)
         {
-             _selectedMagicInfo = (MagicInfo)MagiclistBox.SelectedItem;
+             _selectedMagicInfoModel = (MagicInfoModel)MagiclistBox.SelectedItem;
 
              lblBookValid.BackColor = SystemColors.Window;
 
-             if (_selectedMagicInfo == null)
+             if (_selectedMagicInfoModel == null)
              {
                  tabControl1.Enabled = false;
                  lblBookValid.Text = "Searching";
@@ -53,32 +53,32 @@ namespace Server
              else
              {
                  tabControl1.Enabled = true;
-                 lblSelected.Text = "Selected Skill: " + _selectedMagicInfo.ToString();
+                 lblSelected.Text = "Selected Skill: " + _selectedMagicInfoModel.ToString();
                  lblDamageExample.Text =
                      $"Damage @ Skill level 0: {GetMinPower(0):000}-{GetMaxPower(0):000}   |||   level 1: {GetMinPower(1):000}-{GetMaxPower(1):000}   |||   level 2: {GetMinPower(2):000}-{GetMaxPower(2):000}   |||   level 3: {GetMinPower(3):000}-{GetMaxPower(3):000}";
                  lblDamageExplained.Text =
-                     $"Damage: {{Random(minstat-maxstat) + [<(random({_selectedMagicInfo.MPowerBase}-{_selectedMagicInfo.MPowerBase + _selectedMagicInfo.MPowerBonus})/4) X (skill level +1)> + random<{_selectedMagicInfo.PowerBase}-{_selectedMagicInfo.PowerBonus + _selectedMagicInfo.PowerBase}>]}}  X  {{{_selectedMagicInfo.MultiplierBase} + (skill level * {_selectedMagicInfo.MultiplierBonus})}}";
-                 txtSkillIcon.Text = _selectedMagicInfo.Icon.ToString();
-                 txtSkillLvl1Points.Text = _selectedMagicInfo.Need1.ToString();
-                 txtSkillLvl1Req.Text = _selectedMagicInfo.Level1.ToString();
-                 txtSkillLvl2Points.Text = _selectedMagicInfo.Need2.ToString();
-                 txtSkillLvl2Req.Text = _selectedMagicInfo.Level2.ToString();
-                 txtSkillLvl3Points.Text = _selectedMagicInfo.Need3.ToString();
-                 txtSkillLvl3Req.Text = _selectedMagicInfo.Level3.ToString();
-                 txtMPBase.Text = _selectedMagicInfo.BaseCost.ToString();
-                 txtMPIncrease.Text = _selectedMagicInfo.LevelCost.ToString();
-                 txtDelayBase.Text = _selectedMagicInfo.DelayBase.ToString();
-                 txtDelayReduction.Text = _selectedMagicInfo.DelayReduction.ToString();
-                 txtDmgBaseMin.Text = _selectedMagicInfo.PowerBase.ToString();
-                 txtDmgBaseMax.Text = (_selectedMagicInfo.PowerBase + _selectedMagicInfo.PowerBonus).ToString();
-                 txtDmgBonusMin.Text = _selectedMagicInfo.MPowerBase.ToString();
-                 txtDmgBonusMax.Text = (_selectedMagicInfo.MPowerBase + _selectedMagicInfo.MPowerBonus).ToString();
+                     $"Damage: {{Random(minstat-maxstat) + [<(random({_selectedMagicInfoModel.MPowerBase}-{_selectedMagicInfoModel.MPowerBase + _selectedMagicInfoModel.MPowerBonus})/4) X (skill level +1)> + random<{_selectedMagicInfoModel.PowerBase}-{_selectedMagicInfoModel.PowerBonus + _selectedMagicInfoModel.PowerBase}>]}}  X  {{{_selectedMagicInfoModel.MultiplierBase} + (skill level * {_selectedMagicInfoModel.MultiplierBonus})}}";
+                 txtSkillIcon.Text = _selectedMagicInfoModel.Icon.ToString();
+                 txtSkillLvl1Points.Text = _selectedMagicInfoModel.Need1.ToString();
+                 txtSkillLvl1Req.Text = _selectedMagicInfoModel.Level1.ToString();
+                 txtSkillLvl2Points.Text = _selectedMagicInfoModel.Need2.ToString();
+                 txtSkillLvl2Req.Text = _selectedMagicInfoModel.Level2.ToString();
+                 txtSkillLvl3Points.Text = _selectedMagicInfoModel.Need3.ToString();
+                 txtSkillLvl3Req.Text = _selectedMagicInfoModel.Level3.ToString();
+                 txtMPBase.Text = _selectedMagicInfoModel.BaseCost.ToString();
+                 txtMPIncrease.Text = _selectedMagicInfoModel.LevelCost.ToString();
+                 txtDelayBase.Text = _selectedMagicInfoModel.DelayBase.ToString();
+                 txtDelayReduction.Text = _selectedMagicInfoModel.DelayReduction.ToString();
+                 txtDmgBaseMin.Text = _selectedMagicInfoModel.PowerBase.ToString();
+                 txtDmgBaseMax.Text = (_selectedMagicInfoModel.PowerBase + _selectedMagicInfoModel.PowerBonus).ToString();
+                 txtDmgBonusMin.Text = _selectedMagicInfoModel.MPowerBase.ToString();
+                 txtDmgBonusMax.Text = (_selectedMagicInfoModel.MPowerBase + _selectedMagicInfoModel.MPowerBonus).ToString();
                  if (field != 1)
-                    txtDmgMultBase.Text = _selectedMagicInfo.MultiplierBase.ToString();
+                    txtDmgMultBase.Text = _selectedMagicInfoModel.MultiplierBase.ToString();
                  if (field != 2)
-                 txtDmgMultBoost.Text = _selectedMagicInfo.MultiplierBonus.ToString();
-                 txtRange.Text = _selectedMagicInfo.Range.ToString();
-                 ItemInfo Book = Envir.GetBook((short)_selectedMagicInfo.Spell);
+                 txtDmgMultBoost.Text = _selectedMagicInfoModel.MultiplierBonus.ToString();
+                 txtRange.Text = _selectedMagicInfoModel.Range.ToString();
+                 ItemInfo Book = Envir.GetBook((short)_selectedMagicInfoModel.Spell);
                  if (Book != null)
                  {
                      lblBookValid.Text = Book.Name;
@@ -88,19 +88,19 @@ namespace Server
                      lblBookValid.Text = "No book found";
                      lblBookValid.BackColor = Color.Red;
                  }
-                this.textBoxName.Text = _selectedMagicInfo.Name;
+                this.textBoxName.Text = _selectedMagicInfoModel.Name;
              }
         }
 
         private int GetMaxPower(byte level)
         {
-            if (_selectedMagicInfo == null) return 0;
-            return (int)Math.Round((((_selectedMagicInfo.MPowerBase + _selectedMagicInfo.MPowerBonus) / 4F) * (level + 1) + (_selectedMagicInfo.PowerBase + _selectedMagicInfo.PowerBonus))* (_selectedMagicInfo.MultiplierBase + (level * _selectedMagicInfo.MultiplierBonus)));
+            if (_selectedMagicInfoModel == null) return 0;
+            return (int)Math.Round((((_selectedMagicInfoModel.MPowerBase + _selectedMagicInfoModel.MPowerBonus) / 4F) * (level + 1) + (_selectedMagicInfoModel.PowerBase + _selectedMagicInfoModel.PowerBonus))* (_selectedMagicInfoModel.MultiplierBase + (level * _selectedMagicInfoModel.MultiplierBonus)));
         }
         private int GetMinPower(byte level)
         {
-            if (_selectedMagicInfo == null) return 0;
-            return (int)Math.Round(((_selectedMagicInfo.MPowerBase / 4F) * (level + 1) + _selectedMagicInfo.PowerBase) * (_selectedMagicInfo.MultiplierBase + (level * _selectedMagicInfo.MultiplierBonus)));
+            if (_selectedMagicInfoModel == null) return 0;
+            return (int)Math.Round(((_selectedMagicInfoModel.MPowerBase / 4F) * (level + 1) + _selectedMagicInfoModel.PowerBase) * (_selectedMagicInfoModel.MultiplierBase + (level * _selectedMagicInfoModel.MultiplierBonus)));
         }
 
         private void InitializeComponent()
@@ -779,7 +779,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Icon = temp;
+            _selectedMagicInfoModel.Icon = temp;
         }
 
         private void txtSkillLvl1Req_TextChanged(object sender, EventArgs e)
@@ -789,7 +789,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Level1 = temp;
+            _selectedMagicInfoModel.Level1 = temp;
         }
 
         private void txtSkillLvl2Req_TextChanged(object sender, EventArgs e)
@@ -799,7 +799,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Level2 = temp;
+            _selectedMagicInfoModel.Level2 = temp;
         }
 
         private void txtSkillLvl3Req_TextChanged(object sender, EventArgs e)
@@ -809,7 +809,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Level3 = temp;
+            _selectedMagicInfoModel.Level3 = temp;
         }
 
         private void txtSkillLvl1Points_TextChanged(object sender, EventArgs e)
@@ -819,7 +819,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Need1 = temp;
+            _selectedMagicInfoModel.Need1 = temp;
         }
 
         private void txtSkillLvl2Points_TextChanged(object sender, EventArgs e)
@@ -829,7 +829,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Need2 = temp;
+            _selectedMagicInfoModel.Need2 = temp;
         }
 
         private void txtSkillLvl3Points_TextChanged(object sender, EventArgs e)
@@ -839,7 +839,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Need3 = temp;
+            _selectedMagicInfoModel.Need3 = temp;
         }
 
         private void txtMPBase_TextChanged(object sender, EventArgs e)
@@ -849,7 +849,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.BaseCost = temp;
+            _selectedMagicInfoModel.BaseCost = temp;
         }
 
         private void txtMPIncrease_TextChanged(object sender, EventArgs e)
@@ -859,7 +859,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.LevelCost = temp;
+            _selectedMagicInfoModel.LevelCost = temp;
         }
 
         private void txtDmgBaseMin_TextChanged(object sender, EventArgs e)
@@ -869,7 +869,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.PowerBase = temp;
+            _selectedMagicInfoModel.PowerBase = temp;
             UpdateMagicForm();
         }
 
@@ -878,13 +878,13 @@ namespace Server
             if (ActiveControl != sender) return;
             ushort temp = 0;
             if (!IsValid(ref temp)) return;
-            if (temp < _selectedMagicInfo.PowerBase)
+            if (temp < _selectedMagicInfoModel.PowerBase)
             {
                 ActiveControl.BackColor = Color.Red;
                 return;
             }
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.PowerBonus =  (ushort)(temp - _selectedMagicInfo.PowerBase);
+            _selectedMagicInfoModel.PowerBonus =  (ushort)(temp - _selectedMagicInfoModel.PowerBase);
             UpdateMagicForm();
         }
 
@@ -895,7 +895,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.MPowerBase = temp;
+            _selectedMagicInfoModel.MPowerBase = temp;
             UpdateMagicForm();
         }
 
@@ -904,14 +904,14 @@ namespace Server
             if (ActiveControl != sender) return;
             ushort temp = 0;
             if (!IsValid(ref temp)) return;
-            if (temp < _selectedMagicInfo.MPowerBase)
+            if (temp < _selectedMagicInfoModel.MPowerBase)
             {
                 ActiveControl.BackColor = Color.Red;
                 return;
             }
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.MPowerBonus = (ushort)(temp - _selectedMagicInfo.MPowerBase);
+            _selectedMagicInfoModel.MPowerBonus = (ushort)(temp - _selectedMagicInfoModel.MPowerBase);
             UpdateMagicForm();
         }
 
@@ -922,7 +922,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.DelayBase = temp;
+            _selectedMagicInfoModel.DelayBase = temp;
         }
 
         private void txtDelayReduction_TextChanged(object sender, EventArgs e)
@@ -932,7 +932,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.DelayReduction = temp;
+            _selectedMagicInfoModel.DelayReduction = temp;
         }
 
         private void txtRange_TextChanged(object sender, EventArgs e)
@@ -942,7 +942,7 @@ namespace Server
             if (!IsValid(ref temp)) return;
             
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.Range = temp;
+            _selectedMagicInfoModel.Range = temp;
         }
 
         private void txtDmgMultBase_TextChanged(object sender, EventArgs e)
@@ -953,7 +953,7 @@ namespace Server
 
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.MultiplierBase = temp;
+            _selectedMagicInfoModel.MultiplierBase = temp;
             UpdateMagicForm(1);
         }
 
@@ -964,14 +964,14 @@ namespace Server
             if (!IsValid(ref temp)) return;
 
             ActiveControl.BackColor = SystemColors.Window;
-            _selectedMagicInfo.MultiplierBonus = temp;
+            _selectedMagicInfoModel.MultiplierBonus = temp;
             UpdateMagicForm(2);
         }
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
             if (ActiveControl != sender) return;
-            _selectedMagicInfo.Name = ActiveControl.Text;
+            _selectedMagicInfoModel.Name = ActiveControl.Text;
             UpdateMagicForm();
             if (ActiveControl.Text == "")
             {

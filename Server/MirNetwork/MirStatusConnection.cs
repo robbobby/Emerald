@@ -12,12 +12,12 @@ namespace Server.MirNetwork
 {
     public class MirStatusConnection
     {
-        protected static Envir Envir
+        private static Envir Envir
         {
             get { return Envir.Main; }
         }
 
-        public readonly string IPAddress;
+        private readonly string IPAddress;
         private TcpClient _client;
 
         private long NextSendTime;
